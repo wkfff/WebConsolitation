@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id = "DataSource">
+    <![CDATA[
+    
+    select 
+    DISTINCT 
+ f_OMSU_Reg16.SourceID,
+ [DV].[DataSources].DataSourceName
+ from 
+ f_OMSU_Reg16,
+ [DV].[DataSources]
+ where 
+     f_OMSU_Reg16.SourceID = [DV].[DataSources].ID
+    /*select 
+      *
+    from [DV].[DataSources]*/
+ 
+
+]]>
+  </query>
+
+  <query id = "Grid">
+    <![CDATA[with
+    member [Prev]
+    as '
+        (
+            [Период__Год].[Период__Год].[Год].[<%SelectYear%>].lag(1),
+            [Measures].[Отчет]
+        )'
+    member [Current]
+    as '
+        (
+            [Период__Год].[Период__Год].[Год].[<%SelectYear%>],
+            [Measures].[Отчет]
+        )'
+    member [Current+1]
+    as '
+        (
+            [Период__Год].[Период__Год].[Год].[<%SelectYear%>],
+            [Measures].[План 1]
+        )'
+    member [Current+2]
+    as '
+        (
+            [Период__Год].[Период__Год].[Год].[<%SelectYear%>],
+            [Measures].[План 2]
+        )'
+    member [Current+3]
+    as '
+        (
+            [Период__Год].[Период__Год].[Год].[<%SelectYear%>],
+            [Measures].[План 3]
+        )'
+    member [IsInverse]
+    as '
+        (
+              [ОМСУ__Показатели].[ОМСУ__Показатели].CurrentMember.Properties("Показатель обратный")
+        )'
+    member [Unit]
+    as
+    '
+    (
+        [ОМСУ__Показатели].[ОМСУ__Показатели].CurrentMember.Properties("Единица измерения")
+    )
+    '
+    member [Scope]
+    as
+    '
+    (
+        [ОМСУ__Показатели].[ОМСУ__Показатели].CurrentMember.Properties("Сфера")
+    )'
+select
+
+    {
+[Unit],
+[IsInverse],
+[Scope],
+[Prev],
+[Current],
+[Current+1],
+[Current+2],
+[Current+3]
+
+
+    }on columns,
+    --    non empty
+    {
+filter
+(
+        [ОМСУ__Показатели].[ОМСУ__Показатели].members,
+                    ((not IsEmpty([Scope])) and( [Scope]<>""))
+            )
+
+    } on rows
+from [МО_Оценка ОМСУ_Характеристика деятельности]
+where
+(
+<%CurentBaseRegion%>
+--.[<%SelectChildrenRegion%>]
+)
+]]>
+  </query>
+  <query id = "GridSqlQ">
+    <![CDATA[select     
+ d_OMSU_MarksOMSU.CodeRepDouble as "number", 
+ d_OMSU_MarksOMSU.MO as "MO",
+ d_OMSU_MarksOMSU.grouping as "grouping",
+ d_OMSU_MarksOMSU.formula as "formula",
+ d_OMSU_MarksOMSU.Code as "Code",
+ d_OMSU_CompRep.Name as "Scope",
+ d_OMSU_CompRep.ParentID as "upLevelScope", 
+ 
+ d_OMSU_MarksOMSU.capacity as "Capacity",
+ 
+ d_OMSU_MarksOMSU.Name as "Field",
+ 
+ d_OMSU_MarksOMSU.SHORTNAME as "FieldShort",
+ 
+ d_OMSU_MarksOMSU.FlagRev as "IsInverse",
+
+ d_Units_OKEI.Name as "Unit",
+ f_OMSU_Reg16.PriorValue as "Prev",
+ f_OMSU_Reg16.CurrentValue as "Current",
+ f_OMSU_Reg16.CurrentValue -  f_OMSU_Reg16.PriorValue as "Shift",
+ f_OMSU_Reg16.Prognoz1 as "Current+1",
+ f_OMSU_Reg16.Prognoz2 as "Current+2",
+ f_OMSU_Reg16.Prognoz3 as "Current+3",
+ f_OMSU_Reg16.Note as "Note"
+ from 
+ f_OMSU_Reg16,
+ d_OMSU_MarksOMSU,
+ d_Regions_Analysis,
+ d_Units_OKEI,
+ d_OMSU_CompRep
+where
+(
+
+<%SourceID%> = f_OMSU_Reg16.SourceID
+and
+ (f_OMSU_Reg16.RefMarksOMSU = d_OMSU_MarksOMSU.ID)
+ --and(/*163*/<%RegionId%> = f_OMSU_Reg16.RefRegions)
+ <%CheckDoc%>and(/*163*/<%StatusData_%> = f_OMSU_Reg16.RefStatusData)
+ 
+ and(d_Units_OKEI.ID = d_OMSU_MarksOMSU.RefOKEI)
+ and(d_OMSU_CompRep.ID = d_OMSU_MarksOMSU.RefCompRep)
+ and(d_Regions_Analysis.ID = f_OMSU_Reg16.RefRegions)
+ --<%CheckDoc%>and(f_OMSU_Reg16.RefStatusData>1)
+ <%MarkSbor%>and(d_OMSU_MarksOMSU.reftypemark = 1)-- and(d_OMSU_MarksOMSU.MO<>0) 
+ 
+-- and(d_OMSU_MarksOMSU.CodeRep >0)
+<%MarkSborRevert%>and(d_OMSU_MarksOMSU.IncRep <>0)
+and
+d_Regions_Analysis.Name LIKE '<%RegionName%>' 
+
+)
+ORDER BY  
+d_OMSU_MarksOMSU.Code, d_OMSU_MarksOMSU.ID
+    --d_OMSU_MarksOMSU.CodeRep
+]]>
+
+
+
+  </query>
+  <query id = "LD">
+    <![CDATA[
+    select
+   non empty {[Период__Год].[Период__Год].children}on rows,
+    {
+        [ОМСУ__Показатели].[ОМСУ__Показатели]
+    } on columns
+from [МО_Оценка ОМСУ_Характеристика деятельности]
+
+
+
+]]>
+  </query>
+
+  <query id = "MRGO">
+    <![CDATA[
+    select
+    --non empty
+    {
+
+[Measures].[Отчет]
+
+    }on columns,
+    --    non empty
+  non empty  {
+--        [ОМСУ__Показатели].[ОМСУ__Показатели].members
+Except(
+[Территории__Сопоставимый].[Территории__Сопоставимый].[РФ].[Российская Федерация].[Уральский федеральный округ].[Ханты-Мансийский автономный округ].children
+,
+[Территории__Сопоставимый].[Территории__Сопоставимый].[РФ].[Российская Федерация].[Уральский федеральный округ].[Ханты-Мансийский автономный округ].datamember)
+
+    } on rows
+from [МО_Оценка ОМСУ_Характеристика деятельности]
+]]>
+  </query>
+
+  <query id = "ChildrenRegion">
+    <![CDATA[ select d_.Name, d_.ID
+from 
+ d_Regions_Analysis as d_
+ where d_.ParentID = 28
+or
+d_.ParentID = 26    ]]>
+  </query>
+  <query id = "StatusData">
+    <![CDATA[
+    select d_.Name, d_.ID
+from 
+ fx_OMSU_StatusData as d_  
+ 
+ /*
+ 
+ SELECT SO.NAME as "Name", SP.VALUE as "ID" -- DESCRIPTION
+FROM SYSOBJECTS SO
+LEFT JOIN SYSPROPERTIES SP ON SP.ID=SO.ID AND SP.SMALLID=0
+WHERE SO.XTYPE='U' --user table
+AND SP.VALUE IS NOT NULL
+ORDER BY SO.NAME
+SELECT *
+FROM
+        dbo.sysobjects
+WHERE
+        xtype = 'U'*/
+ 
+]]>
+  </query>
+
+</root>

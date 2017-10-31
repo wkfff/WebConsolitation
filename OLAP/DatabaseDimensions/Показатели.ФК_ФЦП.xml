@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.ФК_ФЦП" ClassType="7" SubClassType="2" Description="Классификатор перечня федеральных целевых программ, подпрограмм и мероприятий." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_MARKS_FKFZP", "DV"."DV_UNITS_OKEI_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_MARKS_FKFZP"."REFUNITS"="DV"."DV_UNITS_OKEI_BRIDGE"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Marks.FKFZP]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[e2135c70-2ca0-4999-9a29-5ace97672a42]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_MARKS_FKFZP}{DV.D_MARKS_FKFZP}{2400}{600}{1935}{2830}{1})({dv}{DV.DV_UNITS_OKEI_BRIDGE}{DV.DV_UNITS_OKEI_BRIDGE}{2805}{4185}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[70a050e9-6236-4eb3-bf67-21bd28c860f4]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[aad1c2e3-e39f-4f14-85fc-c89406db0875]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатель" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Программа;Подпрограмма" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_FKFZP"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_MARKS_FKFZP"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_MARKS_FKFZP"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKFZP"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Краткое наименование" ClassType="31" SubClassType="0" Description="" Caption="Краткое наименование" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKFZP"."SHORTNAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKFZP"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Порядковый номер" ClassType="31" SubClassType="0" Description="" Caption="Порядковый номер" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKFZP"."CODELINE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Уровень вложения показателя" ClassType="31" SubClassType="0" Description="" Caption="Уровень вложения показателя" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKFZP"."NESTINGLEVEL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKFZP"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI_BRIDGE"."DESIGNATION"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

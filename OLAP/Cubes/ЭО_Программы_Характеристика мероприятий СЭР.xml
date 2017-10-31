@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ЭО_Программы_Характеристика мероприятий СЭР" ClassType="9" SubClassType="0" Description="Значения показателей, характеризующих мероприятия и исполнение мерпориятий в рамках программы СЭР." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_PROGRAMS_PROG2"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_PROGRAMS_PROG2"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_PROGRAMS_PROG2", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_PROGRAMS_ACTIVITYMARKS", "DV"."D_OK_STRUCTURE", "DV"."D_PROGRAMS_REGISTRACTIVITY", "DV"."D_PROGRAMS_DIRECT", "DV"."D_PROGRAMS_REGISTRP"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_PROGRAMS_PROG2"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PROGRAMS_PROG2"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PROGRAMS_PROG2"."REFPROGRAMS"="DV"."D_PROGRAMS_ACTIVITYMARKS"."ID") AND ("DV"."F_PROGRAMS_PROG2"."REFOK"="DV"."D_OK_STRUCTURE"."ID") AND ("DV"."F_PROGRAMS_PROG2"."REFPROGRAMSREGISTRACTIVITY"="DV"."D_PROGRAMS_REGISTRACTIVITY"."ID") AND ("DV"."D_PROGRAMS_REGISTRACTIVITY"."REFPROGRAMS"="DV"."D_PROGRAMS_DIRECT"."ID") AND ("DV"."D_PROGRAMS_REGISTRACTIVITY"."REFPROGRAMSREGISTRP"="DV"."D_PROGRAMS_REGISTRP"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_PROGRAMS_PROG2"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.Programs.Prog2]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{300}{4155}{2100}{940}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{1365}{5085}{2535}{910}{1})({dv}{DV.D_OK_STRUCTURE}{DV.D_OK_STRUCTURE}{3480}{5310}{2400}{910}{1})({dv}{DV.D_PROGRAMS_REGISTRACTIVITY}{DV.D_PROGRAMS_REGISTRACTIVITY}{4590}{4485}{3120}{970}{1})({dv}{DV.D_PROGRAMS_ACTIVITYMARKS}{DV.D_PROGRAMS_ACTIVITYMARKS}{2385}{6060}{2880}{940}{1})({dv}{DV.D_PROGRAMS_DIRECT}{DV.D_PROGRAMS_DIRECT}{4620}{8220}{2670}{925}{1})({dv}{DV.D_PROGRAMS_REGISTRP}{DV.D_PROGRAMS_REGISTRP}{5685}{8325}{2610}{910}{1})({dv}{DV.F_PROGRAMS_PROG2}{DV.F_PROGRAMS_PROG2}{2010}{435}{2910}{2360}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[2d3fe64e-1df9-46ce-a243-65468cd279f0]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[746e86b1-d6cb-46b7-83b9-a9d0a2fb8e0a]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[1cd178ad-63dd-4f93-930d-585fd6826bae]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОК.Структурные подразделения" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все структурные подразделения]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Структурное подразделение" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_OK_STRUCTURE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Программы.Реестр мероприятий СЭР" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все мероприятия]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Мероприятие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PROGRAMS_REGISTRACTIVITY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Программы.Характеристика мероприятий СЭР" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PROGRAMS_ACTIVITYMARKS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Программы.Направления мероприятий СЭР" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все направления]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Направление" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PROGRAMS_DIRECT"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Программы.Реестр программ СЭР" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все программы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Программа" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PROGRAMS_REGISTRP"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="План" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_PROGRAMS_PROG2"."PLANING"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Факт" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_PROGRAMS_PROG2"."FACT"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ЭО_Программы_Характеристика мероприятий СЭР" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ЭО_Про_ЭО_Программы_ХарактеристикамероприятийСЭР_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_PROGRAMS_PROG2"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_PROGRAMS_PROG2"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_PROGRAMS_PROG2", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_PROGRAMS_ACTIVITYMARKS", "DV"."D_OK_STRUCTURE", "DV"."D_PROGRAMS_REGISTRACTIVITY", "DV"."D_PROGRAMS_DIRECT", "DV"."D_PROGRAMS_REGISTRP"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_PROGRAMS_PROG2"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PROGRAMS_PROG2"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PROGRAMS_PROG2"."REFPROGRAMS"="DV"."D_PROGRAMS_ACTIVITYMARKS"."ID") AND ("DV"."F_PROGRAMS_PROG2"."REFOK"="DV"."D_OK_STRUCTURE"."ID") AND ("DV"."F_PROGRAMS_PROG2"."REFPROGRAMSREGISTRACTIVITY"="DV"."D_PROGRAMS_REGISTRACTIVITY"."ID") AND ("DV"."D_PROGRAMS_REGISTRACTIVITY"."REFPROGRAMS"="DV"."D_PROGRAMS_DIRECT"."ID") AND ("DV"."D_PROGRAMS_REGISTRACTIVITY"."REFPROGRAMSREGISTRP"="DV"."D_PROGRAMS_REGISTRP"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[da5316cb-f030-4a96-afbf-56eef65e5af7]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[1cd178ad-63dd-4f93-930d-585fd6826bae]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

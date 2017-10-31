@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="MFRF_0004_0003_date">
+    <![CDATA[
+-- MFRF_0004_0003_date
+-- <#МФ РФ_Расходы ФБ]#>
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                [Период].[Период].Members,
+                not IsEmpty([Measures].[Факт за период]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+  from [МФ РФ_Расходы ФБ] 
+  ]]>
+  </query>
+
+  <query id="MFRF_0004_0003_grid_struct">
+    <![CDATA[
+-- MFRF_0004_0003_chart_struct
+-- <#МФ РФ_Расходы ФБ]#>
+WITH   
+    Member [Measures].[Код]  
+    as '[МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Properties("Код") ' 
+    Member Measures.[Факт за период прошлый год]   
+    as '   
+        (
+            [Measures].[Факт за период],
+            [Период].[Период].[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+        )'   
+  
+    Member [Measures].[План Доля]   
+    as 'IIF (IsEmpty([Measures].[План]) or [Measures].[План] <= 0, 
+        null,
+        [Measures].[План] /   
+         SUM  
+        (
+            Filter  
+            (
+                [Список ГРБС],
+                [Measures].[План]  > 0 
+            ),
+            [Measures].[План]
+        )) '    
+   
+    Member [Measures].[Факт за период Доля]   
+    as 'IIF (IsEmpty([Measures].[Факт за период]) or [Measures].[Факт за период] <= 0, 
+        null,
+        [Measures].[Факт за период] /   
+         SUM  
+        (
+            Filter  
+            (
+                [Список ГРБС],
+                [Measures].[Факт за период]  > 0 
+            ),
+            [Measures].[Факт за период] 
+        ))'    
+        
+ 
+    Member Measures.[Факт за период прошлый год Доля]   
+    as 'IIF (IsEmpty([Measures].[Факт за период прошлый год]) or [Measures].[Факт за период прошлый год] <= 0, 
+        null,
+        [Measures].[Факт за период прошлый год] /   
+        SUM  
+        (
+            Filter  
+            (
+                [Список ГРБС],
+                [Measures].[Факт за период прошлый год]  > 0 
+            ),
+            [Measures].[Факт за период прошлый год]
+        ))'  
+        
+    Member Measures.[Прошлый год_Факт Доля]   
+    as 'IIF (IsEmpty([Measures].[Факт Прошлый год]) or [Measures].[Факт Прошлый год] <= 0, 
+        null,
+        [Measures].[Факт прошлый год] /   
+        SUM  
+        (
+            Filter  
+            (
+                [Список ГРБС],
+                [Measures].[Факт Прошлый год] > 0 
+            ),
+            [Measures].[Факт прошлый год]
+        ))'    
+        
+    Set [Список ГРБС]   
+    as 'Filter   
+        (
+            {
+                [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].Children -
+                {
+                    [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].[Несопоставленные данные]
+                }   
+            },
+            ([Measures].[План] <> 0) and   
+            (
+                [Measures].[Факт за период] <> 0   
+            )   
+        )'   
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[План],
+        [Measures].[План Доля],
+        [Measures].[Факт за период],
+        [Measures].[Факт за период Доля],
+        [Measures].[Факт за период прошлый год],
+        [Measures].[Факт за период прошлый год Доля],
+        [Measures].[Факт Прошлый год],
+        [Measures].[Прошлый год_Факт Доля]   
+    } on columns,
+    [Список ГРБС] on rows   
+FROM  [МФ РФ_Расходы ФБ]   
+WHERE 
+    (
+        [МФ РФ].[КОСГУ].[Все],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+    )  
+  ]]>
+</query>
+
+<query id="MFRF_0004_0003_chart_struct">
+<![CDATA[
+-- MFRF_0004_0003_chart_struct
+-- <#МФ РФ_Расходы ФБ]#>
+WITH
+Member Measures.[Факт за период прошлый год] 
+as '
+    (
+        [Measures].[Факт за период],
+        [Период].[Период].[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+    )' 
+Member [Measures].[План положит]
+as 'IIF
+    (
+        [Measures].[План] < 0,
+        null,
+        [Measures].[План]
+    )'
+Member [Measures].[Факт за период положит]
+as 'IIF
+    (
+        [Measures].[Факт за период] < 0,
+        null,
+        [Measures].[Факт за период]
+    )'
+Member Measures.[Факт за период прошлый год положит]
+as 'IIF
+    (
+        Measures.[Факт за период прошлый год] < 0,
+        null,
+        Measures.[Факт за период прошлый год]
+    )'
+Member Measures.[Прошлый год_Факт положит]
+as 'IIF
+    (
+        [Measures].[Факт прошлый год] < 0,
+        null,
+        [Measures].[Факт прошлый год]
+    )'    
+SELECT
+    {
+        [Measures].[План положит],
+        [Measures].[Факт за период положит],
+        [Measures].[Факт за период прошлый год положит],
+        [Measures].[Прошлый год_Факт положит]
+    } on columns,
+    Filter                                         
+    (
+        {
+            [МФ РФ].[ГРБС ФБ Сопост Краткий].[Все].Children -                                       
+            {
+                [МФ РФ].[ГРБС ФБ Сопост Краткий].[Все].[]                                           
+            }                                      
+        },
+        ([Measures].[План] <> 0) and  
+        (
+            [Measures].[Факт за период] <> 0 
+        )  
+    ) on rows  
+FROM  [МФ РФ_Расходы ФБ] 
+WHERE 
+    (
+        [МФ РФ].[КОСГУ].[Все],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+    )  
+  ]]>
+</query>
+
+</root>

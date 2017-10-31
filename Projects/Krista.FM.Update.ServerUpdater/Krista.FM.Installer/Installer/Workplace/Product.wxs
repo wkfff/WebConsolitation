@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include Variables.wxi?>
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+    
+    <Directory Id="TARGETDIR" Name="SourceDir">
+
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION4" Name="$(var.Manufacturer)">
+          <Directory Id="INSTALLLOCATION3" Name="$(var.Division)">
+            <Directory Id="INSTALLLOCATION2" Name="$(var.ProductVersion)">
+              <Directory Id="INSTALLLOCATION1" Name="$(var.ProductName)">
+                <Directory Id="INSTALLLOCATION" Name="SchemeDisigner">
+                  <Directory Id="Platform1" Name="Platform">
+                    <Directory Id="x32_1" Name="x32"/>
+                    <Directory Id="x64_1" Name="x64"/>
+                  </Directory>
+                </Directory>
+                <Directory Id="Workplace" Name="Workplace">
+                  <Directory Id="Platform2" Name="Platform">
+                    <Directory Id="x32_2" Name="x32"/>
+                    <Directory Id="x64_2" Name="x64"/>
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+      
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder3" Name="$(var.Manufacturer)">
+          <Directory Id="ApplicationProgramsFolder2" Name="$(var.Division)">
+            <Directory Id="ApplicationProgramsFolder1" Name="$(var.ProductVersion)">
+              <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)"/>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+    
+    <Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1">
+      <ComponentRef Id="ProductComponent" />
+      <ComponentRef Id="ProductComponent1" />
+      <ComponentRef Id="Platform1Com" />
+      <ComponentRef Id="Platform2Com" />
+      <ComponentRef Id="x32_1Com" />
+      <ComponentRef Id="x64_1Com" />
+      <ComponentRef Id="x32_2Com" />
+      <ComponentRef Id="x64_2Com" />
+      
+      <ComponentRef Id="CompanyMenuFolder" />
+      <ComponentRef Id="CompanyMenuFolder1" />
+      <ComponentRef Id="CompanyMenuFolder2" />
+      
+      <ComponentRef Id="ApplicationShortcutSchemeDisigner" />
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION1" ></Property>
+
+    <UIRef Id="WixUI_InstallDir"/>
+   
+    <Binary Id="CommandPrompt" SourceFile="C:\Windows\System32\cmd.exe" />
+    <CustomAction Id="DeleteFolder" BinaryKey="CommandPrompt"
+              ExeCommand='/c rmdir /S /Q "[INSTALLLOCATION1]"'
+              Execute="immediate" Return="check" />
+
+    <InstallExecuteSequence>
+      <Custom Action="DeleteFolder" Sequence="3490">Installed</Custom>
+    </InstallExecuteSequence>
+    
+  </Product>
+</Wix>

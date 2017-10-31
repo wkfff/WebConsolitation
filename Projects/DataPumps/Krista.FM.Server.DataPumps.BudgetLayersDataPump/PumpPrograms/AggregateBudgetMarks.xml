@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by glazova (EMBRACE) -->
+<layerDataPump name="Закачка показателей планирования консолидированного бюджета" version="1.0">
+	<usedLayers>
+		<layer name="облСаратов.Классификаторы.ПоказателиКонсолидБюджета" synonym="a"/>
+		<layer name="Классификаторы.КВСР" synonym="b"/>
+	</usedLayers>
+	<defaultDataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+	<usedFMObjects>
+		<fmObject name="af4d2936-ebba-4355-8b4f-f1e05e236c88" synonym="R" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+	</usedFMObjects>
+	<steps>
+		<step layerSynonym="a" name="Закачка значений показателей планирования консолидированного бюджета">
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КодПоказателяВыч" processType="directPump" destinationObjectSynonym="R" destinationAttribute="Code" destinationAttributeUseInSearch="true" convertValueMode="concatValue" convertValueModeParam1="00000000"/>
+				<layerField name="Имя" processType="directPump" destinationObjectSynonym="R" destinationAttribute="Name"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="ГРБС" processType="layerRef" destinationObjectSynonym="R" destinationAttribute="Code" refLayerSynonym="b" refLayerFieldName="Код" destinationAttributeUseInSearch="true" convertValueMode="concatValue" convertValueModeParam1="00000000000000"/>
+				<layerField name="ГРБС" processType="layerRef" destinationObjectSynonym="R" destinationAttribute="Name" refLayerSynonym="b" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+		</step>
+	</steps>
+</layerDataPump>

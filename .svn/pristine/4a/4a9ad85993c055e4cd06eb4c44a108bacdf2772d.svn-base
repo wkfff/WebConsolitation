@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+SELECT
+    { [Measures].[Значение]  } on columns,
+    {
+        Tail 
+        (
+            Filter 
+            (
+                [Период].[Год Квартал Месяц].[Год].Members,
+                [Measures].[Значение] > 0 
+            ) 
+        ).Item(0) 
+    } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows  
+FROM [ВЕДСТАТ_Свод]                      
+where                   
+    (
+        <%baseRegion%>,
+        [Источники данных].[Все источники данных],
+        [Показатели].[ВедСтат_Свод].[Все показатели].[УРОВЕНЬ ЖИЗНИ НАСЕЛЕНИЯ].[Среднемесячный доход на 1 работающего (по отраслям)]
+    )
+	  ]]>
+  </query>
+    <query id="Pprop_">
+    <![CDATA[with member [Measures].[o_O] as '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")'
+SELECT
+    {
+    [Measures].[o_O]  } on columns,
+    non empty
+    {
+<%grid1Marks%>,<%grid2Marks%>,<%grid3Marks%>
+    } on rows
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>
+    )]]>
+  </query>
+  <query id="grid1">
+    <![CDATA[ -- name: grid1
+SELECT
+    { [Measures].[Значение]  } on columns,
+    non empty 
+    {
+        <%grid1Marks%>.children 
+    } on rows    
+FROM [ВЕДСТАТ_Свод]                        
+where                     
+    (
+        <%baseRegion%>,
+        <%last_year%>   
+    )  
+    ]]>
+  </query>
+
+  <query id="chart1">
+    <![CDATA[ -- name: chart1
+select
+    {
+        <%chart1Mark%>.[<%current_way%>],
+        <%chart1Marks%>
+    } on rows,
+    non empty  
+    {
+        <%last_year%>:<%last_year%>.Lag(9)  
+    } on columns  
+FROM [ВЕДСТАТ_Свод]  
+where                                
+    (
+        <%baseRegion%>,
+        [Measures].[Значение]   
+    )    
+  ]]>
+  </query>
+
+  <query id="grid2">
+    <![CDATA[ -- name: grid2
+SELECT
+    { [Measures].[Значение]  } on columns,
+    non empty 
+    {
+        <%grid2Marks%>.children
+    } on rows 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        <%baseRegion%>,
+        <%last_year%>
+    )       
+  ]]>
+  </query>
+
+  <query id="chart2">
+    <![CDATA[ -- name: chart2
+select
+    {
+        <%chart2Mark%>.[<%current_way2%>],
+        <%chart2Marks%>
+    } on rows,
+    non empty
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>,
+        [Measures].[Значение]
+    )    
+  ]]>
+  </query>
+
+  <query id="grid3">
+  <![CDATA[ -- name: grid3
+SELECT
+    { [Measures].[Значение]  } on columns,
+    non empty 
+    {
+        <%grid3Marks%>.children
+    } on rows 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        <%baseRegion%>,
+        <%last_year%>
+    )       
+  ]]>
+</query>
+
+  <query id="chart3">
+    <![CDATA[ -- name: chart3
+select
+    {
+        <%chart3Mark%>.[<%current_way3%>],
+        <%chart3Marks%>
+    } on rows,
+    non empty 
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        <%baseRegion%>,
+        [Measures].[Значение] 
+    )  
+  ]]>
+  </query>
+
+  <query id="Grid4Chart1">
+    <![CDATA[ -- name: Grid4Chart1
+    with 
+    member [Период].[Год Квартал Месяц].[o_O] 
+    as '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")' 
+select
+    {
+        [Measures].[Значение]
+    } on rows,
+    non empty     
+    {
+        <%last_year%>:<%last_year%>.Lag(2),
+        [Период].[Год Квартал Месяц].[o_O]
+    } on columns     
+FROM [ВЕДСТАТ_Свод]     
+where     
+    (
+        <%baseRegion%>,
+        <%chart4Marks%>.[<%current_way4%>]
+        
+    )      
+  ]]>
+  </query>
+
+  <query id="Grid4Chart2">
+    <![CDATA[ -- name: Grid4Chart2
+    with 
+    member [Период].[Год Квартал Месяц].[o_O] 
+    as '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")' 
+select
+    {
+        [Measures].[Значение]     
+    } on rows,
+    non empty     
+    {
+        <%last_year%>:<%last_year%>.Lag(2),
+        [Период].[Год Квартал Месяц].[o_O]
+    } on columns     
+FROM [ВЕДСТАТ_Свод]     
+where     
+    (
+        <%baseRegion%>,<%chart5Marks%>.[<%current_way4%>]
+        
+    )      
+  ]]>
+  </query>
+
+  <query id="Grid4Chart3">
+    <![CDATA[ -- name: Grid4Chart3
+    with 
+    member [Период].[Год Квартал Месяц].[o_O] 
+    as '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")' 
+select	
+    {
+        
+        [Measures].[Значение]
+    } on rows,
+    non empty     
+    {
+        <%last_year%>:<%last_year%>.Lag(2)
+        ,     
+        [Период].[Год Квартал Месяц].[o_O]
+    } on columns     
+FROM [ВЕДСТАТ_Свод]     
+where     
+    (
+        <%baseRegion%>,
+        <%chart6Marks%>.[<%current_way4%>]
+    )      
+  ]]>
+  </query>
+
+</root>

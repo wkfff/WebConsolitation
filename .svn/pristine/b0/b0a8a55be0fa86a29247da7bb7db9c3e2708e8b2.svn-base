@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <?include Variables.wxi?>
+
+  <Fragment>
+
+    <util:RegistrySearch Id="FindDotNet35SP1InstallRegValue"
+                    Root="HKLM"
+                    Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5" Value="SP"
+                    Variable="DotNetFramework35SP1InstallRegValue" />
+
+    <util:ProductSearch Guid="48319648A00621F40999A562E3846A45"
+                        Id="ASOLEDBInstalledProduct"
+                        Variable="ASOLEDBInstalled" />
+
+    <util:ProductSearch Guid="2A3FF68395F493641880F5F66BB9BE89"
+                    Id="ADOMDInstalledProduct"
+                    Variable="ADOMDInstalled"/>
+
+    <util:ProductSearch Guid ="73B68EB1-3A5D-40CB-8101-8B97F73CB763"
+                        Id ="SOIInstalledSearch"
+                        Variable ="MDXInstalled"/>
+
+    <PackageGroup Id="MyPackage">
+      <MsiPackage Id="ASOLEDB10_32" Cache="no" Compressed="yes" Vital="yes"
+                  Name="SQLSERVER2008_ASOLEDB10.msi"
+                  SourceFile=".\FMLocalAppStore\Software\Providers\x32\SQLSERVER2008_ASOLEDB10.msi"
+                  InstallCondition="NOT ASOLEDBInstalled AND NOT VersionNT64"
+                  DisplayInternalUI="yes"
+                  ForcePerMachine="yes" />
+
+      <MsiPackage Id="ADOMD10_32" Cache="no" Compressed="yes" Vital="yes"
+                  Name="SQLSERVER2008_ASADOMD10.msi"
+                  SourceFile=".\FMLocalAppStore\Software\Providers\x32\SQLSERVER2008_ASADOMD10.msi"
+                  InstallCondition="NOT ADOMDInstalled AND NOT VersionNT64"
+                  DisplayInternalUI="yes"
+                  ForcePerMachine="yes" />
+
+      <MsiPackage Id="ASOLEDB10_64" Cache="no" Compressed="yes" Vital="yes"
+            Name="SQLSERVER2008_ASOLEDB10.msi"
+            SourceFile=".\FMLocalAppStore\Software\Providers\x64\SQLSERVER2008_ASOLEDB10.msi"
+            InstallCondition="NOT ASOLEDBInstalled AND VersionNT64"
+            DisplayInternalUI="yes"
+            ForcePerMachine="yes" />
+
+      <MsiPackage Id="ADOMD10_64" Cache="no" Compressed="yes" Vital="yes"
+                  Name="SQLSERVER2008_ASADOMD10.msi"
+                  SourceFile=".\FMLocalAppStore\Software\Providers\x64\SQLSERVER2008_ASADOMD10.msi"
+                  InstallCondition="NOT ADOMDInstalled AND VersionNT64"
+                  DisplayInternalUI="yes"
+                  ForcePerMachine="yes" />
+
+      <MsiPackage Id="ClientInstall" Cache="no" Compressed="yes" Vital="yes"
+                  Name="Krista.FM.MDXExpert.msi"
+                  SourceFile=".\FMLocalAppStore\Krista.FM.MDXExpert.msi"
+                  ForcePerMachine="yes"
+                  DisplayInternalUI="yes" />
+    </PackageGroup>
+  </Fragment>
+</Wix>

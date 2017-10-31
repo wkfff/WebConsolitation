@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+
+
+  <query id = "Period">
+    <![CDATA[with 
+
+    member [Death] 
+    as '
+        (
+            [Население__Причины смерти].[Все показатели].[Число умерших],
+            [Measures].[За период]
+
+        )' 
+    member [UniqueName]
+    as '[Период__Год Квартал Месяц].CurrentMember.UniqueName'
+    member [Mounth]
+    as '[Период__Год Квартал Месяц].CurrentMember.Name'
+    member [Year]
+    as '[Период__Год Квартал Месяц].CurrentMember.parent.parent.parent.Name'
+    member [Child]
+    as '[Период__Год Квартал Месяц].CurrentMember.Name'
+    member [Parent]
+    as '[Период__Год Квартал Месяц].CurrentMember.parent.parent.parent.Name'
+
+select
+    non empty{
+
+[UniqueName],
+[Mounth],
+[Year],
+[Child],
+[Parent]
+
+    } on columns ,
+    non empty    {
+filter(
+        [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Месяц].members,
+        not isempty([Death]))
+
+    } on rows
+from [СТАТ_Население_Причины смерти] 
+where 
+    (
+            [ОК__МКБ10],
+
+        [Источники данных].[Источник].[СТАТ Отчетность - ХМАО-Югра],
+        [ОК__Основные возрастные группы].[Основная возрастная группа].[Значение не указано],
+        [Тип местности].[Все типы местности].[Значение не указано],
+        [Территории__РФ].[Федеральный округ].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра],
+        [Группировки__Население_Причины смерти].[Группировка].[По МКБ10]  
+    )   
+]]>
+  </query>
+
+
+  <query id = "ChartDynamic">
+    <![CDATA[with 
+    member [isDataMember] 
+    as '[Период__Год Квартал Месяц].currentmember.IS_DATAMEMBER' 
+    member [Death] 
+    as ' 
+        (
+            [Население__Причины смерти].[Все показатели].[Число умерших],
+            [Measures].[За период]
+        )' 
+    member [Mounth]
+    as '
+        (
+         [Период__Год Квартал Месяц].currentmember.Name
+        )'
+    member [Year]
+    as '
+        (
+         [Период__Год Квартал Месяц].currentmember.parent.parent.parent.Name
+        )'
+   
+select
+    {
+        filter 
+        (
+
+            <%CurrentDateLineChart%>:<%CurrentDateLineChart%>.lag(48) ,
+
+            not ([isDataMember])and
+            not IsEmpty([Death]) 
+        ) 
+    } on rows,
+    {
+
+        [Death],
+        [Mounth],
+        [Year]
+
+    } on columns 
+from [СТАТ_Население_Причины смерти] 
+where 
+    (
+        <%SelectUniqName%>,
+        [Источники данных].[Источник].[СТАТ Отчетность - ХМАО-Югра],
+        [ОК__Основные возрастные группы].[Основная возрастная группа].[Значение не указано],
+        [Тип местности].[Все типы местности].[Значение не указано],
+        [Территории__РФ].[Федеральный округ].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра],
+        [Группировки__Население_Причины смерти].[Группировка].[По МКБ10] 
+    )   
+]]>
+  </query>
+
+  <query id = "ChartPoint">
+    <![CDATA[with 
+    member [isDataMember]
+    as '[ОК__МКБ10].currentmember.IS_DATAMEMBER'
+    member [Death] 
+    as '
+        (
+            [Население__Причины смерти].[Все показатели].[Число умерших],
+            [Measures].[За период],
+<%CurrentDate%>
+        )' 
+    member [DeathComparison]  
+    as '([Население__Причины смерти].[Все показатели].[Число умерших] ,
+        [Measures].[За период],
+        <%ComparisonDate%>
+    )' 
+    member [DeathChildren] 
+    as '([Население__Причины смерти].[Показатель].[Число умерших детей в возрасте до 1 года] ,
+        [Measures].[За период],
+<%CurrentDate%>
+    )' 
+    member [DeathChildrenComparison] 
+    as '([Население__Причины смерти].[Показатель].[Число умерших детей в возрасте до 1 года] ,
+        [Measures].[За период],
+                --[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Год].[2010].[Полугодие 2].[Квартал 4].[Ноябрь]
+                <%ComparisonDate%>
+    )'
+    member [DiseaseUniqueName]
+    as '[ОК__МКБ10].currentmember.MEMBER_UNIQUE_NAME'
+    member [DiseaseLevel]
+    as '
+iif([isDataMember],
+    0,[ОК__МКБ10].currentmember.LEVEL_NUMBER)'
+
+    member [Disease]
+    as '
+iif([isDataMember],
+    [ОК__МКБ10].currentmember.parent.Name,[ОК__МКБ10].currentmember.Name)'
+
+    member [parentName]
+    as '
+iif([isDataMember],
+    [ОК__МКБ10].currentmember.parent.parent.Name,[ОК__МКБ10].currentmember.parent.Name)'
+
+
+select
+    {
+    filter
+    (
+
+                [ОК__МКБ10].[ОК__МКБ10].[Все виды заболеваний].children ,
+        ([DiseaseLevel]>0)and
+        ([DiseaseLevel]<2)and
+not IsEmpty([Death])
+        )
+    } on rows,
+    { 
+
+        [Death],
+        [DeathComparison]
+
+
+    } on columns
+from [СТАТ_Население_Причины смерти]
+where
+    (
+        [Источники данных].[Источник].[СТАТ Отчетность - ХМАО-Югра],
+        [ОК__Основные возрастные группы].[Основная возрастная группа].[Значение не указано],
+        [Тип местности].[Все типы местности].[Значение не указано],
+        [Территории__РФ].[Федеральный округ].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра],
+        [Группировки__Население_Причины смерти].[Группировка].[По МКБ10]
+    )
+]]>
+  </query>
+  <query id = "Grid">
+    <![CDATA[with 
+    member [isDataMember]
+    as '[ОК__МКБ10].currentmember.IS_DATAMEMBER'
+    member [Death] 
+    as '
+        (
+            [Население__Причины смерти].[Все показатели].[Число умерших],
+            [Measures].[За период],
+
+<%CurrentDate%>
+        )' 
+    member [DeathComparison]  
+    as '([Население__Причины смерти].[Все показатели].[Число умерших] ,
+        [Measures].[За период],
+        <%ComparisonDate%>
+    )' 
+    member [DeathChildren] 
+    as '([Население__Причины смерти].[Показатель].[Число умерших детей в возрасте до 1 года] ,
+        [Measures].[За период],
+<%CurrentDate%>
+    )' 
+    member [DeathChildrenComparison] 
+    as '([Население__Причины смерти].[Показатель].[Число умерших детей в возрасте до 1 года] ,
+        [Measures].[За период],
+                <%ComparisonDate%>
+    )'
+    member [DiseaseUniqueName]
+    as '[ОК__МКБ10].currentmember.MEMBER_UNIQUE_NAME'
+    member [DiseaseLevel]
+    as '
+iif([isDataMember],
+    0,[ОК__МКБ10].currentmember.LEVEL_NUMBER)'
+
+    member [Disease]
+    as '
+iif([isDataMember],
+    [ОК__МКБ10].currentmember.parent.Name,[ОК__МКБ10].currentmember.Name)'
+
+    member [parentName]
+    as '
+iif([isDataMember],
+    [ОК__МКБ10].currentmember.parent.parent.Name,[ОК__МКБ10].currentmember.parent.Name)'
+
+select
+    {
+    filter
+    (
+
+        [ОК__МКБ10].Members ,
+        ([DiseaseLevel]>0)and
+        ([DiseaseLevel]<<%SelectLevel%>)and
+not IsEmpty([Death])
+        )
+    } on rows,
+    {
+    [Disease],
+    [parentName],
+    [DiseaseUniqueName],
+        [DiseaseLevel],
+        [Death],
+        [DeathComparison],
+        [DeathChildren],
+        [DeathChildrenComparison]
+
+    } on columns 
+from [СТАТ_Население_Причины смерти] 
+where 
+    (
+    
+        [Источники данных].[Источник].[СТАТ Отчетность - ХМАО-Югра],
+        [ОК__Основные возрастные группы].[Основная возрастная группа].[Значение не указано],
+        [Тип местности].[Все типы местности].[Значение не указано],
+        [Территории__РФ].[Федеральный округ].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра],
+        [Группировки__Население_Причины смерти].[Группировка].[По МКБ10]  
+    )  
+]]>
+  </query>
+
+
+
+
+</root>

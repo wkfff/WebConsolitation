@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id = "Grid">
+      <![CDATA[with 
+    member [key_] 
+    as '[Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember.MEMBER_KEY' 
+    
+select
+{
+<%ChosenCurGridPeriod%>
+
+ }on columns   ,
+
+    {
+    filter(
+        [Продукция__Сопоставимый].[Продукция__Сопоставимый].members ,
+     [key_] >= "545"
+     and
+     [key_] <= "642"     and
+     [Measures].[Цена] > 0)
+    } on rows 
+from   [ФСГС_Цены РФ]
+/**/where
+(
+<%ChosenRegionGrid%>
+)   ]]> 
+  </query>
+
+  <query id = "ComboMounth">
+    <![CDATA[with  
+    member [key_]  
+    as '[Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember.MEMBER_KEY'   
+    set [product]  
+    as '    filter 
+        (
+            [Продукция__Сопоставимый].[Продукция__Сопоставимый].members ,
+            [key_] >= "545" and [key_] <= "642" 
+        )'   
+    member [Measures].[sum product]  
+    as 'Aggregate 
+        (
+            [product],
+            [Measures].[Цена] 
+        )'   
+    set [mouths]  
+    as '    filter  
+        (
+            [Период__Период].[Период__Период].[Месяц].members,
+            [Measures].[sum product]>0 
+        )'    
+    member [Measures].[year] 
+    as '[Период__Период].[Период__Период].currentmember.parent.parent.parent.name'
+    member [Measures].[period_uname] 
+    as '[Период__Период].[Период__Период].currentmember.uniquename'    
+select
+    {
+        [Measures].[year],
+     [Measures].[period_uname]
+    }on columns   ,
+    { [mouths] } on rows  
+from   [ФСГС_Цены РФ]  
+]]>
+  </query>
+  <query id = "ComboRegion">
+    <![CDATA[with  
+    member [key_]  
+    as '[Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember.MEMBER_KEY'  
+    set [product]  
+    as '    filter  
+        (
+            [Продукция__Сопоставимый].[Продукция__Сопоставимый].members ,
+            [key_] >= "545" and [key_] <= "642"  
+        )'  
+    member [Measures].[sum product]  
+    as 'Aggregate  
+        (
+            [product],
+            [Measures].[Цена]  
+        )'  
+    set [mouths]  
+    as '    filter  
+        (
+            [Период__Период].[Период__Период].[Месяц].members,
+            [Measures].[sum product]>0  
+        )'  
+    member [Measures].[year]  
+    as '[Период__Период].[Период__Период].currentmember.parent.parent.parent.name'  
+    member [Measures].[period_uname]  
+    as '[Период__Период].[Период__Период].currentmember.uniquename'  
+    member [Measures].[UniqueName]
+    as '[Территории__Сопоставимый].[Территории__Сопоставимый].currentmember.uniquename'
+    
+    member [Measures].[LevelNumber]
+    as '[Территории__Сопоставимый].[Территории__Сопоставимый].currentmember.LEVEL_NUMBER-1'
+select
+    {
+        Filter
+        (
+            Except(
+            [Территории__Сопоставимый].[Территории__Сопоставимый].members,
+            [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].[Несопоставленные данные]),
+            [Measures].[sum product] > 0 and
+            not [Территории__Сопоставимый].[Территории__Сопоставимый].currentmember.is_datamember and
+            [Measures].[LevelNumber] >= 0
+        ) 
+    } on rows   ,
+    {
+     [Measures].[UniqueName],
+     [Measures].[LevelNumber]
+    }on columns
+from   [ФСГС_Цены РФ]]]>
+  </query>
+  <query id = "ChartLine">
+    <![CDATA[
+    --ChartLine
+    with 
+    member [key_] 
+    as '[Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember.MEMBER_KEY' 
+    member [Территории__Сопоставимый].[Территории__Сопоставимый].[DisplayDate]
+    as '[Период__Период].[Период__Период].CurrentMember.name +" "+ [Период__Период].[Период__Период].CurrentMember.parent.parent.parent.name'
+select
+    {
+        <%ChosenCurGridPeriod%>
+    } on rows  ,
+    {[Территории__Сопоставимый].[Территории__Сопоставимый].[DisplayDate],
+        <%ChosenRegionChart%>
+    }on columns
+from   [ФСГС_Цены РФ] 
+where
+(
+[Продукция__Сопоставимый].[Продукция__Сопоставимый].[<%SelectField%>]
+)
+]]>
+  </query>
+  <query id = "DictEdizm">
+    <![CDATA[with
+    member [key_]
+    as '[Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember.MEMBER_KEY'
+    
+    member [sum]
+    as 'Aggregate( {[Период__Период].[Период__Период].[Данные всех периодов].[2011].[Полугодие 1].[Квартал 1].[Январь], [Период__Период].[Период__Период].[Данные всех периодов].[2011].[Полугодие 1].[Квартал 1].[Февраль], [Период__Период].[Период__Период].[Данные всех периодов].[2011].[Полугодие 1].[Квартал 1].[Март], [Период__Период].[Период__Период].[Данные всех периодов].[2011].[Полугодие 1].[Квартал 2].[Апрель], [Период__Период].[Период__Период].[Данные всех периодов].[2011].[Полугодие 1].[Квартал 2].[Май], [Период__Период].[Период__Период].[Данные всех периодов].[2011].[Полугодие 1].[Квартал 2].[Июнь], [Период__Период].[Период__Период].[Данные всех периодов].[2011].[Полугодие 2].[Квартал 3].[Июль]},[Measures].[Цена])'
+    member [edizm]
+    as '[Продукция__Сопоставимый].[Продукция__Сопоставимый].currentmember.properties("Единица измерения")'
+
+select
+{
+[edizm]
+
+ }on columns   ,
+
+    {
+    filter(
+        [Продукция__Сопоставимый].[Продукция__Сопоставимый].members ,
+     [key_] >= "545"
+     and
+     [key_] <= "642"     and
+     [Measures].[Цена] > 0
+and
+[sum] >0
+     )
+    } on rows
+from   [ФСГС_Цены РФ]
+/**/where
+(
+[Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].[Российская  Федерация].[Дальневосточный федеральный округ].[Амурская область]
+)
+]]>
+  </query>
+</root>

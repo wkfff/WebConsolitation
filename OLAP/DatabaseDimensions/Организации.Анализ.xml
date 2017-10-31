@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Организации.Анализ" ClassType="7" SubClassType="2" Description="Справочник  организаций, с которых осуществляется сбор оперативной информации." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Organizations.Analysis]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[fe60e1ea-b8ea-4bfa-8da2-1a1b6ebb455a]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_ORGANIZATIONS_ANALYSIS}{DV.D_ORGANIZATIONS_ANALYSIS}{2400}{600}{2745}{3295}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[92c08369-f6f8-464b-978d-b607b114690f]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[6b1a3ea2-dc5f-414e-8a5b-5141c6bd215a]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Организации" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Организации уровень 1;Организации уровень 2;Организации уровень 3;Организации уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ИНН" ClassType="31" SubClassType="0" Description="" Caption="ИНН" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="КПП" ClassType="31" SubClassType="0" Description="" Caption="КПП" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."INN20"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКАТО" ClassType="31" SubClassType="0" Description="" Caption="ОКАТО" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."OKATO"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Юридический адрес" ClassType="31" SubClassType="0" Description="" Caption="Юридический адрес" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."LEGALADDRESS"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Адрес" ClassType="31" SubClassType="0" Description="" Caption="Адрес" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."ADDRESS"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_ANALYSIS"."CODE"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

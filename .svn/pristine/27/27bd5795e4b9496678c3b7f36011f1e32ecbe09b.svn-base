@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Районы.АС Бюджет" ClassType="7" SubClassType="2" Description="Классификатор районов. Закачивается с данными АС Бюджет (RegionCls)." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."DV_REGIONS_BUDGET"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Regions.Budget]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_REGIONS_BUDGET}{DV.DV_REGIONS_BUDGET}{2400}{600}{2340}{3925}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[2bc95eb9-210d-47d6-9ffa-1c466e4b5fb5]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[6a869647-4795-4984-9186-d17b19bb6226]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[c58ba739-32f5-4b54-8881-3e15ad11b45b]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Район" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="90" IsVisible="true" LevelNamingTemplate="Источник;Уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Вид бюджета" ClassType="31" SubClassType="0" Description="" Caption="Вид бюджета" PropertyType="0" IsVisible="true" ColumnSize="4000" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."BUDGETTYPE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код бюджета_экспорт консолидации" ClassType="31" SubClassType="0" Description="" Caption="Код бюджета_экспорт консолидации" PropertyType="0" IsVisible="true" ColumnSize="4000" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."KVB_EXPORT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код района_экспорт консолидации" ClassType="31" SubClassType="0" Description="" Caption="Код района_экспорт консолидации" PropertyType="0" IsVisible="true" ColumnSize="4000" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."ORG_EXPORT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

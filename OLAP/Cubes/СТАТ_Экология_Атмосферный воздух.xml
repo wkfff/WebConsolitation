@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="СТАТ_Экология_Атмосферный воздух" ClassType="9" SubClassType="0" Description="Значения показателей, характеризующих охрану атмосферного воздуха в регионе." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_ECO_ST2AIR"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_ECO_ST2AIR"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_ECO_ST2AIR", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_OK_GROUP", "DV"."D_TERRITORY_RF", "DV"."D_ECO_SUBSTANCE", "DV"."D_ECO_AIR", "DV"."D_OK_OKVED", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_ECO_ST2AIR"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ECO_ST2AIR"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_ECO_ST2AIR"."REFOK"="DV"."D_OK_GROUP"."ID") AND ("DV"."F_ECO_ST2AIR"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_ECO_ST2AIR"."REFECO"="DV"."D_ECO_SUBSTANCE"."ID") AND ("DV"."F_ECO_ST2AIR"."REFECOAIR"="DV"."D_ECO_AIR"."ID") AND ("DV"."F_ECO_ST2AIR"."REFOKOKVED"="DV"."D_OK_OKVED"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_ECO_ST2AIR"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.Eco.ST2Air]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_OK_GROUP}{DV.D_OK_GROUP}{2460}{5205}{2265}{925}{1})({dv}{DV.DATASOURCES}{DV.DATASOURCES}{330}{3060}{1800}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{1410}{4050}{2400}{940}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{3540}{5265}{2280}{940}{1})({dv}{DV.D_OK_OKVED}{DV.D_OK_OKVED}{6810}{3060}{1800}{1240}{1})({dv}{DV.D_ECO_SUBSTANCE}{DV.D_ECO_SUBSTANCE}{4650}{5295}{2280}{1060}{1})({dv}{DV.D_ECO_AIR}{DV.D_ECO_AIR}{5820}{4275}{2445}{925}{1})({dv}{DV.F_ECO_ST2AIR}{DV.F_ECO_ST2AIR}{2687}{619}{2010}{2615}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3555}{8130}{2475}{910}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[e653713a-c7b4-411a-b348-94f940384ab4]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[42a0ee89-684b-496c-9bb9-b274a5532a82]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[7d8f6009-0a5b-4abc-b9a7-b68c19d96d55]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Группировки.Экология_Атмосферный воздух" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все группировки]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Группировка" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_OK_GROUP"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Экология.Атмосферный воздух" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_ECO_AIR"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Экология.Виды веществ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды веществ]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид вещества" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_ECO_SUBSTANCE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОК.ОКВЭД" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды экономической деятельности]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид экономической деятельности" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_OK_OKVED"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Нарастающий итог" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_ECO_ST2AIR"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="За период" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_ECO_ST2AIR"."VALUEPERIOD"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Нарастающий итог" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Нарастающий итог] FOR '({[Measures].[Нарастающий итог]})' AS 'IIF ([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "(All)",
+  Tail(Filter([Период].[Год Квартал Месяц].CurrentMember.Children, not IsEmpty([Measures].[Нарастающий итог]))).Item(0),
+IIF (IsEmpty(([Период].[Год Квартал Месяц].CurrentMember.DataMember,[Measures].[Нарастающий итог])),
+  Tail(Filter([Период].[Год Квартал Месяц].CurrentMember.Children, not IsEmpty([Measures].[Нарастающий итог]))).Item(0),
+  ([Период].[Год Квартал Месяц].CurrentMember.DataMember,[Measures].[Нарастающий итог])
+))', CONDITION = 'not IsLeaf([Период].[Год Квартал Месяц].CurrentMember)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="За период" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[За период] FOR '({[Measures].[За период]})' AS 'IIF ([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "(All)",
+  Sum([Период].[Год Квартал Месяц].CurrentMember.Children),
+IIF (IsEmpty(([Период].[Год Квартал Месяц].CurrentMember.DataMember,[Measures].[За период])),
+  Sum([Период].[Год Квартал Месяц].CurrentMember.Children),
+  ([Период].[Год Квартал Месяц].CurrentMember.DataMember,[Measures].[За период])
+))', CONDITION = 'not IsLeaf([Период].[Год Квартал Месяц].CurrentMember)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Прирост цепной" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Прирост цепной] AS 'IIF (not IsEmpty(([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)),
+  IIF ([Период].[Год Квартал Месяц].CurrentMember is [Период].[Год Квартал Месяц].CurrentMember.FirstSibling,
+    IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Месяц",
+      ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) -
+      ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(4)),
+      IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Квартал" or [Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие",
+        ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) -
+        ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(3)),
+        IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Год",
+          ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) -
+          ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.PrevMember),
+          null))),
+    IIF([Период].[Год Квартал Месяц].CurrentMember is [Период].[Год Квартал Месяц].CurrentMember.FirstSibling.NextMember,
+      ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) -
+      ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(2)),
+      ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) -
+      ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.PrevMember))),
+null)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Прирост базисный" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Прирост базисный] AS 'IIF (not IsEmpty(([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)),
+  IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Месяц",
+    ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(16)),
+    IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Квартал",
+      ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(6)),
+      IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие",
+        ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(3)),
+        null
+))),
+null)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп роста цепной" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп роста цепной] AS 'IIF (([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) >= 0,
+  IIF ([Период].[Год Квартал Месяц].CurrentMember is [Период].[Год Квартал Месяц].CurrentMember.FirstSibling,
+    IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Месяц",
+      IIF(([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(4)) > 0,
+        ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(4)),
+        null),
+      IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Квартал" or [Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие",
+        IIF(([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(3)) > 0,
+          ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(3)),
+          null),
+        null)),
+    IIF([Период].[Год Квартал Месяц].CurrentMember is [Период].[Год Квартал Месяц].CurrentMember.FirstSibling.NextMember,
+      IIF(([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(2)) > 0,
+        ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(2)),
+        null),
+      IIF(([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.PrevMember) > 0,
+        ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.PrevMember),
+        null)
+      )
+    ),
+null)', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп роста базисный" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп роста базисный] AS 'IIF (([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember) >= 0,
+  IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Месяц",
+    IIF (([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(16)) > 0,
+      ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(16)),
+      null),
+    IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Квартал",
+      IIF(([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(6)) > 0,
+        ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(6)),
+        null),
+      IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие",
+        IIF(([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(3)) > 0,
+          ([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период].[Год Квартал Месяц].CurrentMember.Lag(3)),
+          null),
+        null
+        )
+      )
+    ),
+null)', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп прироста цепной" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста цепной] AS 'IIF(IsEmpty(([Measures].[Темп роста цепной],[Период].[Год Квартал Месяц].CurrentMember)),
+  null,
+  ([Measures].[Темп роста цепной],[Период].[Год Квартал Месяц].CurrentMember) - 1)', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп прироста базисный" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста базисный] AS 'IIF(IsEmpty(([Measures].[Темп роста базисный],[Период].[Год Квартал Месяц].CurrentMember)),
+  null,
+  ([Measures].[Темп роста базисный],[Период].[Год Квартал Месяц].CurrentMember) - 1)', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="СТАТ_Экология_Атмосферный воздух" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="СТАТ_Экология_Ат_СТАТ_Экология_Атмосферныйвоздух_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_ECO_ST2AIR"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_ECO_ST2AIR"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_ECO_ST2AIR", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_OK_GROUP", "DV"."D_TERRITORY_RF", "DV"."D_ECO_SUBSTANCE", "DV"."D_ECO_AIR", "DV"."D_OK_OKVED", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_ECO_ST2AIR"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ECO_ST2AIR"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_ECO_ST2AIR"."REFOK"="DV"."D_OK_GROUP"."ID") AND ("DV"."F_ECO_ST2AIR"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_ECO_ST2AIR"."REFECO"="DV"."D_ECO_SUBSTANCE"."ID") AND ("DV"."F_ECO_ST2AIR"."REFECOAIR"="DV"."D_ECO_AIR"."ID") AND ("DV"."F_ECO_ST2AIR"."REFOKOKVED"="DV"."D_OK_OKVED"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[e0a05813-b36f-4381-a2cf-5ff5eff76aab]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[7d8f6009-0a5b-4abc-b9a7-b68c19d96d55]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

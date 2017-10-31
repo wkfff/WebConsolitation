@@ -1,0 +1,10 @@
+CALCULATE;
+
+//Период__Период
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    
+this = IIF (not IsEmpty(([Measures].[Значение],[Период__Период].[Период__Период].CurrentMember)),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), null);
+
+END SCOPE;

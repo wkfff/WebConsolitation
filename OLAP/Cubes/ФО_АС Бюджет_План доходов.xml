@@ -1,0 +1,985 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФО_АС Бюджет_План доходов" ClassType="9" SubClassType="0" Description="Данные АС Бюджет. Данные по плану доходов (IncomesData)." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="Анализипланирование_Подопытная_ФО_АСБюджет_Пландоходов_" EstimatedRows="100" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="100">
+  <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.D.IncomesData]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.F_D_INCOMESDATA}{DV.F_D_INCOMESDATA}{1487}{184}{2166}{5636}{1})({dv}{DV.FX_FX_NOTIFTYPE}{DV.FX_FX_NOTIFTYPE}{216}{6336}{1950}{910}{1})({dv}{DV.FX_FX_INCOMINGSITEMS}{DV.FX_FX_INCOMINGSITEMS}{3214}{3080}{2274}{940}{1})({dv}{DV.DV_MEANSTYPE_BUDGET}{DV.DV_MEANSTYPE_BUDGET}{8790}{375}{2256}{934}{1})({dv}{DV.BV_MEANSTYPE_BRIDGE}{DV.BV_MEANSTYPE_BRIDGE}{10440}{4212}{2277}{955}{1})({dv}{DV.DV_REGIONS_BUDGET}{DV.DV_REGIONS_BUDGET}{6911}{3424}{2040}{925}{1})({dv}{DV.BV_REGIONS_BRIDGE}{DV.BV_REGIONS_BRIDGE}{8231}{6496}{2280}{955}{1})({dv}{DV.DV_KVSR_BUDGET}{DV.DV_KVSR_BUDGET}{1335}{6300}{1935}{910}{1})({dv}{DV.BV_KVSR_BRIDGE}{DV.BV_KVSR_BRIDGE}{1380}{9180}{2250}{910}{1})({dv}{DV.DV_INCOMESKINDS_BUDGET}{DV.DV_INCOMESKINDS_BUDGET}{2373}{5958}{2475}{910}{1})({dv}{DV.BV_INCOMESKINDS_BRIDGE}{DV.BV_INCOMESKINDS_BRIDGE}{3216}{8928}{2487}{910}{1})({dv}{DV.BV_KD_BRIDGE}{DV.BV_KD_BRIDGE}{3450}{6390}{1713}{1030}{1})({dv}{DV.DV_PROGRAMS_BUDGET}{DV.DV_PROGRAMS_BUDGET}{5964}{6444}{2271}{925}{1})({dv}{DV.BV_PROGRAMS_BRIDGE}{DV.BV_PROGRAMS_BRIDGE}{7590}{9345}{2202}{934}{1})({dv}{DV.D_EKD_BUDGET}{DV.D_EKD_BUDGET}{7067}{6748}{1815}{925}{1})({dv}{DV.BV_EKD_BRIDGE}{DV.BV_EKD_BRIDGE}{8654}{9487}{2010}{910}{1})({dv}{DV.DATASOURCES}{DV.DATASOURCES}{144}{456}{1800}{925}{1})({dv}{DV.BV_KD_BRIDGEPLAN}{DV.BV_KD_BRIDGEPLAN}{4365}{9255}{2067}{940}{1})({dv}{DV.BV_REGIONS_BRIDGEPLAN}{DV.BV_REGIONS_BRIDGEPLAN}{9345}{6804}{2430}{925}{1})({dv}{DV.BV_MEANSTYPE_BRIDGEPLAN}{DV.BV_MEANSTYPE_BRIDGEPLAN}{10005}{555}{2745}{910}{1})({dv}{DV.B_D_GROUP}{DV.B_D_GROUP}{5475}{9630}{1830}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{1950}{3270}{2400}{910}{1})({dv}{DV.D_FUNDSSOURCE_BUDGET}{DV.D_FUNDSSOURCE_BUDGET}{7635}{270}{2640}{925}{1})({dv}{DV.D_ASGMTKIND_BUDGET}{DV.D_ASGMTKIND_BUDGET}{11475}{675}{2400}{925}{1})({dv}{DV.D_ASGMTSRCE_BUDGET}{DV.D_ASGMTSRCE_BUDGET}{11775}{4185}{2370}{910}{1})({dv}{DV.B_D_GROUPKD}{DV.B_D_GROUPKD}{6570}{9540}{1920}{910}{1})({dv}{DV.DV_FACIALACC_BUDGET}{DV.DV_FACIALACC_BUDGET}{10680}{7320}{2475}{1015}{1})({dv}{DV.BV_FACIALACC_BRIDGE}{DV.BV_FACIALACC_BRIDGE}{9750}{10065}{2565}{910}{1})({dv}{DV.B_FACIALACC_BRIDGEPLAN}{DV.B_FACIALACC_BRIDGEPLAN}{10860}{10230}{2880}{910}{1})({dv}{DV.D_KD_ASBUDGET}{DV.D_KD_ASBUDGET}{4350}{3315}{2055}{925}{1})({dv}{DV.FV_DATE_YEARDAYUNV}{DV.FV_DATE_YEARDAYUNV}{4815}{5805}{2370}{910}{1})({dv}{DV.FX_FX_FLAGPLAN}{DV.FX_FX_FLAGPLAN}{0}{11500}{1800}{2200}{1})({dv}{DV.D_PLANDOCTYPE_BUDGET}{DV.D_PLANDOCTYPE_BUDGET}{5265}{11835}{2505}{910}{1})({dv}{DV.B_PLANDOCTYPE_BRIDGE}{DV.B_PLANDOCTYPE_BRIDGE}{6570}{12210}{2370}{910}{1})({dv}{DV.DV_TRANSFERT_BUDGET}{DV.DV_TRANSFERT_BUDGET}{8850}{3705}{2490}{940}{1})({dv}{DV.BV_TRANSFERT_BRIDGE}{DV.BV_TRANSFERT_BRIDGE}{12150}{7305}{2595}{910}{1})]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ИМПОРТ]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[4dbcb2e7-25dd-45e8-8a9c-1f97867581d2]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[13541b5b-4b09-40dd-bd7f-3ae69bcaed01]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Роспись Уведомления" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Уточненный план]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Роспись Уведомления" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_FX_NOTIFTYPE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Элементы доходов" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все элементы доходов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Элемент доходов" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_FX_INCOMINGSITEMS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Виды доходов.АС Бюджет" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид дохода" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Виды доходов.Сопоставим" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды доходов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид дохода" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_INCOMESKINDS_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Программы.АС Бюджет" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_PROGRAMS_BUDGET"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Программа" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_PROGRAMS_BUDGET"."CODE"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Программы.Сопоставимый" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все программы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Программа" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_PROGRAMS_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ЭКД.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все коды экономической классификации доходов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код ЭКД" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_EKD_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ЭКД.АС Бюджет" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="9">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код ЭКД" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_EKD_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="10">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Район" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_REGIONS_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.АС Бюджет" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="11">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Район" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_REGIONS_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.Сопоставимый План" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="12">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Район" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.Сопост без иерарх" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="13">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Район" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_REGIONS_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Тип средств.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="14">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все типы средств]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Тип средств" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_MEANSTYPE_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Тип средств.АС Бюджет" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="15">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Тип средств" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_MEANSTYPE_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Тип средств.Сопоставимый планирование" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="16">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все типы средств]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Типы средств" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источник средств.АС Бюджет" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="17">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник образования средств" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FUNDSSOURCE_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Вид ассигнований.АС Бюджет" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="18">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды ассигнований]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид ассигнований" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_ASGMTKIND_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источник ассигнований.АС Бюджет" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="19">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники ассигнований]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник ассигнований" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_ASGMTSRCE_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Доходы.Группы" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="20">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Группы" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_D_GROUP"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Доходы.Группы КД" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="21">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все группы КД]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Группы" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_D_GROUPKD"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Администратор.Сопоставим" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="22">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все администраторы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Администратор" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_KVSR_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Администратор.АС Бюджет" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="23">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_KVSR_BUDGET"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Администратор" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_KVSR_BUDGET"."CODE"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ЛицСчета.АС Бюджет" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="24">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Лицевые счета" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_FACIALACC_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ЛицСчета.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="25">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все лицевые счета]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Лицевые счета" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_FACIALACC_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ЛицСчета.Сопоставимый планирование" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="26">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все лицевые счета]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Лицевые счета" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_FACIALACC_BRIDGEPLAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="КД.Сопоставимый План" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="27">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все коды доходов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код дохода" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_KD_BRIDGEPLAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="КД.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="28">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все коды доходов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код дохода" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_KD_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="КД.Сопост без иерархии" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="29">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все коды доходов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код дохода" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_KD_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="КД.АС Бюджет" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="30">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код дохода" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_KD_ASBUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="31">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Дата принятия" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="32">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FV_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FV_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FV_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FV_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FV_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Роспись Кассовый план" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="33">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Фиксированный" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_FX_FLAGPLAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Вид плана.АС Бюджет" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="34">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид плана" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PLANDOCTYPE_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Вид плана.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="35">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид плана" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_PLANDOCTYPE_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Код целевых средств.АС Бюджет" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="36">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код целевых средств" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_TRANSFERT_BUDGET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Код целевых средств.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="37">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код целевых средств" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_TRANSFERT_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="План" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_D_INCOMESDATA"."SUMMA"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="План нараст итог" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[План нараст итог] AS 'CalculationPassValue(
+IIF([Период].[Дата принятия].CurrentMember.Level.Name = "(All)" or [Период].[Дата принятия].CurrentMember.Level.Name = "Год" or ([Период].[Дата принятия].CurrentMember Is OpeningPeriod([Период].[Дата принятия].CurrentMember.Level, Ancestor([Период].[Дата принятия].CurrentMember, [Период].[Дата принятия].[Год]))),
+(Measures.[План], [Период].[Дата принятия].CurrentMember),
+//IIF(([Период].[Период].CurrentMember, [Measures].[План]) = 0 and ([КД].[АС Бюджет].[Данные всех источников], [Measures].[План]) = 0, null, 
+/*IIF(Left([Период].[Дата принятия].CurrentMember.Name, 6) = "Данные" and isEmpty(([Период].[Дата принятия].CurrentMember, [Measures].[План])), null, */
+Sum({OpeningPeriod([Период].[Дата принятия].CurrentMember.Level, Ancestor([Период].[Дата принятия].CurrentMember, [Период].[Дата принятия].[Год])):
+[Период].[Дата принятия].CurrentMember}, Measures.[План]))
+/*(Measures.[План], [Период].[Дата принятия].CurrentMember) + (Measures.[План нараст итог], [Период].[Дата принятия].CurrentMember.PrevMember))*/
+, 1)
+
+
+/*
+CalculationPassValue(
+IIF([Период].[Период].CurrentMember.Level.Name = "(All)" or [Период].[Период].CurrentMember.Level.Name = "Год" or ([Период].[Период].CurrentMember Is OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]))),
+(Measures.[План], [Период].[Период].CurrentMember),
+
+
+/*Итерация работает быстро но нужна сбалансированная иерархия
+(Measures.[План], [Период].[Период].CurrentMember) + (Measures.[План нараст итог], [Период].[Период].CurrentMember.PrevMember))
+, 1)*/
+
+/*Рекурсия тормозит при подсчете итогов, но работает на несбалансированной иерархии*/
+/*Sum({OpeningPeriod([Период].[Год Квартал Месяц].CurrentMember.Level, Ancestor([Период].[Год Квартал Месяц].CurrentMember, [Период].[Год Квартал Месяц].[Год])):
+[Период].[Год Квартал Месяц].CurrentMember}, Measures.[План]))
+, 1)*/
+
+
+/*CalculationPassValue(
+IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "(All)" or [Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Год" or ([Период].[Год Квартал Месяц].CurrentMember Is OpeningPeriod([Период].[Год Квартал Месяц].CurrentMember.Level, Ancestor([Период].[Год Квартал Месяц].CurrentMember, [Период].[Год Квартал Месяц].[Год]))),
+(Measures.[Ассигнования], [Период].[Год Квартал Месяц].CurrentMember),
+Sum({OpeningPeriod([Период].[Год Квартал Месяц].CurrentMember.Level, Ancestor([Период].[Год Квартал Месяц].CurrentMember, [Период].[Год Квартал Месяц].[Год])):
+[Период].[Год Квартал Месяц].CurrentMember}, Measures.[Ассигнования]))
+, 1)*/', FORMAT_STRING = 'Currency']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="План Темп роста цепной" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[План Темп роста цепной] AS '/*IIF([Период].[Период].Currentmember.Name = "Июль", IIF(IsEmpty(([Measures].[План], [Период].[Период].Lag(3))), null,
+IIF(((Measures.[План], [Период].[Период].Lag(3)) > 0) and ((Measures.[План], [Период].[Период].CurrentMember) > 0),
+(Measures.[План], [Период].[Период].CurrentMember)/(Measures.[План], [Период].[Период].Lag(3)),
+IIF(((Measures.[План], [Период].[Период].Lag(3)) < 0) and ((Measures.[План], [Период].[Период].CurrentMember) > 0),
+((Measures.[План], [Период].[Период].CurrentMember) + ABS((Measures.[План], [Период].[Период].Lag(3)))) / ABS((Measures.[План], [Период].[Период].Lag(3))),
+IIF(((Measures.[План], [Период].[Период].Lag(3)) > 0) and ((Measures.[План], [Период].[Период].CurrentMember) < 0),
+((Measures.[План], [Период].[Период].CurrentMember) - (Measures.[План], [Период].[Период].Lag(3))) / (Measures.[План], [Период].[Период].Lag(3)),
+-(Measures.[План], [Период].[Период].CurrentMember)/(Measures.[План], [Период].[Период].Lag(3)))))),
+IIF([Период].[Период].Currentmember.Name = "Апрель" or [Период].[Период].Currentmember.Name = "Октябрь", IIF(IsEmpty((Measures.[План], [Период].[Период].Lag(2))), null,
+IIF(((Measures.[План], [Период].[Период].Lag(2)) > 0) and ((Measures.[План], [Период].[Период].CurrentMember) > 0),
+(Measures.[План], [Период].[Период].CurrentMember)/(Measures.[План], [Период].[Период].Lag(2)),
+IIF(((Measures.[План], [Период].[Период].Lag(2)) < 0) and ((Measures.[План], [Период].[Период].CurrentMember) > 0),
+((Measures.[План], [Период].[Период].CurrentMember) + ABS((Measures.[План], [Период].[Период].Lag(2)))) / ABS((Measures.[План], [Период].[Период].Lag(2))),
+IIF(((Measures.[План], [Период].[Период].Lag(2)) > 0) and ((Measures.[План], [Период].[Период].CurrentMember) < 0),
+((Measures.[План], [Период].[Период].CurrentMember) - (Measures.[План], [Период].[Период].Lag(2))) / (Measures.[План], [Период].[Период].Lag(2)),
+-(Measures.[План], [Период].[Период].CurrentMember)/(Measures.[План], [Период].[Период].Lag(2)))))),
+IIF(IsEmpty((Measures.[План], [Период].[Период].PrevMember)), null,
+IIF(((Measures.[План], [Период].[Период].PrevMember) > 0) and ((Measures.[План], [Период].[Период].CurrentMember) > 0),
+(Measures.[План], [Период].[Период].CurrentMember)/(Measures.[План], [Период].[Период].PrevMember),
+IIF(((Measures.[План], [Период].[Период].PrevMember) < 0) and ((Measures.[План], [Период].[Период].CurrentMember) > 0),
+((Measures.[План], [Период].[Период].CurrentMember) + ABS((Measures.[План], [Период].[Период].PrevMember))) / ABS((Measures.[План], [Период].[Период].PrevMember)),
+IIF(((Measures.[План], [Период].[Период].PrevMember) > 0) and ((Measures.[План], [Период].[Период].CurrentMember) < 0),
+((Measures.[План], [Период].[Период].CurrentMember) - (Measures.[План], [Период].[Период].PrevMember)) / (Measures.[План], [Период].[Период].PrevMember),
+-(Measures.[План], [Период].[Период].CurrentMember)/(Measures.[План], [Период].[Период].PrevMember)))))))*/
+IIF(IsEmpty((Measures.[План], [Период].[Дата принятия].CurrentMember)), null,
+IIF(IsEmpty((Measures.[План], [Период].[Дата принятия].CurrentMember.PrevMember)), null,
+IIF(((Measures.[План], [Период].[Дата принятия].PrevMember) > 0) and ((Measures.[План], [Период].[Дата принятия].CurrentMember) > 0),
+(Measures.[План], [Период].[Дата принятия].CurrentMember)/(Measures.[План], [Период].[Дата принятия].PrevMember),
+IIF(((Measures.[План], [Период].[Дата принятия].PrevMember) < 0) and ((Measures.[План], [Период].[Дата принятия].CurrentMember) > 0),
+((Measures.[План], [Период].[Дата принятия].CurrentMember) + ABS((Measures.[План], [Период].[Дата принятия].PrevMember))) / ABS((Measures.[План], [Период].[Дата принятия].PrevMember)),
+IIF(((Measures.[План], [Период].[Дата принятия].PrevMember) > 0) and ((Measures.[План], [Период].[Дата принятия].CurrentMember) < 0),
+((Measures.[План], [Период].[Дата принятия].CurrentMember) - (Measures.[План], [Период].[Дата принятия].PrevMember)) / (Measures.[План], [Период].[Дата принятия].PrevMember),
+-(Measures.[План], [Период].[Дата принятия].CurrentMember)/(Measures.[План], [Период].[Дата принятия].PrevMember))))))', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="План за аналогичный период прошлого года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[План за аналогичный период прошлого года] AS '([Measures].[План], ParallelPeriod([Период].[Дата принятия].[Год], 1, [Период].[Дата принятия].CurrentMember))
+
+/*
+IIF([Период].[Дата принятия].CurrentMember.Level.Name = "Год",
+([Measures].[План], [Период].[Дата принятия].CurrentMember.PrevMember),
+IIF([Период].[Дата принятия].CurrentMember.Level.Name = "Полугодие",
+([Measures].[План], StrToMember("[Период].[Дата принятия].&" + "[" + Left([Период].[Дата принятия].CurrentMember.Parent.PrevMember.Properties("PKID"), 4) + "00" + Right([Период].[Дата принятия].CurrentMember.Properties("PKID") , 2) + "]")),
+IIF([Период].[Дата принятия].CurrentMember.Level.Name = "Квартал",
+([Measures].[План], [Период].[Дата принятия].CurrentMember.Parent.Parent.PrevMember) + ([Measures].[План], [Период].[Дата принятия].CurrentMember.Parent) + ([Measures].[План], [Период].[Дата принятия].CurrentMember),
+IIF([Период].[Дата принятия].CurrentMember.Level.Name = "Месяц",
+([Measures].[План], [Период].[Дата принятия].CurrentMember.Parent.Parent.Parent.PrevMember) + ([Measures].[План], [Период].[Дата принятия].CurrentMember.Parent.Parent) + ([Measures].[План], [Период].[Дата принятия].CurrentMember.Parent) + ([Measures].[План], [Период].[Дата принятия].CurrentMember),
+null
+)
+)
+)
+)*/', FORMAT_STRING = 'Currency']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Отклонение от аналогичного периода предыдущего года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от аналогичного периода предыдущего года] AS 'IIF(IsEmpty(Measures.[План]), null,
+Measures.[План] - [Measures].[План за аналогичный период прошлого года])', FORMAT_STRING = 'Currency']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп роста к аналогичному периоду предыдущего года_План за период" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к аналогичному периоду предыдущего года_План за период] AS 'IIF(IsEmpty(Measures.[План за аналогичный период прошлого года]), null,
+IIF((Measures.[План за аналогичный период прошлого года] > 0) and (Measures.[План] > 0),
+Measures.[План]/Measures.[План за аналогичный период прошлого года],
+IIF((Measures.[План за аналогичный период прошлого года] < 0) and (Measures.[План] > 0),
+(Measures.[План] + ABS(Measures.[План за аналогичный период прошлого года])) / ABS(Measures.[План за аналогичный период прошлого года]),
+IIF((Measures.[План за аналогичный период прошлого года] > 0) and (Measures.[План] < 0),
+(Measures.[План] - Measures.[План за аналогичный период прошлого года]) / Measures.[План за аналогичный период прошлого года],
+-Measures.[План]/Measures.[План за аналогичный период прошлого года]))))', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Удельный вес по КД за период" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Удельный вес по КД за период] AS '([Measures].[План], [КД].[Сопоставимый].CurrentMember)/([Measures].[План], [КД].[Сопоставимый].[Все коды доходов])', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Удельный вес по КД нарастающим итогом" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Удельный вес по КД нарастающим итогом] AS '([Measures].[План нараст итог], [КД].[Сопоставимый].CurrentMember)/([Measures].[План нараст итог], [КД].[Сопоставимый].[Все коды доходов])', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="План нараст итог Темп роста цепной" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[План нараст итог Темп роста цепной] AS 'IIF(IsEmpty((Measures.[План нараст итог], [Период].[Дата принятия].PrevMember)), null,
+IIF(((Measures.[План нараст итог], [Период].[Дата принятия].PrevMember) > 0) and ((Measures.[План нараст итог], [Период].[Дата принятия].CurrentMember) > 0),
+(Measures.[План нараст итог], [Период].[Дата принятия].CurrentMember)/(Measures.[План нараст итог], [Период].[Дата принятия].PrevMember),
+IIF(((Measures.[План нараст итог], [Период].[Дата принятия].PrevMember) < 0) and ((Measures.[План нараст итог], [Период].[Дата принятия].CurrentMember) > 0),
+((Measures.[План нараст итог], [Период].[Дата принятия].CurrentMember) + ABS((Measures.[План нараст итог], [Период].[Дата принятия].PrevMember))) / ABS((Measures.[План нараст итог], [Период].[Дата принятия].PrevMember)),
+IIF(((Measures.[План нараст итог], [Период].[Дата принятия].PrevMember) > 0) and ((Measures.[План нараст итог], [Период].[Дата принятия].CurrentMember) < 0),
+((Measures.[План нараст итог], [Период].[Дата принятия].CurrentMember) - (Measures.[План нараст итог], [Период].[Дата принятия].PrevMember)) / (Measures.[План нараст итог], [Период].[Дата принятия].PrevMember),
+-(Measures.[План нараст итог], [Период].[Дата принятия].CurrentMember)/(Measures.[План нараст итог], [Период].[Дата принятия].PrevMember)))))', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="План нараст итог за аналогичный период прошлого года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[План нараст итог за аналогичный период прошлого года] AS '([Measures].[План нараст итог], ParallelPeriod([Период].[Дата принятия].[Год], 1, [Период].[Дата принятия].CurrentMember))', FORMAT_STRING = 'Currency', VISIBLE = '0']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп роста к аналогичному периоду предыдущего года_План нараст итог" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к аналогичному периоду предыдущего года_План нараст итог] AS 'IIF(IsEmpty(Measures.[План нараст итог за аналогичный период прошлого года]), null,
+IIF((Measures.[План нараст итог за аналогичный период прошлого года] > 0) and (Measures.[План нараст итог] > 0),
+Measures.[План нараст итог]/Measures.[План нараст итог за аналогичный период прошлого года],
+IIF((Measures.[План нараст итог за аналогичный период прошлого года] < 0) and (Measures.[План нараст итог] > 0),
+(Measures.[План нараст итог] + ABS(Measures.[План нараст итог за аналогичный период прошлого года])) / ABS(Measures.[План нараст итог за аналогичный период прошлого года]),
+IIF((Measures.[План нараст итог за аналогичный период прошлого года] > 0) and (Measures.[План нараст итог] < 0),
+(Measures.[План нараст итог] - Measures.[План нараст итог за аналогичный период прошлого года]) / Measures.[План нараст итог за аналогичный период прошлого года],
+-Measures.[План нараст итог]/Measures.[План нараст итог за аналогичный период прошлого года]))))', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Отклонение от предыдущего периода" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от предыдущего периода] AS 'IIF(IsEmpty((Measures.[План], [Период].[Дата принятия].CurrentMember)), null,
+(Measures.[План], [Период].[Дата принятия].CurrentMember) - (Measures.[План], [Период].[Дата принятия].CurrentMember.PrevMember))', FORMAT_STRING = 'Currency']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="Год_1998_2000" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_АСБюджет_Пландоходов_Год_1998_2000_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 19980000 and 20009999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[702F9148-4B82-4B12-9CE4-3CC799DB936F]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2001" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2001_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20010000 and 20019999
+]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af6c988c-f102-4292-a004-2d74efbe2c05]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2002" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2002_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20020000 and 20029999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[554dace7-075e-48c4-9bd6-e21241163e46]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2003" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2003_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20030000 and 20039999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[7c2387d9-9a24-4af2-83f2-5437efffbdea]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2004" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2004_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20040000 and 20049999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[7b1dfb8a-3c27-4a26-bfd9-ab8a715ecacc]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2005" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2005_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20050000 and 20059999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[d4fe0572-7865-473d-acab-afba4ffecb45]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2006" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2006_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20060000 and 20069999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[87de8584-5257-4dff-8520-0585f81556c8]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2007" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2007_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20070000 and 20079999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[8a4f7627-d7ce-445e-b328-19d5b61dbdcc]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2008" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2008_" EstimatedRows="1143" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20080000 and 20089999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[4389ef73-ab01-4366-b5d4-0a71af9bbcf8]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2009" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2009_" EstimatedRows="1186" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20090000 and 20099999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[f2185bfa-ac27-41e8-9987-f9b9ee92666b]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2010" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="АСБюджет_Пландоходов_Год_2010_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20100000 and 20109999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[1061b0c8-8412-4a9a-95c1-a75e4ccedbb7]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2011" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_АСБюджет_Пландоходов_Год_2011_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20110000 and 20119999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[d5e45410-6ccb-4511-a56a-cd5004e6a456]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2012" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_АСБюджет_Пландоходов_Год_2012_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20120000 and 20129999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[454c401b-30a6-470c-a3f4-821950a739ed]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+    <Partition method="Add" name="Год_2013_2020" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_АСБюджет_Пландоходов_Год_2013_2020_" EstimatedRows="100" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_INCOMESDATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA["DV"."F_D_INCOMESDATA"."REFYEARDAYUNV" between 20130000 and 20209999]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_INCOMESDATA", "DV"."FX_FX_INCOMINGSITEMS", "DV"."DV_MEANSTYPE_BUDGET", "DV"."BV_MEANSTYPE_BRIDGE", "DV"."DV_REGIONS_BUDGET", "DV"."BV_REGIONS_BRIDGE", "DV"."DV_KVSR_BUDGET", "DV"."BV_KVSR_BRIDGE", "DV"."DV_INCOMESKINDS_BUDGET", "DV"."BV_INCOMESKINDS_BRIDGE", "DV"."DV_PROGRAMS_BUDGET", "DV"."BV_PROGRAMS_BRIDGE", "DV"."D_EKD_BUDGET", "DV"."BV_EKD_BRIDGE", "DV"."DATASOURCES", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."FX_FX_NOTIFTYPE", "DV"."BV_MEANSTYPE_BRIDGEPLAN", "DV"."BV_KD_BRIDGE", "DV"."B_D_GROUP", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FUNDSSOURCE_BUDGET", "DV"."D_ASGMTKIND_BUDGET", "DV"."D_ASGMTSRCE_BUDGET", "DV"."B_D_GROUPKD", "DV"."DV_FACIALACC_BUDGET", "DV"."BV_FACIALACC_BRIDGE", "DV"."B_FACIALACC_BRIDGEPLAN", "DV"."D_KD_ASBUDGET", "DV"."BV_KD_BRIDGEPLAN", "DV"."FV_DATE_YEARDAYUNV", "DV"."FX_FX_FLAGPLAN", "DV"."D_PLANDOCTYPE_BUDGET", "DV"."B_PLANDOCTYPE_BRIDGE", "DV"."DV_TRANSFERT_BUDGET", "DV"."BV_TRANSFERT_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_INCOMESDATA"."REFINCOMINGSITEMS"="DV"."FX_FX_INCOMINGSITEMS"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEMEANSTYPE"="DV"."BV_MEANSTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFMEANSTYPE"="DV"."DV_MEANSTYPE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFREGIONS"="DV"."DV_REGIONS_BUDGET"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKVSR"="DV"."DV_KVSR_BUDGET"."ID") AND ("DV"."DV_KVSR_BUDGET"."REFBRIDGEKVSR"="DV"."BV_KVSR_BRIDGE"."ID") AND ("DV"."DV_INCOMESKINDS_BUDGET"."REFBRIDGEINCOMESKINDS"="DV"."BV_INCOMESKINDS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFINCOMESKINDS"="DV"."DV_INCOMESKINDS_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPROGRAMS"="DV"."DV_PROGRAMS_BUDGET"."ID") AND ("DV"."DV_PROGRAMS_BUDGET"."REFBRIDGEPROGRAMS"="DV"."BV_PROGRAMS_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFEKD"="DV"."D_EKD_BUDGET"."ID") AND ("DV"."D_EKD_BUDGET"."REFBRIDGEEKD"="DV"."BV_EKD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."DV_REGIONS_BUDGET"."REFBRIDGEREGIONSPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFNOTIFTYPE"="DV"."FX_FX_NOTIFTYPE"."ID") AND ("DV"."DV_MEANSTYPE_BUDGET"."REFBRIDGEPLAN"="DV"."BV_MEANSTYPE_BRIDGEPLAN"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUP"="DV"."B_D_GROUP"."ID") AND ("DV"."F_D_INCOMESDATA"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFUNDSSOURCE"="DV"."D_FUNDSSOURCE_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTKIND"="DV"."D_ASGMTKIND_BUDGET"."ID") AND ("DV"."F_D_INCOMESDATA"."REFASGMTSRCE"="DV"."D_ASGMTSRCE_BUDGET"."ID") AND ("DV"."BV_KD_BRIDGE"."REFDGROUPKD"="DV"."B_D_GROUPKD"."ID") AND ("DV"."F_D_INCOMESDATA"."REFFACIALACC"="DV"."DV_FACIALACC_BUDGET"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACIALACC"="DV"."BV_FACIALACC_BRIDGE"."ID") AND ("DV"."DV_FACIALACC_BUDGET"."REFFACCBRIDGEPLAN"="DV"."B_FACIALACC_BRIDGEPLAN"."ID") AND ("DV"."F_D_INCOMESDATA"."REFKDASBUDGET"="DV"."D_KD_ASBUDGET"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGEPLAN"="DV"."BV_KD_BRIDGEPLAN"."ID") AND ("DV"."D_KD_ASBUDGET"."REFKDBRIDGE"="DV"."BV_KD_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFDATEUNV"="DV"."FV_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_INCOMESDATA"."FLAGPLANE"="DV"."FX_FX_FLAGPLAN"."ID") AND ("DV"."D_PLANDOCTYPE_BUDGET"."REFPLANDOC"="DV"."B_PLANDOCTYPE_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFPLANDOC"="DV"."D_PLANDOCTYPE_BUDGET"."ID") AND ("DV"."DV_TRANSFERT_BUDGET"."REFTRANSFBRIDGE"="DV"."BV_TRANSFERT_BRIDGE"."ID") AND ("DV"."F_D_INCOMESDATA"."REFTRANSF"="DV"."DV_TRANSFERT_BUDGET"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[3294c9cc-16ea-44fd-b74a-09be6f475d99]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[4cfdd7af-3c90-4f27-8330-57e4e671ea26]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

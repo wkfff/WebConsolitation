@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="СВЯЗЬБЕЗОП_Среднедневные остатки" ClassType="9" SubClassType="0" Description="" DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="18" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="18">
+  <property name="SourceTable"><![CDATA["DV"."F_LINKSAFETY_DATEBALANCE"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_LINKSAFETY_DATEBALANCE"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_LINKSAFETY_DATEBALANCE", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_LINKSAFETY_BANK", "DV"."D_LINKSAFETY_BRANCH"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_LINKSAFETY_DATEBALANCE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_LINKSAFETY_DATEBALANCE"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_LINKSAFETY_DATEBALANCE"."REFBANK"="DV"."D_LINKSAFETY_BANK"."ID") AND ("DV"."F_LINKSAFETY_DATEBALANCE"."REFBRANCH"="DV"."D_LINKSAFETY_BRANCH"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_LINKSAFETY_DATEBALANCE"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{150}{5160}{2220}{940}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{5145}{5175}{2760}{1015}{1})({dv}{DV.F_LINKSAFETY_DATEBALANCE}{DV.F_LINKSAFETY_DATEBALANCE}{1995}{600}{2910}{3605}{1})({dv}{DV.D_LINKSAFETY_BRANCH}{DV.D_LINKSAFETY_BRANCH}{2535}{7485}{2385}{925}{1})({dv}{DV.D_LINKSAFETY_BANK}{DV.D_LINKSAFETY_BANK}{977}{9354}{2190}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[5bdefcec-6688-425c-ae7d-b6de6f064560]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[5b4f1b6e-f57d-4d4a-a4d6-a78bd74018e5]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.LinkSafety.DateBalance]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[3e7c5daa-bac8-4df5-92ce-b081f18fbc9d]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СвязьБезопасность.Филиалы" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Филиал" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[CalculationPassValue(
+  IIF(isEmpty([СвязьБезопасность].[Филиалы].CurrentMember.DataMember),
+    [СвязьБезопасность].[Филиалы].CurrentMember,
+    [СвязьБезопасность].[Филиалы].CurrentMember.DataMember),
+0)
+]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_LINKSAFETY_BRANCH"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СвязьБезопасность.Банки" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Банк" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_LINKSAFETY_BANK"."CODE"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Остаток" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_LINKSAFETY_DATEBALANCE"."BALANCE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Остаток" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Остаток] FOR '({[Measures].[Остаток]})' AS 'Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)', CONDITION = '[Период].[Период].CurrentMember.Level is [Период].[Период].[Квартал] or [Период].[Период].CurrentMember.Level is [Период].[Период].[Полугодие] or [Период].[Период].CurrentMember.Level is [Период].[Период].[Год]']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="СВЯЗЬБЕЗОП_Среднедневные остатки" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="СВЯЗЬБЕЗОП_Средн_СВЯЗЬБЕЗОП_Среднедневныеостатки_" EstimatedRows="18" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_LINKSAFETY_DATEBALANCE"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_LINKSAFETY_DATEBALANCE"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_LINKSAFETY_DATEBALANCE", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_LINKSAFETY_BANK", "DV"."D_LINKSAFETY_BRANCH"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_LINKSAFETY_DATEBALANCE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_LINKSAFETY_DATEBALANCE"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_LINKSAFETY_DATEBALANCE"."REFBANK"="DV"."D_LINKSAFETY_BANK"."ID") AND ("DV"."F_LINKSAFETY_DATEBALANCE"."REFBRANCH"="DV"."D_LINKSAFETY_BRANCH"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[b3ce96a3-4c3b-48e9-bf93-51419807f4c6]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[3e7c5daa-bac8-4df5-92ce-b081f18fbc9d]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

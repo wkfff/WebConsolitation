@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+      select
+          { <%marks%> }  on rows,
+          non empty{[Период].[Год Квартал Месяц].[Год].Members
+               
+          }   on columns
+      from  [МО_Паспорт МО] 
+      where  
+          (   [Measures].[Значение],
+              <%CurrentRegion%>
+           )           
+	  ]]>
+  </query>
+  
+  <query id="G">
+    <![CDATA[ -- name: grid
+    
+    WITH
+    MEMBER [Measures].[Единица измерения]
+    AS  '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+select
+    Filter ({<%marks%>}, not IsEmpty([Measures].[Значение])) 
+    on rows,
+    { [Measures].[Значение],[Measures].[Единица измерения] } on columns  
+from [МО_Паспорт МО]      
+where      
+    (   [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%CurrentPeriod%>,
+        <%CurrentRegion%>
+     )
+    ]]>
+  </query>
+  
+  <query id="chart_dinamic">
+    <![CDATA[ -- name: chart_dinamic
+select
+    { <%marks%> } on rows,
+    non empty
+    {
+    [Период].[Год Квартал Месяц].[Год].Members
+     --<%LastPeriod%>: <%LastPeriod%>.Lag(9)
+    } on columns 
+from  [МО_Паспорт МО] 
+where 
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Measures].[Значение],
+        <%CurrentRegion%>
+    )       
+    ]]>
+  </query>
+
+  <query id="chart_pie">
+    <![CDATA[ -- name: chart_pie
+select
+    non empty Filter
+    (
+        <%marks%>.children,
+        [Measures].[Значение] > 0 and not
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember
+        )
+    )  on rows,
+    non empty
+    {
+     <%CurrentPeriod%>: <%CurrentPeriod%>.Lag(2)
+
+    } on columns
+from  [МО_Паспорт МО]
+where
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Measures].[Значение],
+        <%CurrentRegion%>
+    )    
+   ]]>
+  </query>
+
+  <query id="chart_pie3">
+    <![CDATA[ -- name: chart_pie3
+select
+        {
+          <%marks%>
+        }on rows,
+    non empty
+    {
+    [Период].[Год Квартал Месяц].[Год].Members
+     --<%LastPeriod%>: <%LastPeriod%>.Lag(9)
+
+    } on columns
+from  [МО_Паспорт МО]
+where
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Measures].[Значение],
+        <%CurrentRegion%>
+    )      
+  ]]>
+  </query>  
+  
+</root>

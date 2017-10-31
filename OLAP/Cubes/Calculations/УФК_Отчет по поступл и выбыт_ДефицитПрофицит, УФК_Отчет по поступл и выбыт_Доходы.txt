@@ -1,0 +1,28 @@
+CALCULATE;
+
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+//Вычисляемые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Значение_за период] AS IIF([Период__Период].[Период__Период].CurrentMember.Level is  [Период__Период].[Период__Период].[Год] or
+[Период__Период].[Период__Период].CurrentMember.Name = "Полугодие 1" or
+[Период__Период].[Период__Период].CurrentMember.Name = "Квартал 1" or
+IsEmpty(([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember)),
+([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember),
+IIF(not IsEmpty([Период__Период].[Период__Период].CurrentMember.PrevMember), ([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember.PrevMember),
+IIF(not IsEmpty([Период__Период].[Период__Период].CurrentMember.PrevMember.PrevMember), ([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember.PrevMember.PrevMember),
+IIF(not IsEmpty([Период__Период].[Период__Период].CurrentMember.PrevMember.PrevMember.PrevMember), ([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember.PrevMember.PrevMember.PrevMember),
+([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember.PrevMember)
+)))),
+FORMAT_STRING = "Currency",
+VISIBLE = 1  ;

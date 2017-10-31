@@ -1,0 +1,69 @@
+CALCULATE;
+
+//Уровни бюджетов 
+/*
+SCOPE(Descendants([Уровни бюджетов].[Уровни бюджетов].[Все]));
+    this = IIF(not IsLeaf([Уровни бюджетов].[Уровни бюджетов].CurrentMember), 
+CalculationPassValue( IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),     [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+   [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember), 0),  [Уровни бюджетов].[Уровни бюджетов].CurrentMember);
+END SCOPE;
+
+SCOPE([Уровни бюджетов].[Уровни бюджетов].[Все]);
+    this =   ([Уровни бюджетов].&[0], [Measures].CurrentMEmber);
+END SCOPE;
+*/
+([Уровни бюджетов].[Уровни бюджетов].&[6]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[4]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[14]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[7]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[2]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+
+
+SCOPE([Measures].[Прогноз нарастающим итогом]);
+   
+ this = IIF(not IsEmpty(CalculationPassValue(([Measures].[Прогноз нарастающим итогом], 
+[Период__Период].[Период__Период].CurrentMember), 0)) and CalculationPassValue(([Measures].[Прогноз нарастающим итогом],
+ [Период__Период].[Период__Период].CurrentMember), 0) <> 0, ([Measures].[Прогноз нарастающим итогом], 
+[Период__Период].[Период__Период].CurrentMember), 
+
+IIF(IsEmpty(CalculationPassValue(([Measures].[Прогноз нарастающим итогом], 
+[Период__Период].[Период__Период].CurrentMember), 0)) or CalculationPassValue(([Measures].[Прогноз нарастающим итогом],
+ [Период__Период].[Период__Период].CurrentMember), 0) = 0 and not IsEmpty(CalculationPassValue(([Measures].[Прогноз],
+ [Период__Период].[Период__Период].CurrentMember), 0)), 
+
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or 
+[Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or 
+
+([Период__Период].[Период__Период].CurrentMember Is 
+OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, 
+Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+([Measures].[Прогноз], [Период__Период].[Период__Период].CurrentMember),
+
+
+IIF(
+not IsEmpty(Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).FirstChild),
+null,
+ 
+ Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, 
+Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, [Measures].[Прогноз]))),
+
+ null));
+
+END SCOPE;
+

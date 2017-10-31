@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="УФК_Ведомость по движению свободного остатка" ClassType="9" SubClassType="0" Description="«Ведомость по движению свободного остатка средств бюджета» содержит информацию об остатке средств на едином счете бюджета, в пределах которого ФО СФ/МО вправе осуществить распределение объемов финансирования расходов между главными распорядителями (распорядителями) и получателями средств бюджета и (или) кассовые выплаты из бюджета." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="22" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="22">
+  <property name="SourceTable"><![CDATA["DV"."F_F_UFK17"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_F_UFK17"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_F_UFK17", "DV"."DATASOURCES", "DV"."FX_MARKS_UFK17", "DV"."FX_DATE_YEARDAYUNV"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_F_UFK17"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_UFK17"."REFMARKS"="DV"."FX_MARKS_UFK17"."ID") AND ("DV"."F_F_UFK17"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_F_UFK17"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.F.UFK17]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ИМПОРТ]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[fd0a4164-bc09-49cd-82e5-6e37fcdec342]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{240}{585}{1815}{1210}{1})({dv}{DV.FX_MARKS_UFK17}{DV.FX_MARKS_UFK17}{4200}{3150}{2055}{1165}{1})({dv}{DV.F_F_UFK17}{DV.F_F_UFK17}{2300}{600}{1800}{2585}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{5880}{1410}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[b47fae36-14b2-4c0f-8cc8-0b68047e913b]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[aeb10d6b-7b3d-47d4-8679-5524051d157b]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.УФК_Движение свободного остатка" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатели" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_MARKS_UFK17"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Сумма за период" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_UFK17"."AMOUNT"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Сумма с начала года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Сумма с начала года] AS '/*IIF(not IsLeaf([Период].[День].CurrentMember), Tail(Filter([Период].[День].CurrentMember.Children, [Measures].CurrentMember <> 0), 1).Item(0),*/
+CalculationPassValue(
+IIF([Период].[Период].CurrentMember.Level.Name = "(All)" or [Период].[Период].CurrentMember.Level.Name = "Год" or ([Период].[Период].CurrentMember Is OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]))),
+([Measures].[Сумма За период], [Период].[Период].CurrentMember),
+Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год])):
+[Период].[Период].CurrentMember}, [Measures].[Сумма За период]))
+, 1)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Сумма с начала года_Нарастающим итогом" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Сумма с начала года_Нарастающим итогом] FOR '({[Measures].[Сумма с начала года]})' AS 'IIF([Период].[Период].CurrentMember is [Период].[Период].[Данные всех периодов], Sum([Период].[Период].[Данные всех периодов].Children), [Период].[Период].CurrentMember.LastChild)', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Остаток нецелевых средств на начало дня" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Остаток нецелевых средств на начало дня] FOR '({[Показатели].[УФК_Движение свободного остатка].[Показатели].&[12]})' AS '/*IIF(IsEmpty(LookupCube("[УФК_Справка по движению свободного остатка]", "([Период].[День].CurrentMember, [Measures].[Сумма за период])")), null, ([Показатели].[УФК_Движение свободного остатка].[Показатели].&[1], [Measures].[Сумма за период], [Период].[День].CurrentMember) - (LookupCube("[УФК_Справка по движению свободного остатка]", "([Показатели].[УФК_Операции с субсидиями и субвенциями].[Показатели].&[1], [Measures].[Сумма за период]," + MemberToStr([Период].[День].CurrentMember) + ")")))*/
+[Показатели].[УФК_Движение свободного остатка].[Показатели].&[1] - (LookupCube("[УФК_Справка по движению свободного остатка]", "([Показатели].[УФК_Операции с субсидиями и субвенциями].[Показатели].&[1], [Measures].[Сумма за период]," + MemberToStr([Период].[Период].CurrentMember) + ")"))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Остаток нецелевых средств на конец дня" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Остаток нецелевых средств на конец дня] FOR '({[Показатели].[УФК_Движение свободного остатка].[Показатели].&[13]})' AS '[Показатели].[УФК_Движение свободного остатка].[Показатели].&[7] - (LookupCube("[УФК_Справка по движению свободного остатка]", "([Показатели].[УФК_Операции с субсидиями и субвенциями].[Показатели].&[4], [Measures].[Сумма за период]," + MemberToStr([Период].[Период].CurrentMember) + ")"))
+']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Остаток целевых средств на конец дня" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Остаток целевых средств на конец дня] FOR '({[Показатели].[УФК_Движение свободного остатка].[Показатели].&[15]})' AS '(LookupCube("[УФК_Справка по движению свободного остатка]", "([Показатели].[УФК_Операции с субсидиями и субвенциями].[Показатели].&[4], [Measures].[Сумма за период]," + MemberToStr([Период].[Период].CurrentMember) + ")"))
+']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Остаток целевых средств на начало дня" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Остаток целевых средств на начало дня] FOR '({[Показатели].[УФК_Движение свободного остатка].[Показатели].&[14]})' AS '(LookupCube("[УФК_Справка по движению свободного остатка]", "([Показатели].[УФК_Операции с субсидиями и субвенциями].[Показатели].&[1], [Measures].[Сумма за период]," + MemberToStr([Период].[Период].CurrentMember) + ")"))
+']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Сумма распределенных средств на конец дня" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Сумма распределенных средств на конец дня] FOR '({[Показатели].[УФК_Движение свободного остатка].[Показатели].&[17]})' AS '[Показатели].[УФК_Движение свободного остатка].[Показатели].&[9] - [Показатели].[УФК_Движение свободного остатка].[Показатели].&[7]']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Сумма распределенных средств на начало дня" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Сумма распределенных средств на начало дня] FOR '({[Показатели].[УФК_Движение свободного остатка].[Показатели].&[16]})' AS '[Показатели].[УФК_Движение свободного остатка].[Показатели].&[8] - [Показатели].[УФК_Движение свободного остатка].[Показатели].&[1]']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="УФК_Ведомость по движению свободного остатка" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="УФК_Вед_УФК_Ведомостьподвижениюсвободногоостатка_" EstimatedRows="22" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_F_UFK17"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_F_UFK17"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_F_UFK17", "DV"."DATASOURCES", "DV"."FX_MARKS_UFK17", "DV"."FX_DATE_YEARDAYUNV"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_F_UFK17"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_UFK17"."REFMARKS"="DV"."FX_MARKS_UFK17"."ID") AND ("DV"."F_F_UFK17"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ObjectKey" datatype="8"><![CDATA[fd0a4164-bc09-49cd-82e5-6e37fcdec342]]></Property>
+        <Property name="ID" datatype="8"><![CDATA[183d6117-aaec-4b97-a954-e713be6b4f1a]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

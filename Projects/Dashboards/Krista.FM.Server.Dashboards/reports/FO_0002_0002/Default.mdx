@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0002_0002_date_nonEmptyCrossJoin">
+    <![CDATA[
+-- FO_0002_0002_date_nonEmptyCrossJoin 
+with
+    member Measures.[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        NonEmptyCrossjoin
+        (
+            OpeningPeriod
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2012]
+            )
+        )
+    ) on rows
+from [ФО_МесОтч_Дефицит Профицит]
+]]>
+  </query>
+
+  <query id="FO_0002_0002_date_filter">
+    <![CDATA[
+-- FO_0002_0002_date_filter    
+with
+    member Measures.[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        Filter
+        (
+            OpeningPeriod
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2012]
+            ),
+            not (IsEmpty([Measures].[Факт]))
+        )
+    ) on rows
+from [ФО_МесОтч_Дефицит Профицит]
+]]>
+  </query>
+
+
+  <query id="FO_0002_0002_grid">
+    <![CDATA[
+-- FO_0002_0002_grid  
+-- <#[ФО_МесОтч_Дефицит Профицит]#>
+WITH
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'
+    member [Уровни бюджета].[СКИФ].[Бюджет субъекта, гор.округа и района] 
+    as 'Aggregate
+        (
+          {[Уровни бюджета].[СКИФ].[Бюджет субъекта],
+          [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+          [Уровни бюджета].[СКИФ].[Бюджет района]}
+        )' 
+    set [ГО]
+    as ' Filter
+        (
+            Descendants
+            (
+                <%region_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF
+            ),
+            not
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember
+            ) and
+            (
+                <%region_dimension%>.CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        ) '
+    set [МР]
+    as ' Filter
+        (
+            Descendants
+            (
+                <%region_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF
+            ),
+            not
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember
+            ) and
+            (
+                <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР"
+            )
+        ) '
+    set [МО]
+    as '[МР] + [ГО]'
+
+ -----Дефицит---------------
+   --план
+    set [ДефМРПлан]
+    as 'Filter
+        (
+            [МР],
+            [Measures].[Годовые назначения] < 0
+        )'
+    set [ДефГОПлан]
+    as 'Filter
+        (
+            [ГО],
+            [Measures].[Годовые назначения] < 0
+        )'
+    set [ДефМОПлан]
+    as 'Filter
+        (
+            [МО],
+            [Measures].[Годовые назначения] < 0
+        )'
+   --факт
+    set [ДефМРФакт]
+    as 'Filter
+        (
+            [МР],
+            [Measures].[Факт] < 0
+        )'
+    set [ДефГОФакт]
+    as 'Filter
+        (
+            [ГО],
+            [Measures].[Факт] < 0
+        )'
+    set [ДефМОФакт]
+    as 'Filter
+        (
+            [МО],
+            [Measures].[Факт] < 0
+        )'
+   -- для хинтов
+    member [Measures].[ДефМРПланСтр]
+    as 'Generate([ДефМРПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ДефГОПланСтр]
+    as 'Generate([ДефГОПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ДефМОПланСтр]
+    as 'Generate([ДефМОПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ДефМРФактСтр]
+    as 'Generate([ДефМРФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ДефГОФактСтр]
+    as 'Generate([ДефГОФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ДефМОФактСтр]
+    as 'Generate([ДефМОФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    
+ -----Профицит---------------
+   --план
+    set [ПрофМРПлан]
+    as 'Filter
+        (
+            [МР],
+            [Measures].[Годовые назначения] > 0
+        )'
+    set [ПрофГОПлан]
+    as 'Filter
+        (
+            [ГО],
+            [Measures].[Годовые назначения] > 0
+        )'
+    set [ПрофМОПлан]
+    as 'Filter
+        (
+            [МО],
+            [Measures].[Годовые назначения] > 0
+        )'
+   --факт
+    set [ПрофМРФакт]
+    as 'Filter
+        (
+            [МР],
+            [Measures].[Факт] > 0
+        )'
+    set [ПрофГОФакт]
+    as 'Filter
+        (
+            [ГО],
+            [Measures].[Факт] > 0
+        )'
+    set [ПрофМОФакт]
+    as 'Filter
+        (
+            [МО],
+            [Measures].[Факт] > 0
+        )'
+   -- для хинтов
+    member [Measures].[ПрофМРПланСтр]
+    as 'Generate([ПрофМРПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ПрофГОПланСтр]
+    as 'Generate([ПрофГОПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ПрофМОПланСтр]
+    as 'Generate([ПрофМОПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ПрофМРФактСтр]
+    as 'Generate([ПрофМРФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ПрофГОФактСтр]
+    as 'Generate([ПрофГОФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[ПрофМОФактСтр]
+    as 'Generate([ПрофМОФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    
+ -----Баланс---------------
+   --план
+    set [БалансМРПлан]
+    as 'Filter
+        (
+            [МР],
+            [Measures].[Годовые назначения] = 0 and not IsEmpty([Measures].[Годовые назначения])
+        )'
+    set [БалансГОПлан]
+    as 'Filter
+        (
+            [ГО],
+            [Measures].[Годовые назначения] = 0 and not IsEmpty([Measures].[Годовые назначения])
+        )'
+    set [БалансМОПлан]
+    as 'Filter
+        (
+            [МО],
+            [Measures].[Годовые назначения] = 0 and not IsEmpty([Measures].[Годовые назначения])
+        )'
+   --факт
+    set [БалансМРФакт]
+    as 'Filter
+        (
+            [МР],
+            [Measures].[Факт] = 0 and not IsEmpty([Measures].[Факт])
+        )'
+    set [БалансГОФакт]
+    as 'Filter
+        (
+            [ГО],
+            [Measures].[Факт] = 0 and not IsEmpty([Measures].[Факт])
+        )'
+    set [БалансМОФакт]
+    as 'Filter
+        (
+            [МО],
+            [Measures].[Факт] = 0 and not IsEmpty([Measures].[Факт])
+        )'
+   -- для хинтов
+    member [Measures].[БалансМРПланСтр]
+    as 'Generate([БалансМРПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[БалансГОПланСтр]
+    as 'Generate([БалансГОПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[БалансМОПланСтр]
+    as 'Generate([БалансМОПлан], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[БалансМРФактСтр]
+    as 'Generate([БалансМРФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[БалансГОФактСтр]
+    as 'Generate([БалансГОФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    member [Measures].[БалансМОФактСтр]
+    as 'Generate([БалансМОФакт], <%region_dimension%>.CurrentMember.Name, ",br")'
+    
+ --------------------------------
+
+  --общее количество
+    Member [Measures].[ВсегоМР]
+    as ' <%element_count%>([МР])'
+    Member [Measures].[ВсегоГО]
+    as '  <%element_count%>([ГО]) '
+    Member [Measures].[ВсегоМО]
+    as ' [Measures].[ВсегоМР] + [Measures].[ВсегоГО] '
+    Member [Measures].[ВсегоМР_]
+    as '  <%element_count%>([МР])'
+    Member [Measures].[ВсегоГО_]
+    as '  <%element_count%>([ГО])'
+    Member [Measures].[ВсегоМО_]
+    as ' [Measures].[ВсегоМР] + [Measures].[ВсегоГО] '
+
+  --в т.ч. Профицит
+    member [Measures].[КолПрофМРПлан]
+    as '<%element_count%>([ПрофМРПлан])'
+    member [Measures].[КолПрофГОПлан]
+    as '<%element_count%>([ПрофГОПлан])'
+    member [Measures].[КолПрофМОПлан]
+    as '<%element_count%>([ПрофМОПлан])'
+    member [Measures].[КолПрофМРФакт]
+    as '<%element_count%>([ПрофМРФакт])'
+    member [Measures].[КолПрофГОФакт]
+    as '<%element_count%>([ПрофГОФакт])'
+    member [Measures].[КолПрофМОФакт]
+    as '<%element_count%>([ПрофМОФакт])'
+
+   --в т.ч. Дефицит
+    member [Measures].[КолДефМРПлан]
+    as '<%element_count%>([ДефМРПлан])'
+    member [Measures].[КолДефГОПлан]
+    as '<%element_count%>([ДефГОПлан])'
+    member [Measures].[КолДефМОПлан]
+    as '<%element_count%>([ДефМОПлан])'
+    member [Measures].[КолДефМРФакт]
+    as '<%element_count%>([ДефМРФакт])'
+    member [Measures].[КолДефГОФакт]
+    as '<%element_count%>([ДефГОФакт])'
+    member [Measures].[КолДефМОФакт]
+    as '<%element_count%>([ДефМОФакт])'
+
+   --в т.ч. Баланс
+    member [Measures].[КолБалансМРПлан]
+    as '<%element_count%>([БалансМРПлан])'
+    member [Measures].[КолБалансГОПлан]
+    as '<%element_count%>([БалансГОПлан])'
+    member [Measures].[КолБалансМОПлан]
+    as '<%element_count%>([БалансМОПлан])'
+    member [Measures].[КолБалансМРФакт]
+    as '<%element_count%>([БалансМРФакт])'
+    member [Measures].[КолБалансГОФакт]
+    as '<%element_count%>([БалансГОФакт])'
+    member [Measures].[КолБалансМОФакт]
+    as '<%element_count%>([БалансМОФакт])'
+
+   --объем Профицит
+    member [Measures].[ОбъемПрофМРПлан]
+    as 'sum([ПрофМРПлан], [Measures].[Годовые назначения]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемПрофГОПлан]
+    as 'sum([ПрофГОПлан], [Measures].[Годовые назначения]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемПрофМОПлан]
+    as 'sum([ПрофМОПлан], [Measures].[Годовые назначения]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемПрофМРФакт]
+    as 'sum([ПрофМРФакт], [Measures].[Факт]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемПрофГОФакт]
+    as 'sum([ПрофГОФакт], [Measures].[Факт]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемПрофМОФакт]
+    as 'sum([ПрофМОФакт], [Measures].[Факт]) / <%rub_multiplier%>'
+
+   --объем Дефицит
+    member [Measures].[ОбъемДефМРПлан]
+    as 'sum([ДефМРПлан], [Measures].[Годовые назначения]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемДефГОПлан]
+    as 'sum([ДефГОПлан], [Measures].[Годовые назначения]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемДефМОПлан]
+    as 'sum([ДефМОПлан], [Measures].[Годовые назначения]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемДефМРФакт]
+    as 'sum([ДефМРФакт], [Measures].[Факт]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемДефГОФакт]
+    as 'sum([ДефГОФакт], [Measures].[Факт]) / <%rub_multiplier%>'
+    member [Measures].[ОбъемДефМОФакт]
+    as 'sum([ДефМОФакт], [Measures].[Факт]) / <%rub_multiplier%>'
+
+    member [Уровни бюджета].[СКИФ].[Бюджет района, гор.округа и поселения]
+    as 'Aggregate
+        (
+            {
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет района],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет поселения],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет гор.округа]
+            }
+        )'
+
+SELECT
+    {
+      [Measures].[ВсегоМО],
+      [Measures].[ВсегоМО_],
+      [Measures].[ВсегоМР],
+      [Measures].[ВсегоМР_],
+      [Measures].[ВсегоГО],
+      [Measures].[ВсегоГО_],
+
+      [Measures].[КолПрофМОПлан],
+      [Measures].[КолПрофМОФакт],
+      [Measures].[КолПрофМРПлан],
+      [Measures].[КолПрофМРФакт],
+      [Measures].[КолПрофГОПлан],
+      [Measures].[КолПрофГОФакт],
+
+      [Measures].[КолДефМОПлан],
+      [Measures].[КолДефМОФакт],
+      [Measures].[КолДефМРПлан],
+      [Measures].[КолДефМРФакт],
+      [Measures].[КолДефГОПлан],
+      [Measures].[КолДефГОФакт],
+
+      [Measures].[КолБалансМОПлан],
+      [Measures].[КолБалансМОФакт],
+      [Measures].[КолБалансМРПлан],
+      [Measures].[КолБалансМРФакт],
+      [Measures].[КолБалансГОПлан],
+      [Measures].[КолБалансГОФакт],
+
+      [Measures].[ОбъемПрофМОПлан],
+      [Measures].[ОбъемПрофМОФакт],
+      [Measures].[ОбъемПрофМРПлан],
+      [Measures].[ОбъемПрофМРФакт],
+      [Measures].[ОбъемПрофГОПлан],
+      [Measures].[ОбъемПрофГОФакт],
+
+      [Measures].[ОбъемДефМОПлан],
+      [Measures].[ОбъемДефМОФакт],
+      [Measures].[ОбъемДефМРПлан],
+      [Measures].[ОбъемДефМРФакт],
+      [Measures].[ОбъемДефГОПлан],
+      [Measures].[ОбъемДефГОФакт],
+      
+      [Measures].[ПрофМОПланСтр],
+      [Measures].[ПрофМОФактСтр],
+      [Measures].[ПрофМРПланСтр],
+      [Measures].[ПрофМРФактСтр],
+      [Measures].[ПрофГОПланСтр],
+      [Measures].[ПрофГОФактСтр],
+      [Measures].[ДефМОПланСтр],
+      [Measures].[ДефМОФактСтр],
+      [Measures].[ДефМРПланСтр],
+      [Measures].[ДефМРФактСтр],
+      [Measures].[ДефГОПланСтр],
+      [Measures].[ДефГОФактСтр],
+      [Measures].[БалансМОПланСтр],
+      [Measures].[БалансМОФактСтр],
+      [Measures].[БалансМРПланСтр],
+      [Measures].[БалансМРФактСтр],
+      [Measures].[БалансГОПланСтр],
+      [Measures].[БалансГОФактСтр]
+    } on columns
+FROM [ФО_МесОтч_Дефицит Профицит]
+where
+    (
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%budget_level%>,
+        <%document_type%>
+    )
+	]]>
+</query>
+
+<query id="FO_0002_0002_chart">
+  <![CDATA[
+-- FO_0002_0002_chart   
+-- <#[ФО_МесОтч_Дефицит Профицит]#>
+with
+     member [Уровни бюджета].[СКИФ].[Бюджет субъекта, гор.округа и района] 
+    as 'Aggregate
+        (
+          {[Уровни бюджета].[СКИФ].[Бюджет субъекта],
+          [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+          [Уровни бюджета].[СКИФ].[Бюджет района]}
+        )' 
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'    
+    member [Measures].[<%selected_measure%> ]
+    as '[Measures].[<%selected_measure%>] / <%rub_multiplier%>'
+    member [Measures].[<%other_measure%> ]
+    as '[Measures].[<%other_measure%>] / <%rub_multiplier%>'    
+SELECT
+    {
+        [Measures].[<%selected_measure%> ],
+        [Measures].[<%other_measure%> ]
+    } on columns,
+    Order
+    (
+        Filter
+        (
+            Descendants
+            (
+                <%region_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF
+            ),
+            not
+            (
+               <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember
+            )   and
+            (
+                (
+                    <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР"
+                ) or
+                (
+                    <%region_dimension%>.CurrentMember.Properties("Тип территории") = "ГО"
+                )
+            )
+        ),
+        [Measures].[<%selected_measure%>],
+        BDESC
+    ) on rows
+FROM  [ФО_МесОтч_Дефицит Профицит]
+where
+    (
+        <%document_type%>,
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%budget_level%>
+    )
+	]]>
+</query>
+
+</root>

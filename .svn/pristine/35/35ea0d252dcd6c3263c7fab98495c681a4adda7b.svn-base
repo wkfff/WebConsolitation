@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>	
+  <query id="UFK_0008_0001_date">
+    <![CDATA[
+    with
+  member Measures.[ДеньUN] as '[Период].[День].CurrentMember.UniqueName'
+  member Measures.[Месяц] as '[Период].[День].CurrentMember.Parent.Name'
+  select
+  {Measures.[ДеньUN], Measures.[Месяц]} on columns,
+  {Tail(NonEmptyCrossjoin({[Период].[День].Members}))} on rows
+  from [УФК_Реестр перечисленных поступлений]
+	]]>
+  </query>
+ 
+  <query id="UFK_0008_0001">
+    <![CDATA[
+with
+    member Measures.[План на год]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "
+            (
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                [Период].[Год Квартал Месяц].[Данные всех периодов].[<%period_year%>],
+                Measures.[План]
+            )"
+        )'
+    member Measures.[План на месяц]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "Sum
+            (
+                {
+                    [Период].[Год Квартал Месяц].[Данные всех периодов].[<%period_year%>].[Полугодие 1].[Квартал 1].[Январь]:[Период].[Год Квартал Месяц].[Данные всех периодов].[<%period_year%>].<%period_month%>
+                },
+                (
+                    " + MemberToStr
+                    (
+                        [Доходы].[Группы КД].CurrentMember
+                    ) + ",
+                    Measures.[План]
+                )
+            )"
+        )'
+    member Measures.[Факт прошлого года]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>],
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                Measures.[Факт доходов]
+            )"
+        )'
+    member Measures.[Факт прошлого года на месяц]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "
+            (
+                [Период].[Месяц Бюджет].[Данные всех периодов].[<%period_last_year%>].<%period_month%>,
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                [Measures].[Факт доходов нараст итог]
+            ) "
+        )'
+    member Measures.[Факт прошлого года на день]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>].<%period_cur_date%>,
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                [Measures].[Факт доходов нараст итог_дата принятия]
+            ) "
+        )'
+    member Measures.[Темп роста плановый на год]
+    as 'IIF
+        (
+            IsEmpty(Measures.[Факт прошлого года]),
+            null,
+            Measures.[План на год]/Measures.[Факт прошлого года]
+        )'
+    member Measures.[Темп роста плановый на месяц]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Факт прошлого года на месяц]
+            ),
+            null,
+            Measures.[План на месяц]/Measures.[Факт прошлого года на месяц]
+        )'
+    member Measures.[Темп роста фактический]
+    as 'IIF
+        (
+            IsEmpty(Measures.[Факт прошлого года на день]),
+            null,
+            Measures.[С начала года]/Measures.[Факт прошлого года на день]
+        )'
+SELECT
+    {
+        Measures.[Темп роста плановый на год],
+        Measures.[Темп роста плановый на месяц],
+        Measures.[Темп роста фактический]
+    } on columns,
+    {
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов].[Налог на прибыль],
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов].[Налог на доходы физических лиц],
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов].[Акцизы],
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов].[Налог на имущество организаций],
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов].[Транспортный налог]
+    } on rows
+FROM [УФК_Реестр перечисленных поступлений]
+WHERE
+    (
+        [Период].[День].[Данные всех периодов].[<%period_year%>].<%period_cur_date%>
+    )
+	]]></query>
+
+  <query id="UFK_0008_0001_v_table">
+    <![CDATA[
+with
+    member Measures.[План на год]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "
+            (
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                [Период].[Год Квартал Месяц].[Данные всех периодов].[<%period_year%>],
+                Measures.[План]
+            )"
+        )'
+    member Measures.[Факт прошлого года]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>],
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                Measures.[Факт доходов]
+            )"
+        )'
+    member Measures.[Факт прошлого года на день]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>].<%period_cur_date%>,
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                [Measures].[Факт доходов нараст итог_дата принятия]
+            ) "
+        )'
+    member Measures.[Темп роста плановый на год]
+    as 'IIF
+        (
+            IsEmpty(Measures.[Факт прошлого года]),
+            null,
+            Measures.[План на год]/Measures.[Факт прошлого года]
+        )'
+    member Measures.[Темп роста фактический]
+    as 'IIF
+        (
+            IsEmpty(Measures.[Факт прошлого года на день]),
+            null,
+            Measures.[С начала года]/Measures.[Факт прошлого года на день]
+        )'
+SELECT
+    {
+        Measures.[Темп роста плановый на год],
+        Measures.[Темп роста фактический]
+    } on columns,
+    non empty [Доходы].[Группы КД].[Все группы КД].[Итого доходов].Children on rows
+FROM [УФК_Реестр перечисленных поступлений]
+WHERE
+    (
+        [Период].[День].[Данные всех периодов].[<%period_year%>].<%period_cur_date%>
+)
+	]]>
+  </query>
+
+  <query id="UFK_0008_0001_v_chart">
+    <![CDATA[
+with   
+    member Measures.[План]  
+    as 'LookupCube  
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "  
+            (
+                [Период].[Год Квартал Месяц].[Данные всех периодов].[" + [Период].[День].CurrentMember.Parent.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Name + "].[" + [Период].[День].CurrentMember.Name + "],
+                " + MemberToStr  
+                (
+                    [Доходы].[Группы КД].CurrentMember  
+                ) + ",
+                Measures.[План]   
+            )"  
+        )'  
+    member Measures.[Факт прошлого года]  
+    as 'LookupCube   
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "   
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>].[" + [Период].[День].CurrentMember.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Name + "].[" + [Период].[День].CurrentMember.Name + "],
+                " + MemberToStr   
+                (
+                    [Доходы].[Группы КД].CurrentMember   
+                ) + ",
+                Measures.[Факт доходов]   
+            )"   
+        )' 
+    member Measures.[Факт] as 'Measures.[За период]'  
+SELECT
+    {
+        Measures.[Факт прошлого года],
+
+        Measures.[План],
+Measures.[Факт]
+    } on columns,
+    Descendants 
+    (
+      [Период].[День].[Данные всех периодов].[<%period_year%>],
+      [Период].[День].[Месяц]
+    ) on rows  
+FROM [УФК_Реестр перечисленных поступлений]   
+WHERE   
+    (
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов]  
+    )   
+]]>
+  </query>
+  
+    <query id="UFK_0008_0001_h_table">
+    <![CDATA[
+with
+    member Measures.[План на год]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "
+            (
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                [Период].[Год Квартал Месяц].[Данные всех периодов].[<%period_year%>],
+                Measures.[План]
+            )"
+        )'
+    member Measures.[Факт прошлого года]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>],
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                Measures.[Факт доходов]
+            )"
+        )'
+    member Measures.[Факт прошлого года на день]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_date%>],
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + ",
+                [Measures].[Факт доходов нараст итог_дата принятия]
+            ) "
+        )'
+    member Measures.[Темп роста плановый на год]
+    as 'IIF
+        (
+            IsEmpty(Measures.[Факт прошлого года]),
+            null,
+            Measures.[План на год]/Measures.[Факт прошлого года]
+        )'
+    member Measures.[Темп роста фактический]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Факт прошлого года на день]
+            ),
+            null,
+            Measures.[С начала года]/Measures.[Факт прошлого года на день]
+        )'
+SELECT
+    {
+        Measures.[Темп роста плановый на год],
+        Measures.[Темп роста фактический],
+        Measures.[С начала года],
+        Measures.[Факт прошлого года на день]
+    } on columns,
+    non empty [Доходы].[Группы КД].[Все группы КД].[Итого доходов].Children on rows
+FROM [УФК_Реестр перечисленных поступлений]
+WHERE
+    (
+        <%period_cur_date%>
+    )
+
+]]>
+  </query>
+
+  <query id="UFK_0008_0001_h_chart1">
+    <![CDATA[
+with   
+    member Measures.[План]  
+    as 'LookupCube  
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "  
+            (
+                [Период].[Год Квартал Месяц].[Данные всех периодов].[" + [Период].[День].CurrentMember.Parent.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Name + "].[" + [Период].[День].CurrentMember.Name + "],
+                " + MemberToStr  
+                (
+                    [Доходы].[Группы КД].CurrentMember  
+                ) + ",
+                Measures.[План]   
+            )"  
+        )'  
+    member Measures.[Факт прошлого года]  
+    as 'LookupCube   
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "   
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>].[" + [Период].[День].CurrentMember.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Name + "].[" + [Период].[День].CurrentMember.Name + "],
+                " + MemberToStr   
+                (
+                    [Доходы].[Группы КД].CurrentMember   
+                ) + ",
+                Measures.[Факт доходов]   
+            )"   
+        )'   
+    member Measures.[Факт] as 'Measures.[За период]'  
+SELECT
+    {
+        Measures.[Факт],
+        Measures.[План],
+        Measures.[Факт прошлого года]
+    } on columns,
+    Descendants 
+    (
+        [Период].[День].[Данные всех периодов].[<%period_year%>],
+        [Период].[День].[Месяц] 
+    ) on rows  
+FROM [УФК_Реестр перечисленных поступлений]   
+WHERE   
+    (
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов]  
+    )   
+]]>
+  </query>
+
+  <query id="UFK_0008_0001_h_chart2">
+    <![CDATA[
+with   
+    member Measures.[План на месяц]  
+    as 'LookupCube  
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "  
+            (
+                [Период].[Год Квартал Месяц].[Данные всех периодов].[" + [Период].[День].CurrentMember.Parent.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Name + "].[" + [Период].[День].CurrentMember.Name + "],
+                " + MemberToStr  
+                (
+                    [Доходы].[Группы КД].CurrentMember  
+                ) + ",
+                Measures.[План]   
+            )"  
+        )'  
+    member Measures.[Факт прошлого года]  
+    as 'LookupCube   
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "   
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>].[" + [Период].[День].CurrentMember.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Name + "].[" + [Период].[День].CurrentMember.Name + "],
+                " + MemberToStr   
+                (
+                    [Доходы].[Группы КД].CurrentMember   
+                ) + ",
+                Measures.[Факт доходов]   
+            )"   
+        )'   
+SELECT
+    {
+        Measures.[За период],
+        Measures.[План на месяц],
+        Measures.[Факт прошлого года]
+    } on columns,
+    Descendants 
+    (
+        [Период].[День].[Данные всех периодов].[<%period_year%>],
+        [Период].[День].[Месяц] 
+    ) on rows  
+FROM [УФК_Реестр перечисленных поступлений]   
+WHERE   
+    (
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов].[Налог на прибыль]
+    )   
+	]]>
+  </query>
+
+  <query id="UFK_0008_0001_h_chart3">
+    <![CDATA[
+with   
+    member Measures.[План на месяц]  
+    as 'LookupCube  
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "  
+            (
+                [Период].[Год Квартал Месяц].[Данные всех периодов].[" + [Период].[День].CurrentMember.Parent.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Name + "].[" + [Период].[День].CurrentMember.Name + "],
+                " + MemberToStr  
+                (
+                    [Доходы].[Группы КД].CurrentMember  
+                ) + ",
+                Measures.[План]   
+            )"  
+        )'  
+    member Measures.[Факт прошлого года]  
+    as 'LookupCube   
+        (
+            "[ФО_АС Бюджет_Факт доходов]",
+            "   
+            (
+                [Период].[Дата принятия].[Все даты принятия].[<%period_last_year%>].[" + [Период].[День].CurrentMember.Parent.Parent.Name + "].[" + [Период].[День].CurrentMember.Parent.Name + "].[" + [Период].[День].CurrentMember.Name + "],
+                " + MemberToStr   
+                (
+                    [Доходы].[Группы КД].CurrentMember   
+                ) + ",
+                Measures.[Факт доходов]   
+            )"   
+        )'   
+SELECT
+    {
+        Measures.[За период],
+        Measures.[План на месяц],
+        Measures.[Факт прошлого года]
+    } on columns,
+    Descendants 
+    (
+        [Период].[День].[Данные всех периодов].[<%period_year%>],
+        [Период].[День].[Месяц] 
+    ) on rows  
+FROM [УФК_Реестр перечисленных поступлений]   
+WHERE   
+    (
+       [Доходы].[Группы КД].[Все группы КД].[Итого доходов].[Налог на доходы физических лиц]
+    ) 
+ 	]]>
+  </query>
+</root>

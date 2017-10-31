@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+      select
+          { [Measures].[Значение]  } on columns,
+          {
+              Tail 
+              (
+                  Filter 
+                  (
+                      [Период].[Год Квартал Месяц].[Год].Members,
+                      [Measures].[Значение] > 0 
+                  ) 
+              ).Item(0) 
+          } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows 
+      from  [МО_Паспорт МО] 
+      where  
+          (
+              <%current_region%>
+          )           
+	  ]]>
+  </query>
+  <query id="grid">
+    <![CDATA[ -- name: grid
+select
+    non empty Filter  
+    (
+        [Паспорт МО].[Показатели].[ Жилищный фонд].children + [Паспорт МО].[Показатели].[Ввод в действие жилья, объектов соцкультбыта и здравоохранения].children,
+        [Measures].[Значение] > 0 and not      
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember  
+        )  
+    ) Dimension properties [Паспорт МО].[Показатели].[Единица измерения] on rows,
+    { [Measures].[Значение]  } on columns  
+from [МО_Паспорт МО]      
+where      
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%period_last_date%>,
+        <%current_region%>
+    )
+    ]]>
+  </query>
+  <query id="chart_avg_count">
+    <![CDATA[ -- name: chart_avg_count
+select
+    { [Measures].[Значение] } on rows,
+    non empty 
+    {
+        <%last_year%>: <%last_year%>.Lag(9)
+    } on columns 
+from  [МО_Паспорт МО] 
+where 
+    (
+        <%current_region%>,
+        [Паспорт МО].[Показатели].[ Жилищный фонд].[<%current_branch%>],
+        [Источники данных].[Все источники данных].[МО Паспорт МО] 
+    )       
+    ]]>
+  </query>
+
+  <query id="chart_pie1">
+    <![CDATA[ -- name: chart_pie1
+select
+    {
+        [Паспорт МО].[Показатели].[ Жилищный фонд].[Количество проживающих в ветхом и аварийном жилье],
+        [Паспорт МО].[Показатели].[ Жилищный фонд].[Количество проживающих в балках, бараках  и вагончиках]   
+    } on rows,
+    non empty  
+    {
+        <%last_year%>: <%last_year%>.Lag(9) 
+    } on columns  
+from  [МО_Паспорт МО]  
+where  
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Measures].[Значение],
+        <%current_region%>
+    )   
+  ]]>
+  </query>
+
+  <query id="chart_pie2">
+    <![CDATA[ -- name: chart_pie2
+select
+    {
+      [Паспорт МО].[Показатели].[ Жилищный фонд].[Общая площадь на одного жителя],
+      [Паспорт МО].[Показатели].[ Жилищный фонд].[Норматив общей площади]
+    } on rows,
+    non empty  
+    {
+        <%last_year%>: <%last_year%>.Lag(9) 
+    } on columns  
+from  [МО_Паспорт МО]  
+where  
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Measures].[Значение],
+        <%current_region%>
+    )   
+  ]]>
+  </query>
+  
+</root>

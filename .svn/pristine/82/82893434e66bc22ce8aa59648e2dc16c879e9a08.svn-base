@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Организации.Реестр организаций" ClassType="7" SubClassType="0" Description="Реестр организаций и основных сведений об организациях." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."D_ORG_REGISTRORG", "DV"."D_OK_OKOPF", "DV"."D_OK_OKFS", "DV"."D_ORG_TYPEORG"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_ORG_REGISTRORG"."REFOK"="DV"."D_OK_OKOPF"."ID") AND ("DV"."D_ORG_REGISTRORG"."REFOKOKFS"="DV"."D_OK_OKFS"."ID") AND ("DV"."D_ORG_REGISTRORG"."REFORG"="DV"."D_ORG_TYPEORG"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Org.RegistrOrg]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_ORG_REGISTRORG}{DV.D_ORG_REGISTRORG}{2400}{600}{2625}{6805}{1})({dv}{DV.D_OK_OKFS}{DV.D_OK_OKFS}{6120}{4005}{2535}{925}{1})({dv}{DV.D_OK_OKOPF}{DV.D_OK_OKOPF}{4980}{3990}{2490}{925}{1})({dv}{DV.D_ORG_TYPEORG}{DV.D_ORG_TYPEORG}{7290}{4065}{2520}{925}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[44ba30b2-7c32-49fc-ae26-1f872685967f]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[c924d846-afdc-4f08-8e64-c572eec75405]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[d6a8adc3-ac04-4acf-8ae5-2c3c81647ef5]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все организации]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Организация" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."NAMEORG"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Краткое наименование организации" ClassType="31" SubClassType="0" Description="" Caption="Краткое наименование организации" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."SHNAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Юридический адрес" ClassType="31" SubClassType="0" Description="" Caption="Юридический адрес" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."LEGALADDRESS"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Фактический адрес" ClassType="31" SubClassType="0" Description="" Caption="Фактический адрес" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."FACTADDRESS"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Телефон" ClassType="31" SubClassType="0" Description="" Caption="Телефон" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."PHONE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Факс" ClassType="31" SubClassType="0" Description="" Caption="Факс" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."FAX"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Адрес электронной почты" ClassType="31" SubClassType="0" Description="" Caption="Адрес электронной почты" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."EMAIL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Основные акционеры" ClassType="31" SubClassType="0" Description="" Caption="Основные акционеры" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."SHAREHOLD"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Номер регистрации" ClassType="31" SubClassType="0" Description="" Caption="Номер регистрации" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."NUMREGISTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Дата регистрации" ClassType="31" SubClassType="0" Description="" Caption="Дата регистрации" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="133" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."DATREGISTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Место регистрации" ClassType="31" SubClassType="0" Description="" Caption="Место регистрации" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."PLACEREGITR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Виды деятельности" ClassType="31" SubClassType="0" Description="" Caption="Виды деятельности" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."TYPEACTION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ИНН" ClassType="31" SubClassType="0" Description="" Caption="ИНН" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."INN"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="КПП" ClassType="31" SubClassType="0" Description="" Caption="КПП" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."KPP"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Уставный фонд" ClassType="31" SubClassType="0" Description="" Caption="Уставный фонд" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."FOND"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Доля государства" ClassType="31" SubClassType="0" Description="" Caption="Доля государства" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."STATE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКОПФ" ClassType="31" SubClassType="0" Description="" Caption="ОКОПФ" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_OKOPF"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКОПФ_Код" ClassType="31" SubClassType="0" Description="" Caption="ОКОПФ_Код" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_OKOPF"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКФС" ClassType="31" SubClassType="0" Description="" Caption="ОКФС" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_OKFS"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКФС_Код" ClassType="31" SubClassType="0" Description="" Caption="ОКФС_Код" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_OKFS"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Филиальная сеть" ClassType="31" SubClassType="0" Description="" Caption="Филиальная сеть" PropertyType="0" IsVisible="true" ColumnSize="1024" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."BRANCH"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Подчинение" ClassType="31" SubClassType="0" Description="" Caption="Подчинение" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."SUBMISSION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКПО" ClassType="31" SubClassType="0" Description="" Caption="ОКПО" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."OKPO"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОГРН" ClassType="31" SubClassType="0" Description="" Caption="ОГРН" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."OGRN"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Дата учреждения" ClassType="31" SubClassType="0" Description="" Caption="Дата учреждения" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."DATEN"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код ОКАТО" ClassType="31" SubClassType="0" Description="" Caption="Код ОКАТО" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."CODEOKATO"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Сайт в интернете" ClassType="31" SubClassType="0" Description="" Caption="Сайт в интернете" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."SITE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Контактные лица" ClassType="31" SubClassType="0" Description="" Caption="Контактные лица" PropertyType="0" IsVisible="true" ColumnSize="1024" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."CONTACT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип организации" ClassType="31" SubClassType="0" Description="" Caption="Тип организации" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_TYPEORG"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

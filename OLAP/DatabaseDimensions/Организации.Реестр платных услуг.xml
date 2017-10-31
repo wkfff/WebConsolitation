@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Организации.Реестр платных услуг" ClassType="7" SubClassType="0" Description="Реестр платных услуг, оказываемых бюджетными организациями." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_ORG_REGPAIDSERV", "DV"."DV_UNITS_OKEI", "DV"."D_OK_OKVED", "DV"."D_OK_OKYN", "DV"."D_ORG_REGISTRORG", "DV"."D_ORG_RESPON"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_ORG_REGPAIDSERV"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID") AND ("DV"."DV_ORG_REGPAIDSERV"."REFOK"="DV"."D_OK_OKVED"."ID") AND ("DV"."DV_ORG_REGPAIDSERV"."REFOKOKYN"="DV"."D_OK_OKYN"."ID") AND ("DV"."DV_ORG_REGPAIDSERV"."REFORGEXEC"="DV"."D_ORG_REGISTRORG"."ID") AND ("DV"."DV_ORG_REGPAIDSERV"."REFORG"="DV"."D_ORG_RESPON"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Org.RegPaidServ]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_ORG_REGPAIDSERV}{DV.DV_ORG_REGPAIDSERV}{2460}{690}{2340}{4135}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2430}{3990}{2355}{925}{1})({dv}{DV.D_OK_OKYN}{DV.D_OK_OKYN}{4395}{3990}{2370}{910}{1})({dv}{DV.D_OK_OKVED}{DV.D_OK_OKVED}{3420}{4005}{2370}{910}{1})({dv}{DV.D_ORG_REGISTRORG}{DV.D_ORG_REGISTRORG}{5355}{4005}{2340}{910}{1})({dv}{DV.D_ORG_RESPON}{DV.D_ORG_RESPON}{6360}{4020}{2340}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[0e6dda29-6f42-4251-9d05-4c203db91e1f]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[2c24ef84-3af0-4dbd-ab56-bf4762a227a4]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[8900c8da-3eff-4a72-9206-839ffd3f2f79]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="true" IsUnique="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник данных" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="1">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Раздел" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="6" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."REFORG"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_ORG_RESPON"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Платная услуга" ClassType="8" SubClassType="0" Description="" Num="4" LevelType="0" Grouping="0" AreMemberKeysUnique="true" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="688" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Потребитель услуги" ClassType="31" SubClassType="0" Description="" Caption="Потребитель услуги" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."USERSERV"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обоснование введения платной услуги" ClassType="31" SubClassType="0" Description="" Caption="Обоснование введения платной услуги" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."REASONING"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Содержание" ClassType="31" SubClassType="0" Description="" Caption="Содержание" PropertyType="0" IsVisible="true" ColumnSize="4000" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."CONTENT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Источник финансирования" ClassType="31" SubClassType="0" Description="" Caption="Источник финансирования" PropertyType="0" IsVisible="true" ColumnSize="4000" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_REGPAIDSERV"."SOURCEFINANCE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКВЭД" ClassType="31" SubClassType="0" Description="" Caption="ОКВЭД" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_OKVED"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКУН" ClassType="31" SubClassType="0" Description="" Caption="ОКУН" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_OKYN"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Исполнитель" ClassType="31" SubClassType="0" Description="" Caption="Исполнитель" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."NAMEORG"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

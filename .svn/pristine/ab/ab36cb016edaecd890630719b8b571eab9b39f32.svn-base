@@ -1,0 +1,2086 @@
+<Batch Transaction="false" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <Alter AllowCreate="true" ObjectExpansion="ExpandFull">
+    <Object>
+      <DatabaseID>/*#DatabaseName#*/</DatabaseID>
+      <CubeID>55abef7c-a5cb-455b-8610-7541868b0422</CubeID>
+    </Object>
+    <ObjectDefinition>
+      <Cube xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100">
+        <ID>55abef7c-a5cb-455b-8610-7541868b0422</ID>
+        <Name>РЕГИОН_Оценка ОМСУ</Name>
+        <Description>Значения показателей для оценки эффективности деятельности органов местного самоуправления субъекта РФ.</Description>
+        <Annotations>
+          <Annotation>
+            <Name>versions</Name>
+            <Value>
+              <versions xmlns="">
+                <detailedversioninfo author="OLAPAdmin" datetime="06.04.2012 14:54:14">
+                  <version major="1" minor="0" build="0" revision="0" />
+                  <comment>Конвертация из формата AS2000</comment>
+                </detailedversioninfo>
+              </versions>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>FullName</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <FullName xmlns="">f.OMSU.Reg16</FullName>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>SubClass</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <SubClass xmlns="">ВВОД</SubClass>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>ObjectKey</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <ObjectKey xmlns="">effef854-c16f-4a03-a7a7-23aab21f985a</ObjectKey>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>Revision</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <Revision xmlns="">15777</Revision>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>dsvNameAnnotation</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <dsvNameAnnotation xmlns="">F_OMSU_REG16</dsvNameAnnotation>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>joinAnnotation</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <joinAnnotation xmlns="">("DV"."F_OMSU_REG16"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_OMSU_REG16"."REFREGIONS"="DV"."D_REGIONS_ANALYSIS"."ID") AND ("DV"."F_OMSU_REG16"."REFMARKSOMSU"="DV"."D_OMSU_MARKSOMSU"."ID") AND ("DV"."F_OMSU_REG16"."REFSTATUSDATA"="DV"."FX_OMSU_STATUSDATA"."ID") AND ("DV"."D_OMSU_MARKSOMSU"."REFRESPONSOIV"="DV"."D_OMSU_RESPONSOIV"."ID") AND ("DV"."F_OMSU_REG16"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."D_OMSU_MARKSOMSU"."REFCOMPREP"="DV"."D_OMSU_COMPREP"."ID") AND ("DV"."D_OMSU_MARKSOMSU"."REFCOPMESTIM"="DV"."D_OMSU_COMPESTIM"."ID") AND ("DV"."D_OMSU_MARKSOMSU"."REFTYPEMARK"="DV"."D_OMSU_TYPEMARK"."ID") AND ("DV"."D_OMSU_MARKSOMSU"."REFREACH"="DV"."D_OMSU_REACHINEFF"."ID") AND ("DV"."D_REGIONS_ANALYSIS"."REFBRIDGEREGIONS"="DV"."BV_REGIONS_BRIDGE"."ID")</joinAnnotation>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>controlblock</Name>
+            <Value>
+              <controlblock updatemode="CreateOrReplace" readfromfile="True" xmlns="">
+                <excludeddimensions />
+              </controlblock>
+            </Value>
+          </Annotation>
+        </Annotations>
+        <Language>1049</Language>
+        <Collation>Cyrillic_General_CI_AS</Collation>
+        <Dimensions>
+          <Dimension>
+            <ID>f4e95820-9b44-419b-b6e4-b4ecc2ed2fba</ID>
+            <Name>Источники данных</Name>
+            <DimensionID>f4e95820-9b44-419b-b6e4-b4ecc2ed2fba</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Поставщик информации</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код информации</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Вид информации</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Финорган</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Год</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Месяц</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Вариант</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Квартал</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+            <Hierarchies>
+              <Hierarchy>
+                <HierarchyID>73039067-b221-4914-8015-42fca888a700</HierarchyID>
+              </Hierarchy>
+            </Hierarchies>
+          </Dimension>
+          <Dimension>
+            <ID>9bb33ff1-2ef8-4d48-b492-c23fc1081cc5</ID>
+            <Name>Период__Год Квартал Месяц</Name>
+            <DimensionID>9bb33ff1-2ef8-4d48-b492-c23fc1081cc5</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Период__Год Квартал Месяц</AttributeID>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>OrderByDefault</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+          </Dimension>
+          <Dimension>
+            <ID>b4094fc4-e121-4418-81a1-7d1016da4a6b</ID>
+            <Name>Районы__Анализ</Name>
+            <DimensionID>b4094fc4-e121-4418-81a1-7d1016da4a6b</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Районы__Анализ</AttributeID>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Тип территорий</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Порядковый номер</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>REFBRIDGEREGIONS</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+          </Dimension>
+          <Dimension>
+            <ID>5a8dfe52-9b26-4f15-84b1-0f1589a18e10</ID>
+            <Name>Районы__Сопоставимый</Name>
+            <DimensionID>5a8dfe52-9b26-4f15-84b1-0f1589a18e10</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Районы__Сопоставимый</AttributeID>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Порядковый номер</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Тип территории</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Тип территории_Id</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код объекта карты</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Краткое наименование</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Климатическая зона</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>ОКАТО</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код АТЕ</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+          </Dimension>
+          <Dimension>
+            <ID>3a5c418c-bb47-4585-89a0-5b6e01f59734</ID>
+            <Name>ОМСУ__Показатели ОМСУ</Name>
+            <DimensionID>3a5c418c-bb47-4585-89a0-5b6e01f59734</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>ОМСУ__Показатели ОМСУ</AttributeID>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Что показывает</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Обозначение</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Информационная обеспеченность</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Расчёт показателя</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Обратный показатель</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Доклад включать</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>МО</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Номер в докладе</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Номер в оценке</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Оценка включать</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Формула</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Группировка</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Краткое наименование</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Номер в структуре</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Разрядность</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Описание</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Единица измерения</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>REFRESPONSOIV</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>REFCOMPREP</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>REFCOPMESTIM</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>REFTYPEMARK</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>REFREACH</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+          </Dimension>
+          <Dimension>
+            <ID>7bc73c77-4832-49e0-9684-1439d03d1de4</ID>
+            <Name>ОМСУ__Состояние данных</Name>
+            <DimensionID>7bc73c77-4832-49e0-9684-1439d03d1de4</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+            <Hierarchies>
+              <Hierarchy>
+                <HierarchyID>c5b3d243-f9d0-4da3-b69a-cf4aae6fae5b</HierarchyID>
+              </Hierarchy>
+            </Hierarchies>
+          </Dimension>
+          <Dimension>
+            <ID>193d9c25-3511-40b2-9575-c05339093a84</ID>
+            <Name>ОМСУ__Ответственный ОИВ</Name>
+            <DimensionID>193d9c25-3511-40b2-9575-c05339093a84</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Краткое наименование</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+            <Hierarchies>
+              <Hierarchy>
+                <HierarchyID>473778c7-3533-4be4-9f7a-98e2115cd4b9</HierarchyID>
+              </Hierarchy>
+            </Hierarchies>
+          </Dimension>
+          <Dimension>
+            <ID>6cbfd95e-4a1c-45be-aec2-07b66ef7b782</ID>
+            <Name>ОМСУ__Структура доклада</Name>
+            <DimensionID>6cbfd95e-4a1c-45be-aec2-07b66ef7b782</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>ОМСУ__Структура доклада</AttributeID>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+          </Dimension>
+          <Dimension>
+            <ID>6c26b7f4-a0d9-42c8-a996-f81da568b2df</ID>
+            <Name>ОМСУ__Структура оценки</Name>
+            <DimensionID>6c26b7f4-a0d9-42c8-a996-f81da568b2df</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>ОМСУ__Структура оценки</AttributeID>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Весовой коэффициент</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+          </Dimension>
+          <Dimension>
+            <ID>4cec5a47-082f-4ec0-b5db-a6b9fbab0858</ID>
+            <Name>ОМСУ__Тип показателя</Name>
+            <DimensionID>4cec5a47-082f-4ec0-b5db-a6b9fbab0858</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+            <Hierarchies>
+              <Hierarchy>
+                <HierarchyID>ca6243eb-7e52-4d3b-a637-c781f0257dd5</HierarchyID>
+              </Hierarchy>
+            </Hierarchies>
+          </Dimension>
+          <Dimension>
+            <ID>6e290dea-9585-47c1-9935-87275d8b42e2</ID>
+            <Name>ОМСУ__Сфера неэффективных расходов</Name>
+            <DimensionID>6e290dea-9585-47c1-9935-87275d8b42e2</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+            <Hierarchies>
+              <Hierarchy>
+                <HierarchyID>6b3eddb9-b377-4dbe-bf14-31bd456e8c25</HierarchyID>
+              </Hierarchy>
+            </Hierarchies>
+          </Dimension>
+          <Dimension>
+            <ID>ОМСУ__Мероприятия</ID>
+            <Name>ОМСУ__Мероприятия</Name>
+            <DimensionID>5461326d-6bf9-4c9d-b257-952843f984b1</DimensionID>
+            <Attributes>
+              <Attribute>
+                <AttributeID>ID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>уровень_Источник</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>ID источника</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Код</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Целевое значение показателя</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>Срок исполнения</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+              <Attribute>
+                <AttributeID>PKID</AttributeID>
+                <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+              </Attribute>
+            </Attributes>
+            <Hierarchies>
+              <Hierarchy>
+                <HierarchyID>5d7a252f-8246-44de-b5cf-8a1df74bff3c</HierarchyID>
+              </Hierarchy>
+            </Hierarchies>
+          </Dimension>
+        </Dimensions>
+        <MeasureGroups>
+          <MeasureGroup>
+            <ID>7311d789-28bd-4d7f-b623-e471c4cf71e5</ID>
+            <Name>РЕГИОН_Оценка ОМСУ</Name>
+            <Description>Значения показателей для оценки эффективности деятельности органов местного самоуправления субъекта РФ.</Description>
+            <Annotations>
+              <Annotation>
+                <Name>FullName</Name>
+                <Visibility>SchemaRowset</Visibility>
+                <Value>
+                  <FullName xmlns="">f.OMSU.Reg16</FullName>
+                </Value>
+              </Annotation>
+              <Annotation>
+                <Name>SubClass</Name>
+                <Visibility>SchemaRowset</Visibility>
+                <Value>
+                  <SubClass xmlns="">ВВОД</SubClass>
+                </Value>
+              </Annotation>
+              <Annotation>
+                <Name>ObjectKey</Name>
+                <Visibility>SchemaRowset</Visibility>
+                <Value>
+                  <ObjectKey xmlns="">effef854-c16f-4a03-a7a7-23aab21f985a</ObjectKey>
+                </Value>
+              </Annotation>
+              <Annotation>
+                <Name>Revision</Name>
+                <Visibility>SchemaRowset</Visibility>
+                <Value>
+                  <Revision xmlns="">15777</Revision>
+                </Value>
+              </Annotation>
+            </Annotations>
+            <Measures>
+              <Measure>
+                <ID>4c6ed02b-b582-4a94-a5e8-386a58182f5d</ID>
+                <Name>Значение отчётного года</Name>
+                <DataType>Double</DataType>
+                <Source>
+                  <DataType>Double</DataType>
+                  <DataSize>-1</DataSize>
+                  <Source xsi:type="ColumnBinding">
+                    <TableID>F_OMSU_REG16</TableID>
+                    <ColumnID>CURRENTVALUE</ColumnID>
+                  </Source>
+                </Source>
+                <FormatString>Standard</FormatString>
+              </Measure>
+              <Measure>
+                <ID>e1ba27ef-fc90-46d4-ae00-de17747967a7</ID>
+                <Name>Значение предыдущего года</Name>
+                <DataType>Double</DataType>
+                <Source>
+                  <DataType>Double</DataType>
+                  <DataSize>-1</DataSize>
+                  <Source xsi:type="ColumnBinding">
+                    <TableID>F_OMSU_REG16</TableID>
+                    <ColumnID>PRIORVALUE</ColumnID>
+                  </Source>
+                </Source>
+                <FormatString>Standard</FormatString>
+              </Measure>
+              <Measure>
+                <ID>a32390aa-e846-450c-8127-95fe76f6d4ad</ID>
+                <Name>Прогноз 1</Name>
+                <DataType>Double</DataType>
+                <Source>
+                  <DataType>Double</DataType>
+                  <DataSize>-1</DataSize>
+                  <Source xsi:type="ColumnBinding">
+                    <TableID>F_OMSU_REG16</TableID>
+                    <ColumnID>PROGNOZ1</ColumnID>
+                  </Source>
+                </Source>
+                <FormatString>Standard</FormatString>
+              </Measure>
+              <Measure>
+                <ID>79890b7f-986d-4721-ab42-d2b2c0934547</ID>
+                <Name>Прогноз 2</Name>
+                <DataType>Double</DataType>
+                <Source>
+                  <DataType>Double</DataType>
+                  <DataSize>-1</DataSize>
+                  <Source xsi:type="ColumnBinding">
+                    <TableID>F_OMSU_REG16</TableID>
+                    <ColumnID>PROGNOZ2</ColumnID>
+                  </Source>
+                </Source>
+                <FormatString>Standard</FormatString>
+              </Measure>
+              <Measure>
+                <ID>1edd0c5c-f017-4a56-8d25-7e8a1dbebe76</ID>
+                <Name>Прогноз 3</Name>
+                <DataType>Double</DataType>
+                <Source>
+                  <DataType>Double</DataType>
+                  <DataSize>-1</DataSize>
+                  <Source xsi:type="ColumnBinding">
+                    <TableID>F_OMSU_REG16</TableID>
+                    <ColumnID>PROGNOZ3</ColumnID>
+                  </Source>
+                </Source>
+                <FormatString>Standard</FormatString>
+              </Measure>
+              <Measure>
+                <ID>289822b5-7505-40d4-bd39-b3bfdfca21c2</ID>
+                <Name>Ранг</Name>
+                <DataType>Double</DataType>
+                <Source>
+                  <DataType>Double</DataType>
+                  <DataSize>-1</DataSize>
+                  <Source xsi:type="ColumnBinding">
+                    <TableID>F_OMSU_REG16</TableID>
+                    <ColumnID>RANG</ColumnID>
+                  </Source>
+                </Source>
+                <FormatString>Standard</FormatString>
+              </Measure>
+            </Measures>
+            <StorageMode>Molap</StorageMode>
+            <ProcessingMode>LazyAggregations</ProcessingMode>
+            <Dimensions>
+              <Dimension xsi:type="RegularMeasureGroupDimension">
+                <CubeDimensionID>f4e95820-9b44-419b-b6e4-b4ecc2ed2fba</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>F_OMSU_REG16</TableID>
+                          <ColumnID>SOURCEID</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Поставщик информации</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>11</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код информации</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>SmallInt</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Вид информации</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Финорган</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Год</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>SmallInt</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Месяц</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>SmallInt</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Вариант</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Квартал</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>UnsignedTinyInt</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+              </Dimension>
+              <Dimension xsi:type="RegularMeasureGroupDimension">
+                <CubeDimensionID>9bb33ff1-2ef8-4d48-b492-c23fc1081cc5</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>F_OMSU_REG16</TableID>
+                          <ColumnID>REFYEARDAYUNV</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Период__Год Квартал Месяц</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>OrderByDefault</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+              </Dimension>
+              <Dimension xsi:type="RegularMeasureGroupDimension">
+                <CubeDimensionID>b4094fc4-e121-4418-81a1-7d1016da4a6b</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>F_OMSU_REG16</TableID>
+                          <ColumnID>REFREGIONS</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Районы__Анализ</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Тип территорий</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Порядковый номер</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>10</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFBRIDGEREGIONS</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+              </Dimension>
+              <Dimension xsi:type="RegularMeasureGroupDimension">
+                <CubeDimensionID>3a5c418c-bb47-4585-89a0-5b6e01f59734</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>F_OMSU_REG16</TableID>
+                          <ColumnID>REFMARKSOMSU</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>ОМСУ__Показатели ОМСУ</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Что показывает</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>2000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Обозначение</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>2000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Информационная обеспеченность</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>2000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Расчёт показателя</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>2000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Обратный показатель</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Доклад включать</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>МО</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Номер в докладе</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Номер в оценке</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Оценка включать</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Формула</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Группировка</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Краткое наименование</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Номер в структуре</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Разрядность</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Описание</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Единица измерения</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFRESPONSOIV</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFCOMPREP</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFCOPMESTIM</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFTYPEMARK</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFREACH</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+              </Dimension>
+              <Dimension xsi:type="RegularMeasureGroupDimension">
+                <CubeDimensionID>7bc73c77-4832-49e0-9684-1439d03d1de4</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>F_OMSU_REG16</TableID>
+                          <ColumnID>REFSTATUSDATA</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+              </Dimension>
+              <Dimension xsi:type="ReferenceMeasureGroupDimension">
+                <CubeDimensionID>5a8dfe52-9b26-4f15-84b1-0f1589a18e10</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>D_REGIONS_ANALYSIS</TableID>
+                          <ColumnID>REFBRIDGEREGIONS</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Районы__Сопоставимый</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Порядковый номер</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>10</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Тип территории</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Тип территории_Id</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код объекта карты</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Краткое наименование</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Климатическая зона</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>ОКАТО</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код АТЕ</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>5</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+                <IntermediateCubeDimensionID>b4094fc4-e121-4418-81a1-7d1016da4a6b</IntermediateCubeDimensionID>
+                <IntermediateGranularityAttributeID>REFBRIDGEREGIONS</IntermediateGranularityAttributeID>
+                <Materialization>Regular</Materialization>
+              </Dimension>
+              <Dimension xsi:type="ReferenceMeasureGroupDimension">
+                <CubeDimensionID>193d9c25-3511-40b2-9575-c05339093a84</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>D_OMSU_MARKSOMSU</TableID>
+                          <ColumnID>REFRESPONSOIV</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Краткое наименование</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+                <IntermediateCubeDimensionID>3a5c418c-bb47-4585-89a0-5b6e01f59734</IntermediateCubeDimensionID>
+                <IntermediateGranularityAttributeID>REFRESPONSOIV</IntermediateGranularityAttributeID>
+                <Materialization>Regular</Materialization>
+              </Dimension>
+              <Dimension xsi:type="ReferenceMeasureGroupDimension">
+                <CubeDimensionID>6cbfd95e-4a1c-45be-aec2-07b66ef7b782</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>D_OMSU_MARKSOMSU</TableID>
+                          <ColumnID>REFCOMPREP</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>ОМСУ__Структура доклада</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+                <IntermediateCubeDimensionID>3a5c418c-bb47-4585-89a0-5b6e01f59734</IntermediateCubeDimensionID>
+                <IntermediateGranularityAttributeID>REFCOMPREP</IntermediateGranularityAttributeID>
+                <Materialization>Regular</Materialization>
+              </Dimension>
+              <Dimension xsi:type="ReferenceMeasureGroupDimension">
+                <CubeDimensionID>6c26b7f4-a0d9-42c8-a996-f81da568b2df</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>D_OMSU_MARKSOMSU</TableID>
+                          <ColumnID>REFCOPMESTIM</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>ОМСУ__Структура оценки</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Весовой коэффициент</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+                <IntermediateCubeDimensionID>3a5c418c-bb47-4585-89a0-5b6e01f59734</IntermediateCubeDimensionID>
+                <IntermediateGranularityAttributeID>REFCOPMESTIM</IntermediateGranularityAttributeID>
+                <Materialization>Regular</Materialization>
+              </Dimension>
+              <Dimension xsi:type="ReferenceMeasureGroupDimension">
+                <CubeDimensionID>4cec5a47-082f-4ec0-b5db-a6b9fbab0858</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>D_OMSU_MARKSOMSU</TableID>
+                          <ColumnID>REFTYPEMARK</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+                <IntermediateCubeDimensionID>3a5c418c-bb47-4585-89a0-5b6e01f59734</IntermediateCubeDimensionID>
+                <IntermediateGranularityAttributeID>REFTYPEMARK</IntermediateGranularityAttributeID>
+                <Materialization>Regular</Materialization>
+              </Dimension>
+              <Dimension xsi:type="ReferenceMeasureGroupDimension">
+                <CubeDimensionID>6e290dea-9585-47c1-9935-87275d8b42e2</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>D_OMSU_MARKSOMSU</TableID>
+                          <ColumnID>REFREACH</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+                <IntermediateCubeDimensionID>3a5c418c-bb47-4585-89a0-5b6e01f59734</IntermediateCubeDimensionID>
+                <IntermediateGranularityAttributeID>REFREACH</IntermediateGranularityAttributeID>
+                <Materialization>Regular</Materialization>
+              </Dimension>
+              <Dimension xsi:type="ManyToManyMeasureGroupDimension">
+                <CubeDimensionID>ОМСУ__Мероприятия</CubeDimensionID>
+                <MeasureGroupID>D OMSU PLANMEAS</MeasureGroupID>
+              </Dimension>
+            </Dimensions>
+            <Partitions>
+              <Partition>
+                <ID>aa1d6e14-b44b-4602-88d0-94d87259534a</ID>
+                <Name>РЕГИОН_Оценка ОМСУ</Name>
+                <Annotations>
+                  <Annotation>
+                    <Name>ObjectKey</Name>
+                    <Visibility>SchemaRowset</Visibility>
+                    <Value>
+                      <ObjectKey xmlns="">effef854-c16f-4a03-a7a7-23aab21f985a</ObjectKey>
+                    </Value>
+                  </Annotation>
+                </Annotations>
+                <Source xsi:type="TableBinding">
+                  <DataSourceID>DV</DataSourceID>
+                  <DbSchemaName>DV</DbSchemaName>
+                  <DbTableName>F_OMSU_REG16</DbTableName>
+                </Source>
+                <AggregationPrefix>РЕГИОН_Оценка ОМСУ_РЕГИОН_Оценка ОМСУ</AggregationPrefix>
+                <StorageMode>Molap</StorageMode>
+                <ProcessingMode>Regular</ProcessingMode>
+                <ProactiveCaching>
+                  <SilenceInterval>-PT1S</SilenceInterval>
+                  <Latency>-PT1S</Latency>
+                  <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+                  <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+                  <Source xsi:type="ProactiveCachingInheritedBinding" />
+                </ProactiveCaching>
+              </Partition>
+            </Partitions>
+            <ProactiveCaching>
+              <SilenceInterval>-PT1S</SilenceInterval>
+              <Latency>-PT1S</Latency>
+              <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+              <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+              <Source xsi:type="ProactiveCachingInheritedBinding" />
+            </ProactiveCaching>
+          </MeasureGroup>
+          <MeasureGroup>
+            <ID>D OMSU PLANMEAS</ID>
+            <Name>Связка</Name>
+            <Annotations>
+              <Annotation>
+                <Name>FullName</Name>
+                <Visibility>SchemaRowset</Visibility>
+                <Value>
+                  <FullName xmlns="">d.OMSU.PlanMeas</FullName>
+                </Value>
+              </Annotation>
+              <Annotation>
+                <Name>SubClass</Name>
+                <Visibility>SchemaRowset</Visibility>
+                <Value>
+                  <SubClass xmlns="">ВВОД</SubClass>
+                </Value>
+              </Annotation>
+              <Annotation>
+                <Name>ObjectKey</Name>
+                <Visibility>SchemaRowset</Visibility>
+                <Value>
+                  <ObjectKey xmlns="">6b7467ec-13db-441c-a3e6-eee3840e0148</ObjectKey>
+                </Value>
+              </Annotation>
+              <Annotation>
+                <Name>Revision</Name>
+                <Visibility>SchemaRowset</Visibility>
+                <Value>
+                  <Revision xmlns="">15165</Revision>
+                </Value>
+              </Annotation>
+            </Annotations>
+            <Measures>
+              <Measure>
+                <ID>CODE</ID>
+                <Name>Количество</Name>
+                <AggregateFunction>Count</AggregateFunction>
+                <DataType>Double</DataType>
+                <Source>
+                  <DataType>Double</DataType>
+                  <Source xsi:type="ColumnBinding">
+                    <TableID>D_OMSU_PLANMEAS</TableID>
+                    <ColumnID>CODE</ColumnID>
+                  </Source>
+                </Source>
+                <Visible>false</Visible>
+              </Measure>
+            </Measures>
+            <StorageMode>Molap</StorageMode>
+            <ProcessingMode>Regular</ProcessingMode>
+            <Dimensions>
+              <Dimension xsi:type="RegularMeasureGroupDimension">
+                <CubeDimensionID>3a5c418c-bb47-4585-89a0-5b6e01f59734</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>D_OMSU_PLANMEAS</TableID>
+                          <ColumnID>REFMARKSOMSU</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>ОМСУ__Показатели ОМСУ</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Что показывает</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>2000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Обозначение</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>2000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Информационная обеспеченность</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>2000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Расчёт показателя</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>2000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Обратный показатель</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Доклад включать</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>МО</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Номер в докладе</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Номер в оценке</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Оценка включать</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Формула</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Группировка</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Boolean</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Краткое наименование</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Номер в структуре</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Разрядность</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Описание</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Единица измерения</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFRESPONSOIV</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFCOMPREP</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFCOPMESTIM</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFTYPEMARK</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>REFREACH</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+              </Dimension>
+              <Dimension xsi:type="RegularMeasureGroupDimension">
+                <CubeDimensionID>ОМСУ__Мероприятия</CubeDimensionID>
+                <Attributes>
+                  <Attribute>
+                    <AttributeID>ID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="ColumnBinding">
+                          <TableID>D_OMSU_PLANMEAS</TableID>
+                          <ColumnID>REFACTIONS</ColumnID>
+                        </Source>
+                      </KeyColumn>
+                    </KeyColumns>
+                    <Type>Granularity</Type>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>уровень_Источник</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>ID источника</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Код</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Double</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Целевое значение показателя</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>4000</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>Срок исполнения</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>WChar</DataType>
+                        <DataSize>255</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                  <Attribute>
+                    <AttributeID>PKID</AttributeID>
+                    <KeyColumns>
+                      <KeyColumn>
+                        <DataType>Integer</DataType>
+                        <DataSize>-1</DataSize>
+                        <Source xsi:type="InheritedBinding" />
+                      </KeyColumn>
+                    </KeyColumns>
+                  </Attribute>
+                </Attributes>
+              </Dimension>
+            </Dimensions>
+            <Partitions>
+              <Partition>
+                <ID>D OMSU PLANMEAS</ID>
+                <Name>D OMSU PLANMEAS</Name>
+                <Source xsi:type="DsvTableBinding">
+                  <DataSourceViewID>DV</DataSourceViewID>
+                  <TableID>D_OMSU_PLANMEAS</TableID>
+                </Source>
+                <StorageMode>Molap</StorageMode>
+                <ProcessingMode>Regular</ProcessingMode>
+                <ProactiveCaching>
+                  <SilenceInterval>-PT1S</SilenceInterval>
+                  <Latency>-PT1S</Latency>
+                  <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+                  <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+                  <Source xsi:type="ProactiveCachingInheritedBinding" />
+                </ProactiveCaching>
+              </Partition>
+            </Partitions>
+            <ProactiveCaching>
+              <SilenceInterval>-PT1S</SilenceInterval>
+              <Latency>-PT1S</Latency>
+              <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+              <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+              <Source xsi:type="ProactiveCachingInheritedBinding" />
+            </ProactiveCaching>
+          </MeasureGroup>
+        </MeasureGroups>
+        <Source>
+          <DataSourceViewID>DV</DataSourceViewID>
+        </Source>
+        <MdxScripts>
+          <MdxScript>
+            <ID>Default</ID>
+            <Name>Default</Name>
+            <Commands>
+              <Command>
+                <Text>CALCULATE;</Text>
+              </Command>
+            </Commands>
+          </MdxScript>
+        </MdxScripts>
+        <ProactiveCaching>
+          <SilenceInterval>-PT1S</SilenceInterval>
+          <Latency>-PT1S</Latency>
+          <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+          <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+          <Source xsi:type="ProactiveCachingInheritedBinding" />
+        </ProactiveCaching>
+      </Cube>
+    </ObjectDefinition>
+  </Alter>
+</Batch>

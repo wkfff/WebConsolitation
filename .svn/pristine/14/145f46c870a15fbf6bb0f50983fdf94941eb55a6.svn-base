@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="МФ РФ.Распределение доходов" ClassType="7" SubClassType="2" Description="" DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="2">
+  <property name="FromClause"><![CDATA["DV"."D_MFRF_DISTRIBINCOME", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_MFRF_DISTRIBINCOME"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.MFRF.DistribIncome]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[6211e4b8-8885-402b-86c2-2007138fc87c]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[354e49a0-2087-48ce-a1b8-0ebfa2359a27]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_MFRF_DISTRIBINCOME}{DV.D_MFRF_DISTRIBINCOME}{2400}{600}{2595}{3040}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2625}{4125}{1800}{2200}{1})]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[96dc3b7b-f83d-48a9-a2c6-d9da827784dc]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="МФ РФ" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="131" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="303" IsVisible="true" LevelNamingTemplate="Источник;Группа;Распределение доходов" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_MFRF_DISTRIBINCOME"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_MFRF_DISTRIBINCOME"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_MFRF_DISTRIBINCOME"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MFRF_DISTRIBINCOME"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MFRF_DISTRIBINCOME"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."DESIGNATION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Среднее значение" ClassType="31" SubClassType="0" Description="" Caption="Среднее значение" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MFRF_DISTRIBINCOME"."MIDDLVALUE"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

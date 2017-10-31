@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<Validations>
+  <!--ИФ.Кредиты полученные-->
+  <MasterCompositeValidator key="fb029d1d-e648-46b4-8a1f-bff21ea0fbf5">
+
+    <MasterValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDateValidator">
+      <ErrorMessage>Договор № {0}. Некорректная дата. Дата должна быть больше даты заключения договора</ErrorMessage>
+    </MasterValidator>
+
+    <!--ИФ.План привлечения -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="ac233144-2334-4039-83fb-2c1606310823">
+      <!--проверка на соответствие суммы-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>План привлечения. Сумма привлечения должна быть равна сумме договора</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailStartDateValidator">
+        <ErrorMessage>План привлечения. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты конца периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailEndDateValidator">
+        <ErrorMessage>План привлечения. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка начала и конца периода на соответствие между собой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailStartEndDateValidator">
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.План погашения основного долга -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="8dc36651-e4ac-4900-915b-4e43cae5660f">
+      <!--проверка общей суммы всех планируемых платежей к сумме договора-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>План погашения основного долга. Сумма погашения должна быть равна сумме договора.</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailStartDateValidator">
+        <ErrorMessage>План погашения основного долга. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты конца периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailEndDateValidator">
+        <ErrorMessage>План погашения основного долга. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка начала и конца периода на соответствие между собой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailStartEndDateValidator">
+      </DetailValidator>
+      <!--проверка номера платежа-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrentNumberValidator">
+        <ErrorMessage>План погашения основного долга. Запись с ID = {0}. Номер платежа введен некорректно по отношению к дате платежа</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.План обслуживания долга -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="1680ba71-aec6-4326-9272-5d00fecf2747">
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailStartDateValidator">
+        <ErrorMessage>План обслуживания долга. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailEndDateValidator">
+        <ErrorMessage>План обслуживания долга. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка начала и конца периода на соответствие между собой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailStartEndDateValidator">
+      </DetailValidator>
+      <!--проверка номера платежа-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrentNumberValidator">
+        <ErrorMessage>План обслуживания долга. Запись с ID = {0}.  Номер платежа введен некорректно по отношению к дате платежа</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт привлечения -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="eb1a12c1-a90f-4de4-b2e1-865780a9ba2e">
+      <!--проверка cуммы привлечения к планируемой сумме-->
+      <MasterDetailDetailValidator associationKey="ac233144-2334-4039-83fb-2c1606310823" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailTotalSumValidator">
+        <ErrorMessage>Факт привлечения. Сумма привлечения не соответствует запланированной сумме привлечения</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка поля "дата привлечения" на вхождение в интервал между началом периода и концом периода-->
+      <MasterDetailDetailValidator associationKey="ac233144-2334-4039-83fb-2c1606310823" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailFactDateValidator">
+        <ErrorMessage>Факт привлечения. Дата привлечения не соответствует запланированной дате привлечения обязательства</ErrorMessage>
+      </MasterDetailDetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт погашения основного долга -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="c8540e76-ed80-4a4b-bb26-cbc6c82190d4">
+      <!--проверка общей суммы погашения к сумме договора-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>Факт погашения основного долга. Договор не погашен</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка фактической суммы погашения по платежам к соответствующим запланированным платежам-->
+      <MasterDetailDetailValidator associationKey="8dc36651-e4ac-4900-915b-4e43cae5660f" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailSumValidator">
+        <ErrorMessage>Факт погашения основного долга. Запись с ID = {0}. Погашенная сумма меньше суммы платежа по графику погашения основного долга</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка фактической даты погашения к планируемой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailFactDateValidator" secondAssociationKey="6cf75ac6-849e-41a8-bf32-8a159824b851">
+        <ErrorMessage>Факт погашения основного долга. Запись с ID = {0}. Платеж просрочен, необходимо начислить пени по основному долгу</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт погашения процентов-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="79c80422-0e46-4e9a-8061-eef55224e2ff">
+      <!--проверка общей суммы процентов к запланированной-->
+      <MasterDetailDetailValidator associationKey="1680ba71-aec6-4326-9272-5d00fecf2747" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailTotalSumValidator">
+        <ErrorMessage>Факт погашения процентов. Задолженность по процентам погашена не полностью</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка суммы процентов к запланированной по отдельным платежам-->
+      <MasterDetailDetailValidator associationKey="1680ba71-aec6-4326-9272-5d00fecf2747" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailSumValidator">
+        <ErrorMessage>Факт погашения процентов. Запись с ID = {0}. Погашенная сумма меньше суммы платежа по графику погашения основного долга</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка даты фактической к дате плановой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailFactDateValidator" secondAssociationKey="00576abb-9f27-42c8-83ea-e255e4c136de">
+        <ErrorMessage>Факт погашения процентов. Запись с ID = {0}. Платеж просрочен, необходимо начислить пени по процентам</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Начисление пени по осноному долгу-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="6cf75ac6-849e-41a8-bf32-8a159824b851">
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Начисление пени по процентам-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="00576abb-9f27-42c8-83ea-e255e4c136de">
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт погашения пени по основному долгу-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="49c3e912-0e00-433c-94cf-8bc924c97077">
+      <!--проверка суммы процентов к запланированной по отдельным платежам-->
+      <MasterDetailDetailValidator associationKey="6cf75ac6-849e-41a8-bf32-8a159824b851" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailSumValidator">
+        <ErrorMessage>Факт погашения пени по основному долгу. Запись с ID = {0}. Платеж по пени просрочен</ErrorMessage>
+      </MasterDetailDetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт погашения пени по процентам-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="c9501bab-1ec1-4acf-bc9f-f75b33b555c3">
+      <!--проверка суммы процентов к запланированной по отдельным платежам-->
+      <MasterDetailDetailValidator associationKey="00576abb-9f27-42c8-83ea-e255e4c136de" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailSumValidator">
+        <ErrorMessage>Факт погашения пени по процентам. Запись с ID = {0}. Платеж по пени просрочен</ErrorMessage>
+      </MasterDetailDetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Журнал ставок процентов-> ИФ.Кредиты полученные-->
+    <!--
+    <MasterDetailCompositeValidator associationKey="f9b2db9b-9ba8-4294-bdff-a0aa156addd5">
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailChargeDateValidator">
+        <ErrorMessage>Журнал ставок процентов. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+    </MasterDetailCompositeValidator>
+    -->
+  </MasterCompositeValidator>
+</Validations>

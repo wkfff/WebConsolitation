@@ -1,0 +1,20 @@
+CALCULATE;
+
+SCOPE([Период__Период].[Период__Период].[Месяц].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = IIF([Measures].CurrentMember is [Measures].[График на месяц] or [Measures].CurrentMember is [Measures].[Исполнено с начала месяца] or [Measures].CurrentMember is [Measures].[Остаток графика], 
+Sum([Период__Период].[Период__Период].CurrentMember.Children, Measures.CurrentMember), Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0));
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = IIF([Measures].CurrentMember is [Measures].[График на месяц] or [Measures].CurrentMember is [Measures].[Исполнено с начала месяца] or [Measures].CurrentMember is [Measures].[Остаток графика], 
+Sum([Период__Период].[Период__Период].CurrentMember.Children, Measures.CurrentMember), Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0));
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = IIF([Measures].CurrentMember is [Measures].[График на месяц] or [Measures].CurrentMember is [Measures].[Исполнено с начала месяца] or [Measures].CurrentMember is [Measures].[Остаток графика], 
+Sum([Период__Период].[Период__Период].CurrentMember.Children, Measures.CurrentMember), Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0));
+END SCOPE;

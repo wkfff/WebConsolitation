@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Налоги.Роснедвижимость_Земля" ClassType="7" SubClassType="2" Description="Классификатор данных содержит перечень категорий и видов функционального использования земель." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_TAX_LAND"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Tax.Land]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[e9c2e915-3714-4323-a1c1-11274b1ae0b7]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_TAX_LAND}{DV.D_TAX_LAND}{2400}{600}{2265}{2200}{1})]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[81b4e2a6-ada2-476b-bacb-8096d702f2a4]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[de9d608d-e91e-4a8e-abf8-7411f6b6fc40]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Виды" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Категория земель;Вид функционального использования" Ordering="0" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_TAX_LAND"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_TAX_LAND"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_TAX_LAND"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_TAX_LAND"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Номер вида" ClassType="31" SubClassType="0" Description="" Caption="Номер вида" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_TAX_LAND"."KINDNUMBER"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

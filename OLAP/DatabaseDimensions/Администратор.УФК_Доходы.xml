@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Администратор.УФК_Доходы" ClassType="7" SubClassType="0" Description="Классификатор администраторов поступлений бюджетных средств, сформированный по данным Сводного реестра поступлений и выбытия средств бюджета, Ведомости учета внебанковских операций." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_KVSR_UFK5"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.KVSR.UFK5]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_KVSR_UFK5}{DV.DV_KVSR_UFK5}{2400}{600}{1800}{2215}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[00db4d46-f100-4a49-a159-1a61bd76f2b6]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[3268c7b3-0c4f-4a99-acf1-598a474cc396]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[d95e6802-ab07-44e8-85cf-f92da2787607]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все администраторы]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_KVSR_UFK5"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_KVSR_UFK5"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ID источника" ClassType="31" SubClassType="0" Description="" Caption="ID источника" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KVSR_UFK5"."SOURCEID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="ИНН администратора" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_KVSR_UFK5"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_KVSR_UFK5"."CODESTR"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ИНН" ClassType="31" SubClassType="0" Description="" Caption="ИНН" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KVSR_UFK5"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="КПП" ClassType="31" SubClassType="0" Description="" Caption="КПП" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KVSR_UFK5"."KPP"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KVSR_UFK5"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

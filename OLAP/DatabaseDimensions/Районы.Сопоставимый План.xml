@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Районы.Сопоставимый План" ClassType="7" SubClassType="2" Description="Сопоставимый классификатор для планирования бюджета. Устанавливается равным классификатору планирования текущего года. В нем выполняется обратная запись при расчете плана." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN", "DV"."DV_FX_FX_TERRITORIALPARTTYPE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."BV_REGIONS_BRIDGEPLAN"."REFTERRTYPE"="DV"."DV_FX_FX_TERRITORIALPARTTYPE"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[b.Regions.BridgePlan]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.BV_REGIONS_BRIDGEPLAN}{DV.BV_REGIONS_BRIDGEPLAN}{2400}{600}{2640}{2620}{1})({dv}{DV.DV_FX_FX_TERRITORIALPARTTYPE}{DV.DV_FX_FX_TERRITORIALPARTTYPE}{2415}{3720}{3210}{1225}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[1e82eff4-c25f-4d38-bb16-90f12b4ff3ce]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[24962405-0ac5-48ed-83f6-127134116703]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[b816b240-e78b-492d-ab54-99a846b98ba5]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Район" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="18" IsVisible="true" LevelNamingTemplate="Районы;Поселения;Районы уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип территории" ClassType="31" SubClassType="0" Description="" Caption="Тип территории" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_FX_FX_TERRITORIALPARTTYPE"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип территории_ID" ClassType="31" SubClassType="0" Description="" Caption="Тип территории_ID" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_FX_FX_TERRITORIALPARTTYPE"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="ОКАТО" ClassType="31" SubClassType="0" Description="" Caption="ОКАТО" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."OKATO"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код объекта карты" ClassType="31" SubClassType="0" Description="" Caption="Код объекта карты" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."MAPOBJCODE"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

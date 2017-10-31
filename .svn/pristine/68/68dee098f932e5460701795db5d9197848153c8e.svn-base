@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="FO_0021_0005_date">
+    <![CDATA[
+-- FO_0021_0005_date
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[Квартал],
+                    SELF
+                ),
+                not IsEmpty
+                (
+                    (
+                        [Показатели].[ФПКУ_Сопоставимый].[Все показатели]
+                    )
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Квартал 1"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Остатки на начало года"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Данные квартала"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Данные полугодия"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Данные месяца"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Данные года"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+                )
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФО_ФПКУ_Показатели]
+]]>
+  </query>
+
+  <query id="FO_0021_0005_chart">
+    <![CDATA[
+-- FO_0021_0005_chart
+with       
+    set [Список МО]       
+    as 'Filter       
+        (
+            Descendants       
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF       
+            ),
+            not       
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember       
+            ) and       
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"       
+            )       
+        )'   
+    member [Районы].[Сопоставимый].[UniqName]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    
+    set [Периоды]    
+    as 'Filter   
+        (
+            Generate    
+            (
+                {
+                    <%period_set%>
+                },
+                {
+                    [Период].[Период].CurrentMember 
+                } + Descendants  
+                (
+                    [Период].[Период].CurrentMember,
+                    [Период].[Период].[Квартал],
+                    SELF  
+                )  
+            ),
+            (
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года"    
+            ) and    
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные квартала"    
+            ) and    
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия"    
+            ) and    
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные месяца"    
+            ) and    
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные года"    
+            ) and    
+            (
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты"    
+            )  and not IsEmpty  
+            (
+               [Measures].[<%selected_measure%>]
+            )  and 
+            [Период].[Период].CurrentMember.Level is [Период].[Период].[Квартал] 
+        )'
+select
+    { {[Районы].[Сопоставимый].[UniqName]} + [Список МО] } on columns,
+    { [Периоды] } on rows     
+from [ФО_ФПКУ_Показатели]       
+where
+    (
+        [Measures].[<%selected_measure%>],
+        <%selected_indicator%>
+    )          
+  ]]>
+</query>
+
+  <query id="FO_0021_0005_indicatorList">
+    <![CDATA[
+-- FO_0021_0005_indicatorList
+with 
+    set [Показатели] 
+    as 'Filter
+        (
+            Descendants  
+            (
+                [Показатели].[ФПКУ_Сопоставимый].[Все показатели],
+                [Показатели].[ФПКУ_Сопоставимый].[Показатели],
+                SELF  
+            ),
+            (
+                [Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name <> "Несопоставленные данные"  
+            ) and        
+            (
+                [Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name <> "Итоговая оценка"
+            ) and        
+            (
+                [Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name <> "Рейтинг"       
+            ) and        
+            (
+                [Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name <> "Средняя оценка"       
+            ) 
+        )' 
+        
+    set [Список общих показателей]       
+    as 'Filter       
+        (
+            {
+                [Показатели].[ФПКУ_Сопоставимый].[Все показатели].[Итоговая оценка],
+                [Показатели].[ФПКУ_Сопоставимый].[Все показатели].[Рейтинг],
+                [Показатели].[ФПКУ_Сопоставимый].[Все показатели].[Средняя оценка]      
+            },
+            Measures.[Выбран удельный вес] = true    
+        )' 
+        
+    member [Measures].[Имя] 
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Properties("Наименование")'
+    member [Measures].[Уникальное имя] 
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.UniqueName'
+    member [Measures].[Уровень]
+    as '0'  
+    member [Measures].[Полное имя]
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Properties("Наименование")'    
+    member [Measures].[Краткое имя]
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name'    
+    member [Measures].[Тип]
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name'    
+    
+    member Measures.[Выбран удельный вес]
+    as '"<%selected_measure%>" = "Взвешенное значение"'
+    
+   set [Список районов] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                [Районы].[Сопоставимый].[Уровень 04],
+                SELF 
+            ),
+            not 
+            (
+                [Районы].[Сопоставимый].CurrentMember is  [Районы].[Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or  [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" 
+            ) 
+        )' 
+        
+    member [Районы].[Сопоставимый].[Аггрегироавнные районы]           
+    as 'Aggregate({[Список районов]})'        
+    member [Период].[Период].[Аггрегироавнные периоды]           
+    as 'Aggregate({<%period_set%>})'        
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Полное имя],
+        [Measures].[Краткое имя],
+        [Measures].[Тип]
+    } on columns,
+    {
+        Filter
+        (
+           {[Показатели] + [Список общих показателей]},
+           not 
+           (
+               IsEmpty   
+               (
+                   ([Районы].[Сопоставимый].[Аггрегироавнные районы], [Период].[Период].[Аггрегироавнные периоды] )   
+               )
+           )
+        )
+    } on rows 
+from  [ФО_ФПКУ_Показатели] 
+  ]]>
+  </query>
+
+  <query id="FO_0021_0005_nonEmptyPeriodList2">
+    <![CDATA[
+-- FO_0021_0005_nonEmptyPeriodList2
+with
+    set [Непустые периоды]
+    as '  Filter
+        (
+            Descendants
+            (
+                [Период].[Период].[Данные всех периодов],
+                [Период].[Период].[Квартал],
+                SELF
+            ),
+            not IsEmpty
+            (
+                (
+                    [Показатели].[ФПКУ_Сопоставимый].[Все показатели]
+                )
+            ) and
+            (
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года"
+            ) and
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные квартала"
+            ) and
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия"
+            ) and
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные месяца"
+            ) and
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные года"
+            ) and
+            (
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+            )
+        ) '
+    member [Measures].[Уникальное имя]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    member [Measures].[Уровень]
+    as '0'
+    member [Measures].[Имя]
+    as 'IIF
+        (
+            [Период].[Период].CurrentMember.Name = "Квартал 1",
+            "1 квартал " + [Период].[Период].CurrentMember.Parent.Parent.Name + " года",
+            IIF
+            (
+                [Период].[Период].CurrentMember.Name = "Квартал 2",
+                "2 квартал " + [Период].[Период].CurrentMember.Parent.Parent.Name + " года",
+                IIF
+                (
+                    [Период].[Период].CurrentMember.Name = "Квартал 3",
+                    "3 квартал " + [Период].[Период].CurrentMember.Parent.Parent.Name + " года",
+                    "4 квартал " + [Период].[Период].CurrentMember.Parent.Parent.Name + " года"
+                )
+            )
+        )'
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень]
+    } on columns,
+    { [Непустые периоды] } on rows
+from [ФО_ФПКУ_Показатели]
+  ]]>
+  </query>
+
+  <query id="FO_0021_0005_nonEmptyPeriodList">
+    <![CDATA[
+-- FO_0021_0005_nonEmptyPeriodList
+with  
+    set [Непустые периоды]  
+    as 'Generate 
+        (
+            Filter 
+            (
+                Descendants  
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[Квартал],
+                    SELF  
+                ),
+                not IsEmpty  
+                (
+                    (
+                        [Показатели].[ФПКУ_Сопоставимый].[Все показатели]  
+                    )  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Остатки на начало года"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные квартала"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные полугодия"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные месяца"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные года"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Заключительные обороты"  
+                )  
+            ),
+            {
+                [Период].[Период].CurrentMember.Parent.Parent
+            } + 
+            {
+                [Период].[Период].CurrentMember
+            }
+        ) ' 
+    member [Measures].[Имя]  
+    as 'IIF 
+        (
+            [Период].[Период].CurrentMember.Level is [Период].[Период].[Квартал],
+            [Период].[Период].CurrentMember.Name,
+            [Период].[Период].CurrentMember.Name + " год"
+        ) '   
+    member [Measures].[Уникальное имя]  
+    as '[Период].[Период].CurrentMember.UniqueName'
+    member [Measures].[Уровень]  
+    as 'IIF 
+        (
+            [Период].[Период].CurrentMember.Level is [Период].[Период].[Квартал],
+            1,
+            0 
+        )'   
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень] 
+    } on columns,
+    { [Непустые периоды] } on rows  
+from [ФО_ФПКУ_Показатели] 
+  ]]>
+  </query>
+  
+</root>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+
+  <query id = "ComboQuart">
+  <![CDATA[With
+member [Территории__РФ].[Территории__РФ].[quart]
+as '[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].currentmember.parent.name'
+
+member [Территории__РФ].[Территории__РФ].[year]
+as '[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].currentmember.parent.parent.parent.name'
+
+member [Территории__РФ].[Территории__РФ].[UniqueName]
+as '[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].currentmember.uniquename'
+
+SELECT
+    non empty{
+    filter(
+[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Месяц].ALLMEMBERS
+,
+[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].currentmember > 0)
+    }on rows  ,
+    non empty{
+[Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Северо-Западный федеральный округ].[Ненецкий автономный округ],
+[Территории__РФ].[Территории__РФ].[quart],
+[Территории__РФ].[Территории__РФ].[year],
+[Территории__РФ].[Территории__РФ].[UniqueName]
+    } on columns
+FROM  [ЭО_Программы_Долгосрочные целевые программы]
+where 
+    (
+
+        [Программы__Источники финансирования].[Программы__Источники финансирования].[Все источники],
+        [Программы__Реестр программ].[Программы__Реестр программ].[Данные всех источников]
+
+    ) 
+  ]]>
+  </query>
+  
+   <query id = "Grid">
+  <![CDATA[With
+member [Measures].[level]
+as '[Программы__Реестр программ].[Программы__Реестр программ].currentmember.LEVEL_NUMBER'
+SELECT
+    non empty{
+    [Measures].[level],
+[Measures].[План],
+[Measures].[Исполнено],
+[Measures].[Освоено]
+    }  on columns,
+    non empty{
+filter(
+        [Программы__Реестр программ].[Программы__Реестр программ].members,
+[Программы__Реестр программ].[Программы__Реестр программ].currentmember>0)
+    } on rows
+FROM  [ЭО_Программы_Долгосрочные целевые программы]
+where 
+    (
+[Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Северо-Западный федеральный округ].[Ненецкий автономный округ],
+        [Программы__Источники финансирования].[Программы__Источники финансирования].[Все источники],
+
+        [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Данные всех периодов].[2010].[Полугодие 2].[Квартал 4].[Декабрь]
+
+    ) 
+
+  ]]>
+  </query>
+  
+    <query id = "Textovka">
+    <![CDATA[With   
+    member [Measures].[level] 
+    as '[Программы__Реестр программ].[Программы__Реестр программ].currentmember.LEVEL_NUMBER'  
+    member [Measures].[z1] 
+    as '[Measures].[Исполнено]'  
+    member [Measures].[r1] 
+    as '[Measures].[Исполнено]/ [Measures].[План] '
+    
+    member [Measures].[z2]
+    as '[Measures].[Освоено]'
+    member [Measures].[r2]
+    as '[Measures].[Освоено]/ [Measures].[План] '
+SELECT
+    non empty
+    {
+        [Measures].[z1],
+        [Measures].[r1],
+        [Measures].[z2],
+        [Measures].[r2]
+    } on rows  ,
+    non empty
+    {
+        [Программы__Реестр программ].[Программы__Реестр программ].[(All)] 
+    }on columns
+FROM  [ЭО_Программы_Долгосрочные целевые программы] 
+where 
+    (
+        [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Северо-Западный федеральный округ].[Ненецкий автономный округ],
+        [Программы__Источники финансирования].[Программы__Источники финансирования].[Все источники],
+        [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Данные всех периодов].[2010].[Полугодие 2].[Квартал 4].[Декабрь]  
+    ) 
+]]></query>
+
+  <query id = "RangRF">
+    <![CDATA[  
+  
+  with 
+    member [Measures].[Value]
+    as ' 
+        (
+            [Measures].[За период],
+            <%ChosenDate%>
+        )'
+    member [Measures].[Rang]
+    as 'null'
+
+select
+    non empty  
+    {
+        filter 
+        (
+            [Территории].[СЭП].[Территория].members,
+            (
+     
+                (
+                    [Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "РФ"
+                ) and 
+                (
+                    (
+                        [Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> ""
+                    )
+                ) 
+            ) 
+        ) 
+    }on rows ,
+    {
+[Measures].[Value],
+[Measures].[Rang]
+    }  on columns 
+FROM  [СТАТ_СЭП_Годовой сборник] 
+where
+(
+            <%ChosenSEP%>
+)]]>
+</query>
+  <query id = "RangFO">
+    <![CDATA[  
+  
+  with 
+    member [Measures].[Value]
+    as ' 
+        (
+            [Measures].[За период],
+            <%ChosenDate%>
+        )'
+    member [Measures].[Rang]
+    as 'null'
+
+select
+    non empty  
+    {
+        filter 
+        (
+            [Территории].[СЭП].[Территория].members,
+            (
+     
+                (
+                    [Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "РФ"
+                ) and 
+                (
+                    (
+                        [Территории].[СЭП].CurrentMember.Properties("Принадлежность") = "<%ChosenRegionFO%>"
+                    )
+                ) 
+            ) 
+        ) 
+    }on rows ,
+    {
+[Measures].[Value],
+[Measures].[Rang]
+    }  on columns 
+FROM  [СТАТ_СЭП_Годовой сборник] 
+where
+(
+            <%ChosenSEP%>
+)]]>
+</query>
+
+ <query id = "ChartComparable">
+    <![CDATA[ 
+    ---ChartComparable
+    with
+    member [Measures].[<%ChosenRegionSubject%>]
+    as '
+        (
+            [Measures].[За период],
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionSubject%>].datamember
+
+        )'
+    member [Measures].[<%ChosenRegionFO%>]
+    as '
+        (
+            [Measures].[За период],
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionFO%>].datamember
+
+        )'
+    member [Measures].[Российская Федерация]
+    as '
+        (
+            [Measures].[За период],
+            [Территории].[СЭП].[Все территории].[Российская Федерация].datamember
+
+        )'
+    member [Measures].[ChartCaption]
+    as '
+ [Период].[Год Квартал Месяц].CurrentMember.Name +" "+  [Период].[Год Квартал Месяц].CurrentMember.parent.parent.parent.Name
+        '
+        
+select
+    {
+				        [Measures].[ChartCaption],
+                [Measures].[<%ChosenRegionSubject%>],
+                [Measures].[<%ChosenRegionFO%>],
+                [Measures].[Российская Федерация]
+    } on columns,
+    non empty
+    {
+filter(
+<%ChosenDate%>:<%ChosenDate%>.lag(48)
+,
+
+not IsEmpty( [Measures].[<%ChosenRegionSubject%>]))
+
+    }  on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+where
+(
+<%ChosenDetail%>
+)
+]]>
+</query>
+
+ <query id = "ChartDynamic">
+    <![CDATA[ with   
+    member [Measures].[ValueSubject]   
+    as '   
+        (
+            [Measures].[За период],
+            [Территории].[СЭП].[Все территории].[Республика Саха (Якутия)].datamember    
+        )'   
+    member [Measures].[ValueFO]   
+    as '   
+        (
+            [Measures].[За период],
+            [Территории].[СЭП].[Все территории].[Дальневосточный федеральный округ].datamember    
+        )'   
+    member [Measures].[ValueRF]   
+    as '   
+        (
+            [Measures].[За период],
+            [Территории].[СЭП].[Все территории].[Российская Федерация].datamember    
+        )'   
+    member [Measures].[ChartCaption]   
+    as ' [Период].[Год Квартал Месяц].CurrentMember.parent.parent.parent.Name +", "+ [Период].[Год Квартал Месяц].CurrentMember.Name '
+    member [Measures].[Year]
+    as
+    '[Период].[Год Квартал Месяц].CurrentMember.parent.parent.parent.Name'
+
+
+select
+    {
+        [Measures].[Year],
+        [Measures].[ChartCaption],
+        [Measures].[ValueSubject]
+  
+    } on columns,
+    non empty   
+    {
+    filter
+    (
+		{       
+		[Период].[Год Квартал Месяц].[Год].[<%ChosenYear%>].[Полугодие 2].[Квартал 4].[Декабрь].lag(33):[Период].[Год Квартал Месяц].[Год].[<%ChosenYear%>].[Полугодие 2].[Квартал 4].[Декабрь].lag(48),
+        [Период].[Год Квартал Месяц].[Год].[<%ChosenYear%>].[Полугодие 2].[Квартал 4].[Декабрь].lag(17):[Период].[Год Квартал Месяц].[Год].[<%ChosenYear%>].[Полугодие 2].[Квартал 4].[Декабрь].lag(32),
+        [Период].[Год Квартал Месяц].[Год].[<%ChosenYear%>].[Полугодие 2].[Квартал 4].[Декабрь]:[Период].[Год Квартал Месяц].[Год].[<%ChosenYear%>].[Полугодие 2].[Квартал 4].[Декабрь].lag(16)},
+ not IsEmpty(  [Measures].[ValueSubject])
+        )
+    }  on rows   
+FROM  [СТАТ_СЭП_Годовой сборник]    
+where
+(
+<%ChosenDetail%>
+)
+]]>
+</query>
+  <query id = "DefaultParam">
+    <![CDATA[   
+    --DefaultParam
+ with
+    member [Measures].[reverce]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    member [Measures].[UniqueName]
+    as '[СЭП].[Годовой сборник].currentmember.UniqueName'
+    member [Measures].[Unit]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Единица измерения")'
+    member [Measures].[comparable]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Сопоставимый показатель")'
+select
+    {
+    <%ChosenDate%>
+    } on columns,
+    {
+    TopCount(
+        filter
+        (
+            [СЭП].[Годовой сборник].[Раздел].members,
+            not IsEmpty
+            (
+                (
+                    [Measures].[За период],
+                    <%ChosenDate%>
+                )
+            )
+        )
+        ,
+        1)
+    }DIMENSION PROPERTIES PARENT_UNIQUE_NAME on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+where
+    (
+        [Территории].[СЭП].[Территория].[Центральный федеральный округ]
+    )
+  ]]>
+  </query>
+
+</root>

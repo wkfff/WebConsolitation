@@ -1,0 +1,1 @@
+%windir%\Microsoft.NET\Framework\v2.0.50215\InstallUtil.exe FMService.exe

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0002_0003_Vologda_date">
+    <![CDATA[
+-- FO_0002_0003_Vologda_date
+-- <#[ФО_МесОтч_Доходы]#>
+with
+    member [Measures].[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                <%period_dimension%>.Members,
+                not IsEmpty([Measures].[Факт])
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from  [ФО_МесОтч_Доходы]
+  ]]>
+  </query>
+
+  <query id="FO_0002_0003_Vologda_grid">
+    <![CDATA[
+-- FO_0002_0003_Vologda_detail_grid
+-- <#[ФО_МесОтч_Доходы]#>
+with 
+    member [КД].[Сопоставимый].[Доходы итого] 
+    as '<%incomes_total%>' 
+    member Measures.[Темп роста] 
+    as '[Measures].[Темп роста к аналогичному периоду предыдущего года_Факт]' 
+    member Measures.[Доля] 
+    as ' 
+        (
+            [КД].[Сопоставимый].CurrentMember,
+            [Measures].[Факт] 
+        )/ 
+        (
+            [КД].[Сопоставимый].[Доходы итого],
+            [Measures].[Факт] 
+        )' 
+    member Measures.[Доля прошлый год] 
+    as ' 
+        (
+            [КД].[Сопоставимый].CurrentMember,
+            [Measures].[Факт_прошлый год] 
+        )/ 
+        (
+            [КД].[Сопоставимый].[Доходы итого],
+            [Measures].[Факт_прошлый год] 
+        )' 
+    member Measures.[Исполнено млн] 
+    as 'Measures.[Факт] / 1000' 
+    
+    member Measures.[Исполнено прошлый год млн] 
+    as 'Measures.[Факт_прошлый год] / 1000' 
+    
+    member Measures.[Назначено млн] 
+    as '(Measures.[Годовые назначения], <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]) / 1000' 
+    
+    member Measures.[Назначено прошлый год млн] 
+    as '(Measures.[Годовые назначения], <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]) / 1000' 
+    
+    member Measures.[Процент выполнения прошлый год] 
+    as 'IIF 
+        (
+            IsEmpty 
+            (
+                Measures.[Назначено прошлый год млн] 
+            ) or Measures.[Назначено прошлый год млн] = 0,
+            null,
+            Measures.[Исполнено прошлый год млн] / Measures.[Назначено прошлый год млн]
+        )' 
+    member Measures.[Уровень] 
+    as '[КД].[Сопоставимый].CurrentMember.Level.Name' 
+    member Measures.[Код]
+    as '[КД].[Сопоставимый].CurrentMember.Properties("Код")'
+    
+    member Measures.[% выполнения годовых назначений прошлый год]    
+    as '(<%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+         Measures.[% выполнения годовых назначений])
+        '  
+    
+    member <%region_dimension%>.[<%own_subject_budget_name%>]
+    as '<%regions_consolidate_level%>' 
+    
+    member <%region_dimension%>.[Местные бюджеты]
+    as '<%regions_consolidate_level%>'    
+        
+    member [ТипДокумента].[СКИФ].[Тип документа]
+    as 'IIF
+        (
+            <%region_dimension%>.CurrentMember is <%regions_consolidate_level%> or
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>] or
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+            <%consolidate_document_skif_type%>,
+            <%region_document_skif_type%>
+        )
+       '
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]
+    as 'IIF
+        (
+            <%region_dimension%>.CurrentMember is <%regions_consolidate_level%>,
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF
+            (
+               <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>],
+               [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+               IIF
+               (
+                  <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+                  [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет МО],
+                  <%region_budget_skif_level%>
+               )
+            )
+        )
+       '  
+    
+        
+        
+            member [Measures].[Средний % наполнения бюджета]          
+    as 'IIF(        (
+                        <%period_dimension%>.[Данные всех периодов].[<%period_end_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+                        [Measures].[Факт]     
+                    ) = 0 OR
+                    (
+                        <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+                        [Measures].[Факт]     
+                    ) = 0
+                    , null,        
+        (
+            (
+                (
+                    (
+                        <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+                        [Measures].[Факт]     
+                    ) /          
+                    (
+                        <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+                        [Measures].[Факт]     
+                    )          
+                )+    
+                (
+                    (
+                        <%period_dimension%>.[Данные всех периодов].[<%period_end_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+                        [Measures].[Факт]     
+                    ) /     
+                    (
+                        <%period_dimension%>.[Данные всех периодов].[<%period_end_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+                        [Measures].[Факт]     
+                    )    
+                )    
+            )/2          
+        ) )'          
+  
+    member [Measures].[Доля ]        
+    as 'IIF( (
+                [КД].[Сопоставимый].[Все коды доходов].[Всего доходов].[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ],
+                [Measures].[Факт]    
+             ) = 0, null,        
+        (
+            (
+                [КД].[Сопоставимый].CurrentMember,
+                [Measures].[Факт]    
+            )/     
+            (
+                [КД].[Сопоставимый].[Все коды доходов].[Всего доходов].[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ],
+                [Measures].[Факт]    
+            )     
+        )       
+        )'     
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения]          
+    as 'Aggregate          
+        (
+            {
+                [Уровни бюджета].[СКИФ].[Бюджет поселения],
+                [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+                [Уровни бюджета].[СКИФ].[Бюджет района]          
+            }          
+        )'        
+    member [Measures].[% наполнения бюджета]        
+    as '
+    IIF( (
+                <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+                [Measures].[Факт]  
+            ) = 0, null,
+        (
+            (
+                <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+                [Measures].[Факт]  
+            ) /  
+            (
+                <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+                [Measures].[Факт]  
+            )  
+        ) )'
+        
+select
+    {
+        Measures.[Код],
+        Measures.[Назначено млн],
+        Measures.[Исполнено млн],
+        [Measures].[% выполнения годовых назначений],
+        [Measures].[Средний % наполнения бюджета],
+        [Measures].[Доля ],
+        Measures.[Исполнено прошлый год млн],
+        Measures.[% наполнения бюджета],
+        Measures.[Темп роста],
+        Measures.[Уровень]
+    } on columns,
+    non empty Filter 
+    (
+        Descendants
+        (
+           [КД].[Сопоставимый].[Все коды доходов], [КД].[Сопоставимый].[<%incomes_kd_subsection_level%>], Self_and_before
+        ) - {[КД].[Сопоставимый].[Все коды доходов]} - {<%incomes_kd_all_level%>} - {[КД].[Сопоставимый].Children.Item(0)} - {<%incomes_total%>} + {<%incomes_total%>},
+        (
+           Measures.[Исполнено млн] + Measures.[Исполнено прошлый год млн] + Measures.[Назначено млн] + Measures.[Назначено прошлый год млн]
+        ) <> 0 and
+        not( [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].CurrentMember.Parent.DataMember )
+    ) on rows
+from [ФО_МесОтч_Доходы]
+where 
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        <%selected_region%>,
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ],
+        [ТипДокумента].[СКИФ].[Тип документа]
+    ) 
+  ]]>
+  </query>
+
+</root>

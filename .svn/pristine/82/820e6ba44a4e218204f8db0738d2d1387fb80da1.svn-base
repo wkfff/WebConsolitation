@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+	<!-- ========================================================================================= -->
+	<query id="skk_004_map_rf_borders">
+		<![CDATA[
+-- skk_004_map_rf_borders
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+ 
+    member [Measures].[Показатель_]
+    as '
+        (
+            <%selected_mark%>,
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период]
+        )'
+    member [Measures].[Показатель#]
+    as 'IIF
+		(
+			isEmpty( [Measures].[Показатель_] ),
+			0,
+			[Measures].[Показатель_]
+		)'
+    member [Measures].[Максимум]
+    as 'max
+        (
+            [Строки],
+            [Measures].[Показатель#]
+        )'		
+		
+    set [Строки]
+    as 'IIF
+		(
+			[Пункты пропуска].[Участок границы].[Все] is [Пункты пропуска].[Участок границы].[Все],
+			filter
+			(
+				[Пункты пропуска].[Участок границы].[Все].children,
+				not [Пункты пропуска].[Участок границы].currentMember is [Пункты пропуска].[Участок границы].[Все].[Не указан участок границы]				
+			),
+			{ [Пункты пропуска].[Участок границы].[Все] }
+		)'
+select
+    {
+        [Measures].[Показатель#],
+		[Measures].[Максимум]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from [СКК]
+where
+    (
+        <%selected_direction%>,
+		<%selected_transport%>
+    )
+  ]]>
+	</query>
+	
+	<!-- ========================================================================================= -->
+	<query id="skk_004_map_rf_subjects">
+		<![CDATA[
+-- skk_004_map_rf_subjects
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+ 
+    member [Measures].[Показатель_]
+    as '
+        (
+            <%selected_mark%>,
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период]
+        )'
+    member [Measures].[Показатель#]
+    as 'IIF
+		(
+			isEmpty( [Measures].[Показатель_] ),
+			0,
+			[Measures].[Показатель_]
+		)'
+	
+    member [Measures].[Максимум]
+    as 'max
+        (
+            [Строки],
+            [Measures].[Показатель#]
+        )'		
+		
+    set [Строки]
+    as '[Пункты пропуска].[Субъект].[Все].children'
+select
+    {
+        [Measures].[Показатель#],
+		[Measures].[Максимум]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from [СКК]
+where
+    (
+        <%selected_direction%>,
+		<%selected_transport%>
+    )
+  ]]>
+	</query>	
+	
+	<!-- ========================================================================================= -->
+	<query id="skk_004_map_subject">
+		<![CDATA[
+-- skk_004_map_subject
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+ 
+    member [Measures].[Показатель_]
+    as '
+        (
+            <%selected_mark%>,
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период]
+        )'
+    member [Measures].[Показатель#]
+    as 'IIF
+		(
+			isEmpty( [Measures].[Показатель_] ),
+			0,
+			[Measures].[Показатель_]
+		)'
+
+    set [Строки] 	
+    as '[Пункты пропуска].[Пункт пропуска].[Все].children'
+select
+    {		
+        [Measures].[Показатель#]      
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from [СКК]
+where
+    (
+        <%selected_direction%>,
+		<%selected_transport%>,
+		[Пункты пропуска].[Субъект].[Все].[<%selected_subject%>]
+    )
+  ]]>
+	</query>	
+	
+	<!-- ========================================================================================= -->
+	<query id="skk_004_grid_borders">
+        <![CDATA[
+-- skk_004_grid_borders
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+ 
+    member [Measures].[Показатель]
+    as '
+        (
+            <%selected_mark%>,
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период]
+        )'
+    member [Measures].[Название]
+    as 'IIF
+        (
+			[Пункты пропуска].[Пункт пропуска].currentMember is [Пункты пропуска].[Пункт пропуска].[Все],
+            [Пункты пропуска].[Участок границы].currentMember.name,
+			[Пункты пропуска].[Пункт пропуска].currentMember.name
+        )'
+    member [Measures].[Уровень]
+    as 'IIF 
+        (
+            [Пункты пропуска].[Пункт пропуска].currentMember is [Пункты пропуска].[Пункт пропуска].[Все],
+            0,
+            1 
+        )' 
+		
+    set [Строки] 	
+    as 'Generate
+        (
+            [Участки],
+            (
+                [Пункты пропуска].[Участок границы].CurrentMember,
+                [Пункты пропуска].[Пункт пропуска].[Все]
+            ) +
+            {
+                [Пункты пропуска].[Участок границы].CurrentMember
+            } *
+            [Пункты пропуска].[Пункт пропуска].[Все].children
+        )'		
+    set [Участки]
+    as 'filter
+        (
+			[Пункты пропуска].[Участок границы].[Все].children,
+			not [Пункты пропуска].[Участок границы].currentMember is [Пункты пропуска].[Участок границы].[Все].[Не указан участок границы]				
+		)'
+select
+    {		
+		[Measures].[Название],
+        [Measures].[Показатель],
+		[Measures].[Уровень]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from [СКК]
+where
+    (
+        <%selected_direction%>,
+		<%selected_transport%>
+    )
+  ]]>
+    </query>
+	
+	<!-- ========================================================================================= -->
+	<query id="skk_004_grid_subjects">
+        <![CDATA[
+-- skk_004_grid_subjects
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+ 
+    member [Measures].[Показатель]
+    as '
+        (
+            <%selected_mark%>,
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период]
+        )'
+		
+	member [Measures].[Уровень]
+    as 'IIF 
+        (
+            [Пункты пропуска].[Субъект_Пункт пропуска].currentMember.level_number < 3,
+            0,
+            1 
+        )' 
+		
+	set [ПунктыПропуска]
+	as 'descendants
+		(
+			[Пункты пропуска].[Субъект_Пункт пропуска].[Все],
+			[Пункты пропуска].[Субъект_Пункт пропуска].[Субъект],
+			SELF_AND_AFTER
+		)'
+    set [Строки] 	
+    as 'IIF
+		(
+			Len("<%selected_subject%>") > 0,
+			filter
+			(
+				[ПунктыПропуска],
+				[Пункты пропуска].[Субъект].currentMember is [Пункты пропуска].[Субъект].[Все].[<%selected_subject%>]
+			),
+			[ПунктыПропуска]			
+        )'		
+select
+    {		
+        [Measures].[Показатель],
+		[Measures].[Уровень]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from [СКК]
+where
+    (
+        <%selected_direction%>,
+		<%selected_transport%>
+    )
+  ]]>
+    </query>	
+</root>

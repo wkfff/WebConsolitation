@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="ОМСУ.Показатели оценки поселений" ClassType="7" SubClassType="0" Description="" DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_OMSU_PEREVSET", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_OMSU_PEREVSET"."REFOKEI"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.OMSU.PerEvSet]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[42ae5c65-1bfb-4137-8c66-cda0385fd0fd]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[4173de06-8096-4527-809f-3223262242a2]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[42403aae-53ea-41bd-b63b-f413753b361e]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_OMSU_PEREVSET}{DV.DV_OMSU_PEREVSET}{900}{1005}{2370}{3115}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{900}{4360}{1800}{2200}{1})]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ID источника" ClassType="31" SubClassType="0" Description="" Caption="ID источника" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."SOURCEID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатель" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Расчет показателя" ClassType="31" SubClassType="0" Description="" Caption="Расчет показателя" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."INDICATOR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Источник получения" ClassType="31" SubClassType="0" Description="" Caption="Источник получения" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."SOUROBT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обратный показатель" ClassType="31" SubClassType="0" Description="" Caption="Обратный показатель" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OMSU_PEREVSET"."REVINDIC"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

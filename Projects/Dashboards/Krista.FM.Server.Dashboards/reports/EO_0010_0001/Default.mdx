@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="EO_0010_0001_date">
+    <![CDATA[ -- EO_0010_0001_date
+    select ds.ID, ds.Year
+    from dv.DataSources ds
+    where ds.DataSourceName like 'ЭО Экономические показатели - %'
+    order by ds.Year
+    ]]>
+  </query>
+
+  <query id="EO_0010_0001_executor">
+    <![CDATA[ -- EO_0010_0001_executor
+    select e.ID, e.Name
+    from dv.DV_MissivePRF_Execut e
+    where e.ID <> -1
+    ]]>
+  </query>
+
+  <query id="EO_0010_0001_main">
+    <![CDATA[ -- EO_0010_0001_main
+    select ga.id, ga.Code, ga.Name, ga.SpaceDisch as Period, e.Name as ExecutorName, ga1.Name as Parent, ga1.Code as ParentCode
+    from dv.DV_MissivePRF_GoalArrang ga, dv.DV_MissivePRF_GoalArrang ga1, dv.DV_MissivePRF_Execut e
+    where ga.Code <> 0 and ga.RefExecutor = e.ID and ga.SourceID = <%data_source_id%> and ga.ParentID = ga1.ID <%executor%>
+    order by ParentCode, ga.Code
+    ]]>
+  </query>
+
+  <query id="EO_0010_0001_detail">
+    <![CDATA[ -- EO_0010_0001_detail
+    select r.RefPeriod as Period, r.Report
+    from dv.DV_MissivePRF_Relationships r
+    where r.RefGoalArrang = <%goal_arrang_id%>
+    order by r.RefPeriod
+    ]]>
+  </query>
+  
+</root>

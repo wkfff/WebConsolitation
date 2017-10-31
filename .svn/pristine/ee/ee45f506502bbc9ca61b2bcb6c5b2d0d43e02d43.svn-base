@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.Модернизация ТВ" ClassType="7" SubClassType="2" Description="Классификатор показателей реализации проекта &quot;Модернизация сетей телерадиовещания РФ для перехода к цифровому формату вещания&quot;." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_MARKS_TV", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_MARKS_TV"."REFOKEI"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Marks.TV]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_MARKS_TV}{DV.D_MARKS_TV}{2400}{600}{1800}{2200}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2535}{3450}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[fc70d8ec-efa9-4284-86af-763887d54aae]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[10a2f1fd-f170-470d-8a6e-f72bf8af8843]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[16d8db58-0746-4974-9409-c5aa7cc11978]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатели" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Уровень 1;Уровень 2;Уровень 3;Уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_TV"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_MARKS_TV"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_MARKS_TV"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_TV"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_TV"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."DESIGNATION"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

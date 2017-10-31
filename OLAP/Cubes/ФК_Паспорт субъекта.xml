@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФК_Паспорт субъекта" ClassType="9" SubClassType="0" Description="" DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="3" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="3">
+  <property name="SourceTable"><![CDATA["DV"."F_MARKS_PASSPORT"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_MARKS_PASSPORT"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_MARKS_PASSPORT", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_MARKS_PASSPORT", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_MARKS_PASSPORT"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_MARKS_PASSPORT"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_MARKS_PASSPORT"."REFPASSPORT"="DV"."D_MARKS_PASSPORT"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_MARKS_PASSPORT"."REFTERRITORYRF"="DV"."D_TERRITORY_RF"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_MARKS_PASSPORT"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.Marks.Passport]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[845875f4-332c-472d-9073-11c40038a423]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{360}{165}{2280}{910}{1})({dv}{DV.F_MARKS_PASSPORT}{DV.F_MARKS_PASSPORT}{3555}{1815}{2295}{4520}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{960}{5370}{2475}{910}{1})({dv}{DV.D_MARKS_PASSPORT}{DV.D_MARKS_PASSPORT}{2340}{5430}{2580}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{8310}{5055}{2565}{3745}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{4110}{8700}{2505}{3820}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[91527df4-3fc9-4f57-a3c2-8e2556448469]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[16ec723c-0db3-4f5c-8dc9-354458647ec7]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[IIF(not IsEmpty(([Период].[Период].CurrentMember.FirstChild, Measures.CurrentMember)) and ([Период].[Период].CurrentMember.FirstChild, Measures.CurrentMember) <> 0, ([Период].[Период].CurrentMember.FirstChild, Measures.CurrentMember),
+Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0))]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.Паспорт субъекта" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_PASSPORT"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="#,#.0000" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Первоначальный план" ClassType="10" SubClassType="0" Description="Таблица для хранения показателей паспорта субъекта РФ." IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."ORIGPLAN"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Уточненный план консолидированного бюджета" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."REFINPLANKB"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Уточненный план бюджета субъекта" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."REFINPLANBS"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Исполнение консолидированного бюджета" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."FACTKB"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Исполнение бюджета субъекта" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="6">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."FACTBS"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Исполнение к плану" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Percent" Num="7">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."EXECUTION"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Темп уточненного плана к исполнению прошлого года" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Percent" Num="8">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."RATEPLAN"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Темп к прошлому году" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Percent" Num="9">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."RATEFACT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Оценка" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="10">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."SCORE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Темп оценки к исполнению прошлого года" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Percent" Num="11">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."RATESCORE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Индекс" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="12">
+      <property name="SourceColumn"><![CDATA["DV"."F_MARKS_PASSPORT"."QUOTIENT"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Первоначальный_план" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Первоначальный_план] FOR '({[Measures].[Первоначальный план]})' AS '//Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember)) and (Measures.CurrentMember) <> 0), 1).Item(0)
+IIF(not IsEmpty(([Период].[Период].CurrentMember.FirstChild, Measures.CurrentMember)) and ([Период].[Период].CurrentMember.FirstChild, Measures.CurrentMember) <> 0, ([Период].[Период].CurrentMember.FirstChild, Measures.CurrentMember),
+Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember)) and (Measures.CurrentMember) <> 0), 1).Item(0))', CONDITION = 'not ISLeaf([Период].[Период].CurrentMember)
+']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ФК_Паспорт субъекта" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФК_Паспортсубъекта_ФК_Паспортсубъекта_" EstimatedRows="3" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_MARKS_PASSPORT"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_MARKS_PASSPORT"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_MARKS_PASSPORT", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_MARKS_PASSPORT", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_MARKS_PASSPORT"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_MARKS_PASSPORT"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_MARKS_PASSPORT"."REFPASSPORT"="DV"."D_MARKS_PASSPORT"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_MARKS_PASSPORT"."REFTERRITORYRF"="DV"."D_TERRITORY_RF"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ObjectKey" datatype="8"><![CDATA[845875f4-332c-472d-9073-11c40038a423]]></Property>
+        <Property name="ID" datatype="8"><![CDATA[9acaea8d-c8bc-4814-bba4-15c11595c37e]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

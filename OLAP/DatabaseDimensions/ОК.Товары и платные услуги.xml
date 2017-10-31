@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="ОК.Товары и платные услуги" ClassType="7" SubClassType="2" Description="Классификатор индивидуального потребления по целям, адаптированный к индексу потребительских цен." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_OK_PRODUCT", "DV"."DV_UNITS_OKEI_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_OK_PRODUCT"."REFUNITS"="DV"."DV_UNITS_OKEI_BRIDGE"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.OK.Product]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_OK_PRODUCT}{DV.D_OK_PRODUCT}{2400}{600}{1845}{2200}{1})({dv}{DV.DV_UNITS_OKEI_BRIDGE}{DV.DV_UNITS_OKEI_BRIDGE}{2385}{3870}{2685}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[5508e780-be29-45a0-ac51-3ffd084b3666]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[6181efb1-3769-4015-9a7b-af81f135aeaa]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[d5f816a2-e814-48ac-9b6f-20fa37d26d51]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все товары и услуги]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Товар или услуга" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Уровень 1;Уровень 2" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_OK_PRODUCT"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_OK_PRODUCT"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_OK_PRODUCT"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_PRODUCT"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_PRODUCT"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код товара" ClassType="31" SubClassType="0" Description="" Caption="Код товара" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_PRODUCT"."CODET"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OK_PRODUCT"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI_BRIDGE"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

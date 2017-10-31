@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Виды доходов.АС Бюджет" ClassType="7" SubClassType="2" Description="Классификатор видов доходов. Закачивается с данными АС Бюджет (KD без администратора, программы и ЭКД)." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.IncomesKinds.Budget]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_INCOMESKINDS_BUDGET}{DV.DV_INCOMESKINDS_BUDGET}{495}{585}{2655}{3985}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[a9c417cf-48ac-45b6-b890-698769d4cca1]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[db51b810-6b7f-43bd-91f6-a94e92dd7e48]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[a96a2a81-3e7f-4b5d-8aa3-0ac6b1fba94e]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Вид дохода" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="652" IsVisible="true" LevelNamingTemplate="Источник;Группа;Подгруппа;Статья;Подстатья;Элемент;Уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Основной код" ClassType="31" SubClassType="0" Description="" Caption="Основной код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"."MAINDESCRIPTIONCODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Элемент" ClassType="31" SubClassType="0" Description="" Caption="Элемент" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"."ITEMCODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_INCOMESKINDS_BUDGET"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

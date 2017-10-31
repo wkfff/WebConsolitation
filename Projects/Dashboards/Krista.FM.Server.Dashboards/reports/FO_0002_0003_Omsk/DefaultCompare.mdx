@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0002_0003_Omsk_compare_grid">
+    <![CDATA[
+-- FO_0002_0003_Omsk_compare_grid
+with 
+---------- Краткий список доходов
+    member [КД].[Сопоставимый].[Налоги на имущество ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО]'
+
+    member [КД].[Сопоставимый].[Налоги на совокупный доход ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД]'
+
+    member [КД].[Сопоставимый].[Налоговые доходы ]
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА]
+            }
+        )'
+    member [КД].[Сопоставимый].[Налог на прибыль ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на прибыль организаций]'
+    member [КД].[Сопоставимый].[НДФЛ ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на доходы физических лиц]'
+    
+    member [КД].[Сопоставимый].[Налог на имущество физических лиц ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество физических лиц]'
+    member [КД].[Сопоставимый].[Налог на имущество организаций ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество организаций]'
+    member [КД].[Сопоставимый].[Земельный налог ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Земельный налог]'
+    
+    member [КД].[Сопоставимый].[Акцизы ]
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), производимым на территории Российской Федерации],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), ввозимым на территорию Российской Федерации]
+            }
+        )'
+    member [КД].[Сопоставимый].[НДПИ ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ].[Налог на добычу полезных ископаемых]'
+    
+    member [КД].[Сопоставимый].[ЕНВД ]
+    as ' <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый налог на вмененный доход для отдельных видов деятельности]'
+    member [КД].[Сопоставимый].[ЕСХН ]
+    as ' <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый сельскохозяйственный налог]'
+
+    member [КД].[Сопоставимый].[Неналоговые доходы ]
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПРОЧИЕ НЕНАЛОГОВЫЕ ДОХОДЫ],
+                <%incomes_kd_11800000000000000%>,
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>]       
+            }
+        )'
+    member [КД].[Сопоставимый].[Налоговые и неналоговые доходы ]
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПРОЧИЕ НЕНАЛОГОВЫЕ ДОХОДЫ],
+                <%incomes_kd_11800000000000000%>,
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>]       
+            }
+        )'        
+    member [КД].[Сопоставимый].[Доходы от приносящей доход деятельности ]
+    as '<%incomes_kd_30000000000000000%>'
+
+    member [КД].[Сопоставимый].[Прочие налоговые доходы] 
+    as '[КД].[Сопоставимый].[Налоговые доходы ] - [КД].[Сопоставимый].[Налог на прибыль ] - [КД].[Сопоставимый].[НДФЛ ] - [КД].[Сопоставимый].[Акцизы ] - [КД].[Сопоставимый].[Налоги на имущество ] - [КД].[Сопоставимый].[НДПИ ] - [КД].[Сопоставимый].[Налоги на совокупный доход ]' 
+    
+    member [КД].[Сопоставимый].[Безвозмездные поступления ]
+    as '[КД].[Сопоставимый].[<%gratuitous_incomes_item%>]'
+    member [КД].[Сопоставимый].[Безвозмездные поступления без внутренних оборотов ]   
+    as 'IIF
+        (
+            <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР",
+            IIF
+            (
+                IsEmpty(<%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ]),
+                null,
+                (
+                    <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ]
+                ) -   
+                [КД].[Сопоставимый].[Внутренние обороты ] / 2
+            ),
+            <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ]
+        )'  
+    member  [КД].[Сопоставимый].[Безвозмездные поступления c внутренними оборотами ]   
+    as ' <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ] ' 
+    
+    member [КД].[Сопоставимый].[Доходы бюджета - Итого ]   
+    as '[КД].[Сопоставимый].[<%incomes_total_item%>]' 
+    member [КД].[Сопоставимый].[Доходы бюджета без внутренних оборотов ]   
+    as 'IIF
+        (
+            <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР" and
+            <%period_dimension%>.CurrentMember.Properties("PKID") < [Период].[Период].[Данные всех периодов].[2010].[Полугодие 1].[Квартал 2].[Май].Properties("PKID"),
+            IIF
+            (
+                IsEmpty(<%incomes_total%>),
+                null,
+                (
+                    <%incomes_total%>
+                ) -   
+                (
+                    [КД].[Сопоставимый].[Внутренние обороты ]
+                ) / 2    
+            ),
+            <%incomes_total%>
+        )'  
+    member  [КД].[Сопоставимый].[Доходы бюджета c внутренними оборотами ]   
+    as ' <%incomes_total%> ' 
+    member  [КД].[Сопоставимый].[Внутренние обороты ]   
+    as 'LookupCube  
+        (
+            "[ФО_МесОтч_Расходы]",
+            "Sum
+            (
+                {
+                    <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Дотации бюджетам субъектов Российской Федерации и муниципальных образований],
+                    <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Субсидии бюджетам субъектов Российской Федерации и муниципальных образований (межбюджетные субсидии)],
+                    <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Субвенции бюджетам субъектов Российской Федерации и муниципальных образований],
+                    <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Иные межбюджетные трансферты]
+                },
+                Sum
+                (
+                    Filter  
+                    (
+                        [КОСГУ].[Сопоставимый].[Все коды ЭКР].Children,
+                        [КОСГУ].[Сопоставимый].CurrentMember.Properties(""Код"") <> ""960""
+                    ),
+                    (
+                        <%fkr_dimension%>.CurrentMember,
+                        [КОСГУ].[Сопоставимый].CurrentMember,
+                        <%region_budget_document_skif_type%>,
+                        <%region_budget_skif_level%>,
+                        " + MemberToStr   
+                        (
+                            [Районы].[Сопоставимый].CurrentMember   
+                        ) + ",
+                        " + MemberToStr ( [Measures].CurrentMember ) + ",
+                        " + MemberToStr   
+                        (
+                            [Период].[Период].CurrentMember   
+                        ) + "   
+                    )   
+                )
+            )" 
+        )'            
+---------
+
+    member Measures.[isMRGO]
+    as 'not( <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидированный бюджет субъекта] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты] or
+         [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы, всего] or
+         [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная зона ] or
+         [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная лесостепная зона ] or
+         [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Южная лесостепная зона ] or
+         [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Степная зона ]) '
+
+    member Measures.[isClimaticZone] 
+    as '[Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная зона ] or 
+        [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная лесостепная зона ] or 
+        [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Южная лесостепная зона ] or 
+        [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Степная зона ] '  
+
+    member Measures.[isNonRanking] 
+    as ' [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта] or
+    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта] or
+    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Местные бюджеты] or
+    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы, всего] or
+    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"'
+
+    member Measures.[isMR]
+    as ' Measures.[isMRGO] and not (<%region_dimension%>.CurrentMember.Properties("Тип территории") = "ГО") '
+
+
+    member Measures.[Темп роста]     
+    as 'IIF   
+        (
+            Measures.[Использовать данные в сопоставимом нормативе],
+            100   
+            * Measures.[Темп роста к прошлому году в сопоставимом нормативе],
+            100   
+            * [Measures].[Темп роста к аналогичному периоду предыдущего года_Факт]   
+        ) '  
+    member Measures.[Доля] 
+    as 'IIF 
+        (
+            IsEmpty
+            (
+                (
+                    [КД].[Сопоставимый].[Доходы бюджета - Итого ],
+                    [Measures].[Факт]
+                )
+            ),
+            null,
+            100 *
+            (
+                [КД].[Сопоставимый].CurrentMember,
+                [Measures].[Факт]
+            )/ 
+            (
+                [КД].[Сопоставимый].[Доходы бюджета - Итого ],
+                [Measures].[Факт]
+            )
+        )' 
+    member Measures.[Доля прошлый год] 
+    as 'IIF 
+        (
+            IsEmpty
+            (
+                (
+                    [КД].[Сопоставимый].[Доходы бюджета - Итого ],
+                    [Measures].[Факт_прошлый год]
+                )
+            ),
+            null,
+            100 *
+            (
+                [КД].[Сопоставимый].CurrentMember,
+                [Measures].[Факт_прошлый год]
+            )/ 
+            (
+                [КД].[Сопоставимый].[Доходы бюджета - Итого ],
+                [Measures].[Факт_прошлый год]
+            )
+        )' 
+    member Measures.[Исполнено млн] 
+    as 'Measures.[Факт] / <%rub_multiplier%>'
+    member Measures.[Исполнено прошлый год млн]     
+    as 'IIF   
+        (
+            Measures.[Использовать данные в сопоставимом нормативе],
+            Measures.[Исполнено прошлый год в сопоставимом нормативе] / <%rub_multiplier%>,
+            Measures.[Факт_прошлый год] / <%rub_multiplier%>   
+        )' 
+
+    set [Города]
+    as 'Filter
+        (
+            Descendants
+            (
+                <%region_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF
+            ),
+            not
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember
+            ) and
+            (
+                <%region_dimension%>.CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+    set [Районы]
+    as 'Filter
+        (
+            Descendants
+            (
+                <%region_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF
+            ),
+            not
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember
+            ) and
+            (
+                <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР"
+            )
+        )'
+    set [Города и районы]
+    as '[Города] + [Районы]'
+        
+    member <%region_dimension%>.[Консолидированный бюджет субъекта]
+    as '<%regions_consolidate_budget%>' 
+    
+    member <%region_dimension%>.[<%own_subject_budget_name%>]
+    as '<%regions_consolidate_budget%>' 
+
+    member <%region_dimension%>.[Местные бюджеты]
+    as '<%regions_local_budget_level%>'    
+        
+    member [Районы].[Сопоставимый].[Муниципальные районы, всего]    
+    as 'Aggregate({[Районы]})'         
+        
+    member [ТипДокумента].[СКИФ].[Тип документа]
+    as 'IIF
+        (
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+            [ТипДокумента].[СКИФ].[Все].[Собственная отчетность муниципальных образований],
+            IIF
+            (
+                <%region_dimension%>.CurrentMember is <%regions_consolidate_budget%> or
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>] or
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы, всего],
+                <%consolidate_budget_document_skif_type%>,
+                <%region_budget_document_skif_type%>
+            )
+        )'
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]
+    as 'IIF
+        (
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидированный бюджет субъекта],
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF
+            (
+               <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>],
+               [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+               IIF
+               (
+                  <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+                  [Уровни бюджета].[СКИФ].[Конс.бюджет субъекта],
+                  IIF
+                  (
+                      [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы, всего],
+                      [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения],
+                      <%region_budget_skif_level%>
+                  )
+               )
+            )
+        )
+       '       
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'    
+        
+    member Measures.[Ранг МР по темпу роста]     
+    as 'IIF   
+        (
+            Measures.[Использовать данные в сопоставимом нормативе],
+            Measures.[Ранг МР по темпу роста в сопоставимом нормативе],
+            IIF
+            (
+                not (Measures.[isClimaticZone]) and
+                (
+                     IsEmpty
+                     (
+                          Measures.[Темп роста]
+                     ) or Measures.[isNonRanking]
+                ),
+                null,
+                IIF
+                (
+                    Measures.[isClimaticZone],
+                    Rank
+                    (
+                        [Районы].[Сопоставимый].CurrentMember,
+                        Order
+                        (
+                            [Климатические зоны без районов],
+                             Measures.[Темп роста],
+                            BDESC
+                        ),
+                         Measures.[Темп роста]
+                    ),
+                    IIF
+                    (
+                    "<%region_set%>" = "Климатические зоны",
+                    IIF
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная зона",
+                        Rank
+                        (
+                            [Районы].[Сопоставимый].CurrentMember,
+                            Order
+                            (
+                                Filter
+                                (
+                                    [Субъекты северной зоны],
+                                    not IsEmpty
+                                    (
+                                         Measures.[Темп роста]
+                                    )
+                                ),
+                                 Measures.[Темп роста],
+                                BDESC
+                            ),
+                            Measures.[Темп роста]
+                        ),
+                        IIF
+                        (
+                            [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона",
+                            Rank
+                            (
+                                [Районы].[Сопоставимый].CurrentMember,
+                                Order
+                                (
+                                    Filter
+                                    (
+                                        [Субъекты северной лесостепной зоны],
+                                        not IsEmpty
+                                        (
+                                             Measures.[Темп роста]
+                                        )
+                                    ),
+                                     Measures.[Темп роста],
+                                    BDESC
+                                ),
+                                Measures.[Темп роста]
+                            ),
+                            IIF
+                            (
+                                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона",
+                                Rank
+                                (
+                                    [Районы].[Сопоставимый].CurrentMember,
+                                    Order
+                                    (
+                                        Filter
+                                        (
+                                            [Субъекты южной лесостепной зоны],
+                                            not IsEmpty
+                                            (
+                                                Measures.[Темп роста]
+                                            )
+                                        ),
+                                         Measures.[Темп роста],
+                                        BDESC
+                                    ),
+                                    Measures.[Темп роста]
+                                ),
+                                IIF
+                                (
+                                    [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Степная зона",
+                                    Rank
+                                    (
+                                        [Районы].[Сопоставимый].CurrentMember,
+                                        Order
+                                        (
+                                            Filter
+                                            (
+                                                [Субъекты степной зоны],
+                                                not IsEmpty
+                                                (
+                                                   Measures.[Темп роста]
+                                                )
+                                            ),
+                                             Measures.[Темп роста],
+                                            BDESC
+                                        ),
+                                        Measures.[Темп роста]
+                                    ),
+                                    null
+                                )
+                            )
+                        )
+                    ),
+                    Rank
+                    (
+                        [Районы].[Сопоставимый].CurrentMember,
+                        Order
+                        (
+                            [Районы],
+                             Measures.[Темп роста],
+                            BDESC
+                        ),
+                        Measures.[Темп роста]
+                    )
+                  )
+                )
+            ) 
+        )'  
+    member Measures.[Худший ранг МР по темпу роста]     
+    as 'IIF 
+        (
+            Measures.[Использовать данные в сопоставимом нормативе],
+            Measures.[Худший ранг МР по темпу роста в сопоставимом нормативе],
+            IIF
+        (
+            IsEmpty  ( Measures.[Ранг МР по темпу роста] ) or not (Measures.[isMRGO]),
+            null,
+            IIF
+            (
+                "<%region_set%>" = "Климатические зоны",
+                IIF
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная зона",
+                    max
+                    (
+                        [Субъекты северной зоны],
+                        Measures.[Ранг МР по темпу роста]
+                    ),
+                    IIF
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона",
+                        max
+                        (
+                            [Субъекты северной лесостепной зоны],
+                           Measures.[Ранг МР по темпу роста]
+                        ),
+                        IIF
+                        (
+                            [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона",
+                            max
+                            (
+                                [Субъекты южной лесостепной зоны],
+                                Measures.[Ранг МР по темпу роста]
+                            ),
+                            IIF
+                            (
+                                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Степная зона",
+                                max
+                                (
+                                    [Субъекты степной зоны],
+                                    Measures.[Ранг МР по темпу роста]
+                                ),
+                                null
+                            )
+                        )
+                    )
+                ),
+                max
+                (
+                    [Районы],
+                    Measures.[Ранг МР по темпу роста]
+                )
+            )
+        )
+        )' 
+    set [Субъекты северной зоны]        
+    as 'Filter        
+        (
+            Descendants        
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF        
+            ),
+            not        
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+            ) and        
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная зона"        
+            )        
+        )'        
+    set [Субъекты северной лесостепной зоны]        
+    as 'Filter        
+        (
+            Descendants        
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF        
+            ),
+            not        
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+            ) and        
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона"        
+            )        
+        )'        
+    set [Субъекты южной лесостепной зоны]        
+    as 'Filter        
+        (
+            Descendants        
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF        
+            ),
+            not        
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+            ) and        
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона"        
+            )        
+        )'        
+    set [Субъекты степной зоны]        
+    as 'Filter        
+        (
+            Descendants        
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF        
+            ),
+            not        
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+            ) and        
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Степная зона"        
+            )        
+        )'         
+    member [Районы].[Сопоставимый].[Северная зона ]        
+    as 'Aggregate ( { [Субъекты северной зоны] } )'      
+    member [Районы].[Сопоставимый].[Северная лесостепная зона ]        
+    as 'Aggregate       
+        (
+            {
+                [Субъекты северной лесостепной зоны]       
+            }       
+        )'        
+    member [Районы].[Сопоставимый].[Южная лесостепная зона ]        
+    as 'Aggregate       
+        (
+            {
+                [Субъекты южной лесостепной зоны]       
+            }       
+        )'        
+    member [Районы].[Сопоставимый].[Степная зона ]        
+    as 'Aggregate ( { [Субъекты степной зоны] } )'       
+    set [Климатические зоны]        
+    as '{
+            [Районы].[Сопоставимый].[Муниципальные районы, всего]   
+        } +      
+        {
+            [Районы].[Сопоставимый].[Северная зона ]       
+        } + [Субъекты северной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Северная лесостепная зона ]      
+        } + [Субъекты северной лесостепной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Южная лесостепная зона ]      
+        } + [Субъекты южной лесостепной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Степная зона ]      
+        } + [Субъекты степной зоны] '     
+    set [Список МО]        
+    as '[Города] +    
+        {
+            [Районы].[Сопоставимый].[Муниципальные районы, всего]   
+        } + [Районы]'  
+
+    member Measures.[Использовать данные в сопоставимом нормативе]    
+    as '<%use_comparable_standard%> and (Measures.[isMR] or [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы, всего]) and   
+        (
+            [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].[Налоговые и неналоговые доходы ] or [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].[НДФЛ ]    
+        )'    
+    member Measures.[Исполнено прошлый год в сопоставимом нормативе]       
+    as 'IIF           
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы, всего],
+            Sum        
+            (
+                [Районы],
+                Measures.[Исполнено прошлый год в сопоставимом нормативе]        
+            ),
+            IIF         
+            (
+                [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].[Налоговые и неналоговые доходы ],
+                (
+                    [КД].[Сопоставимый].[Налоговые и неналоговые доходы ],
+                    Measures.[Факт_прошлый год]
+                ) - 
+                (
+                    [КД].[Сопоставимый].[НДФЛ ],
+                    Measures.[Факт_прошлый год]
+                ) +   
+                (
+                    [КД].[Сопоставимый].[НДФЛ ],
+                    Measures.[Исполнено прошлый год в сопоставимом нормативе]  
+                ),
+                IIF  
+                (
+                    (Measures.[Нп] + Measures.[Коэффициент для знаменателя]) = 0,
+                    null,
+                    (Measures.[Нт] + Measures.[Коэффициент для числителя])           
+                    *           
+                    (
+                         Measures.[Факт_прошлый год]    
+                    ) / (Measures.[Нп] + Measures.[Коэффициент для знаменателя])          
+                )    
+            )   
+        )'        
+        
+    member Measures.[Коэффициент для числителя]
+    as 'IIF
+        (
+             <%period_year%> <= 2011,
+             30,
+             28
+        )'
+        
+    member Measures.[Коэффициент для знаменателя]
+    as 'IIF
+        (
+             <%period_year%> >= 2013,
+             28,
+             30
+        )'        
+        
+    member Measures.[Темп роста к прошлому году в сопоставимом нормативе]       
+    as 'IIF        
+        (
+            IsEmpty       
+            (
+                Measures.[Исполнено прошлый год в сопоставимом нормативе]       
+            ) or        
+            (
+                Measures.[Исполнено прошлый год в сопоставимом нормативе]       
+            ) = 0,
+            null,
+            Measures.[Факт] / Measures.[Исполнено прошлый год в сопоставимом нормативе]       
+        )'        
+    member Measures.[Нп]             
+    as 'LookupCube             
+        (
+            "[ФО_Оценка качества ОиОБП_Исходные данные]",
+            "             
+            (
+                [Measures].[Значение],
+                [Период].[Период].[Данные всех периодов].[<%period_year%>].PrevMember,
+                [Показатели].[Оценка качества ОиОБП_Исходные данные].[Все показатели].[Дополнительный норматив в бюджеты муниц. районов  от НДФЛ, подлежащего зачислению в областной бюджет, заменяющий часть дотаций на выравнивание бюджетной обеспеченности муниципальных районов Омской области, процент],
+                " + MemberToStr             
+                (
+                    [Районы].[Сопоставимый].CurrentMember             
+                ) + "            
+            ) "            
+        ) '            
+    member Measures.[Нт]            
+    as 'LookupCube            
+        (
+            "[ФО_Оценка качества ОиОБП_Исходные данные]",
+            "            
+            (
+                [Measures].[Значение],
+                [Период].[Период].[Данные всех периодов].[<%period_year%>],
+                [Показатели].[Оценка качества ОиОБП_Исходные данные].[Все показатели].[Дополнительный норматив в бюджеты муниц. районов  от НДФЛ, подлежащего зачислению в областной бюджет, заменяющий часть дотаций на выравнивание бюджетной обеспеченности муниципальных районов Омской области, процент],
+                " + MemberToStr            
+                (
+                    [Районы].[Сопоставимый].CurrentMember            
+                ) + "            
+            ) "            
+        ) '       
+    member Measures.[Ранг МР по темпу роста в сопоставимом нормативе]       
+    as 'IIF
+            (
+                not (Measures.[isClimaticZone]) and
+                (
+                     IsEmpty
+                     (
+                          Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                     ) or Measures.[isNonRanking]
+                ),
+                null,
+                IIF
+                (
+                    Measures.[isClimaticZone],
+                    Rank
+                    (
+                        [Районы].[Сопоставимый].CurrentMember,
+                        Order
+                        (
+                            [Климатические зоны без районов],
+                             Measures.[Темп роста к прошлому году в сопоставимом нормативе],
+                            BDESC
+                        ),
+                         Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                    ),
+                    IIF
+                    (
+                    "<%region_set%>" = "Климатические зоны",
+                    IIF
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная зона",
+                        Rank
+                        (
+                            [Районы].[Сопоставимый].CurrentMember,
+                            Order
+                            (
+                                Filter
+                                (
+                                    [Субъекты северной зоны],
+                                    not IsEmpty
+                                    (
+                                         Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                                    )
+                                ),
+                                 Measures.[Темп роста к прошлому году в сопоставимом нормативе],
+                                BDESC
+                            ),
+                            Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                        ),
+                        IIF
+                        (
+                            [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона",
+                            Rank
+                            (
+                                [Районы].[Сопоставимый].CurrentMember,
+                                Order
+                                (
+                                    Filter
+                                    (
+                                        [Субъекты северной лесостепной зоны],
+                                        not IsEmpty
+                                        (
+                                             Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                                        )
+                                    ),
+                                     Measures.[Темп роста к прошлому году в сопоставимом нормативе],
+                                    BDESC
+                                ),
+                                Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                            ),
+                            IIF
+                            (
+                                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона",
+                                Rank
+                                (
+                                    [Районы].[Сопоставимый].CurrentMember,
+                                    Order
+                                    (
+                                        Filter
+                                        (
+                                            [Субъекты южной лесостепной зоны],
+                                            not IsEmpty
+                                            (
+                                                Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                                            )
+                                        ),
+                                         Measures.[Темп роста к прошлому году в сопоставимом нормативе],
+                                        BDESC
+                                    ),
+                                    Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                                ),
+                                IIF
+                                (
+                                    [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Степная зона",
+                                    Rank
+                                    (
+                                        [Районы].[Сопоставимый].CurrentMember,
+                                        Order
+                                        (
+                                            Filter
+                                            (
+                                                [Субъекты степной зоны],
+                                                not IsEmpty
+                                                (
+                                                   Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                                                )
+                                            ),
+                                             Measures.[Темп роста к прошлому году в сопоставимом нормативе],
+                                            BDESC
+                                        ),
+                                        Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                                    ),
+                                    null
+                                )
+                            )
+                        )
+                    ),
+                    Rank
+                    (
+                        [Районы].[Сопоставимый].CurrentMember,
+                        Order
+                        (
+                            [Районы],
+                             Measures.[Темп роста к прошлому году в сопоставимом нормативе],
+                            BDESC
+                        ),
+                        Measures.[Темп роста к прошлому году в сопоставимом нормативе]
+                    )
+                  )
+                )
+            ) '       
+    member Measures.[Худший ранг МР по темпу роста в сопоставимом нормативе]       
+    as 'IIF
+        (
+            IsEmpty  (  Measures.[Ранг МР по темпу роста в сопоставимом нормативе] ) or not (Measures.[isMRGO]),
+            null,
+            IIF
+            (
+                "<%region_set%>" = "Климатические зоны",
+                IIF
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная зона",
+                    max
+                    (
+                        [Субъекты северной зоны],
+                         Measures.[Ранг МР по темпу роста в сопоставимом нормативе]
+                    ),
+                    IIF
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона",
+                        max
+                        (
+                            [Субъекты северной лесостепной зоны],
+                            Measures.[Ранг МР по темпу роста в сопоставимом нормативе]
+                        ),
+                        IIF
+                        (
+                            [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона",
+                            max
+                            (
+                                [Субъекты южной лесостепной зоны],
+                                 Measures.[Ранг МР по темпу роста в сопоставимом нормативе]
+                            ),
+                            IIF
+                            (
+                                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Степная зона",
+                                max
+                                (
+                                    [Субъекты степной зоны],
+                                     Measures.[Ранг МР по темпу роста в сопоставимом нормативе]
+                                ),
+                                null
+                            )
+                        )
+                    )
+                ),
+                max
+                (
+                    [Районы],
+                     Measures.[Ранг МР по темпу роста в сопоставимом нормативе]
+                )
+            )
+        )'   
+   set [Климатические зоны без районов]
+    as '
+        
+        {
+            [Районы].[Сопоставимый].[Северная зона ]
+        } +
+        {
+            [Районы].[Сопоставимый].[Северная лесостепная зона ]
+        } +
+        {
+            [Районы].[Сопоставимый].[Южная лесостепная зона ]
+        } +
+        {
+            [Районы].[Сопоставимый].[Степная зона ]
+        }  '        
+select
+    {
+        {
+            [КД].[Сопоставимый].[Доходы бюджета - Итого ],
+            [КД].[Сопоставимый].[Налоговые и неналоговые доходы ],
+            [КД].[Сопоставимый].[Налог на прибыль ],
+            [КД].[Сопоставимый].[НДФЛ ],
+            [КД].[Сопоставимый].[Акцизы ],
+            [КД].[Сопоставимый].[ЕНВД ],
+            [КД].[Сопоставимый].[ЕСХН ],
+            [КД].[Сопоставимый].[Налог на имущество физических лиц ],
+            [КД].[Сопоставимый].[Налог на имущество организаций ],
+            [КД].[Сопоставимый].[Земельный налог ],
+            [КД].[Сопоставимый].[НДПИ ],
+            [КД].[Сопоставимый].[Прочие налоговые доходы],
+            [КД].[Сопоставимый].[Неналоговые доходы ],
+            [КД].[Сопоставимый].[Доходы от приносящей доход деятельности ],
+            [КД].[Сопоставимый].[Безвозмездные поступления ]   
+        } *
+        {
+            Measures.[Исполнено млн],
+            Measures.[Исполнено прошлый год млн],
+            Measures.[Темп роста],
+            Measures.[Ранг МР по темпу роста],
+            Measures.[Доля],
+            Measures.[Доля прошлый год],
+            Measures.[Худший ранг МР по темпу роста]     
+        }
+    } on columns,
+    Non Empty
+    {
+        {
+            <%region_dimension%>.[Консолидированный бюджет субъекта],
+            <%region_dimension%>.[<%own_subject_budget_name%>],
+            <%region_dimension%>.[Местные бюджеты]
+        } + [<%region_set%>]
+    }on rows 
+from [ФО_МесОтч_Доходы] 
+where 
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        [ТипДокумента].[СКИФ].[Тип документа],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ]
+    )     
+  ]]>
+  </query>
+
+</root>

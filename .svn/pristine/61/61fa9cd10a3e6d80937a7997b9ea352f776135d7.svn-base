@@ -1,0 +1,45 @@
+
+                              CALCULATE;
+SCOPE(Descendants([Период__Период].[Период__Период].[Данные всех периодов]));
+                              this = IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов],
+                              Sum(([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember)),
+                              IIF(not ISLeaf([Период__Период].[Период__Период].CurrentMember),
+                              IIF(([Период__Период].[Период__Период].CurrentMember.firstChild, [Measures].CurrentMember) = 0,
+                              null,
+                              ([Период__Период].[Период__Период].CurrentMember.firstChild, [Measures].CurrentMember)),
+                              ([Период__Период].[Период__Период].CurrentMember, [Measures].CurrentMember)));
+                              END SCOPE;
+                              /*
+                              SCOPE([Период__Период].[Период__Период].[Квартал]);
+                              this = CalculationPassValue(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember), 0);
+                              END SCOPE;
+
+                              SCOPE([Период__Период].[Период__Период].[Полугодие]);
+                              this = CalculationPassValue(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember), 0);
+                              END SCOPE;
+
+                              SCOPE([Период__Период].[Период__Период].[Год]);
+                              this = CalculationPassValue(([Период__Период].[Период__Период].CurrentMember, [Measures].CurrentMember), 0);
+                              END SCOPE;
+                              */
+/*
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+this = IIF(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember) = 0 and Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember) = 0, null,
+IIF(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember) = 0 and Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember) <> 0, Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember),
+([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember)));
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+this = IIF(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember) = 0 and Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember) = 0, null,
+IIF(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember) = 0 and Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember) <> 0, Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember),
+([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember)));
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+this = IIF(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember) = 0 and Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember) = 0, null,
+IIF(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember) = 0 and Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember) <> 0, Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember),
+([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember)));
+END SCOPE;
+
+
+*/

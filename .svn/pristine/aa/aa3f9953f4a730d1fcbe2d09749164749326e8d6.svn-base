@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="РЕГИОН_Нацпроекты_Дздр" ClassType="9" SubClassType="0" Description="Значения показателей формы Д-здр." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_NATPROJECT_MARKS"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_NATPROJECT_MARKS"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_NATPROJECT_MARKS", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."D_NATPROJECT_MONMARKS"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_NATPROJECT_MARKS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFNATPROJECT"="DV"."D_NATPROJECT_MONMARKS"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_NATPROJECT_MARKS"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.NatProject.Marks]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{900}{3825}{2565}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{1890}{4260}{2835}{910}{1})({dv}{DV.F_NATPROJECT_MARKS}{DV.F_NATPROJECT_MARKS}{1832}{649}{2445}{2075}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{4005}{3930}{2445}{955}{1})({dv}{DV.D_NATPROJECT_MONMARKS}{DV.D_NATPROJECT_MONMARKS}{2925}{4260}{2850}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[e06d6733-09cc-469c-b2e4-001febf68892]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[af70614b-3edd-4357-8184-6563e8864696]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[49a51c18-49b6-4b7a-bb4d-c3ac0ce502c3]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_NATPROJECT_MARKS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFNATPROJECT"="DV"."D_NATPROJECT_MONMARKS"."ID")]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Нацпроекты.Показатели Дздр" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_NATPROJECT_MONMARKS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_NATPROJECT_MARKS"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="РЕГИОН_Нацпроекты_Дздр" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="РЕГИОН_Нацпроекты_Дздр_РЕГИОН_Нацпроекты_Дздр_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_NATPROJECT_MARKS"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_NATPROJECT_MARKS"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_NATPROJECT_MARKS", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."D_NATPROJECT_MONMARKS"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_NATPROJECT_MARKS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_NATPROJECT_MARKS"."REFNATPROJECT"="DV"."D_NATPROJECT_MONMARKS"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[15c2dd39-10e2-4501-9350-87fba708f373]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[49a51c18-49b6-4b7a-bb4d-c3ac0ce502c3]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

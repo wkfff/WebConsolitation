@@ -1,0 +1,19 @@
+CALCULATE;
+
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+//Вычисляемые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к началу года] AS
+IIF(isEmpty(([Период__Период].[Период__Период].CurrentMember,  [Measures].[Номинальная сумма долга])) or IsEmpty((Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).PrevMember.LastChild, [Measures].[Номинальная сумма долга])) or (Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).PrevMember.LastChild, [Measures].[Номинальная сумма долга]) = 0, null, ([Период__Период].[Период__Период].CurrentMember, [Measures].[Номинальная сумма долга]) / (Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).PrevMember.LastChild, [Measures].[Номинальная сумма долга])),
+FORMAT_STRING = "Percent";

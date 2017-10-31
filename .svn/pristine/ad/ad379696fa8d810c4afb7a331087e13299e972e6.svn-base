@@ -1,0 +1,25 @@
+CALCULATE;
+
+//Период__Период
+                              SCOPE([Measures].[Факт нарастающим итогом]);
+                              this = IIF(IsEmpty(CalculationPassValue([Measures].[Факт нарастающим итогом], 0)),
+                              IIF(not IsEmpty(CalculationPassValue([Measures].[Факт за период], 0)),
+                              CalculationPassValue(
+                              IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+                              ([Measures].[Недоимка за период], [Период__Период].[Период__Период].CurrentMember),
+                              Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+                              [Период__Период].[Период__Период].CurrentMember}, Measures.[Факт за период]))
+                              , 1),
+                              CalculationPassValue([Measures].[Факт нарастающим итогом], 0)),
+                              CalculationPassValue([Measures].[Факт нарастающим итогом], 0));
+                              END SCOPE;
+
+                              SCOPE([Measures].[Факт за период]);
+                              this = IIF(IsEmpty(CalculationPassValue([Measures].[Факт за период], 0)),
+                              IIF(not IsEmpty(CalculationPassValue([Measures].[Факт нарастающим итогом], 0)),
+                              IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год",
+                              ([Measures].[Факт нарастающим итогом], [Период__Период].[Период__Период].CurrentMember),
+                              ([Measures].[Факт нарастающим итогом], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[Факт нарастающим итогом], [Период__Период].[Период__Период].CurrentMember.PrevMember)),
+                              CalculationPassValue([Measures].[Факт за период], 0)),
+                              CalculationPassValue([Measures].[Факт за период], 0));
+                              END SCOPE;

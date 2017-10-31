@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+
+<query id="G0">
+    <![CDATA[
+   with
+   MEMBER [Measures].[Причины неисполнения] AS
+   '[Программы].[Реестр ОЦП].CurrentMember.Properties("Причины неисполнения")'
+select
+    non empty
+    {
+
+       [Программы].[Реестр ОЦП]
+    } on rows,
+    {
+    [Measures].[Утверждено ассигнований],
+        [Measures].[Утверждено ассигнований],
+        [Measures].[Первый квартал],
+        [Measures].[Второй квартал],
+        [Measures].[Третий квартал],
+        [Measures].[Четвертый квартал],
+        [Measures].[Лимит на отчетную дату],
+        [Measures].[Поступило средств],
+        [Measures].[Освоено с начала года],
+        [Measures].[Освоено за отчетный месяц],
+        [Measures].[Неосвоенно средств],
+        [Measures].[Причины неисполнения]
+    } on columns 
+from  [ЭО_Программы_МОЦП]
+where
+    (
+        <%p2%><%region%>,
+        <%LD%>
+        
+    )
+]]>
+  </query>
+
+  <query id="G">
+    <![CDATA[
+with 
+    MEMBER [Measures].[Причины неисполнения] 
+    AS '[Программы].[Реестр ОЦП].CurrentMember.Properties("Причины неисполнения")' 
+    member [Measures].[Процент исполнениня]
+    as '100*[Measures].[Поступило средств]/[Measures].[Утверждено ассигнований]'
+    
+select
+    filter
+    (
+        {
+                Crossjoin 
+                (
+                    filter 
+                    (
+                        [Программы].[Реестр ОЦП].members,
+                        not IsEmpty 
+                        (
+                            [Measures].[Утверждено ассигнований] 
+                        ) 
+                    ),
+                    filter 
+                    (
+                        [ОК].[КОСГУ].members,
+                        not IsEmpty 
+                        (
+                            [Measures].[Утверждено ассигнований] 
+                        ) 
+                    ) 
+                )
+
+        },
+        not IsEmpty
+        (
+            [Measures].[Утверждено ассигнований]
+        )
+    ) DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows,
+    {
+        [Measures].[Утверждено ассигнований],
+        [Measures].[Первый квартал],
+        [Measures].[Второй квартал],
+        [Measures].[Третий квартал],
+        [Measures].[Четвертый квартал],
+        [Measures].[Лимит на отчетную дату],
+        [Measures].[Поступило средств],
+        [Measures].[Освоено с начала года],
+        [Measures].[Освоено за отчетный месяц],
+        [Measures].[Неосвоенно средств],
+        [Measures].[Процент исполнениня],
+        [Measures].[Причины неисполнения] 
+    } on columns 
+from  [ЭО_Программы_МОЦП]  
+where
+    (
+        <%p2%><%region%>,
+        <%LD%>
+        
+    )]]>
+  </query>
+   <query id="LDy">
+    <![CDATA[select
+    non empty
+    {
+        Crossjoin
+        (
+            [Программы].[Реестр ОЦП].[Программа].members,
+            [ОК].[КОСГУ].members
+        )    --[Программы].[Реестр ОЦП].[Программа].members  --
+    }  on columns,
+ non empty   {
+ <%marks%>
+
+    }on rows
+from  [ЭО_Программы_МОЦП]
+where
+    (        [Measures].[Утверждено ассигнований],<%region%>
+    
+    )]]>
+  </query>
+  
+  <query id="LC">
+    <![CDATA[
+    --LC
+  select
+    --non empty 
+    {
+        [Measures].[Первый квартал],
+        [Measures].[Второй квартал],
+        [Measures].[Третий квартал],
+        [Measures].[Четвертый квартал] 
+    }  on columns,
+    --non empty   
+    {
+        <%LD%> 
+    }on rows 
+from  [ЭО_Программы_МОЦП] 
+where 
+    (
+      <%p2%> <%region%>
+      
+        <%p5%>
+    ) ]]>
+  </query>
+    <query id="RC">
+    <![CDATA[
+        with member [Measures].[Утверждено  ассигнований]
+    as '[Measures].[Утверждено ассигнований]+0.0'
+    
+     member [Measures].[Поступило  средств]
+    as '[Measures].[Поступило средств]+0.0'
+    --RC
+    select
+ --   non empty  
+    {
+        [Measures].[Утверждено  ассигнований],
+        [Measures].[Поступило  средств]  
+    }  on columns,
+ --   non empty    
+    {
+     <%LD%>
+     
+    }on rows  
+from  [ЭО_Программы_МОЦП]  
+where  
+    (
+       <%p2%> <%region%><%p5%>
+    )]]>
+  </query>
+
+  
+  <query id="gadge">
+    <![CDATA[with  
+    member [Measures].[Процент исполнения]  
+    as '100*[Measures].[Поступило средств]/ [Measures].[Утверждено ассигнований]'
+select
+    non empty   
+    {
+        [Measures].[Процент исполнения]  
+    }  on columns,
+    non empty   
+    {
+        [Период].[Год Квартал Месяц].[Год].[2009].[Полугодие 2].[Квартал 4].[Декабрь]    
+    }on rows   
+from  [ЭО_Программы_МОЦП]   
+where   
+    (
+        [Территории].[РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ямало-Ненецкий автономный округ].[Город Губкинский],        
+        [Программы].[Реестр ОЦП].[<%p5%>]
+    )]]>
+  </query>
+  
+  
+  
+</root>

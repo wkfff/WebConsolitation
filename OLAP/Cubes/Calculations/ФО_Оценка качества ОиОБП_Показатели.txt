@@ -1,0 +1,12 @@
+CALCULATE;
+
+SCOPE(Descendants([Период__Период].[Период__Период].[Данные всех периодов]));
+    this = IIF(not IsLeaf([Период__Период].[Период__Период].CurrentMember), 
+IIF(not IsEmpty(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember)) and 
+([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember)<> 0,  
+([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children,
+ not (IsEmpty(Measures.CurrentMember))), 1).Item(0)),
+[Период__Период].[Период__Период].CurrentMember);
+    
+END SCOPE;

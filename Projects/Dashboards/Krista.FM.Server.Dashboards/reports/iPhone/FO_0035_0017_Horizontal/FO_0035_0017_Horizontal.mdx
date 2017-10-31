@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+   <query id="FO_0035_0017_Horizontal_chart_incomes">
+    <![CDATA[
+    --FO_0035_0017_Horizontal_chart_incomes
+   with   
+    member [Measures].[Месяц]   
+    as '[Период__Период].[Период__Период].CurrentMember.Parent.Name'   
+    member [Measures].[Год]   
+    as '[Период__Период].[Период__Период].CurrentMember.Parent.Parent.Parent.Parent.Name'    
+    member [Measures].[Всего ]   
+    as '[Measures].[Всего] / 1000'   
+    member [Measures].[Доходы бюджета без средств ФБ и невыясненных поступлений]   
+    as '[Measures].[Доходы бюджета] / 1000'   
+    member [Measures].[Невыясненные поступления ]   
+    as '[Measures].[Невыясненные поступления] / 1000'   
+    member [Measures].[Целевые поступления из ФБ ]   
+    as '[Measures].[Целевые поступления из ФБ] / 1000'   
+    member [Measures].[Доходы бюджета без средств ФБ и невыясненных за аналогичный период прошлого года]   
+    as 'IIF   
+        (
+            [Период__Период].[Период__Период].CurrentMember is Tail   
+            (
+                filter   
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Parent.Children,
+                    not isEmpty ([Measures].[Доходы бюджета])   
+                )   
+            ).item(0) ,
+            (
+                [Measures].[Доходы бюджета],
+                Tail   
+                (
+                    filter   
+                    (
+                        ParallelPeriod   
+                        (
+                            [Период__Период].[Период__Период].[Год],
+                            1   
+                        ).Parent.Children,
+                        not isEmpty ([Measures].[Доходы бюджета])   
+                    )   
+                ).item(0)   
+            ) / 1000,
+            null   
+        )'   
+    member [Measures].[Целевые поступления из ФБ за аналогичный период прошлого года]   
+    as 'IIF   
+        (
+            [Период__Период].[Период__Период].CurrentMember is Tail   
+            (
+                filter   
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Parent.Children,
+                    not isEmpty   
+                    (
+                        [Measures].[Целевые поступления из ФБ]   
+                    )   
+                )   
+            ).item(0) ,
+            (
+                [Measures].[Целевые поступления из ФБ],
+                Tail   
+                (
+                    filter   
+                    (
+                        ParallelPeriod   
+                        (
+                            [Период__Период].[Период__Период].[Год],
+                            1   
+                        ).Parent.Children,
+                        not isEmpty   
+                        (
+                            [Measures].[Целевые поступления из ФБ]   
+                        )   
+                    )   
+                ).item(0)   
+            ) / 1000,
+            null   
+        )'    
+    member [Measures].[Невыясненные поступления за аналогичный период прошлого года]
+    as 'IIF
+        (
+            [Период__Период].[Период__Период].CurrentMember is Tail
+            (
+                filter
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Parent.Children,
+                    not isEmpty
+                    (
+                        [Measures].[Невыясненные поступления]
+                    )
+                )
+            ).item(0) ,
+            (
+                [Measures].[Невыясненные поступления],
+                Tail
+                (
+                    filter
+                    (
+                        ParallelPeriod
+                        (
+                            [Период__Период].[Период__Период].[Год],
+                            1
+                        ).Parent.Children,
+                        not isEmpty
+                        (
+                            [Measures].[Невыясненные поступления]
+                        )
+                    )
+                ).item(0)
+            ) / 1000,
+            null
+        )'
+select
+    {
+        [Measures].[Месяц],
+        [Measures].[Невыясненные поступления ],
+        [Measures].[Целевые поступления из ФБ ],
+        [Measures].[Доходы бюджета без средств ФБ и невыясненных поступлений],        
+        [Measures].[Невыясненные поступления за аналогичный период прошлого года],
+        [Measures].[Целевые поступления из ФБ за аналогичный период прошлого года],
+        [Measures].[Доходы бюджета без средств ФБ и невыясненных за аналогичный период прошлого года],
+        [Measures].[Год]  
+    }on columns,
+    {
+        Tail   
+        (
+            Filter   
+            (
+                [Период__Период].[Период__Период].[День].Members,
+                not IsEmpty([Measures].[Всего]) and [Период__Период].[Период__Период].CurrentMember.Name <> "Остатки на начало года" and [Период__Период].[Период__Период].CurrentMember.Name <> "Данные квартала" and [Период__Период].[Период__Период].CurrentMember.Name <> "Данные полугодия" and [Период__Период].[Период__Период].CurrentMember.Name <> "Данные года" and [Период__Период].[Период__Период].CurrentMember.Name <> "Данные месяца"   
+            ),
+            90   
+        )   
+    } on rows   
+from [ФО_Остатки средств бюджета]   
+where   
+    (
+        [Показатели__ФО_Остатки средств бюджета].[Показатели__ФО_Остатки средств бюджета].[Все].[Поступило в бюджет по данным реестра перечисленных поступлений УФК НСО]   
+    )   
+  ]]>
+  </query>
+
+</root>

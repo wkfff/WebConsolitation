@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.ФНС 5 НДПИ" ClassType="7" SubClassType="2" Description="Классификатор показателей по налоговой базе, сформированный по форме 5-НДПИ." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_MARKS_FNS5NDPI", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_MARKS_FNS5NDPI"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Marks.FNS5NDPI]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_MARKS_FNS5NDPI}{DV.D_MARKS_FNS5NDPI}{2400}{600}{2040}{2605}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2505}{3945}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[b8e1e0ff-0cc8-4fe6-b661-f8fb621b6539]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[8bb7b783-1703-4b4d-bb75-9876e219fc58]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[82129ab7-de1a-4faa-bf58-75552f8db95b]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатели" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Показатель 1;Показатель 2;Показатель 3" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_FNS5NDPI"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_MARKS_FNS5NDPI"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_MARKS_FNS5NDPI"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FNS5NDPI"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FNS5NDPI"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование" ClassType="31" SubClassType="0" Description="" Caption="Наименование" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Условное обозначение" ClassType="31" SubClassType="0" Description="" Caption="Условное обозначение" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."DESIGNATION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Кодовое буквенное обозначение" ClassType="31" SubClassType="0" Description="" Caption="Кодовое буквенное обозначение" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."SYMBOL"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

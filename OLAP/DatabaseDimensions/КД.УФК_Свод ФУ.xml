@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="КД.УФК_Свод ФУ" ClassType="7" SubClassType="0" Description="Классификатор кодов дохода, поступающий от УФК вместе с данными свода ФУ." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_KD_UFK2"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.KD.UFK2]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_KD_UFK2}{DV.DV_KD_UFK2}{2400}{600}{1689}{3757}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[1071c465-138d-46e4-b19c-385e0f751a46]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[e171bc36-6247-4dd4-bbcf-cb76c35a7676]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[25d7130b-bc15-40e6-9c81-32a923b827de]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_KD_UFK2"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_KD_UFK2"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ID источника" ClassType="31" SubClassType="0" Description="" Caption="ID источника" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KD_UFK2"."SOURCEID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Код дохода" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="129" ColumnSize="20" CustomRollUpPropertiesColumn="" EstimatedSize="1317" IsVisible="true" Ordering="2" OrderingMemberProperty="КД">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_KD_UFK2"."CODESTR"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_KD_UFK2"."CODESTR"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="КД" ClassType="31" SubClassType="0" Description="" Caption="КД" PropertyType="0" IsVisible="true" ColumnSize="20" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KD_UFK2"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KD_UFK2"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

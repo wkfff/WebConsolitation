@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="NP_0001_0001_date">
+    <![CDATA[ -- NP_0001_0001_date
+with
+    member [Measures].[Есть данные]
+    as 'Sum
+        (
+            {
+                [Measures].[Плановое значение],
+                [Measures].[Значение на отчетную дату],
+                [Measures].[Плановое финансирование ФБ],
+                [Measures].[Фактическое финансирование ФБ],
+                [Measures].[Плановое финансирование КБ],
+                [Measures].[Фактическое финансирование КБ]
+                <%additional_measures%>
+            }
+        )'
+    set [Даты]
+    as 'filter
+        (
+            descendants
+            (
+                [Период__Период].[Период__Период].[Данные всех периодов],
+                [Период__Период].[Период__Период].[День],
+                SELF_AND_BEFORE
+            ),
+            not IsEmpty([Measures].[Есть данные]) and Left
+            (
+                [Период__Период].[Период__Период].CurrentMember.Name,
+                6
+            ) <> "Данные"
+        )'
+    member [Measures].[Уровень]
+    as '[Период__Период].[Период__Период].CurrentMember.Level.Name'
+    member [Measures].[Период]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+    member [Measures].[Ключ]
+    as '[Период__Период].[Период__Период].CurrentMember.Properties("MEMBER_KEY")'
+select
+    {
+        [Measures].[Период],
+        [Measures].[Уровень],
+        [Measures].[Ключ]
+    } on columns,
+    [Даты] on rows
+from [РЕГИОН_Нацпроекты_<%selected_project%>]
+where
+    (
+        [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра]
+    )  ]]>
+  </query>
+
+  <query id="NP_0001_0001_grid">
+    <![CDATA[ -- NP_0001_0001_grid
+with
+    set [Показатели]
+    as 'filter
+        (
+            descendants
+            (
+                [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].[Данные всех источников].[РЕГИОН\0012 Нацпроекты - <%selected_year%>],
+                [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].[Уровень <%selected_level%>],
+                SELF_AND_BEFORE
+            ),
+            not [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember is [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.Parent.DataMember
+        ) - [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].[Данные всех источников].[РЕГИОН\0012 Нацпроекты - <%selected_year%>]'
+    set [Меры]
+    as '
+        {
+            [Measures].[Единица измерения ],
+            [Measures].[Уровень],
+            [Measures].[Плановое значение ],
+            [Measures].[Значение на отчетную дату ],
+            [Measures].[Плановое финансирование ФБ ],
+            [Measures].[Фактическое финансирование ФБ ],
+            [Measures].[Плановое финансирование КБ ],
+            [Measures].[Фактическое финансирование КБ ]
+            <%additional_measures%>
+        }'
+    member [Measures].[Уровень]
+    as 'right
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.Level.Name,
+            1
+        )'
+    member [Measures].[Единица измерения ]
+    as '
+        (
+            iif
+            (
+                [Measures].[Единица измерения] = "Неизвестные данные",
+                null,
+                [Measures].[Единица измерения]
+            )
+        )'
+    member [Measures].[Единица измерения]
+    as '[Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.Properties("Единица измерения")'
+    member [Measures].[Плановое значение ]
+    as '
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.DataMember,
+            [Measures].[Плановое значение]
+        )'
+    member [Measures].[Значение на отчетную дату ]
+    as '
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.DataMember,
+            [Measures].[Значение на отчетную дату]
+        )'
+    member [Measures].[Плановое финансирование ФБ ]
+    as '
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.DataMember,
+            [Measures].[Плановое финансирование ФБ]
+        )'
+    member [Measures].[Фактическое финансирование ФБ ]
+    as '
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.DataMember,
+            [Measures].[Фактическое финансирование ФБ]
+        )'
+    member [Measures].[Плановое финансирование КБ ]
+    as '
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.DataMember,
+            [Measures].[Плановое финансирование КБ]
+        )'
+    member [Measures].[Фактическое финансирование КБ ]
+    as '
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.DataMember,
+            [Measures].[Фактическое финансирование КБ]
+        )'
+    member [Measures].[Плановое финансирование Фонд ЖКХ ]
+    as '
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.DataMember,
+            [Measures].[Плановое финансирование Фонд ЖКХ]
+        )'
+    member [Measures].[Кассовое исполнение Фонд ЖКХ ]
+    as '
+        (
+            [Нацпроекты__Показатели <%selected_project%>].[Нацпроекты__Показатели <%selected_project%>].CurrentMember.DataMember,
+            [Measures].[Кассовое исполнение Фонд ЖКХ]
+        )'
+select
+    [Меры] on columns,
+    [Показатели] on rows
+from [РЕГИОН_Нацпроекты_<%selected_project%>]
+where
+    (
+        [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра],
+        <%selected_date%>
+    )
+    ]]>
+  </query>
+
+</root>

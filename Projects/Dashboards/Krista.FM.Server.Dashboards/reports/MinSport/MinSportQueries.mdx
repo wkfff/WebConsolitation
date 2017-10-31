@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+
+    <!-- ========================================================================================= -->
+    <query id="minsport_queries_param_year">
+        <![CDATA[
+with 
+    member [Measures].[Уникальное имя]
+    as '[Год].CurrentMember.UniqueName'
+    member [Measures].[Имя]
+    as '[Год].CurrentMember.Name'
+    member [Measures].[Уровень]
+    as 'IIF
+        (
+            [Год].CurrentMember.Level is [Год].[Год].[(All)],
+            1,
+            0
+            )'
+select
+    [Год].[Год].[Год] on rows,
+    {
+        [Measures].[Имя], [Measures].[Уникальное имя], [Measures].[Уровень]} on columns
+from  [1-ФК] 
+]]>
+    </query>
+
+    
+    <!-- ========================================================================================= -->
+    <query id="minsport_queries_param_territory">
+        <![CDATA[
+with
+    member [Measures].[Уникальное имя]
+    as '[Территории_сопоставимый].CurrentMember.UniqueName'
+    member [Measures].[Имя]
+    as '[Территории_сопоставимый].CurrentMember.Name'
+    member [Measures].[Уровень]
+    as 'IIF
+        (
+            [Территории_сопоставимый].CurrentMember.Level is [Территории_сопоставимый].[Территории_сопоставимый].[(All)],
+            0,
+            IIF
+            (
+                [Территории_сопоставимый].CurrentMember.Level is [Территории_сопоставимый].[Территории_сопоставимый].[РФ],
+                0,
+                IIF
+                (
+                [Территории_сопоставимый].CurrentMember.Level is [Территории_сопоставимый].[Территории_сопоставимый].[Федеральный округ],
+                0,
+                1
+            )
+            )
+        )'
+    set [Территории]
+    as 'Descendants
+        (
+            {
+                [Территории_сопоставимый].[Территории_сопоставимый].[All].[Российская  Федерация]
+            },
+           [Территории_сопоставимый].[Территории_сопоставимый].[Субъект РФ],
+            SELF_AND_BEFORE
+        )'
+select
+    [Территории] on rows,
+    {
+        [Measures].[Имя], [Measures].[Уникальное имя], [Measures].[Уровень]} on columns
+from  [1-ФК]
+]]>
+    </query>
+
+    
+</root>

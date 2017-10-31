@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="UserRegionType" type="string">
+      <ValueProvider type="Krista.FM.RIA.Core.Tests.Stub.ParameterValueProvider, Krista.FM.RIA.Core.Tests"></ValueProvider>
+    </Param>
+    <Param name="OKTMO" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.DebtBook.Params.OKTMOValueProvider, Krista.FM.RIA.Extensions.DebtBook"></ValueProvider>
+    </Param>
+  </Params>
+
+  <Views>
+    <View id="SubjectOrganizationCreditForm" title="Данные по субъекту РФ" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XFormEntityWithDetailsView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="43c55c92-c819-4e0b-95a1-3b941bc2789f"/>
+      <Presentation objectKey="'447f2657-3bd1-45c9-9365-d5462c213b0a'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.Tests.Stub.ViewServiceStub, Krista.FM.RIA.Extensions.DebtBook.Tests"></StoreService>
+      <Params>
+        <Parameter name="UserRegionType" value="0"/>
+      </Params>
+      <StoreListeners>
+        <Listener name="BeforeLoad">alert();</Listener>
+      </StoreListeners>
+    </View>
+
+    <View id="LimitsFormSubject" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+      <Presentation objectKey="'80142117-0b7d-4d9b-9bca-a312570bd516'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.Tests.Stub.ViewServiceStub, Krista.FM.RIA.Extensions.DebtBook.Tests"></StoreService>
+      <Fields>
+        <Field name="ConsMunDebt1" calc="MunDebt1 + PosDebt1"/>
+        <Field name="ConsMunGrnt1" calc="MunGrnt1 + PosGrnt1"/>
+        <Field name="ConsMunService1" calc="MunService1 + PosService1"/>
+        <Field name="ConsMunDebt2" calc="MunDebt2 + PosDebt2"/>
+        <Field name="ConsMunGrnt2" calc="MunGrnt2 + PosGrnt2"/>
+        <Field name="ConsMunService2" calc="MunService2 + PosService2"/>
+        <Field name="ConsMunDebt3" calc="MunDebt3 + PosDebt3"/>
+        <Field name="ConsMunGrnt3" calc="MunGrnt3 + PosGrnt3"/>
+        <Field name="ConsMunService3" calc="MunService3 + PosService3"/>
+      </Fields>
+    </View>
+  
+  </Views>
+</Extension>

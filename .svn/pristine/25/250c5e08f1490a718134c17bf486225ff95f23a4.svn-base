@@ -1,0 +1,47 @@
+CALCULATE;
+
+//Период__Год Квартал Месяц
+SCOPE([Значения экономич показателей].[Значение показателя].&[5]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Факт])), null, ([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember, [Значения экономич показателей].[Факт])/([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Факт]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Значения экономич показателей].[Значение показателя].&[7]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Прогноз])), null, ([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember, [Значения экономич показателей].[Прогноз])/([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Прогноз]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Значения экономич показателей].[Значение показателя].&[8]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Факт])), null, ([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember, [Значения экономич показателей].[Оценка])/([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Факт]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Значения экономич показателей].[Значение показателя].&[6]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Оценка])), null, ([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember, [Значения экономич показателей].[Оценка])/([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Оценка]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Значения экономич показателей].[Значение показателя].&[9]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Оценка])), null, ([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember, [Значения экономич показателей].[Прогноз])/([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.PrevMember, [Значения экономич показателей].[Оценка]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Значения экономич показателей].[Значение показателя].&[10]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Значения экономич показателей].[Факт])), null, ([Measures].[Значение], [Значения экономич показателей].[Оценка])/([Measures].[Значение], [Значения экономич показателей].[Факт]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Значения экономич показателей].[Значение показателя].&[11]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Значения экономич показателей].[Оценка])), null, ([Measures].[Значение], [Значения экономич показателей].[Прогноз])/([Measures].[Значение], [Значения экономич показателей].[Оценка]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Значения экономич показателей].[Значение показателя].&[12]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.NextMember, [Значения экономич показателей].[Оценка])), null, ([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember, [Значения экономич показателей].[Факт])/([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.NextMember, [Значения экономич показателей].[Оценка]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Значения экономич показателей].[Значение показателя].&[13]);
+    this = IIF(IsEmpty(([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.NextMember, [Значения экономич показателей].[Прогноз])), null, ([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember, [Значения экономич показателей].[Оценка])/([Measures].[Значение], [Период__Год].[Период__Год].CurrentMember.NextMember, [Значения экономич показателей].[Прогноз]));
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;

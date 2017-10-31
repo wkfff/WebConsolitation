@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФО_ИФ_Кредиты полученные" ClassType="9" SubClassType="0" Description="" DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_S_CREDITINCOMECUBE"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_S_CREDITINCOMECUBE"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_S_CREDITINCOMECUBE", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_ORGANIZATIONS_PLAN", "DV"."BV_ORGANIZATIONS_BRIDGE", "DV"."BV_ORGANIZATIONS_BRIDGEPLAN", "DV"."FX_S_TYPECREDIT"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_S_CREDITINCOMECUBE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_S_CREDITINCOMECUBE"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_S_CREDITINCOMECUBE"."REFORGANIZATIONS"="DV"."D_ORGANIZATIONS_PLAN"."ID") AND ("DV"."D_ORGANIZATIONS_PLAN"."REFBRIDGE"="DV"."BV_ORGANIZATIONS_BRIDGE"."ID") AND ("DV"."D_ORGANIZATIONS_PLAN"."REFPLANBRIDGE"="DV"."BV_ORGANIZATIONS_BRIDGEPLAN"."ID") AND ("DV"."F_S_CREDITINCOMECUBE"."REFSTYPECREDIT"="DV"."FX_S_TYPECREDIT"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_S_CREDITINCOMECUBE"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_ORGANIZATIONS_PLAN}{DV.D_ORGANIZATIONS_PLAN}{2130}{5670}{2445}{2200}{1})({dv}{DV.BV_ORGANIZATIONS_BRIDGE}{DV.BV_ORGANIZATIONS_BRIDGE}{2970}{10590}{3015}{910}{1})({dv}{DV.BV_ORGANIZATIONS_BRIDGEPLAN}{DV.BV_ORGANIZATIONS_BRIDGEPLAN}{4170}{10365}{3150}{925}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{5040}{5565}{2715}{910}{1})({dv}{DV.F_S_CREDITINCOMECUBE}{DV.F_S_CREDITINCOMECUBE}{2867}{439}{2520}{4355}{1})({dv}{DV.DATASOURCES}{DV.DATASOURCES}{0}{3000}{1800}{2200}{1})({dv}{DV.FX_S_TYPECREDIT}{DV.FX_S_TYPECREDIT}{6735}{5805}{1995}{970}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[9ea5ca16-f32a-4800-b72f-d2d8493a244d]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[b2d6f9a5-125e-44fe-873b-26a6ca02bf1f]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.S.CreditincomeCube]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[712a6f76-72b8-4a16-8548-2ac70f8afa37]]></Property>
+    <Property name="BatchOperations" datatype="8"><![CDATA[Krista.FM.Server.OLAP.BatchOperations.BatchOperationFO28CreditIncome, Krista.FM.Server.OLAP.BatchOperations]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Организации.Планирование" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Организации" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_ORGANIZATIONS_PLAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Организации" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_ORGANIZATIONS_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.Сопоставимый планирование" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Организации" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_ORGANIZATIONS_BRIDGEPLAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ИФ.Тип кредита" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Фиксированный" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_S_TYPECREDIT"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Договор.Кредиты полученные" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Договор" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."F_S_CREDITINCOMECUBE"."NUM"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Привлечено План" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_S_CREDITINCOMECUBE"."PLANATTRACTCI"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Привлечено Факт" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_S_CREDITINCOMECUBE"."FACTATTRACTCI"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Погашено ОснДолг План" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_S_CREDITINCOMECUBE"."PLANDEBTCI"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Погашено ОснДолг Факт" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_S_CREDITINCOMECUBE"."FACTDEBTCI"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Проценты План" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."F_S_CREDITINCOMECUBE"."PLANSERVICECI"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Проценты Факт" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="6">
+      <property name="SourceColumn"><![CDATA["DV"."F_S_CREDITINCOMECUBE"."FACTPERCENTCI"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Остаток_На начало года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Остаток_На начало года] AS '/*[Период].[Период].CurrentMember.properties("PKID") < "20080001"*/
+
+IIF(not IsEmpty(([Период].[Период].CurrentMember, [Measures].[Привлечено Факт])) and [Период].[Период].CurrentMember.Level is [Период].[Период].[Год],
+(Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember,[Период].[Период].[(All)])):
+[Период].[Период].CurrentMember}, [Measures].[Привлечено Факт])) - ([Период].[Период].CurrentMember, [Measures].[Привлечено Факт])  - 
+
+(Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember,[Период].[Период].[(All)])):
+[Период].[Период].CurrentMember}, [Measures].[Погашено ОснДолг Факт]))- ([Период].[Период].CurrentMember, [Measures].[Привлечено Факт]), null)
+/*
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20000001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20000001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20000001"), [Measures].[Погашено ОснДолг Факт]), 
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20010001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20010001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20010001"), [Measures].[Погашено ОснДолг Факт]), 
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20020001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20020001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20020001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20030001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20030001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20030001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20040001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20040001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20040001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20050001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20050001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20050001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20060001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20060001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20060001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20070001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20070001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20070001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20080001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20080001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20080001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20090001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20090001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20090001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20100001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20100001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20010001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20110001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20110001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20110001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20120001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20120001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20120001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20130001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20130001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20130001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20140001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20140001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20140001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20150001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20150001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20150001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20160001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20160001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20160001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20170001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20170001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20170001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20180001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20180001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20180001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20190001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20190001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20190001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20200001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") < "20200001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <  "20200001"), [Measures].[Погашено ОснДолг Факт]), 
+/*IIF([Период].[Период].CurrentMember is [Период].[Период].[Данные всех периодов], CalculationPassValue(sum([Период].[Период].CurrentMember.Children, [Measures].[Остаток_На начало года]), 1), *//*null
+))))))))))))))))))))), null)
+/*StrToValue([Период].[Период].CurrentMember.properties("PKID")) = 20080001/,*/ 
+/*
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, not (IsEmpty(Measures.CurrentMember))), [Measures].[Привлечено Факт]), null)/*     MemberToStr()
+
+([Период].[Период].CurrentMember, [Measures].[Привлечено Факт]) - ([Период].[Период].CurrentMember, [Measures].[Погашено ОснДолг Факт])']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Остаток_На конец года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Остаток_На конец года] AS 'IIF(not IsEmpty(([Период].[Период].CurrentMember, [Measures].[Привлечено Факт])) and [Период].[Период].CurrentMember.Level is [Период].[Период].[Год],
+Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember,[Период].[Период].[(All)])):
+[Период].[Период].CurrentMember}, [Measures].[Привлечено Факт])  - Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember,[Период].[Период].[(All)])):
+[Период].[Период].CurrentMember}, [Measures].[Погашено ОснДолг Факт]), null)
+/*IIF(not IsEmpty(([Период].[Период].CurrentMember, [Measures].[Привлечено Факт])) and [Период].[Период].CurrentMember.Level is [Период].[Период].[Год],
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20000001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20000001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20000001"), [Measures].[Погашено ОснДолг Факт]), 
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20010001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20010001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20010001"), [Measures].[Погашено ОснДолг Факт]), 
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20020001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20020001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20020001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20030001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20030001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20030001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20040001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20040001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20040001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20050001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20050001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20050001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20060001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20060001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20060001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20070001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20070001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20070001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20080001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20080001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20080001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20090001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20090001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20090001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20100001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20100001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20010001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20110001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20110001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20110001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20120001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20120001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20120001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20130001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20130001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20130001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20140001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20140001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20140001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20150001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20150001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20150001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20160001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20160001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20160001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20170001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20170001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20170001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20180001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20180001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20180001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20190001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20190001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20190001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20200001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20200001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20200001"), [Measures].[Погашено ОснДолг Факт]), NULL))))))))))))))))))))), null)*/']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Задолженность_На дату" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Задолженность_На дату] AS '/*IIF(Not IsEmpty(([Период].[Период].CurrentMember, [Measures].[Погашено ОснДолг План])), Sum([Период].[Период].[Данные всех периодов].Children, [Measures].[Погашено ОснДолг План]) - Sum([Период].[Период].[Данные всех периодов].Children, [Measures].[Погашено ОснДолг Факт]), null)
+Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год])):
+[Период].[Период].CurrentMember}, Measures.[За период])
+*/
+IIF(not IsEmpty(([Период].[Период].CurrentMember, [Measures].[Погашено ОснДолг План])),
+Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember,[Период].[Период].[(All)])):
+[Период].[Период].CurrentMember}, [Measures].[Погашено ОснДолг План])  - Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember,[Период].[Период].[(All)])):
+[Период].[Период].CurrentMember}, [Measures].[Погашено ОснДолг Факт]), null)
+/*
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20000001] or Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]) is [Период].[Период].[Год].&[20000001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20000001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20000001"), [Measures].[Погашено ОснДолг Факт]), 
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20010001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20010001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20010001"), [Measures].[Погашено ОснДолг Факт]), 
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20020001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20020001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20020001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20030001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20030001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20030001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20040001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20040001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20040001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20050001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20050001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20050001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20060001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20060001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20060001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20070001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20070001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20070001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20080001], 
+Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember,[Период].[Период].[(All)])):
+[Период].[Период].CurrentMember}, [Measures].[Погашено ОснДолг План])  - Sum({OpeningPeriod([Период].[Период].CurrentMember.Level, Ancestor([Период].[Период].CurrentMember,[Период].[Период].[(All)])):
+[Период].[Период].CurrentMember}, [Measures].[Погашено ОснДолг Факт]) ,
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20090001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20090001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20090001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20100001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20100001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20010001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20110001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20110001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20110001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20120001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20120001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20120001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20130001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20130001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20130001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20140001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20140001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20140001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20150001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20150001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20150001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20160001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20160001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20160001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20170001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20170001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20170001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20180001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20180001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20180001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20190001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20190001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20190001"), [Measures].[Погашено ОснДолг Факт]),
+IIF([Период].[Период].CurrentMember is [Период].[Период].[Год].&[20200001], 
+Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <= "20200001"), [Measures].[Привлечено Факт])  - Sum(Filter([Период].[Период].CurrentMember.Parent.Children, [Период].[Период].CurrentMember.PrevMember.properties("PKID") <=  "20200001"), [Measures].[Погашено ОснДолг Факт]), NULL))))))))))))))))))))), null)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Задолженность_За период" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Задолженность_За период] AS 'IIF(not IsEmpty(([Период].[Период].CurrentMember, [Measures].[Задолженность_На дату])),
+([Период].[Период].CurrentMember, [Measures].[Задолженность_На дату]) - ([Период].[Период].CurrentMember.PrevMember, [Measures].[Задолженность_На дату]), null)']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ФО_ИФ_Кредиты полученные" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_ИФ_Кредитыполученные_ФО_ИФ_Кредитыполученные_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_S_CREDITINCOMECUBE"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_S_CREDITINCOMECUBE"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_S_CREDITINCOMECUBE", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_ORGANIZATIONS_PLAN", "DV"."BV_ORGANIZATIONS_BRIDGE", "DV"."BV_ORGANIZATIONS_BRIDGEPLAN", "DV"."FX_S_TYPECREDIT"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_S_CREDITINCOMECUBE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_S_CREDITINCOMECUBE"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_S_CREDITINCOMECUBE"."REFORGANIZATIONS"="DV"."D_ORGANIZATIONS_PLAN"."ID") AND ("DV"."D_ORGANIZATIONS_PLAN"."REFBRIDGE"="DV"."BV_ORGANIZATIONS_BRIDGE"."ID") AND ("DV"."D_ORGANIZATIONS_PLAN"."REFPLANBRIDGE"="DV"."BV_ORGANIZATIONS_BRIDGEPLAN"."ID") AND ("DV"."F_S_CREDITINCOMECUBE"."REFSTYPECREDIT"="DV"."FX_S_TYPECREDIT"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[58950039-d173-4384-bf29-ce021f49b703]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[712a6f76-72b8-4a16-8548-2ac70f8afa37]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

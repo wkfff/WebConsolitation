@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="FO_0039_0008_date">
+    <![CDATA[
+-- FO_0039_0008_date
+with    
+    member [Measures].[ДанныеНа]    
+    as '[Период].[Период].CurrentMember.UniqueName'    
+    set [NonEmptySet]    
+    as 'Tail    
+        (
+            Filter    
+            (
+                Descendants   
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[Квартал],
+                    SELF   
+                ),
+                not IsEmpty    
+                (
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Р2]    
+                    )    
+                ) and   
+                (
+                    [Период].[Период].CurrentMember.Name <> "Квартал 1"  
+                ) and   
+                (
+                    [Период].[Период].CurrentMember.Name <> "Остатки на начало года"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные квартала" 
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные полугодия" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные месяца"
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+                ) 
+            ),
+            1    
+        )'    
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows    
+from [ФО_Оценка качества ОиОБП_Показатели]   
+]]>
+  </query>
+
+  <query id="FO_0039_0008_grid">
+    <![CDATA[
+-- FO_0039_0008_grid
+with     
+    set [Список МО]     
+    as 'Filter     
+        (
+            Descendants     
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF     
+            ),
+            not     
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember     
+            ) and     
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" 
+            )     
+        )'   
+    member [Период].[Период].[Отклонение]   
+    as 'IIF   
+        (
+            IsEmpty  
+            (
+                [Период].[Период].[Данные всех периодов].<%selected_period%>  
+            ) or 
+            IsEmpty  
+            (
+                [Период].[Период].[Данные всех периодов].<%selected_prev_period%>
+            ),
+            null,
+            [Период].[Период].[Данные всех периодов].<%selected_prev_period%> - [Период].[Период].[Данные всех периодов].<%selected_period%>
+        )'   
+      
+    set [Кварталы] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Период].[Период].[Данные всех периодов].[<%period_year%>],
+                [Период].[Период].[Квартал],
+                SELF 
+            ),
+            not 
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" 
+            ) and 
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" 
+            ) and 
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" 
+            ) and 
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные года" 
+            ) and
+            (
+                [Период].[Период].CurrentMember.Properties("PKID") <= [Период].[Период].[Данные всех периодов].<%selected_period%>.Properties("PKID")
+            )
+        ) '
+    set [Годы] 
+    as '
+        {
+            [Период].[Период].[Данные всех периодов].<%selected_prev_period%>,
+            [Период].[Период].[Данные всех периодов].<%selected_period%>
+        }' 
+        
+    set [Районы с увеличением рейтинга]   
+    as 'Order
+        (
+            Filter
+            ( 
+              [Список МО],
+              [Период].[Период].[Отклонение] > 0
+            ),
+            [Период].[Период].[Отклонение],
+            BDESC
+        ) '  
+    set [Районы со снижением рейтинга]   
+    as 'Order
+        (
+            Filter
+            ( 
+              [Список МО],
+              [Период].[Период].[Отклонение] < 0
+            ),
+            [Период].[Период].[Отклонение],
+            BDESC
+        ) '     
+    set [Районы со сохранением рейтинга]   
+    as 'Order
+        (
+            Filter
+            ( 
+              [Список МО],
+              not IsEmpty([Период].[Период].[Отклонение]) and [Период].[Период].[Отклонение] = 0
+            ),
+            [Период].[Период].[Отклонение],
+            BDESC
+        ) '
+    set [Пустое множество районов]   
+    as '{}'         
+select
+    {
+        [<%period_set%>] +  
+        {
+            [Период].[Период].[Отклонение]  
+        }   
+    } on columns,
+    {
+        [<%region_set%>]
+    } on rows 
+from  [ФО_Оценка качества ОиОБП_Показатели]     
+where     
+    (
+        [Measures].[Оценка показателя],
+        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Рейтинг МО]   
+    )     
+  ]]>
+  </query>
+  
+</root>

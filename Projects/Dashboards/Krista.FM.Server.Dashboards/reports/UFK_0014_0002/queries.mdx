@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+	<query id="mastertable">
+	<![CDATA[
+WITH       
+    MEMBER  [Уровни бюджетов].[Slicer] as 'Aggregate(<%[Уровни бюджетов]%>)'
+    MEMBER  [ОКВЭД].[Сопоставимый].[Slicer] as 'Aggregate(<%[ОКВЭД].[Сопоставимый]%>)'
+    MEMBER  [Районы].[Сопоставимый].[Slicer] as 'Aggregate(<%[Районы].[Сопоставимый]%>)'
+
+    MEMBER [Measures].[ИНН]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("ИНН")'       
+    MEMBER [Measures].[Телефон]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("Телефон")'       
+    MEMBER [Measures].[Адрес]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("Адрес")'       
+    MEMBER [Measures].[КПП]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("КПП")'       
+    MEMBER [Measures].[ФИО директора]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("ФИО директора")'       
+    MEMBER [Measures].[ОКАТО код]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("ОКАТО код")'       
+    MEMBER [Measures].[Район Код]    
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("Район Код")'    
+    MEMBER [Measures].[Район Наименование]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("Район Наименование")'       
+    MEMBER [Measures].[Тип организации Наименование]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("Тип организации Наименование")'       
+    MEMBER [Measures].[Основной ОКВЭД]       
+    as '[Организации].[Сопоставимый].CurrentMember.Properties("Основной ОКВЭД")'       
+SELECT
+    {
+        [Measures].[Сумма За период],
+        [Measures].[ИНН],
+        [Measures].[Телефон],
+        [Measures].[Адрес],
+        [Measures].[КПП],
+        [Measures].[ФИО директора],
+        [Measures].[ОКАТО код],
+        [Measures].[Район Код],
+        [Measures].[Район Наименование],
+        [Measures].[Тип организации Наименование],
+        [Measures].[Основной ОКВЭД]         
+    } on columns,
+    Order(
+    Filter  
+    (
+        {
+            [Организации].[Сопоставимый].[Уровень 1].AllMembers,
+            [Организации].[Сопоставимый].[Все]        
+        },
+        (
+            not IsEmpty([Measures].[Сумма За период])  
+        ) 
+    ), [Measures].[Сумма За период], desc) on rows  
+FROM [УФК_Выписка из сводного реестра_c расщеплением]         
+WHERE         
+    (
+        [Уровни бюджетов].[Slicer],
+        [ОКВЭД].[Сопоставимый].[Slicer],
+        [Районы].[Сопоставимый].[Slicer],
+        <%period_day_fo%>
+    )         
+	]]>
+	</query>
+
+	<query id="detailtable">
+	<![CDATA[
+WITH
+    MEMBER  [Уровни бюджетов].[Slicer] as 'Aggregate(<%[Уровни бюджетов]%>)'
+    MEMBER  [ОКВЭД].[Сопоставимый].[Slicer] as 'Aggregate(<%[ОКВЭД].[Сопоставимый]%>)'
+    MEMBER  [Районы].[Сопоставимый].[Slicer] as 'Aggregate(<%[Районы].[Сопоставимый]%>)'
+    MEMBER [Measures].[Код] as '[КД].[Сопоставимый].CurrentMember.Properties("Код")'
+SELECT
+    NON EMPTY {[Measures].[Код], [Measures].[Сумма За период]} on columns,
+    Filter
+    (
+        {
+            [КД].[Сопоставимый].[Группа].AllMembers,
+            [КД].[Сопоставимый].[Подгруппа].AllMembers,
+            [КД].[Сопоставимый].[Статья].AllMembers,
+            [КД].[Сопоставимый].[Подстатья].AllMembers,
+            [КД].[Сопоставимый].[Элемент подстатьи].AllMembers,
+            [КД].[Сопоставимый].[Элемент].AllMembers 
+        },
+        (
+            not IsEmpty([Measures].[Сумма За период])
+        )
+    ) on rows 
+FROM [УФК_Выписка из сводного реестра_c расщеплением]    
+WHERE    
+    (
+        [Уровни бюджетов].[Slicer],
+        [ОКВЭД].[Сопоставимый].[Slicer],
+        [Районы].[Сопоставимый].[Slicer],
+        <%period_day_fo%>,
+        <%organization%>
+    )
+
+	]]>
+	</query>
+
+	<query id="detailchart">
+	<![CDATA[
+WITH
+    MEMBER  [Уровни бюджетов].[Slicer] as 'Aggregate(<%[Уровни бюджетов]%>)'
+    MEMBER  [ОКВЭД].[Сопоставимый].[Slicer] as 'Aggregate(<%[ОКВЭД].[Сопоставимый]%>)'
+    MEMBER  [Районы].[Сопоставимый].[Slicer] as 'Aggregate(<%[Районы].[Сопоставимый]%>)'
+SELECT
+    NON EMPTY {[Measures].[Сумма За период]} on columns,
+    NON EMPTY Filter
+    (
+        {
+            [КД].[Сопоставимый].[Группа].AllMembers,
+            [КД].[Сопоставимый].[Подгруппа].AllMembers,
+            [КД].[Сопоставимый].[Статья].AllMembers,
+            [КД].[Сопоставимый].[Подстатья].AllMembers,
+            [КД].[Сопоставимый].[Элемент подстатьи].AllMembers,
+            [КД].[Сопоставимый].[Элемент].AllMembers 
+        },
+         
+        (
+            IsLeaf
+            (
+                [КД].[Сопоставимый].CurrentMember
+            )
+        )
+    ) on rows 
+
+FROM [УФК_Выписка из сводного реестра_c расщеплением]    
+WHERE    
+    (
+        [Уровни бюджетов].[Slicer],
+        [ОКВЭД].[Сопоставимый].[Slicer],
+        [Районы].[Сопоставимый].[Slicer],
+        <%period_day_fo%>,
+        <%organization%>
+    )
+	]]>
+	</query>
+	
+	<query id="OgrEgrulSQLTemplate">
+	<![CDATA[
+		SELECT NAMEP, OGRN, INN, INN20, OKATO, MainOKVED, 
+        VidAdr, Adress, RegNum, DateStartMNS, DateStartUL, Contact, NameDirect, OGRNDirect, 
+        INNDirect, INN20Direct, OKATODirect, AdressDirect, ContactDirect 
+        FROM B_ORG_EGRUL 
+        WHERE (INN = {0}) AND (INN20 = {1})	
+	]]>
+	</query>
+		
+
+	<query id="IpEgripSQLTemplate">
+	<![CDATA[
+			SELECT FIO, OGRNIP, INN, MainOKVED, OKATO, 
+            Name, DocNum, DateDoc, NameOrg, Contact, Adress, DateStartMNS 
+            FROM b_IP_EGRIP A, b_Doc_KindPerson B 
+            WHERE (A.INN = {0}) AND (A.RefDocKindPerson = B.ID)	
+	]]>
+	</query>	
+
+</root>

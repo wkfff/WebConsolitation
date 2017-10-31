@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+<query id="date">
+    <![CDATA[
+-- fo_0035_0001_date
+with 
+    member Measures.[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail  
+        (
+            NonEmptyCrossjoin 
+            (
+                {
+                    Filter
+                    (
+                        [Период].[Период].Members,
+                        [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                        [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                        [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                        [Период].[Период].CurrentMember.Name <> "Данные года"
+                    ) 
+                } 
+            )  
+        )  
+    } on rows 
+from [ФО_Исполнение кассового плана] 
+  ]]>
+  </query>
+
+<query id="data">
+    <![CDATA[
+-- fo_0035_0001_data   
+    select
+    {
+        [Measures].[<%measure_plan%>],
+        [Measures].[<%measure_fact%>] 
+    } on columns,
+    {
+         [Показатели].[ИспКасПлан].[Все].[<%measure_start_balance%>],
+         [Показатели].[ИспКасПлан].[Все].[<%measure_end_balance%>],
+         [Показатели].[ИспКасПлан].[Все].[КАССОВЫЕ ПОСТУПЛЕНИЯ - ВСЕГО],
+         [Показатели].[ИспКасПлан].[Все].[КАССОВЫЕ ВЫПЛАТЫ - ВСЕГО]
+    }
+    on rows 
+    from [ФО_Исполнение кассового плана] 
+where 
+    (
+        <%period_cur_date%>  
+    ) 
+  ]]>
+  </query>
+
+  <query id="data_H">
+    <![CDATA[
+-- fo_0035_0001_H_data          
+with
+    member Measures.[Код]
+    as '[Показатели].[ИспКасПлан].CurrentMember.Properties("Код")'    
+select
+    {        
+        [Measures].[<%measure_plan%>],
+        [Measures].[<%measure_fact%>],
+        [Measures].[Код],
+        [Measures].[Процент исполнения]
+    } on columns,
+    Filter
+    (
+        Except
+        (
+            [Показатели].[ИспКасПлан].[Показатель].Members,
+            {
+                [Показатели].[ИспКасПлан].[Все].['Значение не указано']
+            }
+        ),
+        not(IsEmpty([Measures].[<%measure_plan%>]) and IsEmpty([Measures].[<%measure_fact%>])) and
+        [Показатели].[ИспКасПлан].CurrentMember.Properties("Код") <> "67"
+    )
+    on rows
+from [ФО_Исполнение кассового плана]
+where 
+    (
+        <%period_cur_date%>  
+    ) 
+  ]]>
+  </query>
+
+  <query id="Outcomes">
+    <![CDATA[
+     with
+    member Measures.[План ]
+    as '[Measures].[<%measure_plan%>] / 1000'
+    member Measures.[Факт ]
+    as '[Measures].[<%measure_fact%>] / 1000'
+    member [Администратор].[ИспКасПланСопост].[Расходы- всего ]  
+    as 'Aggregate 
+        (
+            {
+                Descendants 
+                (
+                    [Администратор].[ИспКасПланСопост].[Все],
+                    [Администратор].[ИспКасПланСопост].[ГРБС],
+                    SELF 
+                ) - 
+                {
+                    [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+                } 
+            } 
+        )'     
+select
+    {
+        {   Filter
+            (
+                Except
+                (
+                    [Расходы].[ИспКасПлан].[Вид расходов].Members,
+                    {
+                        [Расходы].[ИспКасПлан].[Все].['Значение не указано'],
+                        [Расходы].[ИспКасПлан].[Все].[Итого]
+                    }
+                ),
+                not IsEmpty([Measures].[Факт ]) and
+                [Measures].[Факт ] > 1
+            )    
+            *
+            {
+                [Measures].[План ],
+                [Measures].[Факт ],
+                [Measures].[Процент исполнения]
+            }
+        }
+    } on columns,
+    {[Администратор].[ИспКасПланСопост].[Все].[Расходы- всего ] } on rows
+from  [ФО_Исполнение кассового плана_Расходы]
+where
+    (
+        <%period_cur_date%>
+    )
+    ]]>
+  </query>
+</root>

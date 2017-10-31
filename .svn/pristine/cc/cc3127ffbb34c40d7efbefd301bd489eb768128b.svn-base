@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0016_0002_date">
+    <![CDATA[
+-- FO_0016_0002_date
+-- <#[ФО_БККУ_Показатели]#>
+with
+    member [Measures].[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                <%period_dimension%>.Members,
+                not IsEmpty([Measures].[Значение]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФО_БККУ_Показатели]
+  ]]>
+  </query>
+
+  <query id="FO_0016_0002_indiacators">
+    <![CDATA[
+-- FO_0016_0002_indiacators
+WITH 
+    Member [Measures].[Наименование]
+    as '[Показатели].[БККУ_Сопоставимый].CurrentMember.Properties("Наименование")' 
+    Member [Measures].[Содержание]
+    as '[Показатели].[БККУ_Сопоставимый].CurrentMember.Properties("Содержание")' 
+    Member [Measures].[Формула]
+    as '[Показатели].[БККУ_Сопоставимый].CurrentMember.Properties("Формула")' 
+    Member [Measures].[Условия проверки]
+    as '[Показатели].[БККУ_Сопоставимый].CurrentMember.Properties("Условия проверки")' 
+    Member [Measures].[Пороговое значение]
+    as '[Показатели].[БККУ_Сопоставимый].CurrentMember.Properties("Пороговое значение")' 
+    Member [Measures].[Минимальное значение]
+    as '[Показатели].[БККУ_Сопоставимый].CurrentMember.Properties("Минимальное значение")' 
+    Member [Measures].[Максимальное значение]
+    as '[Показатели].[БККУ_Сопоставимый].CurrentMember.Properties("Максимальное значение")'
+    set [Список районов] 
+    as 'Order 
+        (
+            Except 
+            (
+                Filter 
+                (
+                    [Районы].[Сопоставимый].[Районы].AllMembers,
+                    not IsEmpty ( [Measures].[Значение] ) 
+                ),
+                {
+                    [Районы].[Сопоставимый].[Все районы].[Несопоставленные данные],
+                    [Районы].[Сопоставимый].[Все районы].[Консолидированный бюджет - Новосибирская область],
+                    [Районы].[Сопоставимый].[Все районы].[Новосибирская Область (Бюджет Субъекта)] 
+                } 
+            ),
+            [Measures].[Значение],
+            BDESC
+        )' 
+    member Measures.[Ранг по значению] 
+    as 'IIF 
+        (
+            IsEmpty ( [Measures].[Значение] ),
+            null,
+            Rank 
+            (
+                [Районы].[Сопоставимый].CurrentMember,
+                [Список районов],
+                [Measures].[Значение] 
+            )
+        )' 
+    member Measures.[Худший ранг по значению] 
+    as 'IIF 
+        (
+            IsEmpty ( [Measures].[Значение] ),
+            null,
+            max 
+            (
+                [Список районов],
+                Measures.[Ранг по значению] 
+            ) 
+        ) ' 
+    member Measures.[Минимальное значение по районам]
+    as 'min
+            (
+                [Список районов],
+                Measures.[Значение]
+            )
+        '
+    member Measures.[Максимальное значение по районам]
+    as 'max
+            (
+                [Список районов],
+                Measures.[Значение]
+            )
+        '        
+SELECT
+    {
+            [Measures].[Значение],
+            [Measures].[Ранг по значению], 
+            [Measures].[Худший ранг по значению],
+            Measures.[Минимальное значение по районам],
+            Measures.[Максимальное значение по районам],
+            [Measures].[Количество нарушений],
+            [Measures].[Наименование],
+            [Measures].[Содержание],
+            [Measures].[Формула],
+            [Measures].[Условия проверки],
+            [Measures].[Пороговое значение],
+            [Measures].[Минимальное значение],
+            [Measures].[Максимальное значение]
+    }  on columns,
+    {
+        [Показатели].[БККУ_Сопоставимый].[Данные всех источников].Children -
+        {[Показатели].[БККУ_Сопоставимый].[Данные всех источников].[Группа МО],
+        [Показатели].[БККУ_Сопоставимый].[Данные всех источников].[ОКН],
+        [Показатели__БККУ_Сопоставимый].[Показатели__БККУ_Сопоставимый].[Данные всех источников].[Несопоставленные данные]}
+    }  on rows
+FROM [ФО_БККУ_Показатели] 
+WHERE 
+    (
+        [Период__Период].[Период__Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>],
+        <%selected_region%>
+    )  
+  ]]>
+  </query>
+
+</root>

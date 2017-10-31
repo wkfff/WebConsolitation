@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+
+  <query id = "Direction">
+  <![CDATA[--Direction
+    with
+    
+    member [Measures].[reverce]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    
+    member [Measures].[UniqueName]
+    as '[СЭП].[Годовой сборник].currentmember.UniqueName'
+    
+    member [Measures].[Unit]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Единица измерения")'
+    
+    member [Measures].[comparable]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Сопоставимый показатель")'
+
+select
+    {
+[UniqueName],
+[reverce],
+[Measures].[Unit],
+[Measures].[comparable]
+
+    } on columns,
+    {
+    Filter(
+                [СЭП].[Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].children
+        ,
+        [Measures].[За период]>0
+        )
+    }DIMENSION PROPERTIES PARENT_UNIQUE_NAME on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+  ]]>
+  </query>
+  
+   <query id = "Period">
+  <![CDATA[
+  --Period
+  with
+    member [Measures].[UniqueName]
+    as '[Период].[Год Квартал Месяц].currentmember.UniqueName'
+    member [Measures].[Year]
+    as '[Период].[Год Квартал Месяц].currentmember.Name'
+    member [Measures].[Mounth]
+    as '[Период].[Год Квартал Месяц].currentmember.Name'
+    member [Measures].[За период_]
+    as '([Measures].[За период], [Период].[Год Квартал Месяц].CurrentMember.datamember)'
+select
+    {
+[UniqueName],
+[Measures].[Year],
+[Measures].[Mounth]
+    
+    } on columns,
+    {
+    Filter(
+    [Период].[Год Квартал Месяц].[Год].members
+        --[СЭП].[Годовой сборник].[Уровень 1].members
+        ,
+        [Measures].[За период_]>0
+        )
+    }DIMENSION PROPERTIES PARENT_UNIQUE_NAME on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+where
+(
+[Территории__Сопоставимый].[Территории__Сопоставимый].[Субъект РФ]
+)
+
+  ]]>
+  </query>
+  
+    <query id = "Region">
+    <![CDATA[with
+
+    member [Measures].[UniqueName]
+    as '"].["+[Территории].[СЭП].CurrentMember.Properties("Принадлежность")+"].["+[Территории].[СЭП].CurrentMember.Name+"]"'
+    member [Measures].[parent]
+    as '[Территории].[СЭП].CurrentMember.Properties("Принадлежность")'
+select
+    {
+Order(
+    filter(
+            [Территории].[СЭП].[Территория].members,
+
+            (
+                ([Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "РФ")
+                and
+                (([Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> ""))
+            )),[Measures].[parent])
+
+    }on rows ,
+    non empty
+    {
+        [Measures].[UniqueName],
+        [Measures].[parent]
+    }  on columns
+FROM  [СТАТ_СЭП_Годовой сборник]
+]]></query>
+
+  <query id = "Grid">
+    <![CDATA[
+    --Grid
+with
+    member [Measures].[За период_]
+    as '([Measures].[За период], [Период].[Год Квартал Месяц].CurrentMember.datamember)'
+    member [Measures].[UniqueName]
+    as '[СЭП].[Годовой сборник].CurrentMember.UniqueName'
+     
+    member [Measures].[ParentName]
+    as '[СЭП].[Годовой сборник].CurrentMember.parent.Name'
+    
+    member [Measures].[Reverce]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    
+    member [Measures].[Unit]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Единица измерения")'
+    
+    member [Measures].[Comporable]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Сопоставимый показатель")'
+    
+    member [Measures].[PrevValueSubject]
+    as '
+        (
+            [Measures].[За период],
+            <%ChosenDate%>.lag(1).datamember,
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionSubject%>].datamember
+
+        )'
+    member [Measures].[ValueSubject]
+    as '
+        (
+            [Measures].[За период],
+            <%ChosenDate%>.datamember,
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionSubject%>].datamember
+
+        )'
+    member [Measures].[PrevValueFO]
+    as '
+        (
+            [Measures].[За период],
+            <%ChosenDate%>.lag(1).datamember,
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionFO%>].datamember
+
+        )'
+    member [Measures].[ValueFO]
+    as '
+        (
+            [Measures].[За период],
+            <%ChosenDate%>.datamember,
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionFO%>].datamember
+
+        )'
+    member [Measures].[PrevValueRF]
+    as '
+        (
+            [Measures].[За период],
+            <%ChosenDate%>.lag(1).datamember,
+            [Территории].[СЭП].[Все территории].[Российская Федерация].datamember
+
+        )'
+    member [Measures].[ValueRF]
+    as '
+        (
+            [Measures].[За период],
+            <%ChosenDate%>.datamember,
+            [Территории].[СЭП].[Все территории].[Российская Федерация].datamember
+
+        )'
+select
+    {
+        filter
+        (
+        except(
+            <%ChosenSEP%>,
+            {[СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Население].[Численность населения по основным возрастным группам],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Труд].[Уровень экономической активности населения (по полу)],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Труд].[Состав безработных (по полу)],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Уровень жизни населения].[Структура социальных выплат],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Уровень жизни населения].[Удельный вес общего объема денежных доходов, приходящихся на соответствующую группу населения, в общем объеме денежных доходов, процентов],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Уровень жизни населения].[Структура денежных доходов населения],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Предприятия и организации].[Число предприятий и организаций по ОКФС],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Строительство].[Распределение строительных организаций по ОКФС],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Связь].[Наличие квартирных телефонных аппаратов сети общего пользования на 1000 человек населения (по типу местности)],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Торговля и услуги населению].[Распределение оборота розничной торговли по ОКФС],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Наука].[Внутренние затраты на научные исследования и разработки (по видам)],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Финансы].[Доходы консолидированного бюджета],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Финансы].[Расходы консолидированного бюджета],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Финансы].[Расходы на реализацию мер по социальной поддержке отдельных категорий граждан],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Финансы].[Исполнение бюджета ФСС],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Финансы].[Исполнение бюджета ТФОМС],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Инвестиции].[Структура инвестиций в основной капитал по ОКФС],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Инвестиции].[Структура инвестиций в основной капитал по видам основных фондов],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Инвестиции].[Структура инвестиций в основной капитал по источникам],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Инвестиции].[Иностранные инвестиции],
+          [СЭП__Годовой сборник].[СЭП__Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Предприятия и организации].[Отгружено товаров собственного производства, выполнено работ и услуг собственным силами по ОКВЭД]}),
+            not IsEmpty( [Measures].[ValueSubject] )
+        )
+    }on rows ,
+    {
+				[Measures].[ParentName],
+				[Measures].[UniqueName],
+                [Measures].[Reverce],
+                [Measures].[Unit],
+                [Measures].[Comporable],
+                [Measures].[PrevValueSubject],
+                [Measures].[ValueSubject],
+                [Measures].[PrevValueFO],
+                [Measures].[ValueFO],
+                [Measures].[PrevValueRF],
+                [Measures].[ValueRF]
+
+    }  on columns
+FROM  [СТАТ_СЭП_Годовой сборник]
+]]>
+  </query>  
+  
+
+
+  <query id = "RangRF">
+    <![CDATA[  
+  
+  with 
+      member [Measures].[За период_]
+    as '([Measures].[За период], [Период].[Год Квартал Месяц].CurrentMember.datamember)'
+    member [Measures].[Value]
+    as ' 
+        (
+            [Measures].[За период_],
+            <%ChosenDate%>
+        )'
+    member [Measures].[Rang]
+    as 'null'
+
+select
+    non empty  
+    {
+        filter 
+        (
+            [Территории].[СЭП].[Территория].members,
+            (
+     
+                (
+                    [Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "РФ"
+                ) and 
+                (
+                    (
+                        [Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> ""
+                    )
+                ) 
+            ) 
+        ) 
+    }on rows ,
+    {
+[Measures].[Value],
+[Measures].[Rang]
+    }  on columns 
+FROM  [СТАТ_СЭП_Годовой сборник] 
+where
+(
+            <%ChosenSEP%>
+)]]>
+</query>
+  <query id = "RangFO">
+    <![CDATA[  
+  
+  with 
+      member [Measures].[За период_]
+    as '([Measures].[За период], [Период].[Год Квартал Месяц].CurrentMember.datamember)'
+    member [Measures].[Value]
+    as ' 
+        (
+            [Measures].[За период_],
+            <%ChosenDate%>
+        )'
+    member [Measures].[Rang]
+    as 'null'
+
+select
+    non empty  
+    {
+        filter 
+        (
+            [Территории].[СЭП].[Территория].members,
+            (
+     
+                (
+                    [Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "РФ"
+                ) and 
+                (
+                    (
+                        [Территории].[СЭП].CurrentMember.Properties("Принадлежность") = "<%ChosenRegionFO%>"
+                    )
+                ) 
+            ) 
+        ) 
+    }on rows ,
+    {
+[Measures].[Value],
+[Measures].[Rang]
+    }  on columns 
+FROM  [СТАТ_СЭП_Годовой сборник] 
+where
+(
+            <%ChosenSEP%>
+)]]>
+</query>
+
+ <query id = "ChartComparable">
+    <![CDATA[ 
+    ---ChartComparable
+    with
+        member [Measures].[За период_]
+    as '([Measures].[За период], [Период].[Год Квартал Месяц].CurrentMember.datamember)'
+    member [Measures].[<%ChosenRegionSubject%>]
+    as '
+        (
+            [Measures].[За период_],
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionSubject%>].datamember
+
+        )'
+    member [Measures].[<%ChosenRegionFO%>]
+    as '
+        (
+            [Measures].[За период_],
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionFO%>].datamember
+
+        )'
+    member [Measures].[Российская Федерация]
+    as '
+        (
+            [Measures].[За период_],
+            [Территории].[СЭП].[Все территории].[Российская Федерация].datamember
+
+        )'
+    member [Measures].[ChartCaption]
+    as '
+ [Период].[Год Квартал Месяц].CurrentMember.Name +" "+  [Период].[Год Квартал Месяц].CurrentMember.parent.parent.parent.Name
+        '
+        
+select
+    {
+				        --[Measures].[ChartCaption],
+                [Measures].[<%ChosenRegionSubject%>],
+                [Measures].[<%ChosenRegionFO%>],
+                [Measures].[Российская Федерация]
+    } on columns,
+    non empty
+    {
+filter(
+--<%ChosenDate%>:<%ChosenDate%>.lag(12)
+[Период].[Год Квартал Месяц].[Год].members
+,
+
+not IsEmpty( [Measures].[<%ChosenRegionSubject%>]))
+
+    }  on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+where
+(
+<%ChosenDetail%>
+)
+]]>
+</query>
+
+ <query id = "ChartDynamic">
+    <![CDATA[
+    
+    with   
+        member [Measures].[За период_]
+    as '([Measures].[За период], [Период].[Год Квартал Месяц].CurrentMember.datamember)'
+    member [Measures].[<%ChosenRegionSubject%>]   
+    as '   
+        (
+            [Measures].[За период_],
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionSubject%>].datamember    
+        )'   
+    member [Measures].[ValueFO]   
+    as '   
+        (
+            [Measures].[За период_],
+            [Территории].[СЭП].[Все территории].[<%ChosenRegionFO%>].datamember    
+        )'   
+    member [Measures].[ValueRF]   
+    as '   
+        (
+            [Measures].[За период_],
+            [Территории].[СЭП].[Все территории].[Российская Федерация].datamember    
+        )'   
+    member [Measures].[ChartCaption]   
+    as ' [Период].[Год Квартал Месяц].CurrentMember.parent.parent.parent.Name +", "+ [Период].[Год Квартал Месяц].CurrentMember.Name '
+    member [Measures].[Year]
+    as
+    '[Период].[Год Квартал Месяц].CurrentMember.parent.parent.parent.Name'
+
+
+select
+    {
+        --[Measures].[Year],
+        --[Measures].[ChartCaption],
+        [Measures].[<%ChosenRegionSubject%>]
+  
+    } on columns,
+    non empty   
+    {
+    filter
+    (
+		  
+		[Период].[Год Квартал Месяц].[Год].members,
+ not IsEmpty(  [Measures].[<%ChosenRegionSubject%>])
+        )
+    }  on rows   
+FROM  [СТАТ_СЭП_Годовой сборник]    
+where
+(
+<%ChosenDetail%>
+)
+]]>
+</query>
+  <query id = "DefaultParam">
+    <![CDATA[   
+    --DefaultParam
+ with
+     member [Measures].[За период_]
+    as '([Measures].[За период], [Период].[Год Квартал Месяц].CurrentMember.datamember)'
+    member [Measures].[reverce]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    member [Measures].[UniqueName]
+    as '[СЭП].[Годовой сборник].currentmember.UniqueName'
+    member [Measures].[Unit]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Единица измерения")'
+    member [Measures].[comparable]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Сопоставимый показатель")'
+select
+    {
+    <%ChosenDate%>
+    } on columns,
+    {
+    TopCount(
+        filter
+        (
+            [СЭП].[Годовой сборник].[Раздел].members,
+            not IsEmpty
+            (
+                (
+                    [Measures].[За период_],
+                    <%ChosenDate%>
+                )
+            )
+        )
+        ,
+        1)
+    }DIMENSION PROPERTIES PARENT_UNIQUE_NAME on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+where
+    (
+        [Территории].[СЭП].[Территория].[Центральный федеральный округ]
+    )
+  ]]>
+  </query>
+
+</root>

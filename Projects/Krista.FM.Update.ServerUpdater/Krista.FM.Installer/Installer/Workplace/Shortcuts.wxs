@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include Variables.wxi?>
+
+  <Fragment>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcutSchemeDisigner" Guid="c84e33d6-0258-4578-b525-01a4eaebe62d">
+
+        <Shortcut Id="ShortcutSchemeDisigner"
+          Name="$(var.Manufacturer).$(var.Division).$(var.SchemeDesigner)"
+          Description="$(var.ProductName)"
+          Target="[INSTALLLOCATION]Krista.FM.Client.SchemeDesigner.exe"
+          WorkingDirectory="INSTALLLOCATION"/>
+
+        <Shortcut Id="ShortcutWorkplace" 
+        Name="$(var.Manufacturer).$(var.Division).$(var.Workplace)"
+        Description="$(var.ProductName)"
+        Target="[Workplace]Krista.FM.Client.Workplace.exe"
+        WorkingDirectory="Workplace"/>
+
+        <Shortcut Id="UninstallProduct" 
+                                  Name="Удалить $(var.Manufacturer).$(var.Division).$(var.ProductName).$(var.ProductVersion)"
+                                  Target="[SystemFolder]msiexec.exe"
+                                  Arguments="/x [ProductCode]"
+                                  Directory="ApplicationProgramsFolder"
+                                  Description="Удалить $(var.Manufacturer).$(var.Division).$(var.ProductName).$(var.ProductVersion)" />
+
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+        
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder3">
+      <Component Id="CompanyMenuFolder"
+        Guid="{E7D5A37A-7B27-4041-97DA-00A404CE2619}">
+        <RemoveFolder Id="ApplicationProgramsFolder3" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ApplicationProgramsFolder2">
+      <Component Id="CompanyMenuFolder2"
+        Guid="{61622800-FB1E-4ADC-8F40-90AA13FB70FB}">
+        <RemoveFolder Id="ApplicationProgramsFolder2" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ApplicationProgramsFolder1">
+      <Component Id="CompanyMenuFolder1"
+        Guid="{9117F90D-0793-4D87-A127-6313A79A5B85}">
+        <RemoveFolder Id="ApplicationProgramsFolder1" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

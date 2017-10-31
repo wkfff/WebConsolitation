@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="КИФ.Планирование" ClassType="7" SubClassType="2" Description="Классификатор источников финансирования дефицита бюджета (внутренних и внешних) в котором хранятся результаты планирования, т.е классификация источников, которая будет действовать в периоде планирования." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."DV_KIF_PLAN"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.KIF.Plan]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_KIF_PLAN}{DV.DV_KIF_PLAN}{2400}{600}{2415}{5017}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[6b95feb6-27a8-4da4-928f-e8020e53d63b]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[a531f087-b785-4ab6-8934-6f7f29ea4660]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[78f65dd5-3949-46a1-8527-c01f02e552b1]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник финансирования" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Группа;Подгруппа;Статья;Подстатья;Элемент;Программа;ЭКИВФ уровень 1;ЭКИВФ уровень 2;ЭКИВФ уровень 3" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_KIF_PLAN"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_KIF_PLAN"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."DV_KIF_PLAN"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KIF_PLAN"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KIF_PLAN"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Направление" ClassType="31" SubClassType="0" Description="" Caption="Направление" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KIF_PLAN"."REFKIF"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Принадлежность" ClassType="31" SubClassType="0" Description="" Caption="Принадлежность" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_KIF_PLAN"."REFKIFCLSASPECT"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

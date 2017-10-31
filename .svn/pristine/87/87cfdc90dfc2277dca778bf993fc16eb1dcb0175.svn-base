@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="МФ РФ_83ФЗ_Число учреждений" ClassType="9" SubClassType="0" Description="Таблица содержит информацию об установлении государственных заданий (заданий учредителя) государственным учреждениям субъекта Российской Федерации, размешенную на сайте МФ РФ." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_MFRF", "DV"."FX_FX_ESTABLISHMENTKIND", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_BRANCH_FIELDOFACTIVITY"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."REFTERRITORY"="DV"."D_TERRITORY_MFRF"."ID") AND ("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."REFFXESTABLISHMENTKIND"="DV"."FX_FX_ESTABLISHMENTKIND"."ID") AND ("DV"."D_TERRITORY_MFRF"."REFTERRITORYRFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."REFBRANCH"="DV"."D_BRANCH_FIELDOFACTIVITY"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{195}{1635}{2010}{910}{1})({dv}{DV.F_MFRF_NUMBEROFINSTITUTIONS}{DV.F_MFRF_NUMBEROFINSTITUTIONS}{2235}{495}{3165}{3965}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{3390}{5595}{2340}{1000}{1})({dv}{DV.D_TERRITORY_MFRF}{DV.D_TERRITORY_MFRF}{5310}{5580}{3420}{1315}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{5190}{10320}{3270}{910}{1})({dv}{DV.FX_FX_ESTABLISHMENTKIND}{DV.FX_FX_ESTABLISHMENTKIND}{1755}{5100}{2760}{910}{1})({dv}{DV.D_BRANCH_FIELDOFACTIVITY}{DV.D_BRANCH_FIELDOFACTIVITY}{270}{5085}{3180}{1030}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[cbd7e18e-6d94-43e1-b2c1-1b39e492b5bd]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[e28dc9d2-06c2-4a4a-9e73-8bfc647ce331]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.MFRF.NumberOfInstitutions]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[7fd82ed7-2506-41ab-ac43-99c5b2c24432]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.МФРФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_MFRF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопост Карта" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Фиксированный.83ФЗ_Вид учреждения" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид учреждения" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_FX_ESTABLISHMENTKIND"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Отрасли.83ФЗ_Сфера деятельности" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все сферы деятельности]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Сфера деятельности" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_BRANCH_FIELDOFACTIVITY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Общее число учреждений" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"."NUMBERONTHEBEGINNING"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Число учреждений по надзору и контролю" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"."ONSUPERVISIONANDCONTROL"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Число учреждений с утвержденным перечнем услуг" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"."WITHTHEIISTOFSERVICES"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Число учреждений с утвержденным заданием" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"."NUMBERWITHTHETASK"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="% учреждений надзору и контролю к общему числу" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[% учреждений надзору и контролю к общему числу] AS 'IIF(IsEmpty([Measures].[Общее число учреждений]) or [Measures].[Общее число учреждений] = 0 , null, [Measures].[Число учреждений по надзору и контролю] / [Measures].[Общее число учреждений])', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="% учреждений с заданием к общему числу" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[% учреждений с заданием к общему числу] AS 'IIF(IsEmpty([Measures].[Общее число учреждений]) or [Measures].[Общее число учреждений] = 0 , null, [Measures].[Число учреждений с утвержденным заданием] / [Measures].[Общее число учреждений])', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="% учреждений с перечнем услуг к общему числу" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[% учреждений с перечнем услуг к общему числу] AS 'IIF(IsEmpty([Measures].[Общее число учреждений]) or [Measures].[Общее число учреждений] = 0 , null, [Measures].[Число учреждений с утвержденным перечнем услуг] / [Measures].[Общее число учреждений])', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Доля учреждений с утвержденным заданием" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Доля учреждений с утвержденным заданием] AS 'IIF(IsEmpty([Measures].[Число учреждений с утвержденным перечнем услуг]) or [Measures].[Число учреждений с утвержденным перечнем услуг] = 0 , null, [Measures].[Число учреждений с утвержденным заданием] / [Measures].[Число учреждений с утвержденным перечнем услуг])', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="МФ РФ_83ФЗ_Число учреждений" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="МФРФ_83ФЗ_Числоучрежде_МФРФ_83ФЗ_Числоучреждений_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_MFRF_NUMBEROFINSTITUTIONS", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_MFRF", "DV"."FX_FX_ESTABLISHMENTKIND", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_BRANCH_FIELDOFACTIVITY"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."REFTERRITORY"="DV"."D_TERRITORY_MFRF"."ID") AND ("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."REFFXESTABLISHMENTKIND"="DV"."FX_FX_ESTABLISHMENTKIND"."ID") AND ("DV"."D_TERRITORY_MFRF"."REFTERRITORYRFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_MFRF_NUMBEROFINSTITUTIONS"."REFBRANCH"="DV"."D_BRANCH_FIELDOFACTIVITY"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ObjectKey" datatype="8"><![CDATA[7fd82ed7-2506-41ab-ac43-99c5b2c24432]]></Property>
+        <Property name="ID" datatype="8"><![CDATA[f096bf3a-8b42-4be0-b2f3-f210b3a500b3]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

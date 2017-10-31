@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ОРГАНИЗАЦИИ_Движение товаров" ClassType="9" SubClassType="0" Description="Реестр продуктов питания." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_ORG_MOVEPRODUCT"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_ORG_MOVEPRODUCT"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_ORG_MOVEPRODUCT", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_ORG_PRODUCTS", "DV"."D_ORG_REGISTRORG"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_ORG_MOVEPRODUCT"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ORG_MOVEPRODUCT"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_ORG_MOVEPRODUCT"."REFORG"="DV"."D_ORG_PRODUCTS"."ID") AND ("DV"."F_ORG_MOVEPRODUCT"."REFORGREGISTRORG"="DV"."D_ORG_REGISTRORG"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_ORG_MOVEPRODUCT"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.Org.MoveProduct]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{300}{3675}{2880}{925}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2415}{4335}{2850}{925}{1})({dv}{DV.D_ORG_PRODUCTS}{DV.D_ORG_PRODUCTS}{1335}{4305}{2865}{940}{1})({dv}{DV.D_ORG_REGISTRORG}{DV.D_ORG_REGISTRORG}{3510}{3990}{2790}{910}{1})({dv}{DV.F_ORG_MOVEPRODUCT}{DV.F_ORG_MOVEPRODUCT}{1500}{570}{2550}{2315}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[4b3a011a-d2e0-427a-958d-7f29ab73d4f3]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[9d212eb0-6340-462a-b959-93749b437e47]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[ed5f4f09-dfe0-4c09-8cba-01258a167b91]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.Товары" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все продукты питания]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Продукты питания" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_ORG_PRODUCTS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.Реестр организаций" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все организации]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Организация" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_ORG_REGISTRORG"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Поступление" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_ORG_MOVEPRODUCT"."ARRIVAL"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Реализация" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_ORG_MOVEPRODUCT"."REALIZATION"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Остаток" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_ORG_MOVEPRODUCT"."REMAINS"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ОРГАНИЗАЦИИ_Движение товаров" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ОРГАНИЗАЦИИ_Движение_ОРГАНИЗАЦИИ_Движениетоваров_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_ORG_MOVEPRODUCT"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_ORG_MOVEPRODUCT"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_ORG_MOVEPRODUCT", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_ORG_PRODUCTS", "DV"."D_ORG_REGISTRORG"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_ORG_MOVEPRODUCT"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ORG_MOVEPRODUCT"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_ORG_MOVEPRODUCT"."REFORG"="DV"."D_ORG_PRODUCTS"."ID") AND ("DV"."F_ORG_MOVEPRODUCT"."REFORGREGISTRORG"="DV"."D_ORG_REGISTRORG"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[ca7e0532-a047-4fcc-a7ed-07eeb4e8711d]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[ed5f4f09-dfe0-4c09-8cba-01258a167b91]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

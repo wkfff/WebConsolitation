@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="МФ РФ.Сопост Показатели" ClassType="7" SubClassType="2" Description="Сопоставимый классификатор для показателей расчета Федеральных фондов." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="2">
+  <property name="FromClause"><![CDATA["DV"."B_MFRF_MARKS", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."B_MFRF_MARKS"."REFUNITSOKEI"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[b.MFRF.Marks]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.B_MFRF_MARKS}{DV.B_MFRF_MARKS}{2400}{600}{1860}{3088}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2508}{2868}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[db83a30e-ec22-4db4-84bf-be55140b263a]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[d4432e16-4114-4877-9d26-351b3b14949f]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[f9600ed0-14d3-4404-912b-4d2c0c0361d2]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатели" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Тип;Группа;Подгруппа;Показатель 1" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."B_MFRF_MARKS"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."B_MFRF_MARKS"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."B_MFRF_MARKS"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."B_MFRF_MARKS"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."B_MFRF_MARKS"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."B_MFRF_MARKS"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."DESIGNATION"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

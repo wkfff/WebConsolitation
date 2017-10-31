@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="table_level0">
+    <![CDATA[
+SELECT
+    Except 
+    (
+        [МФ РФ].[Сопост Показатели].[Тип].AllMembers,
+        {
+            [МФ РФ].[Сопост Показатели].[Все показатели].[Несопоставленные данные] 
+        } 
+    ) on columns,
+    Except 
+    (
+        [Территории].[Сопоставимый].[Федеральный округ].AllMembers,
+        {
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].DATAMEMBER 
+        } 
+    ) on rows 
+FROM [МФ РФ_Фонды] 
+WHERE 
+    (
+        <%[Период].[Год]%>,
+        [Measures].[Значение] 
+    ) 
+	]]>
+      </query>
+
+      <query id="table_level1">
+        <![CDATA[
+With    
+    member [МФ РФ].[Сопост Показатели].[FK]    
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Name'   
+    
+SELECT
+    {
+        [МФ РФ].[Сопост Показатели].[FK],
+        Except     
+        (
+            [МФ РФ].[Сопост Показатели].[Тип].AllMembers,
+            {
+                [МФ РФ].[Сопост Показатели].[Все показатели].[Несопоставленные данные]     
+            }     
+        )    
+    }on columns,
+    Filter  
+    (
+        [Территории].[Сопоставимый].[Субъект РФ].AllMembers,
+        (
+            not 
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+            )and 
+            (
+                not IsEmpty([Measures].[Значение])
+            ) 
+        ) 
+    ) on rows       
+FROM [МФ РФ_Фонды]       
+WHERE       
+    (
+        <%[Период].[Год]%>,
+        [Measures].[Значение]      
+    )           
+
+	]]>
+</query>
+
+
+  <query id="chart">
+    <![CDATA[
+SELECT
+    non empty  Filter 
+    (
+        <%state_area%>.Children,
+        not 
+        (
+            [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember 
+        )  
+    ) on columns,
+    non empty Except   
+    (
+        [МФ РФ].[Сопост Показатели].[Тип].AllMembers,
+        {
+            [МФ РФ].[Сопост Показатели].[Все показатели].[Несопоставленные данные]   
+        }   
+    ) on rows 
+FROM [МФ РФ_Фонды]   
+WHERE   
+    (
+        <%[Период].[Год]%>,
+        [Measures].[Значение]   
+    )    
+	]]>
+  </query>
+	
+</root>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+  select
+          {   <%marks%>} on columns,
+          non empty{
+              
+                      [Период].[Год Квартал Месяц].[Год].Members
+              }        on rows 
+      from  [МО_Паспорт МО] 
+      where  
+          (
+           [Measures].[Значение],
+              <%current_region%>
+          )            
+	  ]]>
+  </query>
+
+  <query id="last_date_">
+    <![CDATA[ -- name: last_date_   
+      select
+          {   <%marks%>} on columns,
+          {
+              Tail 
+              (
+                  Filter 
+                  (
+                      [Период].[Год Квартал Месяц].[Год].Members,
+                      [Measures].[Значение] > 0 
+                  ) 
+              ).Item(0) 
+          } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows 
+      from  [МО_Паспорт МО] 
+      where  
+          (
+           [Measures].[Значение],
+              <%current_region%>
+          )           
+	  ]]>
+  </query>
+  
+<query id="grid">
+    <![CDATA[ -- name: grid
+select
+   non empty {<%marks%>} 
+    Dimension properties [Паспорт МО].[Показатели].[Единица измерения] on rows,
+    { [Measures].[Значение] } on columns  
+from [МО_Паспорт МО]      
+where      
+    (   [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%period_last_date%>,
+        <%current_region%>
+     )
+    ]]>
+  </query>
+  
+  <query id="chart_dinamic">
+    <![CDATA[ -- name: chart_dinamic
+select
+    { [Measures].[Значение] } on rows,
+    non empty 
+    {
+       [Период].[Год Квартал Месяц].[Год].Members
+    } on columns 
+from  [МО_Паспорт МО] 
+where 
+    (
+        <%current_region%>,
+        <%marks%>,
+        [Источники данных].[Все источники данных].[МО Паспорт МО] 
+    )       
+    ]]>
+  </query>
+
+  <query id="grid2">
+    <![CDATA[ -- name: grid2
+select
+    non empty
+    {
+        <%last_year%>: <%last_year%>.Lag(9)
+    } on columns,
+    {
+        <%marks%>
+    } Dimension properties [Паспорт МО].[Показатели].[Единица измерения] on rows
+from  [МО_Паспорт МО]      
+where      
+    (
+        <%current_region%>,
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Measures].[Значение]
+    )        
+    ]]>
+  </query>   
+  
+  <query id="chart">
+    <![CDATA[ -- name: chart
+select
+    non empty Filter
+    (
+        <%marks%>.children,
+        [Measures].[Значение] > 0 and not
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember
+        )
+    ) on rows,
+    { [Measures].[Значение]  } on columns
+from [МО_Паспорт МО]
+where
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>],
+        <%current_region%>
+    )  
+  ]]>
+  </query>  
+</root>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id = "Grid">
+    <![CDATA[
+with 
+    member [Measures].[RowType] 
+    as '[КД__Сопоставимый].[КД__Сопоставимый].CurrentMember.Level.Name'  
+select
+    {
+    [Measures].[RowType],
+        [Measures].[Годовые назначения],
+        [Measures].[Факт],
+        [Measures].[% выполнения годовых назначений],
+        [Measures].[Факт_за период]
+        
+    } on columns,
+    except 
+    (
+        filter 
+        (
+            {
+                [КД__Сопоставимый].[КД__Сопоставимый].MEMBERS
+            },
+            (
+                [КД__Сопоставимый].[КД__Сопоставимый].CurrentMember.Level.Name='Группа'  or [КД__Сопоставимый].[КД__Сопоставимый].CurrentMember.Level.Name='Подгруппа'  or [КД__Сопоставимый].[КД__Сопоставимый].CurrentMember.Level.Name='Статья'
+            )  and 
+            (
+                not isempty([Measures].[Годовые назначения]) or not isempty([Measures].[Факт])
+            )  and 
+            (
+                Right
+                (
+                    [КД__Сопоставимый].[КД__Сопоставимый].Currentmember.UniqueName,
+                    10
+                ) <> "DATAMEMBER"
+            )
+        ),
+        {
+            [КД__Сопоставимый].[КД__Сопоставимый].[Все коды доходов].[Несопоставленные данные],
+            [КД__Сопоставимый].[КД__Сопоставимый].[Все коды доходов].[Итого внутренних оборотов]
+        }
+    )  on rows  
+from [ФО_МесОтч_Доходы]  
+where 
+    (
+    [Период__Период].[Период__Период].[Данные всех периодов].[<%Year%>].[<%halfYear%>].[<%quartYear%>].[<%Month%>],
+   [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[<%Budget_Level%>]
+    )  
+
+ 
+ ]]>
+
+  </query>
+  <query id = "lastDate">
+    <![CDATA[
+
+   
+select
+    {
+
+        [Measures].[Годовые назначения],
+        [Measures].[Факт],
+        [Measures].[% выполнения годовых назначений],
+        [Measures].[Факт_за период]  
+    } on columns,
+    {
+        filter
+        (
+            [Период__Период].[Период__Период].AllMembers,
+            not IsEmpty
+            (
+                [Measures].[Годовые назначения]
+            )
+        )  
+    } on rows
+from [ФО_МесОтч_Доходы]   
+ 
+ ]]>
+
+  </query>
+</root>

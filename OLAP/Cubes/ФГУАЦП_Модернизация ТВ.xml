@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФГУАЦП_Модернизация ТВ" ClassType="9" SubClassType="0" Description="Информация по реализации мероприятий по проекту &quot;Модернизация сетей телерадиовещания РФ для перехода к цифровому формату вещания&quot;." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_F_FGUACPTV"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_F_FGUACPTV"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_F_FGUACPTV", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_MARKS_TV", "DV"."D_FACT_TV"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_F_FGUACPTV"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_FGUACPTV"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_F_FGUACPTV"."REFMARKSTV"="DV"."D_MARKS_TV"."ID") AND ("DV"."F_F_FGUACPTV"."REFFACTTV"="DV"."D_FACT_TV"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_F_FGUACPTV"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.F.FGUACPTV]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[ec95a9a1-7f8f-4274-aade-db5b29c970f9]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{100}{3000}{1800}{2200}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{9270}{5085}{2205}{1255}{1})({dv}{DV.D_MARKS_TV}{DV.D_MARKS_TV}{5310}{5775}{1800}{2200}{1})({dv}{DV.D_FACT_TV}{DV.D_FACT_TV}{2370}{6105}{1800}{2200}{1})({dv}{DV.F_F_FGUACPTV}{DV.F_F_FGUACPTV}{3400}{600}{1800}{4400}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[d59d0639-5bcb-424a-afaa-6ee2578fb0a0]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[42f6d8ed-35a2-4880-be38-8943181f9ad9]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="true" IsVisible="false">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.Модернизация ТВ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатели" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_TV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мероприятия.Модернизация ТВ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Мероприятия" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FACT_TV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_FGUACPTV"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Дата начала" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="7" AggregateFunction="3" FormatString="Short Date" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_FGUACPTV"."FIRSTDATE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Дата окончания" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="7" AggregateFunction="3" FormatString="Short Date" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_FGUACPTV"."LASTDATE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Начало" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Начало] FOR '({[Measures].[Дата начала]})' AS 'null', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Окончание" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Окончание] FOR '({[Measures].[Дата окончания]})' AS 'null', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember)
+']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ФГУАЦП_Модернизация ТВ" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФГУАЦП_МодернизацияТВ_ФГУАЦП_МодернизацияТВ_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_F_FGUACPTV"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_F_FGUACPTV"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_F_FGUACPTV", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_MARKS_TV", "DV"."D_FACT_TV"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_F_FGUACPTV"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_FGUACPTV"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_F_FGUACPTV"."REFMARKSTV"="DV"."D_MARKS_TV"."ID") AND ("DV"."F_F_FGUACPTV"."REFFACTTV"="DV"."D_FACT_TV"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[e7e2ff65-9161-488a-a036-dcc54e7219ae]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[ec95a9a1-7f8f-4274-aade-db5b29c970f9]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

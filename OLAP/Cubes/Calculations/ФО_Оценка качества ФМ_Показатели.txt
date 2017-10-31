@@ -1,0 +1,31 @@
+CALCULATE;
+
+SCOPE([Показатели__Оценка качества ФМ_Сопоставимый].[Показатели__Оценка качества ФМ_Сопоставимый].members);
+this = 
+CalculationPassValue(
+  IIF(isEmpty([Показатели__Оценка качества ФМ_Сопоставимый].[Показатели__Оценка качества ФМ_Сопоставимый].CurrentMember.DataMember),
+[Показатели__Оценка качества ФМ_Сопоставимый].[Показатели__Оценка качества ФМ_Сопоставимый].CurrentMember,
+[Показатели__Оценка качества ФМ_Сопоставимый].[Показатели__Оценка качества ФМ_Сопоставимый].CurrentMember.DataMember),
+0);
+END SCOPE;
+
+SCOPE([Показатели__Оценка качества ФМ].[Показатели__Оценка качества ФМ].members);
+this = 
+CalculationPassValue(
+  IIF(isEmpty([Показатели__Оценка качества ФМ].[Показатели__Оценка качества ФМ].CurrentMember.DataMember),
+   [Показатели__Оценка качества ФМ].[Показатели__Оценка качества ФМ].CurrentMember,
+   [Показатели__Оценка качества ФМ].[Показатели__Оценка качества ФМ].CurrentMember.DataMember),
+0);
+END SCOPE;
+
+SCOPE(Descendants([Период__Период].[Период__Период].[Данные всех периодов]));
+    this = IIF(not IsLeaf([Период__Период].[Период__Период].CurrentMember) and 
+([Measures].CurrentMember is [Measures].[Значение] or [Measures].CurrentMember is [Measures].[Оценка показателя] 
+or [Measures].CurrentMember is [Measures].[Взвешенное значение]), 
+IIF(not IsEmpty(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember)) and 
+([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember)<> 0,  
+([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children,
+ not (IsEmpty(Measures.CurrentMember))), 1).Item(0)),
+[Период__Период].[Период__Период].CurrentMember);
+END SCOPE;

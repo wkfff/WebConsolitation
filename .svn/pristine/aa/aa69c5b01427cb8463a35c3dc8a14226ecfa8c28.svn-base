@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ЭО_Прогноз_Модель региона" ClassType="9" SubClassType="0" Description="" DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA", "DV"."F_FORECAST_SCENARIO", "DV"."FX_DATE_YEAR", "DV"."DV_FORECAST_PARAMETRS", "DV"."DATASOURCES"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."FV_FORECAST_SCENARIO_DATA"."REFSCENARIO"="DV"."F_FORECAST_SCENARIO"."ID") AND ("DV"."F_FORECAST_SCENARIO"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."FV_FORECAST_SCENARIO_DATA"."REFPARAMS"="DV"."DV_FORECAST_PARAMETRS"."ID") AND ("DV"."FV_FORECAST_SCENARIO_DATA"."SOURCEID"="DV"."DATASOURCES"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[t.Forecast.IndValues]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.F_FORECAST_SCENARIO}{DV.F_FORECAST_SCENARIO}{1532}{4279}{2610}{910}{1})({dv}{DV.FV_FORECAST_SCENARIO_DATA}{DV.FV_FORECAST_SCENARIO_DATA}{510}{570}{2985}{3035}{1})({dv}{DV.FX_DATE_YEAR}{DV.FX_DATE_YEAR}{1530}{7365}{2085}{910}{1})({dv}{DV.DV_FORECAST_PARAMETRS}{DV.DV_FORECAST_PARAMETRS}{2640}{4275}{2685}{910}{1})({dv}{DV.DATASOURCES}{DV.DATASOURCES}{377}{4204}{2655}{910}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[bbaa7dc4-a9c4-40cd-8501-24b4ab0d0055]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[fc292e6c-4fd4-46d0-b3ad-f743188f9d99]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[c865470a-f1b0-4974-a22c-4d81acf6c18f]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."FV_FORECAST_SCENARIO_DATA"."REFSCENARIO"="DV"."F_FORECAST_SCENARIO"."ID") AND ("DV"."F_FORECAST_SCENARIO"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."FV_FORECAST_SCENARIO_DATA"."REFPARAMS"="DV"."DV_FORECAST_PARAMETRS"."ID") AND ("DV"."FV_FORECAST_SCENARIO_DATA"."SOURCEID"="DV"."DATASOURCES"."ID")]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Год" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEAR"."DATEYEAR"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Прогноз.Параметры" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Группа" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_FORECAST_PARAMETRS"."GROUPECODE"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Параметр" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_FORECAST_PARAMETRS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Прогноз.Сценарии" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все сценарии]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Сценарий" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."f_Forecast_Scenario"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Базовое значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."VALUEBASE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Оценочное значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."VALUEESTIMATE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Первый год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."VALUEY1"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Второй год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."VALUEY2"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Третий год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."VALUEY3"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Четвертый год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="6">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."VALUEY4"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Пятый год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="7">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."VALUEY5"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Минимальная граница" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="8">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."MINBOUND"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Максимальная граница" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="9">
+      <property name="SourceColumn"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"."MAXBOUND"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ЭО_Прогноз_Модель региона" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ЭО_Прогноз_Модельрегиона_ЭО_Прогноз_Модельрегиона_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."FV_FORECAST_SCENARIO_DATA", "DV"."F_FORECAST_SCENARIO", "DV"."FX_DATE_YEAR", "DV"."DV_FORECAST_PARAMETRS", "DV"."DATASOURCES"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."FV_FORECAST_SCENARIO_DATA"."REFSCENARIO"="DV"."F_FORECAST_SCENARIO"."ID") AND ("DV"."F_FORECAST_SCENARIO"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."FV_FORECAST_SCENARIO_DATA"."REFPARAMS"="DV"."DV_FORECAST_PARAMETRS"."ID") AND ("DV"."FV_FORECAST_SCENARIO_DATA"."SOURCEID"="DV"."DATASOURCES"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[d751d065-836c-4204-b2f2-7749e06bff84]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[c865470a-f1b0-4974-a22c-4d81acf6c18f]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

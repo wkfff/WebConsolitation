@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="LastYear">
+    <![CDATA[
+select
+    {
+        [Measures].[Оценка]
+    } on columns,
+   {Tail(filter( [Период].[Год].[Год].Members,[Measures].[Оценка]>0)).Item(0)} on rows
+from  [ЭО_КЖН_Ленинградская область]
+where ([КЖН].[Ленинградская область].[Интегральный показатель],
+<%region%>) ]]>
+  </query>
+  <query id="regions">
+    <![CDATA[
+select
+    {
+        [Measures].[Значение]
+    } on columns,
+        {
+           Filter( [Территории].[РФ].[МР ГО].Members,[Measures].[Значение] >0)
+        }
+DIMENSION PROPERTIES MEMBER_UNIQUE_NAME
+     on rows
+from  [ЭО_КЖН_Ленинградская область]]]>
+  </query>
+  <query id="chart1">
+    <![CDATA[
+    --chart1
+select
+    {
+        [Measures].[Оценка]
+    } on rows,
+   non empty { <%lastYear%>: <%lastYear%>.Lag(9)} on columns
+from  [ЭО_КЖН_Ленинградская область]
+where ([КЖН].[Ленинградская область].[Интегральный показатель]<%chart2pok%>,
+<%region%>) ]]>
+  </query>
+  <query id="chart2">
+    <![CDATA[
+select
+    {
+        <%chart2mer%>
+    } on rows,
+   non empty { <%lastYear%>: <%lastYear%>.Lag(9)} on columns
+from  [ЭО_КЖН_Ленинградская область]
+where ([КЖН].[Ленинградская область].[Интегральный показатель]<%chart2pok%>,
+<%region%>) ]]>
+  </query>
+  <query id="chart21">
+    <![CDATA[
+select
+    {
+        <%chart2mer%>
+    } on rows,
+   non empty { <%lastYear%>: <%lastYear%>.Lag(9)} on columns
+from  [ЭО_КЖН_Ленинградская область]
+where ([КЖН].[Ленинградская область].[Интегральный показатель],
+<%region%>) ]]>
+  </query>
+
+  <query id="test1">
+    <![CDATA[
+    --test1
+with     
+    member [Measures].[P]     
+    as   '[КЖН].[Ленинградская область].CurrentMember.Parent.Name'     
+    MEMBER [Measures].[Единица измерения]     
+    AS  '[КЖН].[Ленинградская область].CurrentMember.Properties("Единица измерения")'     
+   MEMBER [Measures].[Test]
+   As '[КЖН].[Ленинградская область].CurrentMember.Properties("Флаг")'
+SELECT
+   -- NON EMPTY 
+    {
+        {
+             <%lastYear%>: <%lastYear%>.Lag(1)
+        } 
+        * 
+        {
+           [Measures].[Оценка],
+            [Measures].[Единица измерения],
+            [Measures].[Test]
+        } 
+    } on columns,
+   -- NON EMPTY 
+    {
+      --  [КЖН].[Ленинградская область].[Интегральный показатель]<%pokazatel%>
+      [КЖН__Ленинградская область].[КЖН__Ленинградская область].[Интегральный показатель]<%pokazatel%>
+    } on rows 
+FROM  [ЭО_КЖН_Ленинградская область]
+where(
+<%region%>)
+----------------------------------- ]]>
+  </query>
+  
+    <query id="test2">
+    <![CDATA[
+    --test2
+with     
+    member [Measures].[P]     
+    as   '[КЖН].[Ленинградская область].CurrentMember.Parent.Name'     
+    MEMBER [Measures].[Единица измерения]     
+    AS  '[КЖН].[Ленинградская область].CurrentMember.Properties("Единица измерения")'     
+   MEMBER [Measures].[Test]
+   As '[КЖН].[Ленинградская область].CurrentMember.Properties("Флаг")'
+SELECT
+   -- NON EMPTY 
+    {
+        {
+          <%lastYear%>: <%lastYear%>.Lag(1)
+           
+        } 
+        * 
+        {
+            <%grid_pok%>,
+            [Measures].[Единица измерения],
+            [Measures].[Test]
+        } 
+    } on columns,
+   -- NON EMPTY 
+    {
+      filter( [КЖН].[Ленинградская область].[Интегральный показатель]<%pokazatel%>.Children,not isempty(<%grid_pok%>))
+    } on rows 
+FROM  [ЭО_КЖН_Ленинградская область]
+where(<%region%>)]]>
+</query>
+  <query id="test2Second">
+    <![CDATA[
+    --test2
+with     
+    member [Measures].[P]     
+    as   '[КЖН].[Ленинградская область].CurrentMember.Parent.Name'     
+    MEMBER [Measures].[Единица измерения]     
+    AS  '[КЖН].[Ленинградская область].CurrentMember.Properties("Единица измерения")'     
+   MEMBER [Measures].[Test]
+   As '[КЖН].[Ленинградская область].CurrentMember.Properties("Флаг")'
+SELECT
+   -- NON EMPTY 
+    {
+        {
+          <%lastYear%>: <%lastYear%>.Lag(1)
+           
+        } 
+        * 
+        {
+            <%grid_pok%>,
+            [Measures].[Единица измерения],
+            [Measures].[Test]
+        } 
+    } on columns,
+   -- NON EMPTY 
+    {
+      filter( [КЖН].[Ленинградская область].[Интегральный показатель]<%pokazatel%>.Children,<%grid_pok%>>=0)
+    } on rows 
+FROM  [ЭО_КЖН_Ленинградская область]
+where(<%region%>)]]>
+  </query>
+</root>

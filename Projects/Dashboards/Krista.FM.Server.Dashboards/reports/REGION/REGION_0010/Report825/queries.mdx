@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="G">
+    <![CDATA[
+    with 
+    member [Measures].[paren] 
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Группа показателя")' 
+    member [Measures].[ед] 
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Единица измерения")' 
+    member [Measures].[Имя] 
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Полное наименование")' 
+    member [Measures].[Включать в доклад]
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Включать в доклад")'  
+    member [Measures].[Номер в докладе]
+    AS  'str([ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Примечание"))+"s"'
+select
+    {
+       filter
+       (
+            Order    
+            ( 
+                {
+                    [ОИВ__Показатели].[ОИВ__Показатели].children
+                },
+                [Measures].[paren]
+            ) ,
+            [Measures].[Включать в доклад]="-1"
+       )
+    } on rows ,
+    {
+        [Measures].[paren],
+        [Measures].[ед],
+        [Measures].[Отчет], 
+        [Measures].[План 1], 
+        [Measures].[План 2],
+        [Measures].[План 3],
+        [Measures].[Имя],
+        [Measures].[Включать в доклад],
+        [Measures].[Номер в докладе]
+    } on columns 
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности]              
+where              
+    (
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ],
+        [Период].[Год].[Год].[<%p1%>],
+        <%baseRegion%>
+        
+    )]]>
+  </query>
+
+  <query id="Subject">
+    <![CDATA[  
+  select
+    {
+        FILTER  
+        (
+            [ОИВ].[Показатели].children,
+            (
+                (
+                    not isempty([Measures].[Отчет]) 
+                ) 
+            )  
+        )   
+    } on columns,
+    non empty  
+    {
+        [Территории].[РФ Карта].[Субъект РФ].members
+    }  on rows               
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности]               
+where               
+    (
+        [Measures].[Отчет],
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ] 
+    )]]>
+  </query>
+
+  <query id="LD">
+    <![CDATA[  
+    
+    with  
+    member [Measures].[Включать в доклад]  
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Включать в доклад")'  
+    member [Measures].[summa]  
+    as ' sum  
+        (
+            {
+                FILTER 
+                (
+                    [ОИВ__Показатели].[ОИВ__Показатели].[Все показатели].children,
+                     [Measures].[Включать в доклад]="-1" 
+                ) 
+            },
+            [Measures].[Отчет]  
+        )  ' 
+select
+    { [Measures].[summa] } on columns,
+    non empty  
+    {
+        filter 
+        (
+            [Период__Год].[Период__Год].members,
+            [Measures].[summa]<>0  and  not isempty([Measures].[summa])
+        )  
+    }  on rows  
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности]           
+where               
+    (
+       <%baseRegion%>
+    )]]>
+  </query>
+
+
+</root>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="Grid2_1">
+    <![CDATA[
+    --Grid2_1
+
+    select
+    non empty {   filter
+        (
+            { [Период].[Год].Members},
+            [Период].[Год].Currentmember.Name<>"Данные всех периодов"
+        )      } on columns,
+   non empty {
+        {
+            [КЖН].[Ленинградская область].[Интегральный показатель].<%Pokazatel%>
+        }
+        *{[Measures].[Оценка]},
+        {
+            [КЖН].[Ленинградская область].[Интегральный показатель].<%Pokazatel%>.children
+        } 
+        *{ [Measures].[Значение]}   
+    } on rows  
+from  [ЭО_КЖН_Ленинградская область]  
+where  
+    (
+        --    [Measures].[Значение],
+        <%baseRegion%>
+    )]]>
+  </query>
+  <query id="Grid2_Prop">
+    <![CDATA[
+    --Grid2_3
+
+    with  
+    member [Measures].[Весовой коэффициент]  
+    as   '[КЖН].[Ленинградская область].CurrentMember.Properties("Весовой коэффициент")'
+    MEMBER [Measures].[Test] 
+    As '[КЖН].[Ленинградская область].CurrentMember.Properties("Флаг")' 
+        MEMBER [Measures].[Ед]
+    As '[КЖН].[Ленинградская область].CurrentMember.Properties("Единица измерения")'
+select
+    non empty     
+    {
+    [Measures].[Значение],
+    [Measures].[Test],
+        [Measures].[Весовой коэффициент],
+        [Measures].[Ед]
+    } on columns,
+    {
+    filter(
+        {[КЖН].[Ленинградская область].[Интегральный показатель].<%Pokazatel%>,
+        [КЖН].[Ленинградская область].[Интегральный показатель].<%Pokazatel%>.children  },
+        not isempty([Measures].[Значение]))
+    }  on rows 
+from  [ЭО_КЖН_Ленинградская область]  
+where  
+    (
+        <%baseRegion%>
+    ) ]]>
+  </query>
+
+
+  <query id="Areas">
+    <![CDATA[
+    --Areas
+select
+  {
+          [Период].[Год].[Данные всех периодов].[2008]
+    } on columns,
+    {
+        [КЖН].[Ленинградская область].[Интегральный показатель].children
+    } on rows
+from  [ЭО_КЖН_Ленинградская область]
+where
+    (
+        [Measures].[Оценка],<%baseRegion%>
+         )   ]]>
+  </query>
+
+
+  <query id="UltraChart1">
+    <![CDATA[
+    --UltraChart1
+select
+
+
+ non empty {
+       [Период].[Год].[Данные всех периодов].[<%lastYear%>]:[Период].[Год].[Данные всех периодов].[<%lastYear%>].lag(5)
+        
+    } on columns
+from  [ЭО_КЖН_Ленинградская область]
+where
+    (
+    <%chartDynMer%>,
+       [КЖН].[Ленинградская область].<%Pokazatel%><%currentWay%>  ,
+        <%baseRegion%>
+    )
+-----------------------------------   ]]>
+  </query>
+  <query id="UltraChart2">
+    <![CDATA[
+    --UltraChart2_1
+
+with
+    member [Measures].[Весовой коэффициент]
+    as   '[КЖН].[Ленинградская область].CurrentMember.Properties("Весовой коэффициент")'
+select
+    {
+        { [Measures].[Значение] }
+      *{[Период].[Год].[Данные всех периодов].[<%selectedYear%>]:[Период].[Год].[Данные всех периодов].[<%selectedYear%>].lag(1)},
+      {[Measures].[Весовой коэффициент]}
+      *{[Период].[Год].[Данные всех периодов].[<%selectedYear%>]}
+    } on columns,
+    {
+      filter
+        (
+            {
+                [КЖН].[Ленинградская область].[Интегральный показатель].<%Pokazatel%>.children
+            },
+            not isempty([Measures].[Значение])
+        ) 
+      
+    } on rows
+from [ЭО_КЖН_Ленинградская область]
+where  (
+<%baseRegion%>)
+-----------------------------------]]>
+  </query>
+</root>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="RG_0003_0001_grid">
+    <![CDATA[ 
+-- RG_0003_0001_grid
+with          
+    set [Показатели]          
+    as '[Показатели__Паспорт региона].[Показатели__Паспорт региона].[Уровень 1].AllMembers'          
+    member [Measures].[Последний период]          
+    as 'IIF          
+        (
+            [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember is [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Parent.DataMember,
+            null,
+            Tail          
+            (
+                Filter          
+                (
+                    [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].Members,
+                    not IsEmpty          
+                    (
+                        (
+                            [Measures].[Значение],
+                            [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Parent          
+                        )          
+                    ) and Str          
+                    (
+                        [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Properties("MEMBER_KEY")          
+                    ) > 0          
+                )          
+            ).Item(0).UniqueName          
+        )'    
+    member [Measures].[Последний период ]          
+    as 'IIF
+        (
+            StrToMember([Measures].[Последний период]).is_datamember,
+            StrToMember([Measures].[Последний период]).Parent.UniqueName,
+            [Measures].[Последний период]
+        )   '         
+    member [Measures].[Предыдущий период]          
+    as 'IIF          
+        (
+            StrToMember([Measures].[Последний период]).Level is [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Месяц],
+            IIF       
+            (
+                StrToMember([Measures].[Последний период]).is_datamember,
+                (
+                    [Measures].[Предыдущий квартал],
+                    StrToMember([Measures].[Последний период])       
+                ),
+                (
+                    [Measures].[Предыдущий месяц],
+                    StrToMember([Measures].[Последний период])        
+                )       
+            ),
+            (
+                [Measures].[Предыдущий год],
+                StrToMember([Measures].[Последний период])   
+            )   
+        )'        
+    member [Measures].[Предыдущий период ]          
+    as 'IIF
+        (
+            StrToMember([Measures].[Предыдущий период]).is_datamember,
+            StrToMember([Measures].[Предыдущий период]).Parent.UniqueName,
+            [Measures].[Предыдущий период]
+        )   '         
+    member [Measures].[Предыдущий месяц]          
+    as 'IIF          
+        (
+            [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember.is_datamember,
+            (
+                [Measures].[Предыдущий месяц],
+                [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember        
+            ),
+            [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember.UniqueName          
+        ) '          
+    member [Measures].[Предыдущий квартал]        
+    as 'IIF        
+        (
+            not        
+            (
+                [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember.is_datamember       
+            ),
+            (
+                [Measures].[Предыдущий квартал],
+                [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember        
+            ),
+            [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember.UniqueName        
+        ) '        
+    member [Measures].[Предыдущий год]   
+    as 'IIF   
+        (
+            not   
+            (
+                [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember.is_datamember   
+            ),
+            (
+                [Measures].[Предыдущий год],
+                [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember   
+            ),
+            [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember.UniqueName   
+        ) '   
+    member [Measures].[Единица измерения]          
+    as ' IIF          
+          (
+              [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Properties("Единица измерения") = "Неизвестные данные",
+              null,
+              IIF          
+              (
+                  [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Properties("Единица измерения") = "Процент" ,
+                  "%",
+                  " " + LCase          
+                  (
+                      [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Properties("Единица измерения")          
+                  )          
+              )          
+          )
+         '          
+    member [Measures].[Это прямой показатель]          
+    as '[Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Properties("Примечание") = "прямой показатель"'      
+    member [Measures].[Это годовой показатель]      
+    as 'not      
+        (
+            StrToMember([Measures].[Последний период]).Level is [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Месяц]     
+        )'      
+    member [Measures].[Направление показателя]          
+    as '[Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Properties("Примечание")'          
+    member [Measures].[Значение ]          
+    as '          
+        (
+            [Measures].[Значение],
+            StrToMember([Measures].[Последний период])          
+        )' ,
+        format_string = "### ###.00"          
+    member [Measures].[Предыдущее значение ]      
+    as '      
+        (
+            [Measures].[Значение],
+            StrToMember([Measures].[Предыдущий период])      
+        )' ,
+        format_string = "### ###.00"      
+    member [Measures].[Значение и единица измерения]  
+    as 'IIF
+        (
+            [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember is [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Parent.DataMember,
+            "_",
+            Str([Measures].[Значение ]) + ";" + [Measures].[Единица измерения]
+        )'       
+    member [Measures].[Колонка индикации]          
+    as 'IIF          
+        (
+            [Measures].[Единица измерения] = "%",
+            [Measures].[Значение ],
+            IIF      
+            (
+                [Measures].[Это годовой показатель],
+                null,
+                Str([Measures].[Темп роста]) + ";" + Str([Measures].[Прирост])     
+            )      
+        )'          
+    member [Measures].[Прирост]      
+    as 'IIF   
+        (
+            [Measures].[Это годовой показатель] or IsEmpty([Measures].[Значение ]) or IsEmpty   
+            (
+                [Measures].[Предыдущее значение ]      
+            ),
+            null,
+            IIF  
+            (
+                (
+                    [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Properties("Доп единицы изм") = "с нарастающим итогом с начала года"
+                ) and 
+                (
+                    StrToMember([Measures].[Последний период]).Name = "Январь" or StrToMember([Measures].[Последний период]).Name = "Квартал 1"
+                ),
+                [Measures].[Значение ],
+                [Measures].[Значение ] - [Measures].[Предыдущее значение ] 
+            )  
+        )'      
+    member [Measures].[Темп роста]      
+    as 'IIF  
+        (
+            IsEmpty([Measures].[Значение ]) or IsEmpty  
+            (
+                [Measures].[Предыдущее значение ]  
+            ) or [Measures].[Предыдущее значение ] = 0,
+            null,
+            [Measures].[Значение ] / [Measures].[Предыдущее значение ]  
+        )'  
+    member [Measures].[Тип строки]     
+    as 'IIF    
+    (
+        [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember is [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Parent.DataMember,
+        0,
+        IIF   
+        (
+            [Measures].[Единица измерения] = "%",
+            1,
+            2   
+        )    
+    )'   
+    member [Measures].[Наименование]  
+    as 'IIF  
+        (
+            [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember is [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Parent.DataMember,
+            [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Parent.Name,
+            [Показатели__Паспорт региона].[Показатели__Паспорт региона].CurrentMember.Name  
+        )'  
+    member [Measures].[Тип показателя]     
+    as 'IIF    
+        (
+            not (StrToMember([Measures].[Последний период]).Level is [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Месяц]),
+            "Ежегодный",
+            IIF   
+            (
+                StrToMember([Measures].[Последний период]).is_datamember,
+                "Ежеквартальный",
+                "Ежемесячный"   
+            )    
+        )'          
+select
+    {
+        [Measures].[Наименование],
+        [Measures].[Значение и единица измерения],
+        [Measures].[Колонка индикации],
+        [Measures].[Направление показателя],
+        [Measures].[Последний период ],
+        [Measures].[Предыдущий период ],
+        [Measures].[Тип показателя],
+        [Measures].[Тип строки]   
+    } on columns,
+    { [Показатели] } on rows          
+from [РЕГИОН_Паспорт региона]          
+where          
+    (
+        [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ямало-Ненецкий автономный округ]          
+    )          
+    ]]>
+  </query>
+</root>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id ="lastYear">
+    <![CDATA[    
+    --lastYear
+select
+    non empty   
+    {
+        [Паспорт МО].[Показатели].[Инвестиции].[Инвестиции в основной капитал по предприятиям в целом, с учетом обособленных подразделений].Children,
+        [Паспорт МО].[Показатели].[Инвестиции].[Инвестиции в основной капитал по предприятиям в целом, с учетом обособленных подразделений].Children
+    }on columns,
+    non empty
+    {
+    [Период].[Год Квартал Месяц].[Год].members
+    } on rows
+from [МО_Паспорт МО]
+where
+    (
+        <%current_region%>,
+        [Источники данных].[Все источники данных]
+    )
+]]>
+  </query>
+
+
+  <query id ="TableLeft">
+    <![CDATA[  
+    --TableLeft
+    with
+member [Паспорт МО].[Показатели].[ЕД]
+as '[Паспорт МО].[Показатели].[Инвестиции].[Инвестиции в основной капитал по предприятиям в целом, с учетом обособленных подразделений].[Производственного назначения].Properties("Единица измерения")'
+select
+    non empty   
+    {
+        [Паспорт МО].[Показатели].[Инвестиции].[Инвестиции в основной капитал по предприятиям в целом, с учетом обособленных подразделений].Children,
+        [Паспорт МО].[Показатели].[ЕД]
+    }on columns,
+    non empty
+    {
+        <%lastYear%>:<%lastYear%>.Lag(9)
+    } on rows
+from [МО_Паспорт МО]
+where
+    (
+        <%current_region%>,
+        [Источники данных].[Все источники данных]
+    )
+]]>
+  </query>
+  <query id ="TableCenterTop">
+    <![CDATA[
+    --TableCenterTop
+        with 
+    member [Measures].[Единица измерения]
+    as '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+    select
+    non empty  
+    {
+       filter({ [Паспорт МО].[Показатели].[Инвестиции].[Инвестиции в основной капитал по предприятиям в целом, с учетом обособленных подразделений  на территории города].[Производственного назначения].Children},
+        not isempty ([Measures].[Значение]))
+    }on rows  ,
+    non empty  
+    {
+            [Measures].[Значение],
+        [Measures].[Единица измерения]
+    }  on columns
+from [МО_Паспорт МО]  
+where (<%current_region%>,
+[Период].[Год Квартал Месяц].[Год].[<%current_year%>])
+
+
+    ]]>
+  </query>
+  <query id ="TableCenterBottom">
+    <![CDATA[
+    --TableCenterBottom
+    with 
+    member [Measures].[Единица измерения]
+    as '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+    select
+    non empty  
+    {
+      filter( { [Паспорт МО].[Показатели].[Инвестиции].[Инвестиции в основной капитал по предприятиям в целом, с учетом обособленных подразделений  на территории города].[Непроизводственного назначения].Children},
+      not isempty ([Measures].[Значение])
+      )
+    }on rows  ,
+    non empty  
+    {
+        [Measures].[Значение],
+        [Measures].[Единица измерения]
+        
+    }  on columns
+from [МО_Паспорт МО]  
+where (<%current_region%>,
+[Период].[Год Квартал Месяц].[Год].[<%current_year%>])
+
+    ]]>
+
+  </query>
+  <query id ="TableRight" >
+    <![CDATA[
+    --TableRight
+    with
+member [Паспорт МО].[Показатели].[ЕД]
+as '[Паспорт МО].[Показатели].[Инвестиции].[Источники финансирования].[Средства бюджета].Properties("Единица измерения")'
+    select
+    non empty  
+    {
+[Паспорт МО].[Показатели].[Все показатели].[Инвестиции].[Источники финансирования].children,
+[Паспорт МО].[Показатели].[ЕД]
+    } on columns,
+    non empty  
+    {
+       <%lastYear%>:<%lastYear%>.Lag(9)
+    }  on rows
+from [МО_Паспорт МО]  
+where <%current_region%>
+
+    ]]>
+  </query>
+  <query id ="LeftChart">
+    <![CDATA[
+    --LeftChart
+    select
+    non empty 
+    {
+        [Паспорт МО].[Показатели].[Инвестиции].[Инвестиции в основной капитал по предприятиям в целом, с учетом обособленных подразделений].Children
+    } on rows,
+    non empty 
+    {
+        [Период].[Год Квартал Месяц].[Год].[<%current_year%>] 
+    }    on columns
+from [МО_Паспорт МО]  
+    ]]>
+  </query>
+
+
+  <query id ="ChartRight" >
+    <![CDATA[
+    --ChartRight
+    with 
+    member [Measures].[Единица измерения]
+    as '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+    select
+    non empty  
+    { 
+[Паспорт МО].[Показатели].[Инвестиции].[Источники финансирования].children
+    } on rows,
+    non empty  
+    {
+       [Measures].[Значение],
+        [Measures].[Единица измерения]
+    } on columns 
+from [МО_Паспорт МО]  
+where (<%current_region%>,
+ [Период].[Год Квартал Месяц].[Год].[<%current_years%>] )
+]]>
+  </query>
+  <query id="ChartLeft">
+    <![CDATA[
+    --ChartLeft
+        with 
+    member [Measures].[Единица измерения]
+    as '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+    select
+    non empty  
+    {
+filter({[Паспорт МО].[Показатели].[Инвестиции].[Инвестиции в основной капитал по предприятиям в целом, с учетом обособленных подразделений].Children},
+not isempty([Measures].[Значение]))
+    } on rows,
+    non empty  
+    {
+                [Measures].[Значение],
+        [Measures].[Единица измерения]
+    }  on columns
+from [МО_Паспорт МО]  
+where (<%current_region%>,
+[Период].[Год Квартал Месяц].[Год].[<%current_year%>])
+]]>
+  </query>
+
+
+
+</root>

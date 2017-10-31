@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.ФК_Направление расходов" ClassType="7" SubClassType="0" Description="Классификатор показателей направлений расходов по ФЦП." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."D_MARKS_FKDIRECTION", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_MARKS_FKDIRECTION"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Marks.FKDirection]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[b054525f-a6cb-4a68-bc16-42de48095188]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_MARKS_FKDIRECTION}{DV.D_MARKS_FKDIRECTION}{2400}{600}{2325}{2695}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{3240}{4650}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[b509ca32-5981-4008-9ab3-6838e4d8458d]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[bef9b3e0-70e9-4f8f-b7e6-2191629840f9]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатель" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_FKDIRECTION"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_MARKS_FKDIRECTION"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKDIRECTION"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Краткое наименование" ClassType="31" SubClassType="0" Description="" Caption="Краткое наименование" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKDIRECTION"."SHORTNAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Уровень вложения показателя" ClassType="31" SubClassType="0" Description="" Caption="Уровень вложения показателя" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKDIRECTION"."NESTINGLEVEL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKDIRECTION"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Порядковый номер" ClassType="31" SubClassType="0" Description="" Caption="Порядковый номер" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKDIRECTION"."CODELINE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_MARKS_FKDIRECTION"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."DESIGNATION"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

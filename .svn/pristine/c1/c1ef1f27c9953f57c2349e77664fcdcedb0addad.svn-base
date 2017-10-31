@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0002_0009_date">
+    <![CDATA[
+-- FO_0002_0009_date
+with
+    member Measures.[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        Filter
+        (
+            OpeningPeriod
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2012]
+            ),
+            not IsEmpty([Measures].[Факт])
+        )
+    ) on rows
+from [ФО_МесОтч_Доходы]
+  ]]>
+  </query>
+
+<query id="FO_0002_0009_grid">
+<![CDATA[
+-- FO_0002_0009_detail_grid
+With
+     member <%period_dimension%>.[<%period_last_year%> год]
+     as '<%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]'
+     member <%period_dimension%>.[<%period_year%> год]
+     as '<%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]'
+    member [Measures].[Уровень]  
+    as '<%incomes_kd_dimension%>.CurrentMember.Level.Name'  
+    member [Measures].[Позапрошлый год]  
+    as '(
+         [Measures].[% выполнения годовых назначений], 
+         <%period_dimension%>.[Данные всех периодов].[<%period_first_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+        )'   
+    member Measures.[Отклонение (+,-)]  
+    as '(<%period_dimension%>.[<%period_year%> год],[Measures].[Факт]) - (<%period_dimension%>.[<%period_last_year%> год], [Measures].[Факт])'  
+    member Measures.[Темп роста, %] 
+    as 'IIF 
+        (
+            IsEmpty( (<%period_dimension%>.[<%period_last_year%> год], [Measures].[Факт]) ) or 
+            (<%period_dimension%>.[<%period_last_year%> год], [Measures].[Факт]) = 0,
+            null,
+            (<%period_dimension%>.[<%period_year%> год], [Measures].[Факт]) / (<%period_dimension%>.[<%period_last_year%> год], [Measures].[Факт])
+        )'
+    member Measures.[Рост (снижение)]
+    as 'IIF
+        (
+            IsEmpty(Measures.[Темп роста, %]) or (Measures.[Темп роста, %]) = 0,
+            null,
+            Measures.[Темп роста, %] - 1
+        )'      
+    member <%period_dimension%>.[<%period_year%> год к <%period_last_year%> году]
+    as '<%period_dimension%>.[Данные всех периодов]'
+Select
+    {
+        Filter
+        (
+            {
+                {
+                    <%period_dimension%>.[<%period_last_year%> год],
+                    <%period_dimension%>.[<%period_year%> год]  
+                }  
+                *   
+                {
+                    [Measures].[Годовые назначения],
+                    [Measures].[Факт],
+                    [Measures].[% выполнения годовых назначений]       
+                }  
+            } +  
+            {
+                {
+                    <%period_dimension%>.[<%period_year%> год к <%period_last_year%> году]
+                }  
+                *   
+                {
+                    [Measures].[Отклонение (+,-)],
+                    [Measures].[Темп роста, %],
+                    [Measures].[Рост (снижение)]        
+                }  
+            } + 
+            {
+                {
+                    <%period_dimension%>.[Данные всех периодов]
+                }  
+                * {[Measures].[Уровень],[Measures].[Позапрошлый год]} 
+            },
+            IIF 
+            (  
+               <%prev_year_comparing_display%>, 
+               true, 
+               not 
+               (
+                  [Measures].CurrentMember is [Measures].[Отклонение (+,-)] or
+                  [Measures].CurrentMember is [Measures].[Темп роста, %] or
+                  [Measures].CurrentMember is [Measures].[Рост (снижение)]
+               )   
+            )
+        )
+    } on columns,
+    Filter 
+    (
+        Descendants  
+        (
+            <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+            <%incomes_kd_dimension%>.[<%incomes_kd_subsection_level%>],
+            SELF_AND_BEFORE
+        ),
+        not 
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember
+            or IsEmpty(([Measures].[Факт], <%period_dimension%>.[<%period_year%> год]))
+            or IsEmpty(([Measures].[Годовые назначения], <%period_dimension%>.[<%period_year%> год]))
+            or IsEmpty(([Measures].[% выполнения годовых назначений], <%period_dimension%>.[<%period_year%> год]))
+        ) 
+    )    on rows  
+From [ФО_МесОтч_Доходы]   
+Where   
+    (
+        [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+        [ТипДокумента].[СКИФ].[Все].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов]  
+    )   
+  ]]>
+</query>
+
+</root>

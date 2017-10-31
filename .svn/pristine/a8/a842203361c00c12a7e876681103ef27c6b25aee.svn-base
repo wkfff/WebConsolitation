@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="FO_0021_0005_HMAO_date">
+    <![CDATA[
+-- FO_0021_0005_HMAO_date
+with
+    member [Measures].[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[Год],
+                    SELF
+                ),
+                not IsEmpty
+                (
+                    (
+                        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Все показатели]
+                    )
+                ) and not
+                (
+                    [Период__Период].[Период__Период].CurrentMember is[Период__Период].[Период__Период].[Данные всех периодов].[Значение не указано]
+                )
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from  [ФО_ФПКУ_Показатели]
+]]>
+  </query>
+
+  <query id="FO_0021_0005_HMAO_regions_list">
+    <![CDATA[
+-- FO_0021_0005_HMAO_regions_list
+with 
+    set [Список районов] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF 
+            ),
+            not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" 
+            ) 
+        )' 
+    member [Measures].[Имя] 
+    as ' [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name			 		' 
+    member [Measures].[Уникальное имя] 
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.UniqueName' 
+    member [Measures].[Уровень] 
+    as '0' 
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень] 
+    } on columns,
+    { [Список районов] } on rows 
+from  [ФО_ФПКУ_Показатели] 
+]]>
+</query>
+
+  <query id="FO_0021_0005_HMAO_grid">
+    <![CDATA[
+-- FO_0021_0005_HMAO_grid
+with
+    set [Все районы]
+    as '
+        Filter 
+        (
+            Descendants 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF 
+            ),
+            not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" 
+            ) 
+        )
+        '
+    set [Показатели]
+    as '
+
+            Filter
+            (
+                [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Все показатели].Children,
+                (
+                    StrToValue
+                    (
+                        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Код")
+                    ) >= 1000
+                ) and
+                (
+                    StrToValue
+                    (
+                        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Код")
+                    ) < 2000
+                )
+            )
+        '
+select
+    {
+        [Показатели]
+    } on columns,
+    non empty
+    {
+        [Все районы]
+    } on rows
+from  [ФО_ФПКУ_Показатели]
+where
+    (
+        [Период__Период].[Период__Период].[Данные всех периодов].[<%selected_period%>],
+        [Measures].[Оценка индикатора]
+    )
+    ]]>
+  </query>
+
+  <query id="FO_0021_0005_HMAO_indicatorDescription">
+    <![CDATA[
+-- FO_0021_0005_HMAO_indicatorDescription
+  With  
+    set [Показатели]  
+    as ' Filter  
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Все показатели].Children,
+            (
+                StrToValue  
+                (
+                    [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Код")  
+                ) >= 1000  
+            ) and  
+            (
+                StrToValue  
+                (
+                    [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Код")  
+                ) < 2000  
+            )  
+        ) '  
+    member [Measures].[Наименование]  
+    as ' [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Наименование")'  
+Select
+    { [Measures].[Наименование] } on columns,
+    { [Показатели] } on rows  
+From  [ФО_ФПКУ_Показатели]  
+    ]]>
+  </query>
+
+ 
+
+</root>

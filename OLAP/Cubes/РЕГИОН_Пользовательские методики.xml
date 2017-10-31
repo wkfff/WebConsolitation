@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="РЕГИОН_Пользовательские методики" ClassType="9" SubClassType="0" Description="Значения показателей, рассчитанных по пользовательским методикам." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_CLMETHOD_MARKS"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_CLMETHOD_CLMETHOD11"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFCLMETHOD"="DV"."D_CLMETHOD_MARKS"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.ClMethod.ClMethod11]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{525}{4080}{1800}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2640}{4935}{2565}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{3750}{4080}{2535}{910}{1})({dv}{DV.F_CLMETHOD_CLMETHOD11}{DV.F_CLMETHOD_CLMETHOD11}{1740}{690}{3000}{2000}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3780}{7260}{2745}{925}{1})({dv}{DV.D_CLMETHOD_MARKS}{DV.D_CLMETHOD_MARKS}{1575}{4920}{2535}{940}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[50ab6387-f43b-4525-ba99-04df6440ab5c]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[7e4ef99d-3780-4340-a5dd-f99780966f57]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_CLMETHOD_CLMETHOD11"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFCLMETHOD"="DV"."D_CLMETHOD_MARKS"."ID")]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[b885dbd2-9afd-427f-bd52-e137c08423b2]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Пользовательские методики.Показатели" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Пользовательские методики" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_CLMETHOD_MARKS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="План" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"."PLANVALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Факт" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"."FACT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Отклонение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"."DIVERG"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="отклонение от плана" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[отклонение от плана] AS '[Measures].[Факт]-[Measures].[План]']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="% выполнения" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[% выполнения] AS 'IIF([Measures].[План]<>0,[Measures].[Факт]/[Measures].[План]*100,null)']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="РЕГИОН_Пользовательские методики" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="РЕГИОН_Пользоват_РЕГИОН_Пользовательскиеметодики_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_CLMETHOD_CLMETHOD11", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_CLMETHOD_MARKS"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_CLMETHOD_CLMETHOD11"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_CLMETHOD_CLMETHOD11"."REFCLMETHOD"="DV"."D_CLMETHOD_MARKS"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[b8050b6d-439b-4beb-a7e1-1b689c57412d]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[b885dbd2-9afd-427f-bd52-e137c08423b2]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

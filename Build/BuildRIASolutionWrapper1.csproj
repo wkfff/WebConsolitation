@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+ <!-- <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\MSBuild.ExtensionPack.tasks"/>-->
+
+  <Target Name="BuildSolution">
+
+<!--    <Exec Command="del ..\output\*.zip" IgnoreExitCode="True"/>
+    <Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\VersionInfo.cs"/>
+    <Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] &gt;&gt; ..\Projects\Config\VersionInfo.cs"/>
+    <Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] &gt;&gt; ..\Projects\Config\VersionInfo.cs"/>-->
+    <MSBuild Projects="$(SolutionDir)\$(SolutionName).sln" />
+
+  </Target>
+
+  <Target Name="PublishSite">
+
+    <!-- Создаем пакет для публикации сайта -->
+    <MSBuild Projects="..\Projects\Web.RIA\app\Krista.FM.RIA.Web\Krista.FM.RIA.csproj" Targets="Package"/>
+
+  </Target>
+
+  <Target Name="BuildSolutionWrapper1" DependsOnTargets="BuildSolution;PublishSite" />
+</Project>

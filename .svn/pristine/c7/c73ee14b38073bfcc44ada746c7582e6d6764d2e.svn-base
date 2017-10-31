@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id = "Grid">
+    <![CDATA[
+    SELECT 
+	   [MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].[ID],
+	   [MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].ParentID,
+	   [MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].SpaceDisch as "Time"
+      ,MZ_Gubkinskiy.DV.f_MissivePRF_Report.FirstQuarter
+      ,MZ_Gubkinskiy.DV.f_MissivePRF_Report.SecondQuarter
+      ,MZ_Gubkinskiy.DV.f_MissivePRF_Report.ThirdQuarter
+      ,MZ_Gubkinskiy.DV.f_MissivePRF_Report.FourthQuarter
+      ,[dict].[name] as "Executors"
+      ,[MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].[Name] as "Task"
+  FROM 
+  [MZ_Gubkinskiy].[DV].[d_MissivePRF_Executors] as [dict],
+  [MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang]  LEFT JOIN MZ_Gubkinskiy.DV.f_MissivePRF_Report  on ([MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].ID = MZ_Gubkinskiy.DV.f_MissivePRF_Report.RefGoalArrang)
+  where (([MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].[RefExecutor] = [dict].[ID])and([MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].[ID]>0)
+  and(<%SourceID%> = [MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].[SourceID]))
+  
+  
+]]></query>
+  <query id = "ComboYear">
+    <![CDATA[ 
+    SELECT DISTINCT
+		date_.Year,
+		[MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].SourceID
+	  FROM
+	  [MZ_Gubkinskiy].[DV].[HUB_DataSources] as date_,
+	  [MZ_Gubkinskiy].[DV].[d_MissivePRF_Executors] as [dict],
+	  [MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang]  LEFT JOIN MZ_Gubkinskiy.DV.f_MissivePRF_Report  on ([MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].ID = MZ_Gubkinskiy.DV.f_MissivePRF_Report.RefGoalArrang)
+	  where (([MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].[RefExecutor] = [dict].[ID])and
+	  (date_.ID = [MZ_Gubkinskiy].[DV].[d_MissivePRF_GoalArrang].[SourceID])
+	  )  
+]]>
+  </query>
+</root>

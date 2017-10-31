@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФО_ГодОтч_Расходы_Показатели" ClassType="9" SubClassType="0" Description="Данные годового бухгалтерского отчета об исполнении бюджета по расходам." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="6622" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="6622">
+  <property name="SourceTable"><![CDATA["DV"."FV_R_FOYROUTCOMES"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."FV_R_FOYROUTCOMES"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."FV_R_FOYROUTCOMES", "DV"."DV_FKR_FOYR", "DV"."B_MARKS_PASSPORTMO"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."FV_R_FOYROUTCOMES"."REFFKR"="DV"."DV_FKR_FOYR"."ID") AND ("DV"."DV_FKR_FOYR"."REFPFKRBRIDGE"="DV"."B_MARKS_PASSPORTMO"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."FV_R_FOYROUTCOMES"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.R.FOYROutcomes]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.FV_R_FOYROUTCOMES}{DV.FV_R_FOYROUTCOMES}{2650}{188}{2112}{4445}{1})({dv}{DV.DV_FKR_FOYR}{DV.DV_FKR_FOYR}{7845}{3615}{1800}{1012}{1})({dv}{DV.B_MARKS_PASSPORTMO}{DV.B_MARKS_PASSPORTMO}{9435}{6105}{2655}{925}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[6385095a-5d23-48ef-861f-1df393dad0cf]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."FV_R_FOYROUTCOMES"."REFFKR"="DV"."DV_FKR_FOYR"."ID") AND ("DV"."DV_FKR_FOYR"."REFPFKRBRIDGE"="DV"."B_MARKS_PASSPORTMO"."ID")]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[98556f62-0076-4e76-b580-5915d5b52a69]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[414f1874-4719-4d56-8821-5e66c2d37155]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="РзПр.ГодОтч" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="ФКР" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_FKR_FOYR"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.ФинпаспортМОСопост" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="false" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_MARKS_PASSPORTMO"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Назначено" ClassType="10" SubClassType="0" Description="Плановые назначения на год." IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."FV_R_FOYROUTCOMES"."ASSIGNED"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Исполнено" ClassType="10" SubClassType="0" Description="Исполнено за год." IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."FV_R_FOYROUTCOMES"."PERFORMED"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ФО_ГодОтч_Расходы_Показатели" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_ГодОтч_Расходы_ФО_ГодОтч_Расходы_" EstimatedRows="6622" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."FV_R_FOYROUTCOMES"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."FV_R_FOYROUTCOMES"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."FV_R_FOYROUTCOMES", "DV"."DV_FKR_FOYR", "DV"."B_MARKS_PASSPORTMO"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."FV_R_FOYROUTCOMES"."REFFKR"="DV"."DV_FKR_FOYR"."ID") AND ("DV"."DV_FKR_FOYR"."REFPFKRBRIDGE"="DV"."B_MARKS_PASSPORTMO"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ObjectKey" datatype="8"><![CDATA[6385095a-5d23-48ef-861f-1df393dad0cf]]></Property>
+        <Property name="ID" datatype="8"><![CDATA[df710d36-136d-4d4f-96fb-430a883c5d6e]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

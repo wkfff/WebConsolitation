@@ -1,0 +1,26 @@
+CALCULATE;
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма выплат с начала года] AS
+CalculationPassValue(IIF([Период__День].CurrentMember.Level.Name = "(All)" or [Период__День].CurrentMember.Level.Name = "Год" or ([Период__День].CurrentMember Is OpeningPeriod([Период__День].CurrentMember.Level, Ancestor([Период__День].CurrentMember, [Период__День].[Период__День].[Год]))),
+([Measures].[Сумма выплат за период], [Период__День].CurrentMember),
+Sum({OpeningPeriod([Период__День].CurrentMember.Level, Ancestor([Период__День].CurrentMember, [Период__День].[Период__День].[Год])):
+[Период__День].CurrentMember}, [Measures].[Сумма выплат за период])), 1),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Восстановленная сумма с начала года] AS
+CalculationPassValue(IIF([Период__День].CurrentMember.Level.Name = "(All)" or [Период__День].CurrentMember.Level.Name = "Год" or ([Период__День].CurrentMember Is OpeningPeriod([Период__День].CurrentMember.Level, Ancestor([Период__День].CurrentMember, [Период__День].[Период__День].[Год]))),
+([Measures].[Восстановленная сумма за период], [Период__День].CurrentMember),
+Sum({OpeningPeriod([Период__День].CurrentMember.Level, Ancestor([Период__День].CurrentMember, [Период__День].[Период__День].[Год])):
+[Период__День].CurrentMember}, [Measures].[Восстановленная сумма за период])), 1),
+FORMAT_STRING = "Currency";
+
+SCOPE [Measures].[Сумма выплат с начала года];
+   this = IIF([Период__День].CurrentMember is [Период__День].[Данные всех периодов], Sum([Период__День].[Данные всех периодов].Children),
+IIF(not IsLeaf([Период__День].CurentMember), [Период__День].CurentMember.LastChild, [Период__День].CurentMember));
+END SCOPE;
+
+SCOPE [Measures].[Восстановленная сумма с начала года];
+   this = IIF([Период__День].CurrentMember is [Период__День].[Данные всех периодов], Sum([Период__День].[Данные всех периодов].Children),
+IIF(not IsLeaf([Период__День].CurentMember), [Период__День].CurentMember.LastChild, [Период__День].CurentMember));
+END SCOPE;

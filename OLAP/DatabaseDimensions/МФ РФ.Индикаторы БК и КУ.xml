@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="МФ РФ.Индикаторы БК и КУ" ClassType="7" SubClassType="0" Description="Классификатор индикаторов методики &quot;Мониторинг соблюдения субъектами РФ БК и качества управления бюджетами субъектов РФ&quot; утвержденной приказом № 98 от 11.05.2005г. Для данных до 2005г. используется классификатор, установленный методикой &quot;О Порядке оценки кредитоспособности и качества управления бюджетами субъектов Российской Федерации и муниципальных образований&quot;, утвержденной Приказом Минфина РФ №41 от  18.02.2003г." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_MFRF_INDICATORBK", "DV"."DV_UNITS_OKEI", "DV"."FX_FX_VERIFICATIONCONDITIONS"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_MFRF_INDICATORBK"."REFOKEI"="DV"."DV_UNITS_OKEI"."ID") AND ("DV"."DV_MFRF_INDICATORBK"."REFVERIFICATIONCONDITIONS"="DV"."FX_FX_VERIFICATIONCONDITIONS"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.MFRF.IndicatorBK]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_MFRF_INDICATORBK}{DV.DV_MFRF_INDICATORBK}{1830}{90}{2775}{2425}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{1830}{3465}{1800}{2035}{1})({dv}{DV.FX_FX_VERIFICATIONCONDITIONS}{DV.FX_FX_VERIFICATIONCONDITIONS}{4110}{3465}{3240}{1270}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[6f75012b-4a02-4326-9c16-36fd16d3076c]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[a5c5ed4b-fea4-48d1-8306-f6eae73badf5]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[fc4e20c0-38e0-4c55-8bd3-ff2ef231afe4]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_MFRF_INDICATORBK"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_MFRF_INDICATORBK"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ID источника" ClassType="31" SubClassType="0" Description="" Caption="ID источника" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MFRF_INDICATORBK"."SOURCEID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Индикатор БК и КУ" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_MFRF_INDICATORBK"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_MFRF_INDICATORBK"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MFRF_INDICATORBK"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Пороговое значение" ClassType="31" SubClassType="0" Description="" Caption="Пороговое значение" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="5" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MFRF_INDICATORBK"."THRESHOLD"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Условие соответствия" ClassType="31" SubClassType="0" Description="" Caption="Условие соответствия" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FX_FX_VERIFICATIONCONDITIONS"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MFRF_INDICATORBK"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."DESIGNATION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Условие" ClassType="31" SubClassType="0" Description="" Caption="Условие" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FX_FX_VERIFICATIONCONDITIONS"."VALUE"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

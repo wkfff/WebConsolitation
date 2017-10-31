@@ -1,0 +1,111 @@
+CALCULATE;
+
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[С начала года] AS
+ 
+CALCULATIONPASSVALUE(
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)",/* or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or 
+([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Период__Период].[Период__Период].[Год]))),*/
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, [Measures].[За период])), 1), FORMAT_STRING = "Currency";
+
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[За период прошлый год] AS 
+([Measures].[За период], ParallelPeriod([Период__Период].[Период__Период].[Год], 1,  [Период__Период].[Период__Период].CurrentMember))
+/*IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Год",
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.PrevMember),
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Полугодие",
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Parent.PrevMember) +([Measures].[За период], [Период__Период].[Период__Период].CurrentMember),
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Квартал",
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Parent.Parent.PrevMember) +  ([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Parent) + ([Measures].[За период],  [Период__Период].[Период__Период].CurrentMember),
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Месяц",
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Parent.Parent.Parent.PrevMember) +  ([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Parent.Parent) + ([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Parent) + ([Measures].[За период], [Период__Период].[Период__Период].CurrentMember),
+null
+)
+)
+)
+)*/, FORMAT_STRING = "Currency";
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[С начала года прошлый год] AS ([Measures].[С начала года], ParallelPeriod([Период__Период].[Период__Период].[Год], 1,  [Период__Период].[Период__Период].CurrentMember)), FORMAT_STRING = "Currency";
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к аналогичному периоду предыдущего года_За период] 
+AS IIF(IsEmpty(Measures.[За период прошлый год]), null,
+IIF((Measures.[За период прошлый год] > 0) and (Measures.[За период] > 0),
+Measures.[За период]/Measures.[За период прошлый год],
+IIF((Measures.[За период прошлый год] < 0) and (Measures.[За период] > 0),
+(Measures.[За период] + ABS(Measures.[За период прошлый год])) / ABS(Measures.[За период прошлый год]),
+IIF((Measures.[За период прошлый год] > 0) and (Measures.[За период] < 0),
+(Measures.[За период] - Measures.[За период прошлый год]) / Measures.[За период прошлый год],
+-Measures.[За период]/Measures.[За период прошлый год])))), FORMAT_STRING = "Percent";
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к аналогичному периоду предыдущего года_С начала года] AS 
+IIF(IsEmpty(Measures.[С начала года прошлый год]), null,
+IIF((Measures.[С начала года прошлый год] > 0) and (Measures.[С начала года] > 0),
+Measures.[С начала года]/Measures.[С начала года прошлый год],
+IIF((Measures.[С начала года прошлый год] < 0) and (Measures.[С начала года] > 0),
+(Measures.[С начала года] + ABS(Measures.[С начала года прошлый год])) / ABS(Measures.[С начала года прошлый год]),
+IIF((Measures.[С начала года прошлый год] > 0) and (Measures.[С начала года] < 0),
+(Measures.[С начала года] - Measures.[С начала года прошлый год]) / Measures.[С начала года прошлый год],
+-Measures.[С начала года]/Measures.[С начала года прошлый год])))), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от аналогичного периода предыдущего года_С начала года] AS IIF(IsEmpty(([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember)), 0 - ([Measures].[С начала года прошлый год]),
+([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[С начала года прошлый год])), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от предыдущего периода] AS IIF(IsEmpty((Measures.[За период], [Период__Период].[Период__Период].CurrentMember)), 0 - (Measures.[За период], [Период__Период].[Период__Период].CurrentMember.PrevMember),
+(Measures.[За период], [Период__Период].[Период__Период].CurrentMember) - (Measures.[За период], [Период__Период].[Период__Период].CurrentMember.PrevMember)), FORMAT_STRING = "Currency";
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от аналогичного периода предыдущего года] AS 
+IIF(IsEmpty(([Measures].[За период], [Период__Период].[Период__Период].CurrentMember)), 0 - ([Measures].[За период прошлый год]),
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[За период прошлый год])), FORMAT_STRING = "Currency";
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[Удельный вес в годовых поступлениях_С начала года] AS 
+IIF(IsEmpty(([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember)),
+null,
+IIF(IsEmpty(([Measures].[С начала года], Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год]))),
+null,
+IIF(([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember)>0 and ([Measures].[С начала года],  Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год])) > 0,
+([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember)/([Measures].[С начала года], Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год])),
+IIF(([Measures].[С начала года], Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год])) < 0 and ([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember)>0,
+(([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember) + ABS(([Measures].[С начала года], Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год])))) / ABS(([Measures].[С начала года], Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год]))),
+IIF(([Measures].[С начала года], Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год]))>0 and ([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember)<0,
+(([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[С начала года], [Период__Период].[Период__Период].[Данные всех периодов])) / ([Measures].[С начала года], Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год])),
+([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember)/([Measures].[С начала года], Ancestor([Период__Период].[Период__Период].CurrentMember,[Период__Период].[Период__Период].[Год])))))
+)), FORMAT_STRING = "Percent";
+
+
+
+/*SCOPE([Период__День ФК].[Период__День ФК].members);
+
+this = CalculationPassValue(
+  IIF(isEmpty([Период__День ФК].[Период__День ФК].CurrentMember.DataMember),
+    [Период__День ФК].[Период__День ФК].CurrentMember,
+    [Период__День ФК].[Период__День ФК].CurrentMember.DataMember),
+0);
+END SCOPE;*/
+
+
+
+SCOPE( DESCENDANTS([Период__День ФК].[Период__День ФК].[Данные всех периодов]));
+
+
+this = CalculationPassValue(
+IIF(IsEmpty([Период__День ФК].[Период__День ФК].CurrentMember.DataMember), 
+
+[Период__День ФК].[Период__День ФК].CurrentMember,
+[Период__День ФК].[Период__День ФК].CurrentMember.DataMember),
+ 1);
+
+
+END SCOPE;
+
+/*SCOPE([Период__День ФК].[Период__День ФК].[Данные всех периодов]);
+
+
+this = Sum([Период__День ФК].[Период__День ФК].CurrentMember.Children, 
+[Measures].CurrentMember);*/

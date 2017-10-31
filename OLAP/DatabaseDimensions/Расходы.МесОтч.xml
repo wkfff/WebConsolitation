@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Расходы.МесОтч" ClassType="7" SubClassType="2" Description="Функциональная классификация расходов, сформированная по данным месячного отчета об исполнении бюджета." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_R_MONTHREP"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.R.MonthRep]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_R_MONTHREP}{DV.D_R_MONTHREP}{2400}{600}{3645}{4390}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[c543cb2b-2097-4792-bc2c-a73c3c4612ae]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[0299a09f-9d23-4e6c-b39a-930cbe219c3a]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[875fdeb2-187d-4d15-9030-a447c5bb122b]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="ФКР" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Раздел;Подраздел;Уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_R_MONTHREP"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_R_MONTHREP"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_R_MONTHREP"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_MONTHREP"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_MONTHREP"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Раздел" ClassType="31" SubClassType="0" Description="" Caption="Раздел" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_MONTHREP"."CODE1"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Подраздел" ClassType="31" SubClassType="0" Description="" Caption="Подраздел" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_MONTHREP"."CODE2"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Целевая статья" ClassType="31" SubClassType="0" Description="" Caption="Целевая статья" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_MONTHREP"."CODE3"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Программа" ClassType="31" SubClassType="0" Description="" Caption="Программа" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_MONTHREP"."CODE4"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Подпрограмма" ClassType="31" SubClassType="0" Description="" Caption="Подпрограмма" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_MONTHREP"."CODE5"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Вид расходов" ClassType="31" SubClassType="0" Description="" Caption="Вид расходов" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_MONTHREP"."CODE6"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

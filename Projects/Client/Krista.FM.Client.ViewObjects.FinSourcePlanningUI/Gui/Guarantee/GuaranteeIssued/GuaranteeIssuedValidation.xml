@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<Validations>
+  <!--ИФ.Кредиты полученные-->
+  <MasterCompositeValidator key="042556fd-89a9-4b44-bc3e-2e645560a6bf">
+
+    <MasterValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDateValidator">
+      <ErrorMessage>Договор № {0}. Некорректная дата. Дата должна быть больше даты заключения договора</ErrorMessage>
+    </MasterValidator>
+
+    <!--ИФ.План исполнения обязательств -> ИФ.Гарантии предоставленные-->
+    <MasterDetailCompositeValidator associationKey="70b5ef58-f56b-48c0-94b2-ef9e98275125">
+      <!--проверка на соответствие суммы-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>План исполнения обязательств. Сумма привлечения должна быть равна сумме договора</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailStartDateValidator">
+        <ErrorMessage>План исполнения обязательств. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты конца периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailEndDateValidator">
+        <ErrorMessage>План исполнения обязательств. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка начала и конца периода на соответствие между собой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailStartEndDateValidator">
+        <ErrorMessage>План исполнения обязательств. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Плановые выплаты принципала -> ИФ.Гарантии предоставленные-->
+    <MasterDetailCompositeValidator associationKey="e204de3c-4fe1-4afe-add5-ca694c760941">
+      <!--проверка общей суммы всех планируемых платежей к сумме договора-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>Плановые выплаты принципала. Сумма погашения должна быть равна сумме договора.</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailStartDateValidator">
+        <ErrorMessage>Плановые выплаты принципала. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты конца периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailEndDateValidator">
+        <ErrorMessage>Плановые выплаты принципала. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка начала и конца периода на соответствие между собой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailStartEndDateValidator">
+      </DetailValidator>
+      <!--проверка номера платежа-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrentNumberValidator">
+        <ErrorMessage>Плановые выплаты принципала. Запись с ID = {0}. Номер платежа введен некорректно по отношению к дате платежа</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт исполнения обязательств -> ИФ.Гарантии предоставленные-->
+    <MasterDetailCompositeValidator associationKey="48270944-7f3a-4141-b1bd-6834006cbc8e">
+      <!--проверка cуммы привлечения к планируемой сумме-->
+      <MasterDetailDetailValidator associationKey="70b5ef58-f56b-48c0-94b2-ef9e98275125" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailTotalSumValidator">
+        <ErrorMessage>Факт исполнения обязательств. Сумма привлечения не соответствует запланированной сумме исполнения</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка поля "дата привлечения" на вхождение в интервал между началом периода и концом периода-->
+      <MasterDetailDetailValidator associationKey="70b5ef58-f56b-48c0-94b2-ef9e98275125" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailFactDateValidator">
+        <ErrorMessage>Факт исполнения обязательств. Дата привлечения не соответствует запланированной дате исполнения</ErrorMessage>
+      </MasterDetailDetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Фактические выплаты принципала -> ИФ.Гарантии предоставленные-->
+    <MasterDetailCompositeValidator associationKey="f0ee1f75-1cc6-4bf5-b513-8dba9bbdbbce">
+    <!--проверка общей суммы погашения к сумме договора-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>Фактические выплаты принципала. Запись с ID = {0}. Сумма по факту выплаты не должен быть меньше запланированной</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка фактической даты погашения к планируемой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailFactDateValidator" secondAssociationKey="f0ee1f75-1cc6-4bf5-b513-8dba9bbdbbce">
+        <ErrorMessage>Фактические выплаты принципала. Запись с ID = {0}. Платеж просрочен, необходимо начислить пени по основному долгу</ErrorMessage>
+      </DetailValidator>
+      <!--проверка поля "дата привлечения" на вхождение в интервал между началом периода и концом периода-->
+      <MasterDetailDetailValidator associationKey="e204de3c-4fe1-4afe-add5-ca694c760941" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailFactDateValidator">
+        <ErrorMessage>Фактические выплаты принципала. Фактическая дата не соответствует запланированной дате</ErrorMessage>
+      </MasterDetailDetailValidator>
+    </MasterDetailCompositeValidator>
+  </MasterCompositeValidator>
+</Validations>

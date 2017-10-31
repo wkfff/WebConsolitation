@@ -1,0 +1,11 @@
+CALCULATE;
+//Показатели.МОФО Бюджетообразующие плательщики
+SCOPE([Показатели__МОФО Бюджетообразующие плательщики].[Показатели__МОФО Бюджетообразующие плательщики].[КД].Members);
+   this =IIF (IsEmpty(([Показатели__МОФО Бюджетообразующие плательщики].CurrentMember.DataMember,[Measures].CurrentMember)),
+   Tail(Filter([Показатели__МОФО Бюджетообразующие плательщики].CurrentMember.Children, not IsEmpty([Measures].CurrentMember))).Item(0),
+   ([Показатели__МОФО Бюджетообразующие плательщики].CurrentMember.DataMember,[Measures].CurrentMember));
+END SCOPE;
+
+SCOPE([Показатели__МОФО Бюджетообразующие плательщики].[Показатели__МОФО Бюджетообразующие плательщики]);
+   this = Tail(Filter([Показатели__МОФО Бюджетообразующие плательщики].CurrentMember.Children, not IsEmpty([Measures].CurrentMember))).Item(0);
+END SCOPE;

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="СЭП.Годовой сборник" ClassType="7" SubClassType="2" Description="Показатели, содержащиеся в годовом сборнике ФСГС, характеризующие социально-экономическое положение РФ  и субъектов ." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_SEC_ANNUALREPORT", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_SEC_ANNUALREPORT"."REFOKEI"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.SEC.AnnualReport]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_SEC_ANNUALREPORT}{DV.D_SEC_ANNUALREPORT}{2400}{600}{2610}{2860}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2370}{4380}{2235}{2605}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[2458332b-7351-4fb5-b732-d016867a861b]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[db6f3de6-674d-466f-b3d1-717fbfb06515]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[5a7cf557-6abb-40ec-b5fd-7ad25ea33b5c]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="СЭП" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Раздел;Уровень 1;Уровень 2;Уровень 3;Уровень 4;Уровень 5;Уровень 6" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Описание" ClassType="31" SubClassType="0" Description="" Caption="Описание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."DESCRIPTION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обратный показатель" ClassType="31" SubClassType="0" Description="" Caption="Обратный показатель" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."FLAGREV"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Сопоставимый показатель" ClassType="31" SubClassType="0" Description="" Caption="Сопоставимый показатель" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_SEC_ANNUALREPORT"."FLAGCOMPARE"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

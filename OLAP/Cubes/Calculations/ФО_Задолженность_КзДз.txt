@@ -1,0 +1,44 @@
+CALCULATE;
+//Период__Период
+/*
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+*/
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+/*
+SCOPE([Задолженность__Направления финансирования].[Задолженность__Направления финансирования].Members);
+this = CalculationPassValue(
+  IIF(isEmpty([Задолженность__Направления финансирования].[Задолженность__Направления финансирования].CurrentMember.DataMember),
+    [Задолженность__Направления финансирования].[Задолженность__Направления финансирования].CurrentMember,
+    [Задолженность__Направления финансирования].[Задолженность__Направления финансирования].CurrentMember.DataMember),
+0);
+END SCOPE;
+*/
+SCOPE([Задолженность__Показатели].[Задолженность__Показатели].Members);
+this = CalculationPassValue(
+  IIF(isEmpty([Задолженность__Показатели].[Задолженность__Показатели].CurrentMember.DataMember),
+    [Задолженность__Показатели].[Задолженность__Показатели].CurrentMember,
+    [Задолженность__Показатели].[Задолженность__Показатели].CurrentMember.DataMember),
+0);
+END SCOPE;
+
+SCOPE([Задолженность__Показатели].[Задолженность__Показатели].&[14]);
+this = Sum(descendants([Задолженность__Показатели].[Задолженность__Показатели].&[14], 1), [Measures].CurrentMember);
+END SCOPE;
+
+CREATE MEMBER CURRENTCUBE.Measures.[Факт_аналогичный период прошлого года] AS 
+(ParallelPeriod([Период__Период].[Период__Период].[Год],1,[Период__Период].[Период__Период].CurrentMember), [Measures].[Факт]), 
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста_ аналогичный период прошлого года] AS 
+IIF(not IsEmpty([Measures].[Факт_аналогичный период прошлого года]) and ([Measures].[Факт_аналогичный период прошлого года]) <> 0, 
+([Measures].[Факт]) / ([Measures].[Факт_аналогичный период прошлого года]), null), 
+FORMAT_STRING = "Percent";

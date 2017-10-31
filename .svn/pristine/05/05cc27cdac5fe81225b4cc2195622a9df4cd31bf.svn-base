@@ -1,0 +1,11 @@
+CALCULATE;
+
+CREATE CELL CALCULATION CURRENTCUBE.[AllOfferSource] 
+FOR '({[Measures].[Количество предложений на лот]}, [Мониторинг__Лоты].[Мониторинг__Лоты].[Источник].MEMBERS)' 
+AS CalculationPassValue([Measures].[Количество предложений на лот], 0)/[Measures].[Количество лотов], 
+FORMAT_STRING = '#';
+
+CREATE CELL CALCULATION CURRENTCUBE.[AllOffer] 
+FOR '({[Measures].[Количество предложений на лот]}, {[Мониторинг__Лоты].[Мониторинг__Лоты].[Все лоты]})' 
+AS CalculationPassValue([Measures].[Количество предложений на лот], 0)/[Measures].[Количество лотов], 
+FORMAT_STRING = '#';

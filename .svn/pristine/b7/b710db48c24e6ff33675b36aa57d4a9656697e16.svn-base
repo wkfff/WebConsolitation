@@ -1,0 +1,18 @@
+CALCULATE;
+
+//Районы__Сопоставимый план
+SCOPE([Measures].[Значение]);
+    this = IIF(not IsEmpty(([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember.DataMember)), CalculationPassValue(([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember.DataMember), 0), ([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember));
+END SCOPE;
+
+SCOPE([Measures].[Норматив]);
+    this = IIF(not IsEmpty(([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember.DataMember)), CalculationPassValue(([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember.DataMember), 0), ([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember));
+END SCOPE;
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Предыдущий год] AS 
+([Measures].[Значение], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember));
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста_Значение] AS 
+IIF(not IsEmpty([Measures].[Предыдущий год]) and ([Measures].[Предыдущий год]) <> 0, [Measures].[Значение]/([Measures].[Значение], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)), null),
+ FORMAT_STRING = "Percent";

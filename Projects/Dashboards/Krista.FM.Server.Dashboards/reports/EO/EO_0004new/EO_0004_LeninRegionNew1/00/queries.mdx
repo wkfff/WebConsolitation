@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="Years">
+    <![CDATA[
+    --years
+select
+    {      filter
+            (
+                [Период].[Год].Members,
+                [Measures].[Оценка]>0
+            ) } on columns,
+    {
+ <%pokPrefix%>.[Интегральный показатель],
+            <%pokPrefix%>.[Интегральный показатель].children
+    } on rows 
+from  <%dataBase%>
+where 
+    (
+        [Measures].[Оценка],
+        <%baseRegion%>
+    )  ]]>
+  </query>
+  <query id="regions">
+    <![CDATA[
+--regions 
+with 
+    set [Регионы] 
+    as ' 
+        {
+        [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра],
+            filter 
+            (
+                [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра].Children,
+                [Measures].[Значение] > 0 
+            ) 
+        }' 
+    member [Measures].[Имя региона] 
+    as '[Территории__РФ].[Территории__РФ].CurrentMember.UniqueName' 
+select
+    [Measures].[Значение] on columns,
+    [Регионы] on rows 
+from [ЭО_КЖН_Ленинградская область МО] ]]>
+  </query>
+  <query id="Grid">
+    <![CDATA[
+    --Grid
+select
+   non empty {
+            <%pokPrefix%>.[Интегральный показатель],
+            <%pokPrefix%>.[Интегральный показатель].children
+    } on columns--,
+   -- {
+   --    [Период].[Год].[Данные всех периодов].[<%curYear%>]
+  --  } on rows  
+from  <%dataBase%>     
+where      
+    (
+[Measures].[Оценка],
+        <%baseRegion%>,
+        [Период].[Год].[Данные всех периодов].[<%curYear%>]
+    )]]>
+  </query>
+  <query id="Grid1">
+    <![CDATA[
+    --Grid1
+    with 
+    member [Measures].[Весовой коэффициент] 
+    as   '<%pokPrefix%>.CurrentMember.Properties("Весовой коэффициент")' 
+select
+    {
+            <%pokPrefix%>.[Интегральный показатель],
+            <%pokPrefix%>.[Интегральный показатель].children
+    } on columns--,
+  --  {
+   --    [Период].[Год].[Данные всех периодов].[<%curYear%>]
+  --  } on rows  
+from  <%dataBase%>     
+where      
+    (
+ [Measures].[Весовой коэффициент],
+        <%baseRegion%>,
+        [Период].[Год].[Данные всех периодов].[<%curYear%>]
+        ) ]]>
+  </query>
+  <query id="Chart2">
+    <![CDATA[
+    --Chart2
+select
+ non empty  {
+         -- [Период].[Год].[Данные всех периодов].[<%firstYear%>],
+          [Период].[Год].[Данные всех периодов].[<%curYear%>]:[Период].[Год].[Данные всех периодов].[<%curYear%>].lag(4)
+    } on columns,
+    {
+              <%pokPrefix%>.[Интегральный показатель]
+    } on rows 
+from  <%dataBase%>
+where 
+    (
+        [Measures].[Оценка],
+        <%baseRegion%> ) ]]>
+  </query>
+  <query id="Chart1">
+    <![CDATA[
+    --Chart1
+with   
+    member [Measures].[Весовой коэффициент] 
+    as   '<%pokPrefix%>.CurrentMember.Properties("Весовой коэффициент")'     
+select
+
+       non empty    {
+           order( {<%pokPrefix%>.[Интегральный показатель].children},([Measures].[Оценка]),asc)
+        }
+ 
+     on columns
+
+from  <%dataBase%>    
+where     
+    (
+        [Measures].[Оценка] ,
+        [Период].[Год].[Данные всех периодов].[<%curYear%>],
+        <%baseRegion%>
+    )   ]]>
+  </query>
+  <query id="Chart1_2">
+    <![CDATA[
+    --Chart1_2
+with   
+    member [Measures].[Весовой коэффициент] 
+    as   '<%pokPrefix%>.CurrentMember.Properties("Весовой коэффициент")'     
+select
+
+        {
+            <%pokPrefix%>.[Интегральный показатель]
+        }
+ 
+     on columns
+from  <%dataBase%>    
+where     
+    (
+        [Measures].[Оценка] ,
+        [Период].[Год].[Данные всех периодов].[<%curYear%>],
+        <%baseRegion%>
+    )   ]]>
+  </query>
+  <query id="Chart1_3">
+    <![CDATA[
+    --Chart1_3
+with   
+    member [Measures].[Весовой коэффициент] 
+    as   '<%pokPrefix%>.CurrentMember.Properties("Весовой коэффициент")'     
+select
+
+        {
+        filter(
+            {order( {<%pokPrefix%>.[Интегральный показатель].children},([Measures].[Оценка]),asc)},
+            not isempty([Measures].[Оценка]))
+        }
+ 
+     on columns,
+     { [Measures].[Весовой коэффициент] , [Measures].[Оценка] } on rows
+from  <%dataBase%>     
+where     
+    (
+        [Период].[Год].[Данные всех периодов].[<%curYear%>],
+        <%baseRegion%>
+    )   ]]>
+  </query>
+  
+</root>

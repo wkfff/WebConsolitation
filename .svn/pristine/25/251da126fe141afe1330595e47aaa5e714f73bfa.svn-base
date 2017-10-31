@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Период.Дата Утверждения" ClassType="7" SubClassType="2" Description="Фиксированный классификатор &quot;Год Квартал Месяц&quot;." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."DV_FX_DATE_YEARDAYUNV"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[fx.Date.YearDayUNV]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_FX_DATE_YEARDAYUNV}{DV.DV_FX_DATE_YEARDAYUNV}{1728}{324}{2532}{3340}{1})]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[b4612528-0e51-4e6b-8891-64c22611816b]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[c2c60019-6c24-4e66-8417-e09b9455bf99]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[381a642e-fda1-4c1b-bae0-fe88398f2b00]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Период" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="131" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="5" IsVisible="true" LevelNamingTemplate="Год;Полугодие;Квартал;Месяц;День" Ordering="2" OrderingMemberProperty="OrderByDefault" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[CalculationPassValue(
+  IIF(isEmpty([Период].[Дата Утверждения].CurrentMember.DataMember),
+    [Период].[Дата Утверждения].CurrentMember,
+    [Период].[Дата Утверждения].CurrentMember.DataMember),
+0)
+]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_FX_DATE_YEARDAYUNV"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_FX_DATE_YEARDAYUNV"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."DV_FX_DATE_YEARDAYUNV"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="OrderByDefault" ClassType="31" SubClassType="0" Description="" Caption="OrderByDefault" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_FX_DATE_YEARDAYUNV"."ORDERBYDEFAULT"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

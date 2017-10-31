@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="areas">
+    <![CDATA[
+    --Areas
+with     
+    member [Measures].[paren]     
+    AS  '[ОИВ__Показатели].CurrentMember.Properties("Группа показателя")' 
+select
+    {
+      order(  [ОИВ__Показатели].[ОИВ__Показатели].children,
+      [Measures].[paren]
+      )
+    } on rows ,
+    {
+        [Measures].[paren]
+    } on columns 
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности]     
+where     
+    (
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ],
+       <%baseRegion%>
+    ) ]]>
+  </query> 
+  <query id="LastDate">
+    <![CDATA[
+    --LastDate
+select
+    {  
+        Tail
+        ( 
+            filter
+            (
+                {
+                    [Период].[Год].[Год].AllMembers
+                },
+                [Measures].[Отчет]>0
+            )   
+        ).Item(0) 
+    } on rows ,
+    { [Measures].[Отчет] } on columns   
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности]   
+where   
+    (
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ],
+        <%baseRegion%>
+        --  [Территории].[РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ямало-Ненецкий автономный округ].[Город Губкинский]   
+    )   ]]>
+  </query>
+
+  <query id="Grid">
+    <![CDATA[
+with       
+    member [Measures].[paren]       
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Группа показателя")'       
+    member [Measures].[Единица измерения]       
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Единица измерения")'    
+    member [Период__Год].[Период__Год].[Данные всех периодов].[Единица измерения]    
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Единица измерения")'    
+    member [Measures].[код]       
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Код")'       
+    member [Measures].[Включать в доклад]      
+    AS  '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Включать в доклад")'      
+    member [Период__Год].[Период__Год].[Данные всех периодов].[]       
+    as 'null'    
+    member [Период__Год].[Период__Год].[Данные всех периодов].[Полное наименование]
+    as '[ОИВ__Показатели].[ОИВ__Показатели].CurrentMember.Properties("Полное наименование")'
+select
+    {
+        filter     
+        (
+            {
+                {
+                    [ОИВ__Показатели].[ОИВ__Показатели].children    
+                }     
+                *    
+                {
+                    [Measures].[Отчет],
+                    [Measures].[Прирост цепной],
+                    --[Measures].[Темп роста цепной]    
+                    [Measures].[Темп прироста цепной]
+                }     
+            } ,
+            [Measures].[Включать в доклад]="-1" and [Measures].[paren]="<%currentArea%>" and not isempty([Measures].[Отчет])      
+        )      
+    } on rows,
+    {
+         [Период__Год].[Период__Год].[Данные всех периодов].[Единица измерения]  ,
+        {
+            <%lastYear%>:<%lastYear%>.lag(3)
+        }
+          ,
+          [Период__Год].[Период__Год].[Данные всех периодов].[Полное наименование]
+    } on columns       
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности]       
+where       
+    (
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ],
+         <%baseRegion%>
+    )                 ]]>
+  </query>
+
+
+
+
+  <query id="Grid1">
+    <![CDATA[
+    --Grid1
+with     
+    member [Measures].[paren]   
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Группа показателя")'     
+    member [Measures].[ед]   
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Единица измерения")'     
+select
+    {
+        [ОИВ].[Показатели].children          
+    }
+    on rows,
+    {
+         <%lastYear%>:<%lastYear%>.lag(3)  
+
+    } on columns           
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности]            
+where            
+    (
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ],
+        [Measures].[Отчет],
+         <%baseRegion%>
+    )       ]]>
+  </query>
+
+  <query id="Grid2">
+    <![CDATA[
+    --Grid2
+with     
+    member [Measures].[paren]   
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Группа показателя")'     
+    member [Measures].[ед]   
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Единица измерения")'    
+            member [Measures].[код]
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Код")'
+select
+    {
+        [ОИВ].[Показатели].children          
+    } 
+    on rows,
+    {
+             [Measures].[paren],
+             [Measures].[ед],
+             [Measures].[код]
+    } on columns           
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности]            
+where            
+    (
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ],
+         <%baseRegion%>
+    )       ]]>
+  </query>
+  <query id="Dinamic">
+    <![CDATA[
+    --Dinamic_chart
+with 
+    member [Measures].[paren] 
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Группа показателя")' 
+    member [Measures].[ед] 
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Единица измерения")' 
+select
+
+    non empty{
+        {
+            <%lastYear%>:<%lastYear%>.lag(7)
+        }  
+    } on rows,
+    {
+    [ОИВ].[Показатели].[Все показатели].[<%currentPok%>]
+    } on columns
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности] 
+where 
+    (
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ]
+        , 
+         <%baseRegion%>
+    )     ]]>
+  </query>
+  <query id="Temp">
+    <![CDATA[
+    --temp
+with 
+    member [Measures].[paren] 
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Группа показателя")' 
+    member [Measures].[ед] 
+    AS  '[ОИВ].[Показатели].CurrentMember.Properties("Единица измерения")' 
+select
+
+ non empty   {
+        {
+            <%lastYear%>:<%lastYear%>.lag(8)
+        }  
+    } on rows,
+    {
+    [ОИВ].[Показатели].[Все показатели].[<%currentPok%>]
+    } on columns
+from [РЕГИОН_Оценка ОИВ_Характеристика деятельности] 
+where 
+    (
+        [Источники данных].[Источник].[РЕГИОН Оценка ОИВ]
+        ,
+          <%baseRegion%> 
+    )     ]]>
+  </query>
+
+
+
+
+</root>

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by mik-a-el (RPA Krista) -->
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by kutnyashenko (KRISTA) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="TXTReportSettings">
+		<xs:annotation>
+			<xs:documentation>Корневой элемент.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="GlobalSettings">
+					<xs:annotation>
+						<xs:documentation>Глобальные настройки, описывающие формат файла в целом.</xs:documentation>
+						<xs:documentation>IsSingleTable - признак наличия только одной таблицы.
+VertDelimiter - коды вертикальных разделителей.
+HorzDelimiter - коды горизонтальных разделителей.
+ShowSplitPreview - показывать результат разбора для ручной корректировки.
+CharacterSet - кодировка текста отчета.
+ShowVirtualArea - показывать границы области данных отчета.
+DBTable - таблица БД, в которую будут закачиваться данные отчета.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FixedParams" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Параметры, которые всегда находятся в одном и том же месте (даты и т.п.).</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="FixedParam" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="Name" use="required">
+													<xs:annotation>
+														<xs:documentation>Название фиксированного параметра. Определяет его содержание и алгоритм обработки разборщиком. Возможные значения:
+ReportDate - дата формата DD.MM.YYYY (все буквы справа и слева отбрасываются).
+ReportDateEx - дата формата 12 мая 2005 г. (все буквы справа и слева отбрасываются).
+FormNo - номер формы.
+Period - период (две даты).
+TaxOrgan - наименование налогового органа.
+Cls - классификатор (код и наименование).
+Account - банковский счет.
+Organization - организация.
+CodeOnly - только код (все буквы отбрасываются).
+NameOnly - только буквы (все цифры отбрасываются).
+Budget - наименование бюджета.
+Total - итговая сумма.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="ReportDate">
+																<xs:annotation>
+																	<xs:documentation>Дата отчета</xs:documentation>
+																</xs:annotation>
+															</xs:enumeration>
+															<xs:enumeration value="ReportDateEx"/>
+															<xs:enumeration value="FormNo">
+																<xs:annotation>
+																	<xs:documentation>Номер формы</xs:documentation>
+																</xs:annotation>
+															</xs:enumeration>
+															<xs:enumeration value="Period">
+																<xs:annotation>
+																	<xs:documentation>Период</xs:documentation>
+																</xs:annotation>
+															</xs:enumeration>
+															<xs:enumeration value="TaxOrgan">
+																<xs:annotation>
+																	<xs:documentation>Наименование учреждения</xs:documentation>
+																</xs:annotation>
+															</xs:enumeration>
+															<xs:enumeration value="Cls">
+																<xs:annotation>
+																	<xs:documentation>Код классификатора</xs:documentation>
+																</xs:annotation>
+															</xs:enumeration>
+															<xs:enumeration value="Account">
+																<xs:annotation>
+																	<xs:documentation>Счет</xs:documentation>
+																</xs:annotation>
+															</xs:enumeration>
+															<xs:enumeration value="Organization"/>
+															<xs:enumeration value="CodeOnly"/>
+															<xs:enumeration value="NameOnly"/>
+															<xs:enumeration value="Budget"/>
+															<xs:enumeration value="Total"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="BeginPosX" type="xs:integer" use="required">
+													<xs:annotation>
+														<xs:documentation>Начальный столбец позиции параметра</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="BeginPosY" type="xs:integer" use="required">
+													<xs:annotation>
+														<xs:documentation>Начальная строка позиции параметра</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="EndPosX" type="xs:integer" use="required">
+													<xs:annotation>
+														<xs:documentation>Конечный столбец позиции параметра</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="EndPosY" type="xs:integer" use="required">
+													<xs:annotation>
+														<xs:documentation>Конечная строка позиции параметра</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="PartNo" type="xs:integer" use="optional">
+													<xs:annotation>
+														<xs:documentation>Часть отчета, в которой находится данный параметр - в случае, если отчет состоит из нескоьких файлов.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Caption">
+													<xs:annotation>
+														<xs:documentation>Человеческое название параметра, выводимое в форме предварительного просмотра</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="FixedParamKind" use="required">
+													<xs:annotation>
+														<xs:documentation>Тип фиксированного параметра. Возможные значения:
+Single - Располагается в единственном месте отчета.
+BeforeTable - Располагается непосредственно перед таблицей отчета (перед верхней границей). В случае наличия в отчете нескольких таблиц таких параметров тоже может быть несколько. Координаты при этом являются относительными верхнего левого угла таблицы.
+AfterTable - то же, что и BeforeTable, только располагается сразу после таблицы.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="Single"/>
+															<xs:enumeration value="BeforeTable"/>
+															<xs:enumeration value="AfterTable"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="DBField">
+													<xs:annotation>
+														<xs:documentation>Наименование поля в итоговой таблице, куда будет записано значение фиксированного параметра.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="DefaultValue" type="xs:string">
+													<xs:annotation>
+														<xs:documentation>Значение по умолчанию. Если оно определено, то в случае отсутствия значения в параметре будет подставлено значение по умолчанию.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Tables">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Table" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="TableColumns">
+														<xs:annotation>
+															<xs:documentation>Параметры столбцов отчета.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Column" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:attribute name="DivisionKind">
+																			<xs:annotation>
+																				<xs:documentation>Тип переноса данных в ячейках столбца. Значения:
+None - Нет переносов (по умолчанию).
+Upper - Ячейка с переносом. Значения в других ячейках строки располагаются по верхней границе переноса.
+Lower - Ячейка с переносом. Значения в других ячейках строки располагаются по нижней границе переноса.
+DivisionSign - Нет переносов. Ячейка выступает в роли признака переноса: если в этой ячейке нет значения, то имеет место перенос в ячейках с переносом.</xs:documentation>
+																			</xs:annotation>
+																			<xs:simpleType>
+																				<xs:restriction base="xs:string">
+																					<xs:enumeration value="None"/>
+																					<xs:enumeration value="Upper"/>
+																					<xs:enumeration value="Lower"/>
+																					<xs:enumeration value="DivisionSign"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:attribute>
+																		<xs:attribute name="Type" use="required">
+																			<xs:annotation>
+																				<xs:documentation>Тип данных</xs:documentation>
+																			</xs:annotation>
+																			<xs:simpleType>
+																				<xs:restriction base="xs:string">
+																					<xs:enumeration value="integer"/>
+																					<xs:enumeration value="string"/>
+																					<xs:enumeration value="double"/>
+																				</xs:restriction>
+																			</xs:simpleType>
+																		</xs:attribute>
+																		<xs:attribute name="Width" type="xs:integer" use="optional">
+																			<xs:annotation>
+																				<xs:documentation>Ширина в форме предпросмотра</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="DBField" type="xs:string" use="required">
+																			<xs:annotation>
+																				<xs:documentation>Поле таблицы БД, куда будут записаны значения столбца.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="PartNo" type="xs:integer" use="optional">
+																			<xs:annotation>
+																				<xs:documentation>Часть отчета, в которой находится данный столбец в случае, если отчет состояит из нескольких файлов.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="Caption" type="xs:string">
+																			<xs:annotation>
+																				<xs:documentation>Заголовок столбца, используемый в форме предварительного просмотра</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="Nullable" type="xs:boolean">
+																			<xs:annotation>
+																				<xs:documentation>По умолчанию true. Если false и ячейка пуста, то будет подставлено значение по умолчанию, если оно определено, иначе - ошибка.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="DefaultValue" type="xs:string">
+																			<xs:annotation>
+																				<xs:documentation>Значение по умолчанию. Если оно определено и Nullable == false, то в случае отсутствия значения в ячейке столбца будет подставлено значение по умолчанию, в противном случае строка будет пропущена.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="DataPrecision" type="xs:string">
+																			<xs:annotation>
+																				<xs:documentation>Точность данных столбца. Формат: n.m, где n - число знаков до запятой, m - число знаков после запятой. Для целовисленных значений и строк  - только n</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="ExcludedValues" type="xs:string">
+																			<xs:annotation>
+																				<xs:documentation>Значения ячеек столбца, строки с которыми будут исключены. Значения должны быть разделены ;; (двойная точка с запятой).</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																		<xs:attribute name="ExactCheck" type="xs:boolean">
+																			<xs:annotation>
+																				<xs:documentation>По умолчанию true - при несоответствии значения ячейки типу, точности или nullable генерится исключение, иначе подставляется значение по умолчанию, если оно есть.</xs:documentation>
+																			</xs:annotation>
+																		</xs:attribute>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="TableEntry">
+														<xs:annotation>
+															<xs:documentation>Параметры внутренней области таблицы.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:attribute name="EndTableMarker" use="required">
+																<xs:annotation>
+																	<xs:documentation>Строка символов - признак окончания таблицы</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string"/>
+																</xs:simpleType>
+															</xs:attribute>
+															<xs:attribute name="HeaderAmidTable" type="xs:boolean" use="required">
+																<xs:annotation>
+																	<xs:documentation>Область данных таблицы содержит заголовки (с номерами столбцов и т.п.)</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="TotalSumAcrossRow" type="xs:boolean" use="required">
+																<xs:annotation>
+																	<xs:documentation>Итоговые суммы через строку.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="HeaderHeight" type="xs:integer" use="required">
+																<xs:annotation>
+																	<xs:documentation>Количество горизонтальных разделителей в заголовке.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="IncludeEndTableMarker" type="xs:boolean" use="required">
+																<xs:annotation>
+																	<xs:documentation>Включать строку с признаком конца таблицы в датасет с данными. По умолчанию false.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="InnerEndTableMarker" type="xs:boolean" use="required">
+																<xs:annotation>
+																	<xs:documentation>Признак конца таблицы находится внутри самой таблицы или нет (важно, если отчет содержит несколько таблиц).</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="TableDelimited" type="xs:boolean" use="required">
+																<xs:annotation>
+																	<xs:documentation>Таблица имеет разделители вверху и внизу.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="EndTableMarkerSpace" type="xs:int">
+																<xs:annotation>
+																	<xs:documentation>Количество строк от признака конца таблицы до нижней границы таблицы.</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="Location">
+													<xs:annotation>
+														<xs:documentation>Формат: СписокФайлов|ИндексыТаблиц.
+СписокФайлов - список масок файлов, к таблицам из которых относятся данные параметры. Список через ;
+ИндексыТаблиц - список индексов таблиц отчета (с нуля, через запятую), к которым относятся данные параметры. Формат:
+"num" - число;
+"num1;num2;..." - 2 числа: num1, num2;
+"num1..num2" - интервал num1..num2 (возможно использование в п.2)</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="TablesAmount">
+										<xs:annotation>
+											<xs:documentation>Количество таблиц в отчете. Если количество таблиц известно и фиксированно, то лучше указывать. Ноль игнорируется.</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="VertDelimiters" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>Список кодов символов вертикальных разделителей через ;</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="HorzDelimiters" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>Список кодов символов горизонтальных разделителей через ;</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="CharacterSet" use="required">
+							<xs:annotation>
+								<xs:documentation>Кодировка файла отчета</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="ANSI"/>
+									<xs:enumeration value="OEM"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ReportWildCards" use="required">
+							<xs:annotation>
+								<xs:documentation>Список масок файлов отчета через ;. Списки масок можно делить на группы, разделяя |. Если не найдены файлы из какой-то группы, будут искаться из следующей.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="PartsWildCards" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Маски файлов - частей отчета через ;. Списки масок можно делить на группы, разделяя |. Если не найдены файлы из какой-то группы, будут искаться из следующей. Группы должны следовать в том же порядке, что и в ReportWildCards.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="PartsUnionType">
+							<xs:annotation>
+								<xs:documentation>Тип объединения частей отчета. Обязательно, если установлено PartsWildCards Допустимые значения:
+Horizontal - объединение по горизонтальным границам файлов;
+Vertical - объединение по вертикальным границам файлов.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Horizontal"/>
+									<xs:enumeration value="Vertical"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ExcludeFilesByString" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Если файл содержит одну из указанных строк, он будет пропущен. Строки должны быть разделены ;; (двойная точка с запятой).</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

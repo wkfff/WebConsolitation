@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="BuildSolutionWrapper">
+	<Exec Command="del ..\output\*.zip" IgnoreExitCode="True"/>
+	<Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>    
+    <MSBuild Projects="..\Solutions\Client.Workplace\Krista.FM.Client.Workplace.sln" Properties="Configuration=Krista.FM.Client.Workplace.Release" />
+    <MSBuild Projects="..\Solutions\Client.SchemeDesigner\Krista.FM.Client.SchemeDesigner.sln" Properties="Configuration=Krista.FM.Client.SchemeDesigner.Release" />
+    <MSBuild Projects="..\Solutions\Client.OLAPAdmin\Krista.FM.Client.OLAPAdmin.sln" Properties="Configuration=Krista.FM.Client.OLAPAdmin.Release" />
+    <MSBuild Projects="..\Solutions\Server\Krista.FM.Server.sln" Properties="Configuration=Krista.FM.Server.Release" Targets="Rebuild" />
+    <MSBuild Projects="..\Solutions\DataPump\Krista.FM.Server.DataPump.sln" Properties="Configuration=Krista.FM.Server.DataPump.Release" />
+    <MSBuild Projects="..\Solutions\PlaningProviderCOMWrapper\Krista.FM.PlaningProviderCOMWrapper.sln" Properties="Configuration=Krista.FM.PlaningProviderCOMWrapper.Release" />
+	<Exec Command="xcopy /EI ..\output FullVersion-$(VersionString)"/>
+	<Exec Command="zip -mr ..\output\FullVersion-$(VersionString).zip FullVersion-$(VersionString)*"/>
+	<Exec Command="rmdir /S /Q ..\output\Krista.FM.Server" IgnoreExitCode="True"/>
+	<Exec Command="rmdir /S /Q ..\output\Krista.FM.Client" IgnoreExitCode="True"/>
+	<Exec Command="rmdir /S /Q ..\output\Krista.FM.Server.DataPump" IgnoreExitCode="True"/>
+	<Exec Command="rmdir /S /Q ..\output\Krista.FM.PlaningProviderCOMWrapper" IgnoreExitCode="True"/>
+  </Target>
+</Project>

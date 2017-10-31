@@ -1,0 +1,21 @@
+﻿<#@ template language="C#" debug="false" #>
+<#@ output extension=".generated.cs" #>
+<#@ import namespace="System.Linq" #>
+
+<table width="100%">
+  <tr>
+  <# foreach(var fieldInfo in FieldInfos.GetPrimaryFields().Concat(FieldInfos.GetSecondaryFields()).Where(info => !info.Name.Equals("ID")))	{ #>
+	<th class="search-header"><#= fieldInfo.Caption #></th>
+  <# } #>
+  </tr>
+  <tpl for=".">
+    <tr class="search-item">
+	<# foreach(var primaryInfo in FieldInfos.GetPrimaryFields().Where(info => !info.Name.Equals("ID"))) { #>
+	<td class="search-item primary">{<#= toUpped ? primaryInfo.Name.ToUpper():primaryInfo.Name #>}</td>
+	<# } #>
+	<# foreach(var secondaryInfo in FieldInfos.GetSecondaryFields().Where(info => !info.Name.Equals("ID")))	{ #>
+	<td class="search-item secondary">{<#= toUpped ? secondaryInfo.Name.ToUpper():secondaryInfo.Name #>}</td>
+	<# } #>
+    </tr>
+  </tpl>
+</table>

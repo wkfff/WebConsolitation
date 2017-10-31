@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="BuildPlaningProviderComWrapper">
+	<Exec Command="del ..\output\*.zip" IgnoreExitCode="True"/>
+	<Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>    
+    <MSBuild Projects="..\Solutions\PlaningProviderCOMWrapper\Krista.FM.PlaningProviderCOMWrapper.sln" Properties="Configuration=Krista.FM.PlaningProviderCOMWrapper.Release" />
+	<Exec Command="xcopy /EI ..\output Krista.FM.PlaningProviderComWrapper-$(VersionString)"/>
+	<Exec Command="zip -mr ..\output\Krista.FM.PlaningProviderComWrapper-$(VersionString).zip Krista.FM.PlaningProviderComWrapper-$(VersionString)*"/>
+	<Exec Command="rmdir /S /Q ..\output\Krista.FM.PlaningProviderCOMWrapper" IgnoreExitCode="True"/>
+  </Target>
+</Project>

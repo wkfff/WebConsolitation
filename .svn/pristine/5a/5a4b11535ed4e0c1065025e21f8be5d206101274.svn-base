@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="Oil_0004_0002_incomes_federal_date">
+    <![CDATA[
+    --Oil_0004_0002_incomes_federal_date
+with 
+    member [Measures].[ДанныеНа] 
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName' 
+    set [NonEmptySet] 
+    as '{ Head 
+        (
+            Filter 
+            (
+                Descendants 
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[День],
+                    SELF_AND_AFTER 
+                ) ,
+                not IsEmpty 
+                (
+                    (
+                        [Measures].[Цена],
+                        [Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember 
+                    ) 
+                ) and not 
+                (
+                    [Measures].[Цена],
+                    [Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember 
+                ) = 0 and 
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Parent.Parent.Parent.Parent.Name = tail 
+                    (
+                        Filter 
+                        (
+                            Descendants 
+                            (
+                                [Период__Период].[Период__Период].[Данные всех периодов],
+                                [Период__Период].[Период__Период].[День],
+                                SELF_AND_AFTER 
+                            ) ,
+                            not IsEmpty 
+                            (
+                                (
+                                    [Measures].[Цена],
+                                    [Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember 
+                                ) 
+                            ) and not 
+                            (
+                                [Measures].[Цена],
+                                [Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember 
+                            ) = 0 
+                        ),
+                        1 
+                    ).Item(0).Parent.Parent.Parent.Parent.Properties("Name") 
+                ) 
+            ),
+            1 
+        ), tail 
+        (
+            Filter 
+            (
+                Descendants 
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[День],
+                    SELF_AND_AFTER 
+                ) ,
+                not IsEmpty 
+                (
+                    (
+                        [Measures].[Цена],
+                        [Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember 
+                    ) 
+                ) and not 
+                (
+                    [Measures].[Цена],
+                    [Продукция__Сопоставимый].[Продукция__Сопоставимый].CurrentMember 
+                ) = 0 
+            ),
+            2 
+        )}' 
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows 
+from   [ФСГС_Цены РФ] 
+where 
+    (
+        [Организации__Тип цены].[Организации__Тип цены].[Все типы цен].[Средняя розничная цена],
+        [Продукция__Сопоставимый].[Продукция__Сопоставимый].[Все виды продукции].[Бензин автомобильный марки АИ-95 и выше] 
+    ) 
+  ]]>
+  </query>
+
+  <query id="Oil_0004_0002_chart">
+    <![CDATA[
+    --Oil_0004_0002_chart
+with   
+    member [Measures].[Цена ]   
+    as '[Measures].[Цена]'   
+    set [Территории]   
+    as 'filter   
+        (
+            [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].children ,
+            not [Территории__Сопоставимый].[Территории__Сопоставимый].currentmember.is_datamember  and not isEmpty ([Measures].[Цена ])
+        )'   
+    member [Территории__Сопоставимый].[Территории__Сопоставимый].[Аггрегированные территории]   
+    as 'aggregate ([Территории])'   
+    member measures.[Период ]   
+    as '[Период__День].[Период__День].CurrentMember.UniqueName'   
+   member measures.[Имя ]   
+    as '[Территории__Сопоставимый].[Территории__Сопоставимый].CurrentMember.Properties("Сокращенное наименование")'
+select
+    {
+        measures.[Имя ],
+         [Measures].[Цена ]   
+    }  on columns,
+    {
+        Order   
+        (
+            [Территории],
+            [Measures].[Цена ],
+            BASC  
+        )   
+    } on rows 
+from   [ФСГС_Цены РФ] 
+where   
+    (
+        [Продукция__Сопоставимый].[Продукция__Сопоставимый].[Все виды продукции].[<%oil_federal%>],
+        <%period_cur_date%> 
+    )    
+  ]]>
+      </query>
+
+  <query id="Oil_0004_0002_Label">
+    <![CDATA[
+    --Oil_0004_0002_Label
+WITH    
+    member [Measures].[Текущая средняя цена ]    
+    as 'measures.[Текущая цена]'    
+    member measures.[Текущая цена]    
+    as ' IIF    
+        (
+            (
+                <%period_cur_date%>,
+                [Территории__Сопоставимый].[Территории__Сопоставимый].CurrentMember,
+                [Measures].[Цена]    
+            ) = 0,
+            null,
+            (
+                <%period_cur_date%>,
+                [Территории__Сопоставимый].[Территории__Сопоставимый].CurrentMember,
+                [Measures].[Цена]    
+            )    
+        ) '    
+    member measures.[Прошлая цена]    
+    as ' IIF    
+        (
+            (
+                <%period_last_date%>,
+                [Территории__Сопоставимый].[Территории__Сопоставимый].CurrentMember,
+                [Measures].[Цена]    
+            ) = 0,
+            null,
+            (
+                <%period_last_date%>,
+                [Территории__Сопоставимый].[Территории__Сопоставимый].CurrentMember,
+                [Measures].[Цена]    
+            )    
+        ) '    
+    member measures.[Начало года цена]    
+    as ' IIF    
+        (
+            (
+                <%period_first_year%>,
+                [Территории__Сопоставимый].[Территории__Сопоставимый].CurrentMember,
+                [Measures].[Цена]    
+            ) = 0,
+            null,
+            (
+                <%period_first_year%>,
+                [Территории__Сопоставимый].[Территории__Сопоставимый].CurrentMember,
+                [Measures].[Цена]    
+            )    
+        ) '    
+    member measures.[Абсолютное отклонение к прошлой дате]    
+    as 'measures.[Текущая цена]  - measures.[Прошлая цена]'    
+    member measures.[Темп прироста (динамика к предыдущему периоду)]    
+    as 'IIF    
+        (
+            not IsEmpty(measures.[Прошлая цена]) and not (measures.[Прошлая цена] = 0),
+            (
+                measures.[Текущая цена] / measures.[Прошлая цена] - 1    
+            )    
+            ,
+            null    
+        )'    
+    member measures.[Темп прироста (динамика за период с начала года) ]    
+    as 'IIF    
+        (
+            not IsEmpty(measures.[Начало года цена]) and not    
+            (
+                measures.[Начало года цена] = 0    
+            ),
+            (
+                measures.[Текущая цена] / measures.[Начало года цена] - 1    
+            )    
+           ,
+            null    
+        )'    
+    member measures.[Абсолютное отклонение к началу года]    
+    as 'IIF    
+        (
+            isEmpty(measures.[Начало года цена]),
+            null,
+            measures.[Текущая цена]  - measures.[Начало года цена]    
+        )'      
+SELECT
+    {
+        [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].[Российская  Федерация].DATAMEMBER,
+        [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].DATAMEMBER    
+    }    
+    *    
+    {
+        [Measures].[Текущая средняя цена ],
+        measures.[Абсолютное отклонение к прошлой дате],
+        measures.[Темп прироста (динамика к предыдущему периоду)],
+        measures.[Абсолютное отклонение к началу года],
+        measures.[Темп прироста (динамика за период с начала года) ]    
+    } on columns,
+    {
+        [Продукция__Сопоставимый].[Продукция__Сопоставимый].[Все виды продукции].[<%oil_federal%>]   
+    } on rows    
+from   [ФСГС_Цены РФ]    
+where    
+    (
+        [Организации__Тип цены].[Организации__Тип цены].[Все типы цен].[Средняя розничная цена]    
+    )
+      ]]>
+  </query>
+</root>

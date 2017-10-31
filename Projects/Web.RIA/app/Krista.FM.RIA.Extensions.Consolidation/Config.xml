@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="UserRole" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.Consolidation.Params.UserRoleProvider, Krista.FM.RIA.Extensions.Consolidation"></ValueProvider>
+    </Param>
+  </Params>
+
+  <!-- Register types -->
+  <Types>
+    <Register from="Krista.FM.RIA.Extensions.Consolidation.Params.UserRoleProvider, Krista.FM.RIA.Extensions.Consolidation"
+              to="Krista.FM.RIA.Extensions.Consolidation.Params.UserRoleProvider, Krista.FM.RIA.Extensions.Consolidation"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+    <Register from="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.IJobTitleService, Krista.FM.RIA.Extensions.Consolidation"
+              to="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.JobTitleService, Krista.FM.RIA.Extensions.Consolidation"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+    <Register from="Krista.FM.RIA.Extensions.Consolidation.IProtocolService, Krista.FM.RIA.Extensions.Consolidation"
+              to="Krista.FM.RIA.Extensions.Consolidation.ProtocolService, Krista.FM.RIA.Extensions.Consolidation"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+    <Register from="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.IFormRepository, Krista.FM.RIA.Extensions.Consolidation"
+              to="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.FormRepository, Krista.FM.RIA.Extensions.Consolidation"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.IExportRepository, Krista.FM.RIA.Extensions.Consolidation"
+              to="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.ExportRepository, Krista.FM.RIA.Extensions.Consolidation"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+    <Register from="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.IExportService, Krista.FM.RIA.Extensions.Consolidation"
+              to="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.ExportService, Krista.FM.RIA.Extensions.Consolidation"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+  </Types>
+
+  <!-- Область навигации -->
+  <Navigation type="list" ID="acConsolidationAdmin" icon="Vector" title="Сбор данных" order="300" group="Сбор данных" dashboardIcon="/Krista.FM.RIA.Extensions.Tasks/Presentation/Content/images/task-72.png/extention.axd" defaultItemId="nidbeConsTasks">
+    <Items>
+      <Item ID="nidbeConsRoles" title="Роли субъектов сбора" icon="ApplicationViewList" condition="$(UserRole) == 'Admin'" >
+        <Params>
+          <Param name="url">'/Entity/Show?objectKey=eb8503df-bef8-46a3-80f5-d775afba2d8d'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeConsLevels" title="Уровни субъектов сбора" icon="ApplicationViewList" condition="$(UserRole) == 'Admin'" >
+        <Params>
+          <Param name="url">'/Entity/Show?objectKey=6c10913e-024b-442c-9fe5-4f707e8df73d'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeConsSubjects" title="Субъекты сбора" icon="ApplicationViewList" condition="$(UserRole) == 'Admin'" >
+        <Params>
+          <Param name="url">'/Entity/Show?objectKey=c2d46b94-cf54-4392-b226-f4a377dd9d78'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeConsReportKinds" title="Виды отчетности" icon="ApplicationViewList" condition="$(UserRole) == 'Admin'" >
+        <Params>
+          <Param name="url">'/Entity/Show?objectKey=ba543b8d-51de-437d-bce8-d59cb40e581b'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeConsTemplates" title="Шаблоны форм" icon="ApplicationViewList" condition="$(UserRole) == 'Admin'" >
+        <Params>
+          <Param name="url">'/View/ConsForms'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeConsRegl" title="Регламент предоставления отчетности" icon="ApplicationViewList" condition="$(UserRole) == 'Admin'" >
+        <Params>
+          <Param name="url">'/View/ConsRegl'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeConsCollectingTasks" title="Администратор задач сбора" icon="ApplicationViewList"  condition="$(UserRole) == 'Admin'" >
+        <Params>
+          <Param name="url">'/View/ConsCollectingTasks'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeConsTasks" title="Дерево отчетности" icon="ApplicationViewList" >
+        <Params>
+          <Param name="url">'/View/ConsTasks'</Param>
+        </Params>
+      </Item>
+    </Items>
+    <Action>MdiTab.addTab({ title: menuItem.text, url: menuItem.url, icon: menuItem.iconCls, passParentSize: menuItem.passParentSize});</Action>
+    <ButtomBar></ButtomBar>
+  </Navigation>
+
+  <Views>
+
+    <View id="ConsForms" title="Шаблоны форм"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.FormsView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+    <View id="ConsRegl" title="Регламент предоставления отчетности"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.ReglView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+    <View id="ConsCollectingTasks" title="Администратор задач сбора"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.Presentation.Views.CollectingTasksView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+    <View id="ConsTasks" title="Дерево отчетности"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.TasksView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+    <View id="ConsTask" title="Дерево отчетности"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.TaskView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+    <View id="ConsFormMrot" title="Информация о выполнении обязательств территориального трехстороннего соглашения в части оплаты труда во внебюджетном секторе экономики"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.Forms.Mrot.FormView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+    <View id="ConsFormMrotSummary" title="Аналитическая выходная форма по трехсторонним соглашениям"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.Forms.MrotSummary.FormView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+    <View id="ConsForm" title="Отчет"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.ReportView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+    <View id="PricesAndTariffsGasoline" title="Цены на нефтепродукты"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.Forms.Org3PricesAndTariffs.Gasoline.FormView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+    
+    <View id="PricesAndTariffsConsolidated" title="Цены и тарифы сводная"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.Forms.Org3PricesAndTariffs.Consolidated.FormView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+    <View id="PricesAndTariffsFood" title="Цены на продукты питания"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.Consolidation.Forms.Org3PricesAndTariffs.Food.FormView, Krista.FM.RIA.Extensions.Consolidation">
+    </View>
+
+  </Views>
+</Extension>

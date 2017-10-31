@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+
+<query id="FO_0007_0001_data">
+    <![CDATA[
+    --FO_0007_0001_data--
+with 
+    member Measures.[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail 
+        (
+            Filter 
+            (
+                [Период].[Период].[Квартал].Members,
+                not IsEmpty( [Measures].[Годовые назначения] ) 
+            ),
+            1 
+        ) 
+    } on rows 
+from   [ФО_МесОтч_Расходы] 
+    ]]>
+  </query>
+
+<query id="FO_0007_0001_Budget">
+<![CDATA[
+    --FO_0007_0001_Budget
+   with     
+    set [Районы]     
+    as 'Filter     
+        (
+            Descendants     
+            (
+                [Районы].[Сопоставимый].[Все районы].[Вологодская область],
+                [Районы].[Сопоставимый].[Уровень 04],
+                Self    
+            ),
+            not [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+        )'        
+    member Measures.[Имя]
+    as'[Районы].[Сопоставимый].CurrentMember.Name'
+    member Measures.[Уникальное имя]
+    as'[Районы].[Сопоставимый].CurrentMember.UniqueName'
+    member Measures.[Уровень]
+    as '0'
+Select
+    {
+      Measures.[Имя],
+      Measures.[Уникальное имя],
+       Measures.[Уровень]
+    } on columns,
+    {[Районы]} on rows    
+From [ФО_МесОтч_Расходы]      
+ ]]>
+</query>
+	
+	
+<query id="FO_0007_0001_Grid">
+    <![CDATA[
+    --FO_0007_0001_Grid
+with                           
+    set [КОСГУ]                       
+    as 'Filter                       
+        (
+            Descendants                       
+            (
+                [КОСГУ].[Сопоставимый].[Все коды ЭКР],
+                [КОСГУ].[Сопоставимый].[Статья],
+                Self_and_after                     
+            ),
+            not                     
+            (
+                [КОСГУ].[Сопоставимый].CurrentMember is [КОСГУ].[Сопоставимый].CurrentMember.Parent.DataMember                                
+            ) and not 
+            (
+                IsEmpty ( Measures.[Текущий год] ) and  IsEmpty ( Measures.[Прошлый год]  )and  IsEmpty ( Measures.[Позапрошлый год]   )
+            ) 
+        )'                     
+    member Measures.[Код]                    
+    as '[КОСГУ].[Сопоставимый].CurrentMember.Properties("Код") '                      
+    set [Месяцы]                 
+    as 'Filter              
+        (
+            Descendants                 
+            (
+                [Период].[Период].[Данные всех периодов].[<%period_year%>],
+                [Период].[Период].[Месяц],
+                Self               
+            ),
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные года"             
+            ) and                 
+            (
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года"            
+            ) and            
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия"            
+            ) and            
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные квартала"           
+            )            
+        )'                 
+    member Measures.[Текущий год]                    
+    as '                  
+        (
+            <%measures%>,
+            [Период].[Период].CurrentMember                  
+        )/1000'       
+    member Measures.[Прошлый год]           
+    as '           
+        (
+            <%measures%>,
+            ParallelPeriod      
+            (
+                [Период].[Период].[Год],
+                1,
+                [Период].[Период].CurrentMember         
+            )          
+        )/1000'           
+    member Measures.[Позапрошлый год]      
+    as '      
+        (
+            <%measures%>,
+            ParallelPeriod      
+            (
+                [Период].[Период].[Год],
+                2,
+                [Период].[Период].CurrentMember      
+            )      
+        )/1000'      
+    member Measures.[Темп роста_прошлого года]      
+    as 'IIF      
+        (
+            IsEmpty ( Measures.[Позапрошлый год] )  or ( Measures.[Позапрошлый год]) = 0,
+            null,
+            (
+                Measures.[Прошлый год] / Measures.[Позапрошлый год]    
+            )    
+        )'      
+    member Measures.[Темп роста_текущего года]    
+    as 'IIF    
+        (
+            IsEmpty ( Measures.[Прошлый год] )  or ( Measures.[Прошлый год] ) = 0,
+            null,
+            (
+                Measures.[Текущий год] / Measures.[Прошлый год]    
+            )    
+        )'    
+	member Measures.[Уровень]               
+    as 'IIF 
+        (
+           [КОСГУ].[Сопоставимый].CurrentMember.Level is [КОСГУ].[Сопоставимый].[Статья],
+           1,
+           0
+        )'
+  set [КОСГУ_уровень статья]
+     as 'Filter
+        (
+            Descendants
+            (
+                [КОСГУ].[Сопоставимый].[Все коды ЭКР],
+                [КОСГУ].[Сопоставимый].[Статья],
+                Self
+            ),
+            not
+            (
+                [КОСГУ].[Сопоставимый].CurrentMember is [КОСГУ].[Сопоставимый].CurrentMember.Parent.DataMember
+            ) and not
+            (
+                IsEmpty ( Measures.[Текущий год] ) and  IsEmpty ( Measures.[Прошлый год]  )and  IsEmpty ( Measures.[Позапрошлый год]   )
+            )
+        )'    	
+    member [КОСГУ].[Сопоставимый].[Итого ]   
+    as ' sum(  [КОСГУ_уровень статья]  )'
+select
+    {
+        {
+            [Период].[Период].[Данные всех периодов].[2011]                   
+        }                    
+        * { Measures.[Код] } +    { [Месяцы] }       
+        *        
+        {
+            Measures.[Позапрошлый год],
+            Measures.[Прошлый год],
+            Measures.[Темп роста_прошлого года],
+            Measures.[Текущий год] ,
+            Measures.[Темп роста_текущего года]    
+        }    
+		+
+		{
+		 [Период].[Период].[Данные всех периодов].[2011]  
+		}
+		*
+		{
+		  Measures.[Уровень]
+		}
+    } on columns,
+    { 
+	   {[КОСГУ]}
+	   +
+	   {
+	     [КОСГУ].[Сопоставимый].[Итого ]
+	   }
+	} on rows                          
+From  [ФО_МесОтч_Расходы]                          
+Where                          
+    (
+        [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+        <%area%>,
+        [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]                         
+    )                                                                  
+  ]]>
+  </query>
+
+</root>

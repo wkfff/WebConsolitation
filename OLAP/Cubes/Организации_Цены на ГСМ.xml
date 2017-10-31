@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="Организации_Цены на ГСМ" ClassType="9" SubClassType="0" Description="Мониторинг цен на нефтепродукты по автозаправочным станциям." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_ORG_PETROLPRICE"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_ORG_PETROLPRICE"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_ORG_PETROLPRICE", "DV"."DATASOURCES", "DV"."DV_ORG_STATIONS", "DV"."DV_ORG_PETROL", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."DV_ORG_OWNERS", "DV"."DV_ORG_SUPPLIER"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_ORG_PETROLPRICE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ORG_PETROLPRICE"."REFSTATION"="DV"."DV_ORG_STATIONS"."ID") AND ("DV"."F_ORG_PETROLPRICE"."REFPETROL"="DV"."DV_ORG_PETROL"."ID") AND ("DV"."F_ORG_PETROLPRICE"."REFPERIOD"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."DV_ORG_STATIONS"."REFOWNER"="DV"."DV_ORG_OWNERS"."ID") AND ("DV"."DV_ORG_STATIONS"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."DV_ORG_STATIONS"."REFSUPPLIER"="DV"."DV_ORG_SUPPLIER"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_ORG_PETROLPRICE"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.Org.PetrolPrice]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[4a312966-af37-48c2-9128-1647363061cd]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[2ad257de-5be0-4e82-9466-48beac799a7b]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[32f85eb5-6b29-45b3-b12b-5aaccd85b4dd]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{345}{3780}{2310}{910}{1})({dv}{DV.DV_ORG_STATIONS}{DV.DV_ORG_STATIONS}{1365}{4470}{2415}{925}{1})({dv}{DV.DV_ORG_PETROL}{DV.DV_ORG_PETROL}{3495}{4455}{2460}{925}{1})({dv}{DV.DV_ORG_OWNERS}{DV.DV_ORG_OWNERS}{1365}{7740}{2205}{955}{1})({dv}{DV.DV_ORG_SUPPLIER}{DV.DV_ORG_SUPPLIER}{3495}{7815}{2160}{925}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{4665}{3795}{2715}{940}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{2460}{7770}{2190}{925}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{2475}{10515}{2640}{910}{1})({dv}{DV.F_ORG_PETROLPRICE}{DV.F_ORG_PETROLPRICE}{1680}{750}{2535}{2090}{1})]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.АЗС" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_STATIONS"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="АЗС" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_STATIONS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.Виды ГСМ" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_PETROL"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид ГСМ" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_PETROL"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.Владельцы АЗС" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_OWNERS"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Владелец" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_OWNERS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.Поставщики ГСМ" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_SUPPLIER"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Поставщик" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_SUPPLIER"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Розничная цена" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_ORG_PETROLPRICE"."RETAILPRICE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Вспомогательная" ClassType="10" SubClassType="0" Description="" IsVisible="false" SourceColumnType="3" AggregateFunction="1" FormatString="#,#" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_ORG_PETROLPRICE"."RETAILPRICE"]]></property>
+      <CustomProperties>
+        <Property name="AggregateFunction" datatype="0"><![CDATA[Count]]></Property>
+      </CustomProperties>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Темп роста к концу прошлого года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к концу прошлого года] AS 'IIF(
+    ([Период].[Период].Currentmember.Level is [Период].[Период].[День])
+and (not IsEmpty(([Период].[Период].Currentmember,[Measures].[Розничная цена])))
+and ((Tail( filter(
+  {ClosingPeriod([Период].[Период].[День], Ancestor([Период].[Период].Currentmember,[Период].[Период].[Год]).PrevMember).Lag(31):
+   ClosingPeriod([Период].[Период].[День], Ancestor([Период].[Период].Currentmember,[Период].[Период].[Год]).PrevMember)},
+  not IsEmpty([Measures].[Розничная цена])),1).Item(0),[Measures].[Розничная цена]) <> 0),
+  ([Период].[Период].Currentmember,[Measures].[Розничная цена])
+ /(Tail( filter(
+  {ClosingPeriod([Период].[Период].[День], Ancestor([Период].[Период].Currentmember,[Период].[Период].[Год]).PrevMember).Lag(31):
+   ClosingPeriod([Период].[Период].[День], Ancestor([Период].[Период].Currentmember,[Период].[Период].[Год]).PrevMember)},
+  not IsEmpty([Measures].[Розничная цена])),1).Item(0),[Measures].[Розничная цена]),
+  null)', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп роста к началу года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к началу года] AS 'IIF(
+    ([Период].[Период].Currentmember.Level is [Период].[Период].[День])
+and (not IsEmpty(([Период].[Период].Currentmember,[Measures].[Розничная цена])))
+and ((Head( filter(
+  {OpeningPeriod([Период].[Период].[День], Ancestor([Период].[Период].Currentmember,[Период].[Период].[Год])):
+  OpeningPeriod([Период].[Период].[День], Ancestor([Период].[Период].Currentmember,[Период].[Период].[Год])).Lead(35)},
+  not IsEmpty([Measures].[Розничная цена])),1).Item(0),[Measures].[Розничная цена]) <> 0),
+  ([Период].[Период].Currentmember,[Measures].[Розничная цена])
+ /(Head( filter(
+  {OpeningPeriod([Период].[Период].[День], Ancestor([Период].[Период].Currentmember,[Период].[Период].[Год])):
+  OpeningPeriod([Период].[Период].[День], Ancestor([Период].[Период].Currentmember,[Период].[Период].[Год])).Lead(35)},
+  not IsEmpty([Measures].[Розничная цена])),1).Item(0),[Measures].[Розничная цена]),
+  null)', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп роста к прошлому периоду" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к прошлому периоду] AS 'IIF(
+    ([Период].[Период].Currentmember.Level is [Период].[Период].[День])
+and (not IsEmpty(([Период].[Период].Currentmember,[Measures].[Розничная цена])))
+and ((Tail( filter({[Период].[Период].CurrentMember.Lag(20):[Период].[Период].CurrentMember.Lag(1)},not IsEmpty([Measures].[Розничная цена])),1).Item(0),[Measures].[Розничная цена]) <> 0),
+  ([Период].[Период].Currentmember,[Measures].[Розничная цена])
+ /(Tail( filter({[Период].[Период].CurrentMember.Lag(20):[Период].[Период].CurrentMember.Lag(1)},not IsEmpty([Measures].[Розничная цена])),1).Item(0),[Measures].[Розничная цена]),
+  null)', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Средняя цена по МО" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Средняя цена по МО] AS 'IIF ([Территории].[РФ].CurrentMember.Level.Name = "МР ГО",[Measures].[Розничная цена]/[Measures].[Вспомогательная],null)', FORMAT_STRING = '#.00']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="Организации_Цены на ГСМ" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="Организации_ЦенынаГСМ_Организации_ЦенынаГСМ_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_ORG_PETROLPRICE"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_ORG_PETROLPRICE"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_ORG_PETROLPRICE", "DV"."DATASOURCES", "DV"."DV_ORG_STATIONS", "DV"."DV_ORG_PETROL", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."DV_ORG_OWNERS", "DV"."DV_ORG_SUPPLIER"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_ORG_PETROLPRICE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ORG_PETROLPRICE"."REFSTATION"="DV"."DV_ORG_STATIONS"."ID") AND ("DV"."F_ORG_PETROLPRICE"."REFPETROL"="DV"."DV_ORG_PETROL"."ID") AND ("DV"."F_ORG_PETROLPRICE"."REFPERIOD"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."DV_ORG_STATIONS"."REFOWNER"="DV"."DV_ORG_OWNERS"."ID") AND ("DV"."DV_ORG_STATIONS"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."DV_ORG_STATIONS"."REFSUPPLIER"="DV"."DV_ORG_SUPPLIER"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[6ea35d8b-b437-49e0-8d91-0a43dedf9ad4]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[32f85eb5-6b29-45b3-b12b-5aaccd85b4dd]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

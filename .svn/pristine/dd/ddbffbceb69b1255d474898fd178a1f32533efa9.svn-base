@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0035_0008_date">
+    <![CDATA[
+-- FO_0035_0008_date
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        Filter
+        (
+            OpeningPeriod
+            (
+                [Период].[Период].[День],
+                [Период].[Период].[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+                [Период].[Период].[День],
+                [Период].[Период].[Данные всех периодов].[2012]
+            ),
+            not IsEmpty([Measures].[Остаток графика])
+        )
+    ) on rows
+from  [ФО_График финансирования кассовых выплат]
+  ]]>
+  </query>
+
+  <query id="FO_0035_0008_grid">
+    <![CDATA[
+-- FO_0035_0008_grid
+with 
+    set [Показатели] 
+    as 'Descendants 
+        (
+            [Показатели].[График финансирования кассовых выплат].[Все].[ФО Исполнение кассового плана - <%period_year%>],
+            [Показатели].[График финансирования кассовых выплат].[Показатели],
+            SELF 
+        )' 
+    set [В том числе по дням]        
+    as '   
+        {
+            [Measures].[День 1],
+            [Measures].[День 2],
+            [Measures].[День 4],
+            [Measures].[День 3],
+            [Measures].[День 6],
+            [Measures].[День 5],
+            [Measures].[День 7],
+            [Measures].[День 8],
+            [Measures].[День 9],
+            [Measures].[День 10],
+            [Measures].[День 12],
+            [Measures].[День 11],
+            [Measures].[День 14],
+            [Measures].[День 13],
+            [Measures].[День 16],
+            [Measures].[День 15],
+            [Measures].[День 17],
+            [Measures].[День 18],
+            [Measures].[День 19],
+            [Measures].[День 20],
+            [Measures].[День 22],
+            [Measures].[День 21],
+            [Measures].[День 24],
+            [Measures].[День 23],
+            [Measures].[День 26],
+            [Measures].[День 25],
+            [Measures].[День 28],
+            [Measures].[День 27],
+            [Measures].[День 29],
+            [Measures].[День 30],
+            [Measures].[День 31]     
+        }' 
+    member [Measures].[Наименование показателя] 
+    as '[Показатели].[График финансирования кассовых выплат].CurrentMember.Name' 
+    member [Measures].[Код] 
+    as '[Показатели].[График финансирования кассовых выплат].CurrentMember.Properties("Код")' 
+select
+    {
+        {
+            {
+                [Период].[Период].[Данные всех периодов]
+            }
+            *
+            {
+                [Measures].[Код],
+                [Measures].[Наименование показателя]
+            }
+        } + 
+        {
+            {
+                 [Период].[Период].[Данные всех периодов]<%period_cur_date%>
+            } 
+            * 
+            {
+                [Measures].[Сводная бюджетная роспись],
+                [Measures].[График на месяц],
+                [Measures].[Исполнено с начала месяца],
+                [Measures].[Остаток графика] 
+            } 
+        } + Filter 
+        (
+            {
+                {
+                    [Период].[Период].[Данные всех периодов]<%period_cur_date%>
+                }    
+                * { [В том числе по дням] }    
+            },
+            not
+            (
+                IsEmpty([Measures].CurrentMember) or ([Measures].CurrentMember) = 0
+            ) 
+        )  
+    } on columns,
+    non empty { [Показатели]   } on rows 
+from [ФО_График финансирования кассовых выплат]                                                                                     
+ ]]>
+  </query>
+
+</root>

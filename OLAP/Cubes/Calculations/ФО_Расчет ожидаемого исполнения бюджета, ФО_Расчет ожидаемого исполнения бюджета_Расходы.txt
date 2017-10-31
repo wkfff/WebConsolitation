@@ -1,0 +1,23 @@
+CALCULATE;
+
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+   this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0);
+END SCOPE;
+
+CREATE MEMBER CURRENTCUBE.Measures.[Остаток графика] AS 
+[Measures].[График на месяц] - [Measures].[Исполнено с начала месяца];
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения] AS 
+IIF(IsEmpty([Measures].[Уточненный кассовый план]) or ([Measures].[Уточненный кассовый план]) = 0, null,
+ [Measures].[Исполнено с начала года] / [Measures].[Уточненный кассовый план]), 
+FORMAT_STRING = "Percent";

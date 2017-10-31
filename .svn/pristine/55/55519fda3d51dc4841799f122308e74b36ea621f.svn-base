@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="МО_Оценка ОМСУ_Сводная оценка" ClassType="9" SubClassType="0" Description="Значения показателей оценки эффективности деятельности органов местного самоуправления." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_OMSU_MO02CONS"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_OMSU_MO02CONS"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_OMSU_MO02CONS", "DV"."DATASOURCES", "DV"."FX_DATE_YEAR", "DV"."D_TERRITORY_RF", "DV"."D_OMSU_MARK", "DV"."D_OMSU_VALUETYPE", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_OMSU_MO02CONS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_OMSU_MO02CONS"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."F_OMSU_MO02CONS"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_OMSU_MO02CONS"."REFOMSU"="DV"."D_OMSU_MARK"."ID") AND ("DV"."F_OMSU_MO02CONS"."REFVALUE"="DV"."D_OMSU_VALUETYPE"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_OMSU_MO02CONS"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.OMSU.MO02Cons]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[d521876c-124d-499f-9ad1-42ce35952ba9]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[ee9792bc-0d2c-42af-8ca4-80eed05be50d]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[ffcd1bf3-60ba-4781-91a3-159817322bc6]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{115}{3345}{2265}{925}{1})({dv}{DV.FX_DATE_YEAR}{DV.FX_DATE_YEAR}{1080}{4050}{2235}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{2100}{4920}{2235}{910}{1})({dv}{DV.D_OMSU_MARK}{DV.D_OMSU_MARK}{3135}{4140}{2220}{910}{1})({dv}{DV.D_OMSU_VALUETYPE}{DV.D_OMSU_VALUETYPE}{4200}{3600}{2145}{910}{1})({dv}{DV.F_OMSU_MO02CONS}{DV.F_OMSU_MO02CONS}{915}{165}{2385}{3320}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{2085}{7635}{2745}{925}{1})]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEAR"."DATEYEAR"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОМСУ.Показатели" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Всего]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_OMSU_MARK"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОМСУ.Тип значения" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все типы значения]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Тип значения" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_OMSU_VALUETYPE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_OMSU_MO02CONS"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Цель" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_OMSU_MO02CONS"."AIM"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Норматив" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_OMSU_MO02CONS"."NORM"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Вес" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_OMSU_MO02CONS"."WEIGHT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Индикатор" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."F_OMSU_MO02CONS"."INDICAT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Ранг" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="6">
+      <property name="SourceColumn"><![CDATA["DV"."F_OMSU_MO02CONS"."RANK"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="МО_Оценка ОМСУ_Сводная оценка" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="МО_ОценкаОМСУ_Сводна_МО_ОценкаОМСУ_Своднаяоценка_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_OMSU_MO02CONS"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_OMSU_MO02CONS"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_OMSU_MO02CONS", "DV"."DATASOURCES", "DV"."FX_DATE_YEAR", "DV"."D_TERRITORY_RF", "DV"."D_OMSU_MARK", "DV"."D_OMSU_VALUETYPE", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_OMSU_MO02CONS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_OMSU_MO02CONS"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."F_OMSU_MO02CONS"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_OMSU_MO02CONS"."REFOMSU"="DV"."D_OMSU_MARK"."ID") AND ("DV"."F_OMSU_MO02CONS"."REFVALUE"="DV"."D_OMSU_VALUETYPE"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[447b8085-8e8f-44a4-9d02-46ac97cd6cd3]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[ffcd1bf3-60ba-4781-91a3-159817322bc6]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

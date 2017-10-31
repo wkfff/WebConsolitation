@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date 16   
+SELECT
+    { [Measures].[Значение]  } on columns,
+    {
+        Tail
+        (
+            Filter
+            (
+                [Период].[Год Квартал Месяц].[Год].Members,
+                [Measures].[Значение] > 0
+            )
+        ).Item(0)
+    } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>,
+        [Источники данных].[Все источники данных],
+        [Показатели].[ВедСтат_Свод].[Все показатели].[<%way_last_year%>]
+    )  
+	  ]]>
+  </query>
+  
+  
+    <query id="GT2">
+    <![CDATA[select
+    non empty
+    {
+        <%GT0Marks%>
+    }   on rows ,
+    non empty     
+    {         
+    [Период].[Год Квартал Месяц].[Данные всех периодов].[1998]:[Период].[Год Квартал Месяц].[Данные всех периодов].[<%lastdate%>] 
+    }on columns 
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>
+
+    )    
+	  ]]>
+  </query>
+       <query id="GB2E">
+    <![CDATA[    WITH
+    MEMBER [Measures].[Единица измерения]
+    AS  '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")'
+
+
+select
+    non empty
+    {
+[Показатели].[ВедСтат_Свод].[Все показатели].[СОДЕРЖАНИЕ И ИСПОЛЬЗОВАНИЕ ЖИЛИЩНОГО ФОНДА И НЕЖИЛЫХ ПОМЕЩЕНИЙ].[Общая площадь жилых помещений (по формам собственности)],
+[Показатели].[ВедСтат_Свод].[Все показатели].[СОДЕРЖАНИЕ И ИСПОЛЬЗОВАНИЕ ЖИЛИЩНОГО ФОНДА И НЕЖИЛЫХ ПОМЕЩЕНИЙ].[Количество комнат в общежитиях города]
+
+    } on columns    ,
+    non empty
+    {
+       [Measures].[Единица измерения]
+    }on rows
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>
+    )  
+	  ]]>
+  </query> 
+  <query id="GT2PR">
+    <![CDATA[
+    WITH      
+    MEMBER [Measures].[Единица измерения]      
+    AS  '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")' 
+    select
+    non empty
+    {
+        [Показатели].[ВедСтат_Свод].[Все показатели].[СОДЕРЖАНИЕ И ИСПОЛЬЗОВАНИЕ ЖИЛИЩНОГО ФОНДА И НЕЖИЛЫХ ПОМЕЩЕНИЙ].[Количество жилых зданий],
+[Показатели].[ВедСтат_Свод].[Все показатели].[СОДЕРЖАНИЕ И ИСПОЛЬЗОВАНИЕ ЖИЛИЩНОГО ФОНДА И НЕЖИЛЫХ ПОМЕЩЕНИЙ].[Количество проживающих в жилых зданиях],
+[Показатели].[ВедСтат_Свод].[Все показатели].[СОДЕРЖАНИЕ И ИСПОЛЬЗОВАНИЕ ЖИЛИЩНОГО ФОНДА И НЕЖИЛЫХ ПОМЕЩЕНИЙ].[Общая площадь жилых помещений]
+
+    }   on rows ,
+    non empty     
+    {         
+    [Measures].[Единица измерения]
+    }on columns 
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>
+
+    )    
+	  ]]>
+  </query>   
+  <query id="CT2ALL">
+    <![CDATA[select
+    non empty  
+    {
+        <%CT2All_mark%>.[<%param%>].Children
+    }  on rows  ,
+    non empty      
+    {
+[Период].[Год Квартал Месяц].[Данные всех периодов].[<%Pokaz%>]
+    } on columns  
+FROM [ВЕДСТАТ_Свод]  
+where  
+    (
+        <%baseRegion%>   
+    )  ]]>
+  </query>
+    <query id="CC2">
+    <![CDATA[select
+    non empty    
+    {
+        <%CC2Marks%>.[<%Pokaz%>].Children
+    }   on columns,
+    non empty        
+    {
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[1998] :[Период].[Год Квартал Месяц].[Данные всех периодов].[<%lastdate%>]
+    } on rows     
+FROM [ВЕДСТАТ_Свод]    
+where    
+    (
+        <%baseRegion%>     
+    )   ]]>
+  </query>  
+    <query id="GB2">
+    <![CDATA[select
+    non empty    
+    {
+    <%GB2Marks%>
+    } on columns    ,
+    non empty        
+    {
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[1998] :[Период].[Год Квартал Месяц].[Данные всех периодов].[<%lastdate%>]
+    }on rows    
+FROM [ВЕДСТАТ_Свод]    
+where    
+    (
+        <%baseRegion%>     
+    )    ]]>  </query>  
+     <query id="CB2ALL">
+    <![CDATA[select
+    non empty    
+    {
+
+<%CB2AllMarks%>.[<%param%>].children
+
+    }  on rows  ,
+    non empty        
+    {
+       [Период].[Год Квартал Месяц].[Данные всех периодов].[<%Pokaz%>]
+    } on columns    
+FROM [ВЕДСТАТ_Свод]    
+where    
+    (
+        <%baseRegion%>     
+    )    ]]> </query>     
+    <query id="ALLC1">
+    <![CDATA[select
+    non empty      
+    {
+        [Показатели].[ВедСтат_Свод].[Все показатели].[СОДЕРЖАНИЕ И ИСПОЛЬЗОВАНИЕ ЖИЛИЩНОГО ФОНДА И НЕЖИЛЫХ ПОМЕЩЕНИЙ].[<%param%>].Children 
+    }  on rows  ,
+    non empty     {         [Период].[Год Квартал Месяц].[Данные всех периодов].[<%Pokaz%>] } on columns  
+FROM [ВЕДСТАТ_Свод]     
+where     
+    (
+        <%baseRegion%>
+
+    )]]>
+  </query>
+</root>

@@ -1,0 +1,33 @@
+CALCULATE;
+
+SCOPE([Measures].[Факт]);
+   this = IIF(not IsLeaf([Период__Период].[Период__Период].CurrentMember), 
+    Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty([Measures].CurrentMember)),1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+//Вычисляемые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Исполнено за период] AS IIF(IsEmpty(([Measures].[Факт], [Период__Период].[Период__Период].CurrentMember)),
+null,
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or  [Период__Период].[Период__Период].CurrentMember.Level.Name = "All" or  
+[Период__Период].[Период__Период].CurrentMember is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level,  Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])), 
+([Период__Период].[Период__Период].CurrentMember, [Measures].[Факт]),
+IIF(not IsEmpty((Tail(Filter({[Период__Период].[Период__Период].CurrentMember.PrevMember.FirstSibling:[Период__Период].[Период__Период].CurrentMember.PrevMember}, 
+not IsEmpty([Measures].[Факт]))).Item(0),[Measures].[Факт])),
+([Measures].[Факт], [Период__Период].[Период__Период].CurrentMember) -  (Tail(Filter({[Период__Период].[Период__Период].CurrentMember.PrevMember.FirstSibling:[Период__Период].[Период__Период].CurrentMember.PrevMember}, 
+not IsEmpty([Measures].[Факт]))).Item(0),[Measures].[Факт]),
+IIF(not IsEmpty((Tail(Filter({[Период__Период].[Период__Период].CurrentMember.Parent.FirstSibling:[Период__Период].[Период__Период].CurrentMember.Parent.PrevMember}, 
+not IsEmpty([Measures].[Факт]))).Item(0),[Measures].[Факт])),
+([Measures].[Факт], [Период__Период].[Период__Период].CurrentMember) -  (Tail(Filter({[Период__Период].[Период__Период].CurrentMember.Parent.FirstSibling:[Период__Период].[Период__Период].CurrentMember.Parent.PrevMember}, 
+not IsEmpty([Measures].[Факт]))).Item(0),[Measures].[Факт]),
+IIF(not IsEmpty((Tail(Filter({[Период__Период].[Период__Период].CurrentMember.Parent.FirstSibling:[Период__Период].[Период__Период].CurrentMember.Parent.Parent.PrevMember}, 
+not IsEmpty([Measures].[Факт]))).Item(0),[Measures].[Факт])),
+([Measures].[Факт], [Период__Период].[Период__Период].CurrentMember) -  (Tail(Filter({[Период__Период].[Период__Период].CurrentMember.Parent.Parent.FirstSibling:[Период__Период].[Период__Период].CurrentMember.Parent.Parent.PrevMember}, 
+not IsEmpty([Measures].[Факт]))).Item(0),[Measures].[Факт]),
+([Measures].[Факт], [Период__Период].[Период__Период].CurrentMember) -  (Tail(Filter({[Период__Период].[Период__Период].CurrentMember.Parent.Parent.Parent.FirstSibling:[Период__Период].[Период__Период].CurrentMember.Parent.Parent.Parent.PrevMember}, 
+not IsEmpty([Measures].[Факт]))).Item(0),[Measures].[Факт])
+))))),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Годовые назначения] AS 
+[Measures].[Квартал 1] + [Measures].[Квартал 2] + [Measures].[Квартал 3] + [Measures].[Квартал 4],
+FORMAT_STRING = "Currency";

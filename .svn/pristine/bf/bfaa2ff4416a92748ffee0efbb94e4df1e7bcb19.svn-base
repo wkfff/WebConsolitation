@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+SELECT
+    { [Measures].[Значение]  } on columns,
+    {
+        Tail
+        (
+            Filter
+            (
+                [Период].[Год Квартал Месяц].[Год].Members,
+                [Measures].[Значение] > 0
+            )
+        ).Item(0)
+    } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>,
+        [Источники данных].[Все источники данных],
+        [Показатели].[ВедСтат_Свод].[Все показатели].[<%way_last_year%>]
+    )  
+	  ]]>
+  </query>
+
+ 
+  <query id="grid">
+    <![CDATA[ -- name: grid
+    with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    {
+        <%gridMarks%>
+    } on rows,
+    non empty 
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]     
+    )    
+    ]]>
+  </query>
+
+  <query id="chart1">
+    <![CDATA[ -- name: chart1
+    with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    non empty 
+    {
+        <%chart1Marks%>.children
+    } on rows,
+    non empty 
+    {
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>] 
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]  
+    )   
+    ]]>
+  </query>
+
+  <query id="chart2">
+    <![CDATA[ -- name: chart2
+        with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    non empty 
+    {
+        <%chart2Marks%>.children
+    } on rows,
+    non empty 
+    {
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>] 
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]
+    )   
+    ]]>
+  </query>
+
+  <query id="grid_">
+    <![CDATA[ -- name: grid_
+           with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    {
+        <%grid_Marks%>
+    } on rows,
+    non empty 
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]    
+    )    
+    ]]>
+  </query>
+  
+  <query id="chart3">
+    <![CDATA[ -- name: chart3
+with    
+    member   [Measures].[Значение_]  
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    {
+        <%chart3Marks%>
+    } on rows,
+    non empty 
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]  
+    )    
+    ]]>
+      </query>
+
+      <query id="chart4">
+        <![CDATA[ -- name: chart4
+               with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    {
+        <%chart4Marks%>
+    } on rows,
+    non empty 
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]
+    )    
+    ]]>
+  </query>
+
+
+  <query id="grid1">
+    <![CDATA[ -- name: grid1
+               with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    non empty 
+    {
+        <%last_year%>
+    } on columns,
+    non empty
+    {
+        <%grid1Marks%>
+    } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows
+FROM [ВЕДСТАТ_Свод]   
+where   
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]
+    )    
+    ]]>
+      </query>
+
+      <query id="grid2">
+        <![CDATA[ -- name: grid2
+               with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    non empty
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns,
+    non empty
+    {
+        <%grid2Marks%>
+
+    } on rows
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]  
+    )    
+  ]]>
+      </query>
+
+      <query id="chart5">
+        <![CDATA[ -- name: chart5
+               with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    non empty
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns,
+    non empty
+    {
+<%chart5Marks%>
+
+    } on rows
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение] 
+    )
+  ]]>
+      </query>
+
+      <query id="chart_1">
+        <![CDATA[ -- name: chart_1
+               with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    non empty  
+    {
+        <%current_way1%>
+    } on rows,
+    non empty  
+    {
+        <%last_year%>:<%last_year%>.Lag(9)
+    } on columns  
+FROM [ВЕДСТАТ_Свод]  
+where  
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_]  
+    )  
+  ]]>
+      </query>
+
+
+      <query id="chart_2">
+        <![CDATA[ -- name: chart_2
+               with    
+    member [Measures].[Значение_]    
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    non empty
+    {
+        <%chart_2Marks%>.children
+    } on rows,
+    non empty
+    {
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year2%>]
+    } on columns
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_] 
+    )
+  ]]>
+      </query>
+
+      <query id="chart_3">
+        <![CDATA[ -- name: chart_3
+             with    
+    member    [Measures].[Значение_]
+    as ' IIF   
+        (
+            ( [Measures].[Значение] )<>0,
+            ( [Measures].[Значение] ) /1000000,
+            null
+        )  '
+select
+    non empty
+    {
+        <%chart_3Marks%>.children
+    } on rows,
+    non empty
+    {
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year2%>]
+    } on columns
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение_] 
+    )   
+  ]]>
+</query>
+
+  <query id="AllGrid">
+    <![CDATA[ -- name: chart_3
+
+with 
+    MEMBER [Период].[Год Квартал Месяц].[ЕдИзм] 
+    AS  '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")' 
+select
+    {
+        [Показатели].[ВедСтат_Свод].[Все показатели].[ФИНАНСОВОЕ СОСТОЯНИЕ ПРЕДПРИЯТИЙ].children  
+    } on rows,
+    non empty union  
+    (
+        {
+            [Период].[Год Квартал Месяц].[ЕдИзм]  
+        },
+        {
+            <%last_year%>:<%last_year%>.Lag(9)  
+        }  
+    ) on columns 
+FROM [ВЕДСТАТ_Свод]  
+where  
+    (
+       [Источники данных].[Все источники данных].[ВЕДСТАТ МО - Муниципальная статистика],
+          <%baseRegion%>,
+        [Measures].[Значение]  
+    )   
+  ]]>
+  </query>
+</root>

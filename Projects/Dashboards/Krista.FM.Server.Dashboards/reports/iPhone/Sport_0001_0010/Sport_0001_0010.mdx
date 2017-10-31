@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+    <query id="Sport_0001_0010_population">
+        <![CDATA[
+-- Sport_0001_0010_population
+with
+    set [Строки] 
+    as 'order
+        (
+            filter
+            (
+                descendants
+                (
+                    [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].<%param_territory%>,                    
+                    [Территории__Сопоставимый].[Территории__Сопоставимый].Levels
+                    (
+                        [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].<%param_territory%>.properties("LEVEL_NUMBER") + 1
+                    ),
+                    SELF 
+                ),
+                NOT [Территории__Сопоставимый].[Территории__Сопоставимый].currentMember.properties("IS_DATAMEMBER") 
+            ),
+            [Территории__Сопоставимый].[Территории__Сопоставимый].currentMember.name,
+            BASC 
+        )' 
+select
+    {
+        [Measures].[Факт]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from   [ФСГС_Численность населения]
+where
+    (
+        [Период__Период].[Период__Период].[Данные всех периодов].[<%param_year_last%>],
+        [ФСГС__Численность населения].[ФСГС__Численность населения].[Все].[Все население],
+        [Вариант__ФСГС Население].[Вариант__ФСГС Население].[Все].[Численность населения на 1 января]
+    ) 
+    ]]>
+    </query>
+    
+    <query id="Sport_0001_0010_minsport">
+        <![CDATA[
+-- Sport_0001_0010_minsport
+with 
+    member [Measures].[Спортзалы] 
+    as ' 
+        (
+            filter 
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "51" 
+            ).item(0),
+            filter 
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "25" 
+            ).item(0),
+            [Measures].[Значение] 
+        )' 
+    member [Measures].[Плоскостные]  
+    as '  
+        (
+            filter  
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "48"  
+            ).item(0),
+            filter  
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "25"  
+            ).item(0),
+            [Measures].[Значение]  
+        )'      
+    member [Measures].[Бассейны]  
+    as '  
+        (
+            filter
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "63"  
+            ).item(0),
+            filter  
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "25"  
+            ).item(0),
+            [Measures].[Значение]  
+        )'  
+    set [Строки] 
+    as 'order
+        (
+            filter
+            (
+                descendants
+                (
+                    [Территории_сопоставимый].[Территории_сопоставимый].[All].<%param_territory%>,                    
+                    [Территории_сопоставимый].[Территории_сопоставимый].Levels
+                    (
+                        [Территории_сопоставимый].[Территории_сопоставимый].[All].<%param_territory%>.properties("LEVEL_NUMBER") + 1
+                    ),
+                    SELF 
+                ),
+                NOT [Территории_сопоставимый].[Территории_сопоставимый].currentMember.properties("IS_DATAMEMBER") 
+            ),
+            [Территории_сопоставимый].[Территории_сопоставимый].currentMember.name,
+            BASC 
+        )' 
+select
+    { 
+        [Measures].[Спортзалы], 
+        [Measures].[Плоскостные],
+        [Measures].[Бассейны]
+    } on columns,
+    { [Строки] } on rows 
+from [1-ФК] 
+where ( [Год].[Год].[Все].[<%param_year_last%>] ) 
+    ]]>
+    </query>
+
+    <query id="Sport_0001_0010_population_grid">
+        <![CDATA[
+-- Sport_0001_0010_population_grid
+with
+    set [Строки] 
+    as 'order
+        (
+            filter
+            (
+                descendants
+                (
+                    [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].<%param_territory%>,
+                    [Территории__Сопоставимый].[Территории__Сопоставимый].[Субъект РФ],
+                    SELF_AND_BEFORE
+                ),
+                NOT [Территории__Сопоставимый].[Территории__Сопоставимый].currentMember.properties("IS_DATAMEMBER") 
+            ),
+            [Территории__Сопоставимый].[Территории__Сопоставимый].currentMember.name,
+            ASC 
+        )' 
+select
+    {
+        {
+            [Период__Период].[Период__Период].[Данные всех периодов].[<%param_year_last%>],
+            [Период__Период].[Период__Период].[Данные всех периодов].[<%param_year_prev%>]
+        }
+        *
+        [Measures].[Факт]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from   [ФСГС_Численность населения]
+where
+    (        
+        [ФСГС__Численность населения].[ФСГС__Численность населения].[Все].[Все население],
+        [Вариант__ФСГС Население].[Вариант__ФСГС Население].[Все].[Численность населения на 1 января]
+    ) 
+    ]]>
+    </query>
+
+    <query id="Sport_0001_0010_minsport_grid">
+        <![CDATA[
+-- Sport_0001_0010_minsport_grid
+with 
+    member [Measures].[Спортзалы] 
+    as ' 
+        (
+            filter 
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "51" 
+            ).item(0),
+            filter 
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "25" 
+            ).item(0),
+            [Measures].[Значение] 
+        )' 
+    member [Measures].[Плоскостные]  
+    as '  
+        (
+            filter  
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "48"  
+            ).item(0),
+            filter  
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "25"  
+            ).item(0),
+            [Measures].[Значение]  
+        )'      
+    member [Measures].[Бассейны]  
+    as '  
+        (
+            filter
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "63"  
+            ).item(0),
+            filter  
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "25"  
+            ).item(0),
+            [Measures].[Значение]  
+        )'   
+    set [Строки] 
+    as 'order
+        (
+            filter
+            (
+                descendants
+                (
+                    [Территории_сопоставимый].[Территории_сопоставимый].[All].<%param_territory%>,
+                    [Территории_сопоставимый].[Территории_сопоставимый].[Субъект РФ],
+                    SELF_AND_BEFORE
+                ),
+                NOT [Территории_сопоставимый].[Территории_сопоставимый].currentMember.properties("IS_DATAMEMBER") 
+            ),
+            [Территории_сопоставимый].[Территории_сопоставимый].currentMember.name,
+            ASC 
+        )' 
+select
+    {
+        {
+            [Год].[Год].[Все].[<%param_year_last%>],
+            [Год].[Год].[Все].[<%param_year_prev%>]
+        }
+        *
+        {
+            [Measures].[Спортзалы],
+            [Measures].[Плоскостные],
+            [Measures].[Бассейны]
+        }
+    } on columns,
+    { [Строки] } on rows 
+from [1-ФК] 
+    ]]>
+    </query>
+    
+</root>

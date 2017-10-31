@@ -1,0 +1,1683 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="FO_0021_0004_HMAO_date">
+    <![CDATA[
+-- FO_0021_0004_HMAO_date
+with
+    member [Measures].[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[Год],
+                    SELF
+                ),
+                not IsEmpty
+                (
+                    (
+                        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Все показатели]
+                    )
+                )
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФО_ФПКУ_Показатели]     
+]]>
+  </query>
+
+  <query id="FO_0021_0004_HMAO_chart">
+    <![CDATA[
+-- FO_0021_0004_HMAO_chart
+with 
+    set [Список МО] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF 
+            ),
+            not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" 
+            ) 
+        )'  -----------Кол-во МО 
+    member [Measures].[Число [0,0:0,1)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= 0
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < 0.1
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,1:0,2)]
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.1 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.2 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Число [0,2:0,3)] 
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.2 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.3 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Число [0,3:0,4)] 
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.3 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.4 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Число [0,4:0,5)] 
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.4 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.5 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Число [0,5:0,6)] 
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.5 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.6 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Число [0,6:0,7)] 
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.6 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.7 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Число [0,7:0,8)] 
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.7 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.8 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Число [0,8:0,9)] 
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.8 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.9 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Число [0,9:1,0_] 
+    as 'Count 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.9 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        )<= 1 
+                    ) 
+                ) 
+            ) 
+        )' ----------- Хинты 
+    member [Measures].[Хинт [0,0:0,1)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.1 
+                    ) 
+                ) 
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,1:0,2)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.1 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.2 
+                    ) 
+                ) 
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,2:0,3)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.2 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.3 
+                    ) 
+                ) 
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,3:0,4)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.3 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.4 
+                    ) 
+                ) 
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,4:0,5)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.4 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.5 
+                    ) 
+                ) 
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,5:0,6)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.5 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.6 
+                    ) 
+                ) 
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,6:0,7)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.6 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.7 
+                    ) 
+                ) 
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,7:0,8)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.7 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.8 
+                    ) 
+                ) 
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,8:0,9)] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.8 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) < 0.9 
+                    ) 
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' 
+    member [Measures].[Хинт [0,9:1,0_] 
+    as 'Generate 
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty 
+                (
+                    [Measures].[Оценка индикатора] 
+                ) and 
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) >= 0.9 
+                    )and 
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%> 
+                        ) <= 1 
+                    ) 
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            " 
+        )' ----------- Меры 
+    member [Measures].[[0,0:0,1)]
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,0:0,1)],
+            [Measures].[Число [0,0:0,1)] 
+        )' 
+    member [Measures].[[0,1:0,2)] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,1:0,2)],
+            [Measures].[Число [0,1:0,2)] 
+        )' 
+    member [Measures].[[0,2:0,3)] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,2:0,3)],
+            [Measures].[Число [0,2:0,3)] 
+        )' 
+    member [Measures].[[0,3:0,4)] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,3:0,4)],
+            [Measures].[Число [0,3:0,4)] 
+        )' 
+    member [Measures].[[0,4:0,5)] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,4:0,5)],
+            [Measures].[Число [0,4:0,5)] 
+        )' 
+    member [Measures].[[0,5:0,6)] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,5:0,6)],
+            [Measures].[Число [0,5:0,6)] 
+        )' 
+    member [Measures].[[0,6:0,7)] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,6:0,7)],
+            [Measures].[Число [0,6:0,7)] 
+        )' 
+    member [Measures].[[0,7:0,8)] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,7:0,8)],
+            [Measures].[Число [0,7:0,8)] 
+        )' 
+    member [Measures].[[0,8:0,9)] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,8:0,9)],
+            [Measures].[Число [0,8:0,9)] 
+        )' 
+    member [Measures].[[0,9:1,0_] 
+    as 'IIF 
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,9:1,0_],
+            [Measures].[Число [0,9:1,0_] 
+        )' --------------- 
+    member [Measures].[Все нулевые] 
+    as ' 
+        (
+            [Measures].[[0,0:0,1)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,1:0,2)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,2:0,3)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,3:0,4)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,4:0,5)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,5:0,6)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,6:0,7)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,7:0,8)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,8:0,9)],
+            <%selected_indicator%> 
+        ) = 0 and 
+        (
+            [Measures].[[0,9:1,0_],
+            <%selected_indicator%> 
+        ) = 0' 
+    member [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт] 
+    as '<%selected_indicator%>' 
+select
+    {
+        <%selected_indicator%>,
+        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт] 
+    } on columns,
+    {
+        {
+          [Measures].[[0,0:0,1)],
+          [Measures].[[0,1:0,2)],
+          [Measures].[[0,2:0,3)],
+          [Measures].[[0,3:0,4)],
+          [Measures].[[0,4:0,5)],
+          [Measures].[[0,5:0,6)],
+          [Measures].[[0,6:0,7)],
+          [Measures].[[0,7:0,8)],
+          [Measures].[[0,8:0,9)],
+          [Measures].[[0,9:1,0_]
+        }
+    } on rows 
+from   [ФО_ФПКУ_Показатели] 
+where 
+    (
+        [Период__Период].[Период__Период].[Данные всех периодов].[<%selected_period%>] 
+    ) 
+  ]]>
+  </query>
+
+  <query id="FO_0021_0004_HMAO_indicator_max_value">
+    <![CDATA[
+  -- FO_0021_0004_HMAO_indicator_max_value  
+with
+    set [Список МО]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF
+            ),
+            not
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+    member [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Максимум]
+    as 'Max
+        (
+            [Список МО],
+            ([Measures].[Оценка индикатора],
+            <%selected_indicator%>)
+        )'
+
+  select
+    {
+        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Максимум]
+    } on columns
+from  [ФО_ФПКУ_Показатели]
+where
+    (
+        [Период__Период].[Период__Период].[Данные всех периодов].[2010]
+    )
+   ]]>
+  </query>
+
+  <query id="FO_0021_0004_HMAO_chart_with_max_value">
+    <![CDATA[
+    -- FO_0021_0004_HMAO_chart_with_max_value
+   with
+    set [Список МО]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF
+            ),
+            not
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+    member [Measures].[Максимум]
+    as 'Max
+        (
+            [Список МО],
+            ([Measures].[Оценка индикатора],
+            <%selected_indicator%>)
+        )'
+    member [Measures].[Длина отрезка]
+    as '
+        [Measures].[Максимум]/10
+    '
+     -----------Кол-во МО
+    member [Measures].[Число [0,0:0,1)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= 0
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,1:0,2)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*2
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,2:0,3)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*2
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*3
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,3:0,4)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*3
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*4
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,4:0,5)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*4
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*5
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,5:0,6)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*5
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*6
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,6:0,7)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*6
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*7
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,7:0,8)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*7
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*8
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,8:0,9)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*8
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*9
+                    )
+                )
+            )
+        )'
+    member [Measures].[Число [0,9:1,0_]
+    as 'Count
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*9
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        )<= [Measures].[Длина отрезка]*10
+                    )
+                )
+            )
+        )' ----------- Хинты
+    member [Measures].[Хинт [0,0:0,1)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= 0
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,1:0,2)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*2
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,2:0,3)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*2
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*3
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,3:0,4)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*3
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*4
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,4:0,5)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*4
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*5
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,5:0,6)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*5
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*6
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,6:0,7)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*6
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*7
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,7:0,8)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*7
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*8
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,8:0,9)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*8
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) < [Measures].[Длина отрезка]*9
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )'
+    member [Measures].[Хинт [0,9:1,0_]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список МО],
+                not IsEmpty
+                (
+                    [Measures].[Оценка индикатора]
+                ) and
+                (
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) >= [Measures].[Длина отрезка]*9
+                    )and
+                    (
+                        (
+                            [Measures].[Оценка индикатора],
+                            <%selected_indicator%>
+                        ) <= [Measures].[Длина отрезка]*10
+                    )
+                )
+            ),
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+            ",
+            "
+        )' ----------- Меры
+    member [Measures].[[0,0:0,1)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,0:0,1)],
+            [Measures].[Число [0,0:0,1)]
+        )'
+    member [Measures].[[0,1:0,2)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,1:0,2)],
+            [Measures].[Число [0,1:0,2)]
+        )'
+    member [Measures].[[0,2:0,3)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,2:0,3)],
+            [Measures].[Число [0,2:0,3)]
+        )'
+    member [Measures].[[0,3:0,4)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,3:0,4)],
+            [Measures].[Число [0,3:0,4)]
+        )'
+    member [Measures].[[0,4:0,5)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,4:0,5)],
+            [Measures].[Число [0,4:0,5)]
+        )'
+    member [Measures].[[0,5:0,6)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,5:0,6)],
+            [Measures].[Число [0,5:0,6)]
+        )'
+    member [Measures].[[0,6:0,7)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,6:0,7)],
+            [Measures].[Число [0,6:0,7)]
+        )'
+    member [Measures].[[0,7:0,8)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,7:0,8)],
+            [Measures].[Число [0,7:0,8)]
+        )'
+    member [Measures].[[0,8:0,9)]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,8:0,9)],
+            [Measures].[Число [0,8:0,9)]
+        )'
+    member [Measures].[[0,9:1,0_]
+    as 'IIF
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember is [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,9:1,0_],
+            [Measures].[Число [0,9:1,0_]
+        )' ---------------
+    member [Measures].[Все нулевые]
+    as '
+        (
+            [Measures].[[0,0:0,1)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,1:0,2)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,2:0,3)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,3:0,4)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,4:0,5)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,5:0,6)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,6:0,7)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,7:0,8)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,8:0,9)],
+            <%selected_indicator%>
+        ) = 0 and
+        (
+            [Measures].[[0,9:1,0_],
+            <%selected_indicator%>
+        ) = 0'
+    member [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт]
+    as '<%selected_indicator%>'
+select
+    {
+        <%selected_indicator%>,
+        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Хинт]
+    } on columns,
+    {
+        {
+          [Measures].[[0,0:0,1)],
+          [Measures].[[0,1:0,2)],
+          [Measures].[[0,2:0,3)],
+          [Measures].[[0,3:0,4)],
+          [Measures].[[0,4:0,5)],
+          [Measures].[[0,5:0,6)],
+          [Measures].[[0,6:0,7)],
+          [Measures].[[0,7:0,8)],
+          [Measures].[[0,8:0,9)],
+          [Measures].[[0,9:1,0_]
+        }
+    } on rows
+from   [ФО_ФПКУ_Показатели]
+where
+    (
+        [Период__Период].[Период__Период].[Данные всех периодов].[<%selected_period%>]
+    ) 
+  ]]>
+  </query>
+
+  <query id="FO_0021_0004_HMAO_grid">
+    <![CDATA[
+-- FO_0021_0004_HMAO_grid
+   with
+    set [Список МО]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF
+            ),
+            not
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+select
+    {
+        <%selected_indicator%>
+    } on columns,
+    non empty{
+       [Список МО]
+    } on rows
+from   [ФО_ФПКУ_Показатели]
+where
+    (
+        [Период__Период].[Период__Период].[Данные всех периодов].[2010],
+        [Measures].[Оценка индикатора]
+    )
+  ]]>
+  </query>
+  
+  <query id="FO_0021_0004_HMAO_indicator_detail">
+    <![CDATA[
+-- FO_0021_0004_HMAO_indicator_detail
+with  
+    set [Список МО]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF  
+            ),
+            not  
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember  
+            ) and  
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"  
+            )  
+        )'  
+    member [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Средняя оценка уровня качества]  
+    as 'AVG  
+        (
+            [Список МО],
+            (
+                    [Measures].[Оценка индикатора],
+                    <%selected_indicator%>
+            )  
+        )'   
+    member [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Наименование]  
+    as ' <%selected_indicator%>.Properties("Наименование")'
+select
+    {
+        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Наименование],
+        [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Средняя оценка уровня качества]  
+    } on columns 
+from  [ФО_ФПКУ_Показатели]  
+where  
+    (
+        [Период__Период].[Период__Период].[Данные всех периодов].[<%selected_period%>] 
+    )   
+  ]]>
+  </query>
+
+  <query id="FO_0021_0004_HMAO_indicatorList">
+    <![CDATA[
+-- FO_0021_0004_HMAO_indicatorList
+
+with
+    set [Показатели]
+    as 'Filter
+        (
+            [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].[Все показатели].Children,
+            (
+                StrToValue
+                (
+                    [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Код")
+                ) >= 100
+            ) and
+            (
+                StrToValue
+                (
+                    [Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Код")
+                ) < 1000
+            )
+        )'
+
+    member [Measures].[Имя]
+    as '
+			[Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Наименование")			
+		'
+    member [Measures].[Уникальное имя]
+    as '[Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.UniqueName'
+    member [Measures].[Уровень]
+    as '0'
+    member [Measures].[Полное имя]
+    as '		
+			[Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Наименование")
+		'
+    member [Measures].[Краткое имя]
+    as '[Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Name'
+    member [Measures].[Тип]
+    as '[Показатели__ФПКУ_Сопоставимый].[Показатели__ФПКУ_Сопоставимый].CurrentMember.Properties("Содержание")'
+
+    set [Список районов]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF
+            ),
+            not
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Аггрегированные районы]
+    as 'Aggregate({[Список районов]})'
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Полное имя],
+        [Measures].[Краткое имя],
+        [Measures].[Тип]
+    } on columns,
+    {
+        Filter
+        (
+           [Показатели],
+           not
+           (
+               IsEmpty
+               (
+                   ([Районы__Сопоставимый].[Районы__Сопоставимый].[Аггрегированные районы],
+                   [Период__Период].[Период__Период].[Данные всех периодов].[<%selected_period%>])
+               )
+           )
+        )
+    } on rows
+from  [ФО_ФПКУ_Показатели]
+  ]]>
+  </query>
+
+</root>

@@ -1,0 +1,18 @@
+CALCULATE;
+
+//Период__День
+SCOPE([Период__Период].[Период__Период].[Месяц].members);
+                              this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+                              END SCOPE;
+
+                              SCOPE([Период__Период].[Период__Период].[Квартал].members);
+                              this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+                              END SCOPE;
+
+                              SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+                              this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+                              END SCOPE;
+
+                              SCOPE([Период__Период].[Период__Период].[Год].members);
+                              this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+                              END SCOPE;

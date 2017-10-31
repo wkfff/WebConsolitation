@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by TEAM (RENEGADE) -->
+<layerDataPump name="Закачка данных по показателям выполнения услуг" version="1.0">
+	<usedLayers>
+		<layer name="ВЦП.ИнтерфейсВЦП.ПНРМероприятия" synonym="a"/>
+		<layer name="Классификаторы.КВСР" synonym="b"/>
+		<layer name="ВЦП.ИнтерфейсВЦП.ПереченьВЦП" synonym="c"/>
+		<layer name="ЦелиПоказатели.Справочники.ПоказателиНепосредственногоРезультатаБА" synonym="d"/>
+		<layer name="ВЦП.ИнтерфейсВЦП.МероприятияВЦП" synonym="e"/>
+		<layer name="ПланированиеБА.ГРБСБА.СправочникБА" synonym="f"/>
+		<layer name="ВЦП.ИнтерфейсВЦП.ЦелиВЦП" synonym="g"/>
+		<layer name="ВЦП.ИнтерфейсВЦП.ЗадачиВЦП" synonym="h"/>
+		<layer name="ЦелиПоказатели.Справочники.Цели" synonym="i"/>
+		<layer name="ЦелиПоказатели.Справочники.Задачи" synonym="j"/>
+	</usedLayers>
+	<defaultDataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+	<usedFMObjects>
+		<fmObject name="64cda563-7aa3-4b26-b74c-8fc4598f3ed4" synonym="ListDTP" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="863acf42-ef54-4888-aa53-32670da2e517" synonym="GoalDTP" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="02e623a5-5b70-4703-82b3-96f8d4a72de4" synonym="TaskDTP" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="b42553f9-a88e-4984-9a44-d60e461faf89" synonym="DirectionDTP" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="479ceff4-03ef-40e6-8355-f15bd9302d73" synonym="MeasureDTP" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="9070aebb-860e-4e12-85e2-73a02f55f002" synonym="BA" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="b4690d80-e696-460c-ad7f-2980dde78d81" synonym="RRO" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="a1608d49-78a7-40ad-99eb-8db240e56ef6" synonym="IDR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="3dbea43f-5f7b-4555-8873-1c1a7280fd97" synonym="Goal" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="8421a1f4-54db-4c26-8006-37dbcf8ec583" synonym="Task" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="dd69b4e1-f257-49ce-b553-442d094ae39a" synonym="GRBS" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="797a70f8-bec1-40db-98f0-4fd22b70621c" synonym="DTP" fmObjectType="factTable">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+	</usedFMObjects>
+	<steps>
+		<step layerSynonym="a" name="Закачка Фактов">
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="ГРБС" processType="layerRef" destinationObjectSynonym="GRBS" destinationAttribute="Code" refLayerSynonym="b" destinationAttributeUseInSearch="true" refLayerFieldName="Код"/>
+				<layerField name="ГРБС" processType="layerRef" destinationObjectSynonym="GRBS" destinationAttribute="Name" refLayerSynonym="b" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="Code" refLayerSynonym="c" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ВЦП"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="Name" refLayerSynonym="c" refLayerFieldName="Имя_ВЦП"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="RefKindDTP" refLayerSynonym="c" refLayerFieldName="Вид_ВЦП"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="RefTypeDTP" refLayerSynonym="c" refLayerFieldName="Тип_ВЦП"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="KindRegulatoryAct" refLayerSynonym="c" refLayerFieldName="ИмяВида_НПА"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="NumberRegulatoryAct" refLayerSynonym="c" refLayerFieldName="Номер_НПА"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="DataRegulatoryAct" refLayerSynonym="c" refLayerFieldName="Дата_НПА"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="NameRegulatoryAct" refLayerSynonym="c" refLayerFieldName="Имя_НПА"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="RefPeriodWith" refLayerSynonym="c" refLayerFieldName="Срок_С"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="RefPeriodFor" refLayerSynonym="c" refLayerFieldName="Срок_По"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="ApprovingPerson" refLayerSynonym="c" refLayerFieldName="ЛицоУтвердившее"/>
+				<layerField name="Код_ВЦП" processType="layerRef" destinationObjectSynonym="ListDTP" destinationAttribute="ResponsiblePerson" refLayerSynonym="c" refLayerFieldName="ЛицоОтветственное"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ПокНепосРез" processType="layerRef" destinationObjectSynonym="IDR" destinationAttribute="Code" refLayerSynonym="d" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ПокНепосРезБА"/>
+				<layerField name="Код_ПокНепосРез" processType="layerRef" destinationObjectSynonym="IDR" destinationAttribute="Name" refLayerSynonym="d" refLayerFieldName="Имя_ПокНепосРезБА"/>
+				<layerField name="Код_ПокНепосРез" processType="layerRef" destinationObjectSynonym="IDR" destinationAttribute="Unit" refLayerSynonym="d" refLayerFieldName="ЕденицаИзмерения"/>
+				<layerField name="Код_ПокНепосРез" processType="layerRef" destinationObjectSynonym="IDR" destinationAttribute="RefTypeIDR" refLayerSynonym="d" refLayerFieldName="ТипПоказателя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_Мероприятие" processType="layerRef" destinationObjectSynonym="MeasureDTP" destinationAttribute="Code" refLayerSynonym="e" destinationAttributeUseInSearch="true" refLayerFieldName="Код_Мероприятие"/>
+				<layerField name="Код_Мероприятие" processType="layerRef" destinationObjectSynonym="MeasureDTP" destinationAttribute="Name" refLayerSynonym="e" refLayerFieldName="Имя_Мероприятие"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ЦелиВЦП" processType="layerRef" destinationObjectSynonym="GoalDTP" destinationAttribute="Code" refLayerSynonym="g" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ЦелиВЦП"/>
+				<layerField name="Код_ЦелиВЦП" processType="layerRef" destinationObjectSynonym="GoalDTP" destinationAttribute="Name" refLayerSynonym="g" refLayerFieldName="Имя_ЦелиВЦП"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ЗадачиВЦП" processType="layerRef" destinationObjectSynonym="TaskDTP" destinationAttribute="Code" refLayerSynonym="h" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ЗадачиВЦП"/>
+				<layerField name="Код_ЗадачиВЦП" processType="layerRef" destinationObjectSynonym="TaskDTP" destinationAttribute="Name" refLayerSynonym="h" refLayerFieldName="Имя_ЗадачиВЦП"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ОтчетныйПериод" processType="directPump" destinationObjectSynonym="DTP" destinationAttribute="Fact">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20090001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ТекущийПериод" processType="directPump" destinationObjectSynonym="DTP" destinationAttribute="Estimate">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20100001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ОчередФинГод" processType="directPump" destinationObjectSynonym="DTP" destinationAttribute="Planing">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20110001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ПервыйГодФинПер" processType="directPump" destinationObjectSynonym="DTP" destinationAttribute="Prognosis">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20120001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+		</step>
+	</steps>
+</layerDataPump>

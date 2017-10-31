@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:app="http://www.roskazna.ru/eb/domain/common/applied" xmlns:bs="http://www.roskazna.ru/eb/domain/common/base" xmlns:cm="http://www.roskazna.ru/eb/domain/common" xmlns:eb="http://www.roskazna.ru/eb/domain/appinfo" xmlns:self="http://www.roskazna.ru/eb/domain/EPGU_DepRegList/formular" targetNamespace="http://www.roskazna.ru/eb/domain/EPGU_DepRegList/formular">
+  <import namespace="http://www.roskazna.ru/eb/domain/common/base" schemaLocation="baseTypes.xsd"/>
+  <import namespace="http://www.roskazna.ru/eb/domain/common/applied" schemaLocation="appliedTypes.xsd"/>
+  <import namespace="http://www.roskazna.ru/eb/domain/common" schemaLocation="common.xsd"/>
+  <element name="EPGU_DepRegList" type="self:EPGU_DepRegList"/>
+  <complexType name="tdepregistry_okpd_ITEM">
+    <sequence>
+      <element name="RuClsPrEcAcs_Code" type="app:tText1_12"/>
+      <element name="RuClsPrEcAcs_Name" type="app:tText1_2000"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_okved_ITEM">
+    <sequence>
+      <element name="RuClsEcActs_Code" type="app:tText1_8"/>
+      <element name="RuClsEcActs_Name" type="app:tText1_2000"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_conscat_ITEM">
+    <sequence>
+      <element name="CsmCtgy_Code" type="app:tText7"/>
+      <element name="CsmCtgy_Name" type="app:tText1_2000"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_qind_ITEM">
+    <sequence>
+      <element name="QltyInd_Name" type="app:tText1_2000"/>
+      <element name="QltyInd_Code" type="app:tQltyIndCode"/>
+      <element maxOccurs="1" minOccurs="0" name="QltyInd_Units" type="app:tName127"/>
+      <element maxOccurs="1" minOccurs="0" name="QltyInd_UnСode" type="app:tQltyIndCode"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_vind_ITEM">
+    <sequence>
+      <element name="VolInd_Code" type="app:tVolumeindicatorcode"/>
+      <element name="VolInd_Name" type="app:tText1_2000"/>
+      <element name="VolInd_Units" type="app:tText1_127"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepreginsttninfo_ITEM">
+    <sequence>
+      <element name="code" type="app:tInstCode19"/>
+      <element name="name" type="app:tText1_2000"/>
+      <element maxOccurs="1" minOccurs="0" name="shortname" type="app:tName2000"/>
+      <element name="okopf" type="app:tokopf"/>
+      <element name="inn" type="app:tinn"/>
+      <element name="regreasoncode" type="app:tkpp"/>
+      <element maxOccurs="1" minOccurs="0" name="datereg" type="app:tDateType"/>
+      <element maxOccurs="1" minOccurs="0" name="InstKind_Code" type="app:tokopf"/>
+      <element maxOccurs="1" minOccurs="0" name="InstKind_Name" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="OKVED" type="self:tOKVED"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_la_ITEM">
+    <sequence>
+      <element maxOccurs="1" minOccurs="0" name="LglAct_Knd" type="app:tName127"/>
+      <element maxOccurs="1" minOccurs="0" name="LglAct_LANumber" type="app:tLAnumber"/>
+      <element name="LglAct_Name" type="app:tText1_2000"/>
+      <element maxOccurs="1" minOccurs="0" name="LglAct_ApprovedBy" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="LglAct_EffectiveFrom" type="app:tDateType"/>
+      <element maxOccurs="1" minOccurs="0" name="LglAct_ApprvdAt" type="app:tDateType"/>
+      <element maxOccurs="1" minOccurs="0" name="dtend" type="app:tDateType"/>
+      <element maxOccurs="1" minOccurs="0" name="MJnumber" type="app:tLAnumber"/>
+      <element maxOccurs="1" minOccurs="0" name="MJregdate" type="app:tDateType"/>
+    </sequence>
+  </complexType>
+  <complexType name="tOKVED_ITEM">
+    <sequence>
+      <element name="RuClsEcActs_Code" type="app:tText1_8"/>
+      <element name="RuClsEcActs_Name" type="app:tText1_2000"/>
+    </sequence>
+  </complexType>
+  <complexType name="tDEPREGISTRY_IK_ITEM">
+    <sequence>
+      <element maxOccurs="1" minOccurs="0" name="GID" type="app:tGID"/>
+      <element name="Code" type="app:tInstitutionkindcode"/>
+      <element name="Name" type="app:tText1_2000"/>
+    </sequence>
+  </complexType>
+  <complexType name="tEPGU_SvcListDepReg_ITEM">
+    <sequence>
+      <element name="regrnumber" type="app:tRegrNumberVPGU45"/>
+      <element name="RegrNumber_1To42" type="app:tRegrNumberVPGU42"/>
+      <element maxOccurs="1" minOccurs="0" name="ProjectVersion" type="app:tProjVersion"/>
+      <element name="EffectiveFrom" type="app:tDateType"/>
+      <element maxOccurs="1" minOccurs="0" name="EffectiveBefore" type="app:tDateType"/>
+      <element name="inst_code" type="app:tInstCode19"/>
+      <element name="name" type="app:tText1_2000"/>
+      <element maxOccurs="1" minOccurs="0" name="shortname" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="ppocode" type="app:toktmo"/>
+      <element maxOccurs="1" minOccurs="0" name="pponame" type="app:tName2000"/>
+      <element name="okopf" type="app:tokopf"/>
+      <element name="inn" type="app:tinn"/>
+      <element name="regreasoncode" type="app:tkpp"/>
+      <element maxOccurs="1" minOccurs="0" name="datereg" type="app:tDateType"/>
+      <element name="SvcRegrNumber" type="app:tRegrNumberEPGU23"/>
+      <element name="SvcKind_Code" type="app:tCode"/>
+      <element name="SvcKind_Name" type="app:tText1_2000"/>
+      <element name="Belong210FL" type="app:tLogical"/>
+      <element name="NcsrlyBelong210FL" type="app:tLogical"/>
+      <element name="ActDomnCode" type="app:tActivitydomaincode"/>
+      <element name="ActDomnName" type="app:tText1_2000"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCnts1Code" type="app:tcontentscode"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCnts2Code" type="app:tcontentscode"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCnts3Code" type="app:tcontentscode"/>
+      <element maxOccurs="1" minOccurs="0" name="ServiceContentsName1" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="ServiceContentsName2" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="ServiceContentsName3" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcTerms1Code" type="app:tTermsofservicecode"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcTerms2Code" type="app:tTermsofservicecode"/>
+      <element maxOccurs="1" minOccurs="0" name="ServiceTermsName1" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="ServiceTermsName2" type="app:tName2000"/>
+      <element name="Name_Code" type="app:tServicenamecode"/>
+      <element name="Name_Name" type="app:tText1_2000"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCnts1CodeVal" type="app:tcontentscode"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCnts2CodeVal" type="app:tcontentscode"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCnts3CodeVal" type="app:tcontentscode"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCntsName1Val" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCntsName2Val" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcCntsName3Val" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcTerms1CodeVal" type="app:tServicetermsvaluecode"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcTerms2CodeVal" type="app:tServicetermsvaluecode"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcTermsName1Val" type="app:tName2000"/>
+      <element maxOccurs="1" minOccurs="0" name="SvcTermsName2Val" type="app:tName2000"/>
+      <element name="BPGUEffFrom" type="app:tDateType"/>
+      <element maxOccurs="1" minOccurs="0" name="BPGUEffBefore" type="app:tDateType"/>
+      <element maxOccurs="1" minOccurs="0" name="isactual" type="app:tLogical"/>
+      <element name="GUID" type="app:tText1_127"/>
+      <element name="depregistry_paid" type="app:tPaidcode"/>
+      <element name="paid_name" type="app:tName127"/>      
+      <element maxOccurs="1" minOccurs="0" name="depregistry_okpd" type="self:tdepregistry_okpd"/>
+      <element maxOccurs="1" minOccurs="0" name="depregistry_okved" type="self:tdepregistry_okved"/>
+      <element maxOccurs="1" minOccurs="0" name="depregistry_conscat" type="self:tdepregistry_conscat"/>
+      <element maxOccurs="1" minOccurs="0" name="depregistry_qind" type="self:tdepregistry_qind"/>
+      <element name="depregistry_vind" type="self:tdepregistry_vind"/>
+      <element name="depreginsttninfo" type="self:tdepreginsttninfo"/>
+      <element maxOccurs="1" minOccurs="0" name="depregistry_la" type="self:tdepregistry_la"/>
+      <element maxOccurs="1" minOccurs="0" name="DEPREGISTRY_IK" type="self:tDEPREGISTRY_IK"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_okpd">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="depregistry_okpd_ITEM" type="self:tdepregistry_okpd_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_okved">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="depregistry_okved_ITEM" type="self:tdepregistry_okved_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_conscat">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="depregistry_conscat_ITEM" type="self:tdepregistry_conscat_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_qind">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="depregistry_qind_ITEM" type="self:tdepregistry_qind_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_vind">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="1" name="depregistry_vind_ITEM" type="self:tdepregistry_vind_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepreginsttninfo">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="1" name="depreginsttninfo_ITEM" type="self:tdepreginsttninfo_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tdepregistry_la">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="depregistry_la_ITEM" type="self:tdepregistry_la_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tOKVED">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="OKVED_ITEM" type="self:tOKVED_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tDEPREGISTRY_IK">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="DEPREGISTRY_IK_ITEM" type="self:tDEPREGISTRY_IK_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="tEPGU_SvcListDepReg">
+    <sequence>
+      <element maxOccurs="unbounded" minOccurs="0" name="EPGU_SvcListDepReg_ITEM" type="self:tEPGU_SvcListDepReg_ITEM"/>
+    </sequence>
+  </complexType>
+  <complexType name="EPGU_DepRegList">
+    <complexContent>
+      <extension base="cm:tFormular">
+        <sequence>
+          <element name="listkind" type="app:tName127"/>
+          <element name="listnumber" type="app:tName127"/>
+          <element name="inst_code" type="app:tName127"/>
+          <element name="GUID" type="app:tName127"/>
+          <element maxOccurs="1" minOccurs="0" name="Approver_Date_PF" type="app:tDateType"/>
+          <element maxOccurs="1" minOccurs="0" name="Approver_SFP_PF" type="app:tName127"/>
+          <element maxOccurs="1" minOccurs="0" name="Approver_Post_PF" type="app:tName127"/>
+          <element name="EPGU_SvcListDepReg" type="self:tEPGU_SvcListDepReg"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+</schema>

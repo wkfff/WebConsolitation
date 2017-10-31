@@ -1,0 +1,29 @@
+CALCULATE; 
+
+//Период__День
+SCOPE([Период__Период].[Период__Период].[Месяц].members);
+    this = IIF(([Measures].CurrentMember is [Measures].[ЛБО] or [Measures].CurrentMember is [Measures].[Учтено БО] or [Measures].CurrentMember is [Measures].[БО на рассмотрении] or [Measures].CurrentMember is [Measures].[Остаток ЛБО]),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+this = IIF(([Measures].CurrentMember is [Measures].[ЛБО] or [Measures].CurrentMember is [Measures].[Учтено БО] or [Measures].CurrentMember is [Measures].[БО на рассмотрении] or [Measures].CurrentMember is [Measures].[Остаток ЛБО]),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+this = IIF(([Measures].CurrentMember is [Measures].[ЛБО] or [Measures].CurrentMember is [Measures].[Учтено БО] or [Measures].CurrentMember is [Measures].[БО на рассмотрении] or [Measures].CurrentMember is [Measures].[Остаток ЛБО]),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+this = IIF(([Measures].CurrentMember is [Measures].[ЛБО] or [Measures].CurrentMember is [Measures].[Учтено БО] or [Measures].CurrentMember is [Measures].[БО на рассмотрении] or [Measures].CurrentMember is [Measures].[Остаток ЛБО]),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+//Вычисляемые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Процент от ЛБО] AS
+ IIF(isEmpty(([Measures].[ЛБО], [Период__Период].[Период__Период].CurrentMember)) or ([Measures].[ЛБО], [Период__Период].[Период__Период].CurrentMember) = 0, null,
+([Measures].[Остаток ЛБО], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[ЛБО], [Период__Период].[Период__Период].CurrentMember)), 
+FORMAT_STRING = "Percent", 
+VISIBLE = 1  ; 

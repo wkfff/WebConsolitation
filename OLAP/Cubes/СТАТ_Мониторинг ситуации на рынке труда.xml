@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="СТАТ_Мониторинг ситуации на рынке труда" ClassType="9" SubClassType="0" Description="Данные по мониторингу ситуации на рынке труда." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_LAB_MONITORING"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_LAB_MONITORING"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_LAB_MONITORING", "DV"."DATASOURCES", "DV"."D_MARKS_LABOURMARKET", "DV"."D_TERRITORY_RF", "DV"."FX_DATE_YEARDAYUNV", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_OK_OKVED", "DV"."BV_OKVED_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_LAB_MONITORING"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_LAB_MONITORING"."REFMARKS"="DV"."D_MARKS_LABOURMARKET"."ID") AND ("DV"."F_LAB_MONITORING"."REFTERRITORYRF"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_LAB_MONITORING"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_LAB_MONITORING"."REFOKVED"="DV"."D_OK_OKVED"."ID") AND ("DV"."D_OK_OKVED"."REFOKVED"="DV"."BV_OKVED_BRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_LAB_MONITORING"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.Lab.Monitoring]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[2b5db559-bdf0-4e1e-b69b-a5e1ff7fbf16]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{765}{1245}{1815}{910}{1})({dv}{DV.F_LAB_MONITORING}{DV.F_LAB_MONITORING}{2537}{514}{2145}{3155}{1})({dv}{DV.D_MARKS_LABOURMARKET}{DV.D_MARKS_LABOURMARKET}{1110}{4050}{2430}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{3360}{6075}{2775}{3790}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3390}{9240}{2565}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2265}{5160}{2625}{910}{1})({dv}{DV.D_OK_OKVED}{DV.D_OK_OKVED}{4845}{3060}{1800}{3265}{1})({dv}{DV.BV_OKVED_BRIDGE}{DV.BV_OKVED_BRIDGE}{7410}{5700}{1995}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[c9894980-ff4c-4238-b9ba-c1f8dee7feba]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[995dbc13-9544-4ad8-bd8a-dda255766585]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.Рынок труда" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатели" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_LABOURMARKET"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопост Карта" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОК.ОКВЭД" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды экономической деятельности]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид экономической деятельности" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_OK_OKVED"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОКВЭД.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все коды ОКВЭД]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код ОКВЭД" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_OKVED_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.000" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_LAB_MONITORING"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Комментарий" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="1" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_LAB_MONITORING"."COMMENTS"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Прирост" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Прирост] AS '[Measures].[Значение]', FORMAT_STRING = 'Standard']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп прироста" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста] AS '[Measures].[Значение]', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Показатели_Уровень Неделя_Год" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Показатели_Уровень Неделя_Год] FOR '({[Показатели].[Рынок труда].[Показатели].&[21]}, {[Measures].[Значение]})' AS 'IIF(IsEmpty(([Показатели].[Рынок труда].[Показатели].&[23], Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]))) or ([Показатели].[Рынок труда].[Показатели].&[23], Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год])) = 0, null,
+([Показатели].[Рынок труда].[Показатели].&[1], [Период].[Период].CurrentMember) / ([Показатели].[Рынок труда].[Показатели].&[23], Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год])) * 100)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="КоэФФициент" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[КоэФФициент] FOR '({[Показатели].[Рынок труда].[Показатели].&[22]}, {[Measures].[Значение]})' AS 'IIF(not IsEmpty([Показатели].[Рынок труда].[Показатели].&[24]) and [Показатели].[Рынок труда].[Показатели].&[24] <> 0, ([Показатели].[Рынок труда].[Показатели].&[1] / [Показатели].[Рынок труда].[Показатели].&[24]), null)', FORMAT_STRING = 'Standard']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Прирост_" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Прирост_] FOR '({[Measures].[Прирост]})' AS 'IIF(IsEmpty(([Период].[Период].CurrentMember, [Measures].[Значение])), null,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(1).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]), null), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(2).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(3).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(4).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(5).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(6).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(7).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])), IIF( left([Период].[Период].CurrentMember.Lag(8).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(9).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(10).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(11).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(12).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(13).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(14).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(15).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение]) ), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(16).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(17).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(18).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(19).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(20).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(21).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(22).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(23).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(24).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(25).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(26).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(27).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(28).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(29).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(30).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(31).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(31)), null), /*[Measures].[Значение]) ,([Период].[Период].CurrentMember, [Measures].[Значение])*/ null
+))))))))))))))))))))))))))))))))', CONDITION = '([Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Показатели].&[2]) or ([Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Показатели].&[5])', CALCULATION_PASS_NUMBER = '2', CALCULATION_PASS_DEPTH = '2']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Прирост2" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Прирост2] FOR '({[Measures].[Прирост]})' AS 'IIF(IsEmpty(([Период].[Период].CurrentMember, [Measures].[Значение])), null,
+IIF([Период].[Период].CurrentMember.Parent.Name = "Январь", /*and [Период].[Период].CurrentMember.PrevMember.Parent.Name = "Декабрь",*/
+
+
+
+
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(1).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(2).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(3).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(4).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(5).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(6).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(7).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])) and  left([Период].[Период].CurrentMember.Lag(8).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(9).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(10).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(11).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(12).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(13).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(14).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(15).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(16).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(17).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(18).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(19).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(20).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(21).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(22).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(23).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(24).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(25).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(26).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(27).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(28).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(29).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(30).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение])) and left([Период].[Период].CurrentMember.Lag(31).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(31)), /*[Measures].[Значение]) ,([Период].[Период].CurrentMember, [Measures].[Значение])*/ null
+))))))))))))))))))))))))))))))), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(1).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]), null), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(2).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(3).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(4).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(5).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(6).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(7).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])), IIF( left([Период].[Период].CurrentMember.Lag(8).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(9).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(10).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(11).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(12).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(13).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(14).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(15).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение]) ), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(16).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(17).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(18).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(19).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(20).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(21).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(22).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(23).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(24).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(25).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(26).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(27).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(28).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]) , null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(29).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(30).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение])), IIF(left([Период].[Период].CurrentMember.Lag(31).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) - ([Период].[Период].CurrentMember.Lag(31)), null), /*[Measures].[Значение]) ,([Период].[Период].CurrentMember, [Measures].[Значение])*/ null
+)))))))))))))))))))))))))))))))
+))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп_прироста" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Темп_прироста] FOR '({[Measures].[Темп прироста]})' AS 'IIF(IsEmpty(([Период].[Период].CurrentMember, [Measures].[Значение])), null,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]) <> 0  and left([Период].[Период].CurrentMember.Lag(1).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]) - 1), null), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]) <> 0  and left([Период].[Период].CurrentMember.Lag(2).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(3).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]) -1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(4).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(5).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(6).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(7).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(8).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(9).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(10).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(11).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(12).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(13).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(14).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(15).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(16).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(17).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(18).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(19).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(20).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(21).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(22).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(23).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(24).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(25).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(26).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(27).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(28).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(29).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(30).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(31).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(31)) - 1, null), /*[Measures].[Значение]) ,([Период].[Период].CurrentMember, [Measures].[Значение])*/ null
+))))))))))))))))))))))))))))))))
+
+', FORMAT_STRING = 'Percent', CONDITION = '([Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Показатели].&[2]) or ([Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Показатели].&[5])', CALCULATION_PASS_NUMBER = '2', CALCULATION_PASS_DEPTH = '2']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Темп прироста2" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Темп прироста2] FOR '({[Measures].[Темп прироста]})' AS 'IIF(IsEmpty(([Период].[Период].CurrentMember, [Measures].[Значение])), null,
+IIF([Период].[Период].CurrentMember.Parent.Name = "Январь", /*and [Период].[Период].CurrentMember.PrevMember.Parent.Name = "Декабрь",*/
+
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]) <> 0  and left([Период].[Период].CurrentMember.Lag(1).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]) - 1), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]) <> 0  and left([Период].[Период].CurrentMember.Lag(2).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(3).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]) -1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(4).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(5).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(6).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(7).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(8).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(9).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(10).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(11).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(12).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(13).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(14).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(15).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(16).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(17).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение]) - 1),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(18).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(19).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(20).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(21).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(22).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(23).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(24).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(25).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(26).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(27).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(28).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(29).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(30).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]) - 1,
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение])) and ([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(31).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(31)) - 1, /*[Measures].[Значение]) ,([Период].[Период].CurrentMember, [Measures].[Значение])*/ null
+))))))))))))))))))))))))))))))), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]) <> 0  and left([Период].[Период].CurrentMember.Lag(1).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(1), [Measures].[Значение]) - 1), null), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]) <> 0  and left([Период].[Период].CurrentMember.Lag(2).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(2), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(3).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(3), [Measures].[Значение]) -1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(4).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(4), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(5).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(5), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(6).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(6), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(7).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(7), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(8).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(8), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(9).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(9), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(10).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(10), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(11).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(11), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(12).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(12), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(13).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(13), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(14).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(14), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(15).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(15), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(16).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(16), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(17).Name, 6) <> "Данные", (([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(17), [Measures].[Значение]) - 1), null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(18).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(18), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(19).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(19), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(20).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(20), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(21).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(21), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(22).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(22), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(23).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(23), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(24).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(24), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(25).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(25), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(26).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(26), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(27).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(27), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]) <> 0 and left([Период].[Период].CurrentMember.Lag(28).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(28), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(29).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(29), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(30).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(30), [Measures].[Значение]) - 1, null),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение])), IIF(([Период].[Период].CurrentMember.Lag(31), [Measures].[Значение]) <> 0 and  left([Период].[Период].CurrentMember.Lag(31).Name, 6) <> "Данные", ([Период].[Период].CurrentMember, [Measures].[Значение]) / ([Период].[Период].CurrentMember.Lag(31)) - 1, null), /*[Measures].[Значение]) ,([Период].[Период].CurrentMember, [Measures].[Значение])*/ null
+)))))))))))))))))))))))))))))))))']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="СТАТ_Мониторинг ситуации на рынке труда" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="СТАТ_Монитор_СТАТ_Мониторингситуациинарынкетруда_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_LAB_MONITORING"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_LAB_MONITORING"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_LAB_MONITORING", "DV"."DATASOURCES", "DV"."D_MARKS_LABOURMARKET", "DV"."D_TERRITORY_RF", "DV"."FX_DATE_YEARDAYUNV", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_OK_OKVED", "DV"."BV_OKVED_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_LAB_MONITORING"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_LAB_MONITORING"."REFMARKS"="DV"."D_MARKS_LABOURMARKET"."ID") AND ("DV"."F_LAB_MONITORING"."REFTERRITORYRF"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_LAB_MONITORING"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_LAB_MONITORING"."REFOKVED"="DV"."D_OK_OKVED"."ID") AND ("DV"."D_OK_OKVED"."REFOKVED"="DV"."BV_OKVED_BRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[f7d1f674-81dc-4d60-96ab-d44b4672f0ad]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[2b5db559-bdf0-4e1e-b69b-a5e1ff7fbf16]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

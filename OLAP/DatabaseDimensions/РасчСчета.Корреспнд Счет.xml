@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="РасчСчета.Корреспнд Счет" ClassType="7" SubClassType="0" Description="Счета финансового органа. Закачивается с данными АС Бюджет (Org_Accounts только счета финоргана)" DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Accounts.BudgetFOOwn]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_ACCOUNTS_BUDGETFOOWN_COR}{DV.DV_ACCOUNTS_BUDGETFOOWN_COR}{2400}{600}{3216}{3016}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[058f289f-94b0-4144-9141-6796705dac4c]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[79dfeaaf-a3cb-4f76-830e-eb1af1cd5277]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[40835650-8960-42c5-8dcb-98c902ef7c62]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="6" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ID источника" ClassType="31" SubClassType="0" Description="" Caption="ID источника" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."SOURCEID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Счет финоргана" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="129" ColumnSize="20" CustomRollUpPropertiesColumn="" EstimatedSize="784" IsVisible="true" Ordering="1">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."CODESTR"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Счет" ClassType="31" SubClassType="0" Description="" Caption="Счет" PropertyType="0" IsVisible="true" ColumnSize="20" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Банк" ClassType="31" SubClassType="0" Description="" Caption="Банк" PropertyType="0" IsVisible="true" ColumnSize="300" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."BANK"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип счета" ClassType="31" SubClassType="0" Description="" Caption="Тип счета" PropertyType="0" IsVisible="true" ColumnSize="300" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."ACC_CLS"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип финансирования" ClassType="31" SubClassType="0" Description="" Caption="Тип финансирования" PropertyType="0" IsVisible="true" ColumnSize="300" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."FINTYPE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ACCOUNTS_BUDGETFOOWN_COR"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

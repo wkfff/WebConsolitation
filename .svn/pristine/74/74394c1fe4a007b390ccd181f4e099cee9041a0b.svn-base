@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФО_БОР_Оценка БУ" ClassType="9" SubClassType="0" Description="" DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_BRB_EVALBO"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_BRB_EVALBO"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_BRB_EVALBO", "DV"."DATASOURCES", "DV"."D_BRB_PERFEVALBO", "DV"."D_BRB_STATETASK", "DV"."D_TERRITORY_RF", "DV"."FX_DATE_YEARDAYUNV", "DV"."DV_BRB_BUDGETARYORGAN"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_BRB_EVALBO"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_BRB_EVALBO"."REFPERFEVALBO"="DV"."D_BRB_PERFEVALBO"."ID") AND ("DV"."F_BRB_EVALBO"."REFSTATETASK"="DV"."D_BRB_STATETASK"."ID") AND ("DV"."F_BRB_EVALBO"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_BRB_EVALBO"."REFYEAR"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_BRB_EVALBO"."REFBUDGETARYORGAN"="DV"."DV_BRB_BUDGETARYORGAN"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_BRB_EVALBO"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.BRB.EvalBO]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[fb94853f-95c7-4f1a-b7e9-b926d0aec12c]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[c4ed805f-fb35-42de-8470-b8b8a47ec801]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[bffd49bb-a87a-4a57-a836-8165e9af5275]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{240}{3705}{2370}{925}{1})({dv}{DV.D_BRB_STATETASK}{DV.D_BRB_STATETASK}{2280}{5610}{2265}{955}{1})({dv}{DV.D_BRB_PERFEVALBO}{DV.D_BRB_PERFEVALBO}{1245}{5055}{2775}{925}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{3345}{5610}{2280}{910}{1})({dv}{DV.F_BRB_EVALBO}{DV.F_BRB_EVALBO}{1665}{345}{2910}{3035}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{5415}{3945}{2400}{925}{1})({dv}{DV.DV_BRB_BUDGETARYORGAN}{DV.DV_BRB_BUDGETARYORGAN}{4365}{5010}{2910}{910}{1})]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_BRB_EVALBO"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_BRB_EVALBO"."REFPERFEVALBO"="DV"."D_BRB_PERFEVALBO"."ID") AND ("DV"."F_BRB_EVALBO"."REFSTATETASK"="DV"."D_BRB_STATETASK"."ID") AND ("DV"."F_BRB_EVALBO"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_BRB_EVALBO"."REFYEAR"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_BRB_EVALBO"."REFBUDGETARYORGAN"="DV"."DV_BRB_BUDGETARYORGAN"."ID")]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="БОР.Бюджетные учреждения" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все БУ]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_BRB_BUDGETARYORGAN"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Бюджетное учреждение" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_BRB_BUDGETARYORGAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="БОР.Госзадание" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все госзадания]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Госзадание" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_BRB_STATETASK"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="БОР.Показатели оценки БУ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_BRB_PERFEVALBO"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Год предшествующий отчетному" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_BRB_EVALBO"."PREVIOUSYEAR"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Отчетный год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_BRB_EVALBO"."FISCALYEAR"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Текущий год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_BRB_EVALBO"."CURRENTYEAR"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Очередной год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_BRB_EVALBO"."NEXTYEAR"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Первый год планового периода" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."F_BRB_EVALBO"."PLANNEDYEAR"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ФО_БОР_Оценка БУ" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_БОР_ОценкаБУ_ФО_БОР_ОценкаБУ_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_BRB_EVALBO"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_BRB_EVALBO"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_BRB_EVALBO", "DV"."DATASOURCES", "DV"."D_BRB_PERFEVALBO", "DV"."D_BRB_STATETASK", "DV"."D_TERRITORY_RF", "DV"."FX_DATE_YEARDAYUNV", "DV"."DV_BRB_BUDGETARYORGAN"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_BRB_EVALBO"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_BRB_EVALBO"."REFPERFEVALBO"="DV"."D_BRB_PERFEVALBO"."ID") AND ("DV"."F_BRB_EVALBO"."REFSTATETASK"="DV"."D_BRB_STATETASK"."ID") AND ("DV"."F_BRB_EVALBO"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_BRB_EVALBO"."REFYEAR"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_BRB_EVALBO"."REFBUDGETARYORGAN"="DV"."DV_BRB_BUDGETARYORGAN"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[ca54082c-5b4b-457f-8127-2ff352812437]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[bffd49bb-a87a-4a57-a836-8165e9af5275]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

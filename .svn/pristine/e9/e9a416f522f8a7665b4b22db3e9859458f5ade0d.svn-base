@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Правила создания и использования доменных объектов</title>
+	</head>
+	<body>
+	    <h1>Правила создания и использования доменных объектов</h1>
+
+	    <h2>Структура сборки Krista.FM.Domain</h2>
+
+	    <p>
+	    В корне сборки должны лежать слежующие два класса: DomainObject.cs и DomainObjectsKeys.cs, 
+	    а так же данное руководство. Ни каких других классов в корне лежать не должно.
+	    </p>
+	    <p>
+	    Все доменные классы должны распологаться в подпапках 
+	    соответствующим пакетам из дизайнера схем.
+	    Например: <code>Krista.FM.Domain\ФО\ФО_0030_Долговые обязательства\Долговая книга\D_S_TitleReport.cs</code>
+	    </p>
+	    <p>
+	    Папки проекта не должны определять пространство имен. 
+	    Все доменные классы должны быть расположены в пространстве <code>Krista.FM.Domain</code>.
+	    По умолчанию папки определяют пространство имен, для того чтобы отключить это, необходимо
+	    для папки установить свойство <code>Namespace Provider</code> в <code>true</code>.
+	    </p>
+	    
+	    <h2>Создание доменных классов</h2>
+	    
+	    <h3>Определение класса</h3>
+	    
+	    <p>
+	    Каждый доменный класс должен распологаться в отдельном файле. 
+	    Имя класса должно соответствовать английскому имени объекта из дидайнера (FullDBName),
+	    причем имя класса должно начинаться с большой буквы, например: <code>D_S_TitleReport</code>.
+	    Класс должен быть унаследован от абстрактного класса <code>DomainObject</code>.
+	    В класса должно быть статическое строковое свойство <code>Key</code>, 
+	    значением которого должен быть Guid (ObjectKey) объекта дизайнера.
+	    </p>
+	    
+	    <h3>Определение свойств класса</h3>
+	    <p>
+	    В теле класса должны быть реализованы свойства соответствующие полям объекта дизайнера.
+	    Имена свойств должны полностью совпадать с именами полей из дизайнера.
+	    Свойства должны быть открытыми и виртуальными, должны иметь get-тер и set-тер.
+	    Свойство ID не нужно определять, т.к. оно уже определено в базовом классе <code>DomainObject</code>. 
+	    </p>
+	    
+	    Таблица соответствий типов:
+    
+	    <table>
+	        <thead>
+	            <tr>
+	                <th>Тип из дизайнера</th>
+	                <th>Тип из свойства класса</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	                <td>Строковый</td>
+	                <td>string</td>
+	            </tr>
+	            <tr>
+	                <td>Целый</td>
+	                <td>int</td>
+	            </tr>
+	            <tr>
+	                <td>Вещественный</td>
+	                <td>decimal</td>
+	            </tr>
+	            <tr>
+	                <td>Символьный</td>
+	                <td>char</td>
+	            </tr>
+	            <tr>
+	                <td>Логический</td>
+	                <td>bool</td>
+	            </tr>
+	            <tr>
+	                <td>Дата</td>
+	                <td>DateTime</td>
+	            </tr>
+	            <tr>
+	                <td>Дата и время</td>
+	                <td>DateTime</td>
+	            </tr>
+	            <tr>
+	                <td>BLOB</td>
+	                <td>byte[]</td>
+	            </tr>
+	        </tbody>
+	    </table>
+	    
+	    <h2>Работа с доменными объектами</h2>
+	    
+	    <h3>Создание новых объектов</h3>
+	    
+	    <p>
+	    Для создания нового доменного объекта необходимо использовать оператор <code>new</code>.
+	    </p>
+	    <p>
+	    Например: <code>D_S_TitleReport dSTitleReport = new D_S_TitleReport();</code>
+	    </p>
+	    
+	    <h3>Получение существующих объектов</h3>
+
+	    <p>
+	    Для получения доменных объектов необходимо использовать объект <code>DomainRepository</code>.
+	    В <code>DomainRepository</code> есть два метода: 
+	    <code>Get&lt;T&gt;(int id)</code> - получение объекта указанного типа по его ID,
+	    <code>GetAll&lt;T&gt;()</code> - получение всех объектов указанного типа.
+	    </p>
+
+	    <p>
+	    Например: <code>D_S_TitleReport dSTitleReport = domainRepository.Get&lt;D_S_TitleReport&gt;(12);</code>
+	    </p>
+	    
+	    <p>
+	    или: <code>IList&lt;D_S_TitleReport&gt; list = domainRepository.GetAll&lt;D_S_TitleReport&gt;();</code>
+	    </p>
+
+	    <p>
+	    <code>DomainRepository</code> умеет только создавать доменные объекты и наполнять их данными.
+	    Сами данные объект <code>DomainRepository</code> получать из базы данных или другого внешнего источника
+	    не умеет, для того чтобы он мог получать данные ему необходимо передать
+	    реализацию <code>IDomainDataService</code>. 
+	    На данный момент реализовано два варианта <code>IDomainDataService</code>: 
+	    <code>SchemeDataService</code> и <code>DataSetDataService</code>.
+	    </p>
+	    
+	    <h4>Используя сервер приложений</h4>
+	    
+	    <p>
+	    Для получения данных из хранилища данных (от сервера приложений) необходимо создать 
+	    репозиторий и передать ему объект <code>SchemeDataService</code>.
+	    </p>
+
+	    <p>
+	    Например: <code>DomainRepository domainRepository = new DomainRepository(new SchemeDataService(scheme));</code>,
+	    где <code>scheme</code> - это объект схемы <code>IScheme</code>.
+	    </p>
+	    
+	    <h4>Используя имеющийся DataSet</h4>
+
+	    <p>
+	    Для получения данных из хранилища данных (от сервера приложений) необходимо создать 
+	    репозиторий и передать ему объект <code>SchemeDataService</code>.
+	    </p>
+
+	    <p>
+	    Например: <code>DomainRepository domainRepository = new DomainRepository(new DataSetDataService(damainDataSet));</code>,
+	    где <code>damainDataSet</code> - это DataSet, имена таблиц должны соответствовать именам доменных классов.
+	    </p>
+	    
+	</body>
+</html>

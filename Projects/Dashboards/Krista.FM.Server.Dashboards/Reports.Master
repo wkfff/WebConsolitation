@@ -1,0 +1,112 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Reports.master.cs" Inherits="Krista.FM.Server.Dashboards.ReportsMasterPage" %>
+
+<%@ Register Src="Components/DataSourceInformer.ascx" TagName="DataSourceInformer"
+    TagPrefix="uc2" %>
+<%@ Register Src="components/Header.ascx" TagName="Header" TagPrefix="uc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta content="text/html; charset=utf-8" />
+    <title>Untitled Page</title>
+</head>
+<script type="text/javascript" language="JavaScript">
+<!--  
+function setName()
+    {	
+	    var h = Math.ceil(document.body.scrollHeight / 30) * 30 + 30;
+        var ie = 0 /*@cc_on + @_jscript_version @*/;
+        if (!ie) window.name = "h" + h;
+        else 
+	    {
+            debugger;
+            var QueryString = new Array();
+            if ( location.search.length > 1 ) 
+            {                
+                QueryString["_"]="";
+                var qs_query = location.search.substring( 1, location.search.length );
+                var qs_pairs = qs_query.split( '&' );
+
+                for ( var qs_index = 0; qs_index < qs_pairs.length; qs_index++ ) 
+                {
+                    var qs_element = qs_pairs[qs_index].split( '=' );
+                    QueryString[qs_element[0]] = unspace( unescape( qs_element[1] ) );
+                }
+            }
+            debugger;
+		    var myVar = QueryString["ret"];
+		    myVar += "/#h";
+		    top.location.replace(myVar + h);
+        }
+    } 
+
+function unspace( qs_element ) {
+ return qs_element.split( '+' ).join( ' ' );
+}
+
+window.onresize = function(e) 
+{
+    getSize();
+}
+
+var pageWidth = 0;
+
+function getSize()
+{
+    var x;
+    var y;
+	if(document.compatMode=='CSS1Compat')
+	{	
+	     x = document.documentElement.clientWidth;
+	     y = document.documentElement.clientHeight;
+	}	
+	else
+	{
+	     x = document.body.clientWidth;
+	     y = document.body.clientHeight;
+	}	
+    var headerTitleDiv = document.getElementById('ctl00_Header1_headerTitle');
+    if (headerTitleDiv != null)
+    {
+        if (headerTitleDiv.className == "PageHeaderTitleShort" || headerTitleDiv.className == "PageHeaderTitle") 
+        {   
+            headerTitleDiv.className = x < 1000 ? "PageHeaderTitleShort" : "PageHeaderTitle";
+        }
+        else
+        {
+            headerTitleDiv.className = x < 1000 ? "PageHeaderTitleShortIndex" : "PageHeaderTitleIndex";
+        }
+    }
+    pageWidth = x;
+    var expireDate = new Date();
+    var today = new Date();
+    expireDate.setDate(1 + expireDate.getDate());  
+    try
+    {  
+        document.cookie = "width_size=" + x + "; expires" + expireDate.toGMTString() + ";";
+        document.cookie = "height_size=" + y + "; expires" + expireDate.toGMTString() + ";";	
+    }
+    catch (exception)
+    {;}
+}
+-->
+</script>
+<body link="#1572b4" vlink="#6c8b8b" class="backgroundGray" onload="javascript:getSize();">
+    <div id="overlay" class="overlay" style="display: none">
+    </div>
+    <form id="form1" runat="server">
+    <div style="margin: 10px 10px">
+        <uc1:Header ID="Header1" runat="server" />
+        <asp:HyperLink ID="iMonitoring" runat="server" SkinID="HyperLink" Visible="False">HyperLink</asp:HyperLink>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+        <script type="text/javascript">
+            try { igtbl_Grid.prototype._alignFilterRow = function () { }; } catch (ex) { }
+        </script>
+        <uc2:DataSourceInformer ID="DataSourceInformer1" runat="server" />
+    </div>
+    <!-- <div class="Footer" style="width: 98%; position: absolute; top: 96%" >НПО Криста</div> -->
+    <div id="twitterButton" style="margin-left: 15px" runat="server">
+    </div>
+    </form>
+</body>
+</html>

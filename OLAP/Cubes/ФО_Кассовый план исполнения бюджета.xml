@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФО_Кассовый план исполнения бюджета" ClassType="9" SubClassType="0" Description="Данные по кассовому плану исполнения бюджета." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="26" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="26">
+  <property name="SourceTable"><![CDATA["DV"."F_F_CACHPLBUD"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_F_CACHPLBUD"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_F_CACHPLBUD", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."FX_MARKS_CACHPLBUD"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_F_CACHPLBUD"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_CACHPLBUD"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_F_CACHPLBUD"."REFMARKS"="DV"."FX_MARKS_CACHPLBUD"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_F_CACHPLBUD"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{120}{870}{1905}{910}{1})({dv}{DV.F_F_CACHPLBUD}{DV.F_F_CACHPLBUD}{2537}{754}{2265}{5825}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{6765}{5250}{2565}{1015}{1})({dv}{DV.FX_MARKS_CACHPLBUD}{DV.FX_MARKS_CACHPLBUD}{5670}{5280}{2610}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[35563692-8f7c-4f4b-8449-fe539999df0c]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[234c3eec-72b6-4e6b-b043-26e93f732255]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.F.CachPlBud]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[41916b06-310e-43d2-95cc-1c02827fc9a2]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.Кассовый план исполнения бюджета" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Фиксированный" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_MARKS_CACHPLBUD"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Исполнено с начала года" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."FACT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Сводная бюджетная роспись" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."SBR"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Годовой кассовый план" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."YEARPLAN"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Квартал 1" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."QUART1"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Квартал 2" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."QUART2"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Квартал 3" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="6">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."QUART3"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Квартал 4" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="7">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."QUART4"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 1" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="8">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH1"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 2" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="9">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH2"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 3" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="10">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH3"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 4" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="11">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH4"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 5" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="12">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH5"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 6" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="13">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH6"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 7" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="14">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH7"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 8" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="15">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH8"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 9" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="16">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH9"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 10" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="17">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH10"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 11" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="18">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH11"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месяц 12" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="19">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CACHPLBUD"."MONTH12"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ФО_Кассовый план исполнения бюджета" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_Кассовыйплан_ФО_Кассовыйпланисполнениябюджета_" EstimatedRows="26" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_F_CACHPLBUD"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_F_CACHPLBUD"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_F_CACHPLBUD", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."FX_MARKS_CACHPLBUD"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_F_CACHPLBUD"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_CACHPLBUD"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_F_CACHPLBUD"."REFMARKS"="DV"."FX_MARKS_CACHPLBUD"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[fcb7f706-fc6d-4f17-bd30-0f0ffcb5918b]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[41916b06-310e-43d2-95cc-1c02827fc9a2]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

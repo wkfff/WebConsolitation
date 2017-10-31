@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="МФ РФ_Сумма долга по ценным бумагам" ClassType="9" SubClassType="0" Description="Таблица содержит информацию о номинальной сумме долга по ценным бумагам субъектов Российской Федерации и муниципальных образований." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_MFRF_DEBTCAPITAL"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_MFRF_DEBTCAPITAL"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_MFRF_DEBTCAPITAL", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_MFRF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."FX_FX_BUDGETLEVELS", "DV"."D_MFRF_ISSUECAPITAL"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_MFRF_DEBTCAPITAL"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_MFRF_DEBTCAPITAL"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_TERRITORY_MFRF"."REFTERRITORYRFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_MFRF_DEBTCAPITAL"."REFTERRITORY"="DV"."D_TERRITORY_MFRF"."ID") AND ("DV"."F_MFRF_DEBTCAPITAL"."REFBUDLEVELS"="DV"."FX_FX_BUDGETLEVELS"."ID") AND ("DV"."F_MFRF_DEBTCAPITAL"."REFISSUECAPITAL"="DV"."D_MFRF_ISSUECAPITAL"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_MFRF_DEBTCAPITAL"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{195}{1245}{2220}{910}{1})({dv}{DV.F_MFRF_DEBTCAPITAL}{DV.F_MFRF_DEBTCAPITAL}{1905}{570}{2445}{3230}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{375}{4830}{2475}{910}{1})({dv}{DV.D_TERRITORY_MFRF}{DV.D_TERRITORY_MFRF}{1785}{5040}{2355}{910}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{1770}{7845}{2610}{910}{1})({dv}{DV.FX_FX_BUDGETLEVELS}{DV.FX_FX_BUDGETLEVELS}{3075}{4875}{2325}{940}{1})({dv}{DV.D_MFRF_ISSUECAPITAL}{DV.D_MFRF_ISSUECAPITAL}{4710}{4575}{2520}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[6b6ffac9-d6e2-4dec-92ec-28d00c47359d]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[0bcb921d-f526-42b6-bc81-aff1fc6fe9ba]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.MFRF.DebtCapital]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[9f250fc3-b355-4e76-b21c-93a3bdffd198]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.МФРФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_MFRF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Уровни бюджетов" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Уровень бюджета" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_FX_BUDGETLEVELS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="МФ РФ.Выпуски ценных бумаг" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Выпуск ценных бумаг" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_MFRF_ISSUECAPITAL"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Номинальная сумма долга" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_MFRF_DEBTCAPITAL"."SUM"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Темп роста к началу года" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к началу года] AS '/*IIF(isEmpty([Период].[Период].CurrentMember)/* or IsEmpty((Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]).PrevMember.LastChild, [Measures].[Номинальная сумма долга])) or (Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]).PrevMember.LastChild, [Measures].[Номинальная сумма долга]) = 0, null, */
+IIF(isEmpty(([Период].[Период].CurrentMember, [Measures].[Номинальная сумма долга])) or IsEmpty((Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]).PrevMember.LastChild, [Measures].[Номинальная сумма долга])) or (Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]).PrevMember.LastChild, [Measures].[Номинальная сумма долга]) = 0, null, 
+([Период].[Период].CurrentMember, [Measures].[Номинальная сумма долга]) / (Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год]).PrevMember.LastChild, [Measures].[Номинальная сумма долга]))', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="МФ РФ_Сумма долга по ценным бумагам" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="МФРФ_Суммадолгапо_МФРФ_Суммадолгапоценнымбумагам_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_MFRF_DEBTCAPITAL"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_MFRF_DEBTCAPITAL"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_MFRF_DEBTCAPITAL", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_MFRF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."FX_FX_BUDGETLEVELS", "DV"."D_MFRF_ISSUECAPITAL"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_MFRF_DEBTCAPITAL"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_MFRF_DEBTCAPITAL"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_TERRITORY_MFRF"."REFTERRITORYRFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_MFRF_DEBTCAPITAL"."REFTERRITORY"="DV"."D_TERRITORY_MFRF"."ID") AND ("DV"."F_MFRF_DEBTCAPITAL"."REFBUDLEVELS"="DV"."FX_FX_BUDGETLEVELS"."ID") AND ("DV"."F_MFRF_DEBTCAPITAL"."REFISSUECAPITAL"="DV"."D_MFRF_ISSUECAPITAL"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[b8be2fe3-b389-4798-ad8a-563dd46588ea]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[9f250fc3-b355-4e76-b21c-93a3bdffd198]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

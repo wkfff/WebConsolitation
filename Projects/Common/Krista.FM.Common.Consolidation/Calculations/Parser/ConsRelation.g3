@@ -1,0 +1,760 @@
+grammar ConsRelation;
+
+options {
+	backtrack=true; 
+	memoize=true;
+    language=CSharp3;
+    TokenLabelType=CommonToken;
+    output=AST;
+    ASTLabelType=ConsRelationTree;
+}
+
+tokens {
+	Rows;
+	Cols;
+	LValue;
+	RValue;
+	Selector;
+	SlaveLayer;
+	Subject;
+	ConsSel;
+}
+
+@header {
+using System;
+using System.Globalization;
+using System.Text;
+using Krista.FM.Common.Consolidation.Calculations.Expressions;
+}
+
+@lexer::namespace{Krista.FM.Common.Consolidation.Calculations.Parser}
+@parser::namespace{Krista.FM.Common.Consolidation.Calculations.Parser}
+
+@members {
+	private const char BS = '\\';
+	private static NumberFormatInfo numberFormatInfo = new NumberFormatInfo();
+
+	private string extractString(string text) {
+    
+		StringBuilder sb = new StringBuilder(text);
+		int startIndex = 1; // Skip initial quote
+		int slashIndex = -1;
+
+		while ((slashIndex = sb.ToString().IndexOf(BS, startIndex)) != -1)
+		{
+			char escapeType = sb[slashIndex + 1];
+			switch (escapeType)
+			{
+				case 'u':
+				  string hcode = String.Concat(sb[slashIndex+4], sb[slashIndex+5]);
+				  string lcode = String.Concat(sb[slashIndex+2], sb[slashIndex+3]);
+				  char unicodeChar = Encoding.Unicode.GetChars(new byte[] { System.Convert.ToByte(hcode, 16), System.Convert.ToByte(lcode, 16)} )[0];
+				  sb.Remove(slashIndex, 6).Insert(slashIndex, unicodeChar); 
+				  break;
+				case 'n': sb.Remove(slashIndex, 2).Insert(slashIndex, '\n'); break;
+				case 'r': sb.Remove(slashIndex, 2).Insert(slashIndex, '\r'); break;
+				case 't': sb.Remove(slashIndex, 2).Insert(slashIndex, '\t'); break;
+				case '\'': sb.Remove(slashIndex, 2).Insert(slashIndex, '\''); break;
+				case '\\': sb.Remove(slashIndex, 2).Insert(slashIndex, '\\'); break;
+				default: throw new RecognitionException("Unvalid escape sequence: \\" + escapeType);
+			}
+
+			startIndex = slashIndex + 1;
+
+		}
+
+		sb.Remove(0, 1);
+		sb.Remove(sb.Length - 1, 1);
+
+		return sb.ToString();
+	}
+}
+
+/*
+ * Parser Rules
+ */
+
+public verifyRelation returns [ConsRelationExpression Value]
+	: lvalueSelector compareOp^ expr { $Value = new VerifyRelation($compareOp.Value, $lvalueSelector.Value, $expr.Value); }
+	| constant compareOp^ expr { $Value = new VerifyRelation($compareOp.Value, $constant.Value, $expr.Value); }
+	;
+
+public assignRelation returns [ConsRelationExpression Value]
+	: lvalueSelector assignOp^ expr { $Value = new AssignRelation($lvalueSelector.Value, $expr.Value); }
+	;
+
+public checkRelation returns [ConsRelationExpression Value]
+	: undependRowSelector { $Value = new CheckRelation($undependRowSelector.Value); }
+	;
+	
+public consRowGenRelation returns [ConsRelationExpression Value]
+	: lvalueSelector consOp^ consSelector { $Value = new ConsRowGenRelation($lvalueSelector.Value, $consSelector.Value); }
+	;
+
+public totalRowGenRelation returns [ConsRelationExpression Value]
+	: lvalueSelector totalOp^ consSelector { $Value = new TotalRowGenRelation($lvalueSelector.Value, $consSelector.Value); }
+	;
+	
+lvalueSelector returns [LeftValueSelector Value]
+	: rows=undependRowSelector '.' GRAFA? '[' cols=colsSelector ']' { $Value = new LeftValueSelector($rows.Value, $cols.Value); } -> ^(LValue $rows $cols)
+	;
+	
+undependRowSelector returns [UndependRowSelector Value]
+	: ROW '[' (undpCond=undependCond)? ']' { $Value = new UndependRowSelector($undpCond.Value); } -> ^(Rows ($undpCond)?)
+	;
+	
+// undepend condition		
+undependParCond returns [ConsRelationExpression Value]
+    : '('! undependCond ')'! { $Value = $undependCond.Value; }
+    ;
+    
+undependCond returns [ConsRelationExpression Value]
+    : left=undependAndExpr { $Value = $left.Value; } ( or^ right=undependAndExpr { $Value = new BinaryExpression(BinaryExpressionTypes.Or, $Value, $right.Value); } )*
+    ;
+
+undependAndExpr returns [ConsRelationExpression Value]
+    : left=undependEQExpr { $Value = $left.Value; } ( and^ right=undependEQExpr { $Value = new BinaryExpression(BinaryExpressionTypes.And, $Value, $right.Value); } )*
+    ;
+
+undependEQExpr returns [ConsRelationExpression Value]
+    : left=undependRelatExpr { $Value = $left.Value; } ( op=equalityOp^ right=undependRelatExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+undependRelatExpr returns [ConsRelationExpression Value]
+    : left=undependAdditiveExpr { $Value = $left.Value; } ( op=relationalOp^ right=undependAdditiveExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+    	
+undependAdditiveExpr returns [ConsRelationExpression Value]
+    : left=undependMultiplicativeExpr { $Value = $left.Value; } ( op=additiveOp^ right=undependMultiplicativeExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+undependMultiplicativeExpr returns [ConsRelationExpression Value]
+	: left=undependUnaryExpr { $Value = $left.Value; } ( op=multiplicativeOp^ right=undependUnaryExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+	;
+
+undependUnaryExpr returns [ConsRelationExpression Value]
+	: not^ undependPrimary { $Value = new UnaryExpression(UnaryExpressionTypes.Not, $undependPrimary.Value); }
+    | undependPrimary { $Value = $undependPrimary.Value; }
+    ;
+
+undependPrimary returns [ConsRelationExpression Value]
+    : undependParCond { $Value = $undependParCond.Value; }
+    | undependComp { $Value = $undependComp.Value; }
+    ;
+
+undependComp returns [ConsRelationExpression Value]
+options {backtrack=true;}
+	: a=logicFunc '(' b=undependParams? ')' { $Value = new LogicFunction($a.Value, $b.Value); } -> ^($a ($b)?)
+	| c=existFunc '(' d=dependSelector ')' { $Value = new ExistFunction($c.Value, $d.Value); } -> ^($c $d)
+	| f=undependParam g=IN '(' h=constants ')' { $Value = new InStatement($f.Value, $h.Value); } -> ^($g $f $h)
+	| undependParam { $Value = $undependParam.Value; }
+	;
+	
+undependParams returns [List<ConsRelationExpression> Value]
+@init {	List<ConsRelationExpression> expressions = new List<ConsRelationExpression>(); }
+	: first=undependParam { expressions.Add($first.Value); } (',' follow=undependParam { expressions.Add($follow.Value); } )* { $Value = expressions; } -> undependParam+
+	;
+	
+undependParam returns [ConsRelationExpression Value]
+	: cons=constant { $Value = $cons.Value; }
+	| '.' a=colName (b=refs)? { $Value = new UndependParamColumn($a.Value); } -> ^($a ($b)?)
+	| '.'? GRAFA '[' f=colName ']' (g=refs)? { $Value = new UndependParamColumn($f.Value); } -> ^($f ($g)?)
+	| c=calcFunc '(' d=undependParams? ')' { $Value = new CalcFunction($c.Value, $d.Value); } -> ^($c ($d)?)
+	| i=SUBECT '()'? (h=refs)? { $Value = new Subject($h.Value); } -> ^(Subject ($h)?)
+	;		
+	 
+// rvalue expression
+
+parExpr returns [ConsRelationExpression Value]
+    : '('! expr ')'! { $Value = $expr.Value; }
+    ;
+    
+exprList returns [List<ConsRelationExpression> Value]
+@init {	List<ConsRelationExpression> expressions = new List<ConsRelationExpression>(); }
+    : first=expr { expressions.Add($first.Value); } (',' follow=expr { expressions.Add($follow.Value); } )* { $Value = expressions; } -> expr+
+    ;
+
+expr returns [ConsRelationExpression Value]
+    : left=andExpr { $Value = $left.Value; } ( or^ right=andExpr { $Value = new BinaryExpression(BinaryExpressionTypes.Or, $Value, $right.Value); } )*
+    ;
+
+andExpr returns [ConsRelationExpression Value]
+    : left=equalityExpr { $Value = $left.Value; } ( and^ right=equalityExpr { $Value = new BinaryExpression(BinaryExpressionTypes.And, $Value, $right.Value); } )*
+    ;
+
+equalityExpr returns [ConsRelationExpression Value]
+    : left=relationalExpr { $Value = $left.Value; } ( op=equalityOp^ right=relationalExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+relationalExpr returns [ConsRelationExpression Value]
+    : left=additiveExpr { $Value = $left.Value; } ( op=relationalOp^ right=additiveExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+    
+additiveExpr returns [ConsRelationExpression Value]
+    : left=multiplicativeExpr { $Value = $left.Value; } ( op=additiveOp^ right=multiplicativeExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+multiplicativeExpr returns [ConsRelationExpression Value]
+	: left=unaryExpression { $Value = $left.Value; } ( op=multiplicativeOp^ right=unaryExpression { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+	;
+    
+unaryExpression returns [ConsRelationExpression Value]
+	: '+'! a=unaryExpression { $Value = $a.Value; }
+	| '-'^ b=unaryExpression { $Value = new UnaryExpression(UnaryExpressionTypes.Negate, $b.Value); }
+	| unaryExpressionNotPlusMinus { $Value = $unaryExpressionNotPlusMinus.Value; }
+	;
+
+unaryExpressionNotPlusMinus returns [ConsRelationExpression Value]
+	: NOT^ unaryExpression { $Value = new UnaryExpression(UnaryExpressionTypes.Not, $unaryExpression.Value); }
+	| primary { $Value = $primary.Value; }
+	;
+
+primary returns [ConsRelationExpression Value]
+	: parExpr { $Value = $parExpr.Value; }
+	| param { $Value = $param.Value; }
+	| a=calcFunc '(' b=params ')' { $Value = new CalcFunction($a.Value, $b.Value); } -> ^($a $b)
+	| c=groupFunc '(' d=rvalueSelector ')' { $Value = new GroupFunction($c.Value, $d.Value); } -> ^($c $d)
+	| e=rvalueSelector { $Value = $e.Value; }
+	;
+
+params returns [List<ConsRelationExpression> Value]
+@init {	List<ConsRelationExpression> expressions = new List<ConsRelationExpression>(); }
+    : first=param { expressions.Add($first.Value); } (',' follow=param { expressions.Add($follow.Value); } )* { $Value = expressions; } -> param+
+    ;
+	
+param returns [ConsRelationExpression Value]
+	: constant { $Value = $constant.Value; }
+	| '.' a=colName (b=refs)? { $Value = new ParamColumn($a.Value); } -> ^($a ($b)?)
+	| '.'? GRAFA '[' c=colName ']' { $Value = new ParamColumn($c.Value); } (d=refs)? -> ^($c ($d)?)
+	| i=SUBECT '()'? (h=refs)? { $Value = new Subject($h.Value); } -> ^(Subject ($h)?)
+	;		
+
+refs returns [List<ConsRelationExpression> Value]
+@init {	List<ConsRelationExpression> expressions = new List<ConsRelationExpression>(); }
+	: (DOT^ ref { expressions.Add($ref.Value); } )+ { $Value = expressions; }
+	;
+	
+ref returns [ConsRelationExpression Value]
+	: attrName { $Value = new ClassProperty($attrName.Value); }
+	| a=methodName '(' b=params? ')' { $Value = new ClassMethod($a.Value, $b.Value); } -> ^($a ($b)?)
+	;		
+	
+rvalueSelector returns [ConsRelationExpression Value]
+ 	: a=dependSelector ((b=param) | ('.' GRAFS '[' c=colsSelector ']') | ('.(' d=rvalueExpr ')'))? { $Value = new RightValueSelector($a.Value, b != null ? $b.Value : $c.Value != null ? new ColsSelector($c.Value) : $d.Value); } -> ^(RValue $a ($b)? ($c)? ($d)?)
+	; 
+
+consSelector returns [ConsRelationExpression Value]
+ 	: a=dependSelector ('.(' b=rvalueExprs ')')? { $Value = new ConsSelector($a.Value, $b.Value); } -> ^(ConsSel $a ($b)?)  
+	; 
+	
+rvalueExprs returns [List<ConsRelationExpression> Value]
+@init {	List<ConsRelationExpression> expressions = new List<ConsRelationExpression>(); }
+    : first=rvalueExpr { expressions.Add($first.Value); } (',' follow=rvalueExpr { expressions.Add($follow.Value); } )* { $Value = expressions; } -> rvalueExpr+
+	;	
+	
+rvalueParExpr returns [ConsRelationExpression Value]
+    : '('! rvalueExpr ')'! { $Value = $rvalueExpr.Value; }
+    ;
+    
+rvalueExpr returns [ConsRelationExpression Value]
+    : left=rvalueAndExpr { $Value = $left.Value; } ( op=or^ right=rvalueAndExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+rvalueAndExpr returns [ConsRelationExpression Value]
+    : left=rvalueEqualityExpr { $Value = $left.Value; } ( op=and^ right=rvalueEqualityExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+rvalueEqualityExpr returns [ConsRelationExpression Value]
+    : left=rvalueRelationalExpr { $Value = $left.Value; } ( op=equalityOp^ right=rvalueRelationalExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+rvalueRelationalExpr returns [ConsRelationExpression Value]
+    : left=rvalueAdditiveExpr { $Value = $left.Value; } ( op=relationalOp^ right=rvalueAdditiveExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+    
+rvalueAdditiveExpr returns [ConsRelationExpression Value]
+    : left=rvalueMultiplicativeExpr { $Value = $left.Value; } ( op=additiveOp^ right=rvalueMultiplicativeExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+rvalueMultiplicativeExpr returns [ConsRelationExpression Value]
+    : left=rvalueUnaryExpression { $Value = $left.Value; } ( op=multiplicativeOp^ right=rvalueUnaryExpression { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+    
+rvalueUnaryExpression returns [ConsRelationExpression Value]
+    : '+'! a=rvalueUnaryExpression { $Value = $a.Value; }
+    | '-'^ b=rvalueUnaryExpression { $Value = new UnaryExpression(UnaryExpressionTypes.Negate, $b.Value); }
+    | rvalueUnaryExpressionNotPlusMinus { $Value = $rvalueUnaryExpressionNotPlusMinus.Value; }
+    ;
+
+rvalueUnaryExpressionNotPlusMinus returns [ConsRelationExpression Value]
+    : NOT^ rvalueUnaryExpression { $Value = new UnaryExpression(UnaryExpressionTypes.Not, $rvalueUnaryExpression.Value); }
+    | rvaluePrimary { $Value = $rvaluePrimary.Value; }
+	;
+
+rvaluePrimary returns [ConsRelationExpression Value]
+    : rvalueParExpr { $Value = $rvalueParExpr.Value; }
+	| param { $Value = $param.Value; }
+	| a=calcFunc '(' b=params ')' { $Value = new CalcFunction($a.Value, $b.Value); } -> ^($a $b)
+    ;
+
+dependSelector returns [ConsRelationExpression Value]
+	: (a=layerSelector '.')? (b=formSelector '.')? (c=sectionSelector '.')? d=dependRowSelector { $Value = new DependSelector($d.Value, $a.Value, $b.Value, $c.Value); }
+		-> ^(Selector ($a)? ($b)? ($c)? $d)
+	;
+	
+sectionSelector returns [SectionSelector Value]
+	: SECTION '[' a=STRING ']' { $Value = new SectionSelector(extractString($a.text)); } -> ^($a)
+	;
+	
+formSelector returns [FormSelector Value]
+	: FORM '[' a=STRING ']' { $Value = new FormSelector(extractString($a.text)); } -> ^($a)
+	;
+
+layerSelector returns [LayerSelector Value]
+	: SLAVELAYER '[' (a=layerCond)? ']' { $Value = new LayerSelector($a.Value); } -> ^(SlaveLayer ($a)?)
+	;
+	
+layerParCond returns [ConsRelationExpression Value]
+    : '('! layerCond ')'! { $Value = $layerCond.Value; }
+    ;
+    
+layerCond returns [ConsRelationExpression Value]
+    : left=layerAndExpr { $Value = $left.Value; } ( op=or^ right=layerAndExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+layerAndExpr returns [ConsRelationExpression Value]
+    : left=layerEqualityExpr { $Value = $left.Value; } ( op=and^ right=layerEqualityExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+    	
+layerEqualityExpr returns [ConsRelationExpression Value]
+    : left=layerUnaryExpr { $Value = $left.Value; } ( op=equalityOp^ right=layerUnaryExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+layerUnaryExpr returns [ConsRelationExpression Value]
+    : NOT^ layerPrimary  { $Value = new UnaryExpression(UnaryExpressionTypes.Not, $layerPrimary.Value); }
+    | layerPrimary { $Value = $layerPrimary.Value; }
+    ;
+
+layerPrimary returns [ConsRelationExpression Value]
+    : layerParCond { $Value = $layerParCond.Value; }
+    | a=SUBECT '()'? (k=refs)? { $Value = new Subject($k.Value); } -> ^(Subject ($k)?)
+    | constant { $Value = $constant.Value; }
+    ;
+
+dependRowSelector returns [ConsRelationExpression Value]
+	: ROW '[' a=dependCond ']' { $Value = new DependRowSelector($dependCond.Value); } -> ^(Rows $a)
+	;	
+	
+dependParCond returns [ConsRelationExpression Value]
+    : '('! dependCond ')'! { $Value = $dependCond.Value; }
+    ;
+    
+dependCondList returns [List<ConsRelationExpression> Value]
+@init {	List<ConsRelationExpression> expressions = new List<ConsRelationExpression>(); }
+    : first=dependCond { expressions.Add($first.Value); } (',' follow=dependCond { expressions.Add($follow.Value); } )* { $Value = expressions; } -> dependCond+
+    ;
+
+dependCond returns [ConsRelationExpression Value]
+    : left=dependAndExpr { $Value = $left.Value; } ( op=or^ right=dependAndExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+dependAndExpr returns [ConsRelationExpression Value]
+    : left=dependEQExpr { $Value = $left.Value; } ( op=and^ right=dependEQExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+dependEQExpr returns [ConsRelationExpression Value]
+    : left=dependRelatExpr { $Value = $left.Value; } ( op=equalityOp^ right=dependRelatExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+dependRelatExpr returns [ConsRelationExpression Value]
+    : left=dependAdditiveExpr { $Value = $left.Value; } ( op=relationalOp^ right=dependAdditiveExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+    	
+dependAdditiveExpr returns [ConsRelationExpression Value]
+    : left=dependMultiplicativeExpr { $Value = $left.Value; } ( op=additiveOp^ right=dependMultiplicativeExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+    ;
+
+dependMultiplicativeExpr returns [ConsRelationExpression Value]
+	: left=dependUnaryExpr { $Value = $left.Value; } ( op=multiplicativeOp^ right=dependUnaryExpr { $Value = new BinaryExpression($op.Value, $Value, $right.Value); } )*
+	;
+
+dependUnaryExpr returns [ConsRelationExpression Value]
+    : NOT^ dependPrimary { $Value = new UnaryExpression(UnaryExpressionTypes.Not, $dependPrimary.Value); }
+    | dependPrimary { $Value = $dependPrimary.Value; }
+    ;
+
+dependPrimary returns [ConsRelationExpression Value]
+    : dependParCond { $Value = $dependParCond.Value; }
+    | dependComp { $Value = $dependComp.Value; }
+    ;
+
+dependComp returns [ConsRelationExpression Value]
+options {backtrack=true;}
+	: a=logicFunc '(' b=dependParams? ')' { $Value = new LogicFunction($a.Value, $b.Value); } -> ^($a ($b)?)
+	| c=existFunc '(' d=dependSelector ')' { $Value = new ExistFunction($c.Value, $d.Value); } -> ^($c $d)
+	| g=dependParam h=IN '(' i=constants ')' { $Value = new InStatement($g.Value, $i.Value); } -> ^($h $g $i)	
+	| dependParam { $Value = $dependParam.Value; }
+	;				
+	
+dependParams returns [List<ConsRelationExpression> Value]
+@init {	List<ConsRelationExpression> expressions = new List<ConsRelationExpression>(); }
+    : first=dependParam { expressions.Add($first.Value); } (',' follow=dependParam { expressions.Add($follow.Value); } )* { $Value = expressions; } -> dependParam+
+	;
+	
+dependParam returns [ConsRelationExpression Value]
+	: constant { $Value = $constant.Value; }
+	| '$' '.' a=colName (b=refs)? { $Value = new DependContextParamColumn($a.Value); } -> ^($a ($b)?)
+	| '$' '.' GRAFA '[' g=colName ']' (h=refs)? { $Value = new DependContextParamColumn($g.Value); } -> ^($g ($h)?)
+	| '.' c=colName (d=refs)? { $Value = new DependParamColumn($c.Value); } -> ^($c ($d)?)
+	| GRAFA '[' i=colName ']' (j=refs)? { $Value = new DependParamColumn($i.Value); } -> ^($i ($j)?)
+	| e=calcFunc '(' f=dependParams ')' { $Value = new CalcFunction($e.Value, $f.Value); } -> ^($e $f)
+	| l=SUBECT '()'? (k=refs)? { $Value = new Subject($k.Value); } -> ^(Subject ($k)?)
+	;		
+	
+// Nodes
+
+or returns [BinaryExpressionTypes Value]
+	: OR { $Value = BinaryExpressionTypes.Or; }
+	;
+	
+and returns [BinaryExpressionTypes Value]
+	: AND { $Value = BinaryExpressionTypes.And; }
+	;
+	
+compareOp returns [BinaryExpressionTypes Value]
+	: equalityOp { $Value = $equalityOp.Value; }
+	| relationalOp { $Value = $relationalOp.Value; }
+	;	
+
+relationalOp returns [BinaryExpressionTypes Value]
+    : '<=' { $Value = BinaryExpressionTypes.LesserOrEqual; }
+    | '>=' { $Value = BinaryExpressionTypes.GreaterOrEqual; }
+    | '<'  { $Value = BinaryExpressionTypes.Lesser; }
+    | '>'  { $Value = BinaryExpressionTypes.Greater; }
+    ;
+    	
+equalityOp returns [BinaryExpressionTypes Value]
+	: '=' { $Value = BinaryExpressionTypes.Equal; } 
+	| '!=' { $Value = BinaryExpressionTypes.NotEqual; }
+	;
+	
+not returns [UnaryExpressionTypes Value]
+	: NOT { $Value = UnaryExpressionTypes.Not; }
+	;	    	
+
+assignOp returns [ConsRelationExpression Value]
+	: ':=' { $Value = null; }
+	;
+	
+consOp returns [ConsRelationExpression Value]
+	: '<-' { $Value = null; }
+	;
+	
+totalOp returns [ConsRelationExpression Value]
+	: '^-' { $Value = null; }
+	;
+	
+multiplicativeOp returns [BinaryExpressionTypes Value]
+	: '*' { $Value = BinaryExpressionTypes.Times; }
+	| '/' { $Value = BinaryExpressionTypes.Div; }
+	| '%' { $Value = BinaryExpressionTypes.Modulo; }
+	;
+	
+additiveOp returns [BinaryExpressionTypes Value]
+	: '+' { $Value = BinaryExpressionTypes.Plus; } 
+	| '-' { $Value = BinaryExpressionTypes.Minus; }
+	;				
+	
+logicFunc returns [ExistFunctionTypes Value]
+	: IsNULL { $Value = ExistFunctionTypes.IsNull; }
+	| IsNotNULL { $Value = ExistFunctionTypes.IsNotNull; }
+	;		
+	
+existFunc returns [ExistFunctionTypes Value]
+	: IsNULL { $Value = ExistFunctionTypes.IsNull; }
+	| IsNotNULL { $Value = ExistFunctionTypes.IsNotNull; }
+	;		
+	
+calcFunc returns [CalcFunctionTypes Value]
+	: SUBSTR { $Value = CalcFunctionTypes.SubString; }
+	| STRLENGTH { $Value = CalcFunctionTypes.StringLength; }
+	| STRLEFT { $Value = CalcFunctionTypes.StringLeft; }
+	| STRRIGHT { $Value = CalcFunctionTypes.StringRight; }
+	;		
+	
+groupFunc returns [GroupFunctionTypes Value]
+	: SUM { $Value = GroupFunctionTypes.Sum; }
+	| COUNT { $Value = GroupFunctionTypes.Count; }
+	| MIN { $Value = GroupFunctionTypes.Min; }
+	| MAX { $Value = GroupFunctionTypes.Max; }
+	| AVG { $Value = GroupFunctionTypes.Avg; }
+	;	
+
+attrName returns [string Value]
+	: id { $Value = $id.Value; }
+	;
+	
+methodName returns [string Value]
+	: id { $Value = $id.Value; }
+	;			
+	
+constant returns [ValueExpression Value]
+	: INT { try { $Value = new ValueExpression(int.Parse($INT.text)); } catch(System.OverflowException) { $Value = new ValueExpression(long.Parse($INT.text)); } }
+	| FLOAT { $Value = new ValueExpression(decimal.Parse($FLOAT.text, NumberStyles.Currency, numberFormatInfo)); }
+	| STRING { $Value = new ValueExpression(extractString($STRING.text)); }
+	| TRUE { $Value = new ValueExpression(true); }
+	| FALSE { $Value = new ValueExpression(false); }
+	;
+	
+constants returns [List<ValueExpression> Value]
+@init {	List<ValueExpression> expressions = new List<ValueExpression>(); }
+	: first=constant { expressions.Add($first.Value); } (',' follow=constant { expressions.Add($follow.Value); } )* { $Value = expressions; } -> constant+
+	;			
+	
+colsSelector returns [List<string> Value]
+@init {	List<string> expressions = new List<string>(); }
+	: first=colSelector { expressions.Add($first.Value); } (',' follow=colSelector { expressions.Add($follow.Value); } )* { $Value = expressions; } -> ^(Cols colSelector+)
+	;	
+	
+colSelector returns [string Value]
+	: colName { $Value = $colName.Value; }
+	;
+	
+layerName returns [string Value]
+	: id { $Value = $id.Value; }
+	;
+	
+colName returns [string Value]
+	: id { $Value = $id.Value; }
+	;
+	
+id returns [string Value]
+	: ID { $Value = $ID.text; }
+	;
+
+/*
+ * Lexer Rules
+ */
+
+ROW	: 'ROW'
+	| '\u0421\u0422\u0420\u041E\u041A\u0410' // СТРОКА
+	;    
+	
+OR	: 'OR'
+	| '\u0418\u041B\u0418'
+	;
+	
+AND	: 'AND'
+	| '\u0418'
+	;	
+
+PACK 	: 'PACK'
+	| '\u041F\u0410\u0427\u041A\u0410' // ПАЧКА
+	;
+	
+SLAVELAYER
+	: 'SLAVELAYER'
+	| '\u041F\u041E\u0414\u041E\u0422\u0427\u0415\u0422\u041D\u042B\u0419' // ПОДОТЧЕТНЫЙ
+	;
+	
+FORM
+	: 'FORM'
+	| '\u0424\u041E\u0420\u041C\u0410' // ФОРМА
+	;	
+	
+SECTION
+	: 'SECTION'
+	| '\u0420\u0410\u0417\u0414\u0415\u041B' // РАЗДЕЛ
+	;
+	
+IsNULL	: 'ISNULL'
+	| '\u041F\u0423\u0421\u0422\u041E' // ПУСТО
+	;	
+	
+IsNotNULL
+	: 'ISNOTNULL'
+	| '\u041D\u0415\u041F\u0423\u0421\u0422\u041E' // НЕПУСТО
+	;	
+	
+SUBSTR	: 'SUBSTR'
+	| '\u041F\u041E\u0414\u0421\u0422\u0420\u041E\u041A\u0410' // ПОДСТРОКА
+	;	
+	
+STRLENGTH
+	: 'STRLENGTH'
+	| '\u0421\u0422\u0420\u0414\u041B\u0418\u041D\u0410' // СТРДЛИНА
+	;		
+	
+STRLEFT	: 'STRLEFT'
+	| '\u0421\u0422\u0420\u041B\u0415\u0412' // СТРЛЕВ
+	;	
+	
+STRRIGHT: 'STRRIGHT'
+	| '\u0421\u0422\u0420\u041F\u0420\u0410\u0412' // СТРПРАВ
+	;
+	
+SUM	: 'SUM'
+	| '\u0421\u0423\u041C\u041C\u0410' // СУММА
+	;	
+	
+COUNT	: 'COUNT'	
+	| '\u0421\u0427\u0415\u0422' // СЧЕТ
+	;
+	
+MIN	: 'MIN'	
+	| '\u041C\u0418\u041D\u0418\u041C\u0423\u041C' // МИНИМУМ
+	;
+	
+MAX	: 'MAX'	
+	| '\u041C\u0410\u041A\u0421\u0418\u041C\u0423\u041C' // МАКСИМУМ
+	;
+	
+AVG	: 'AVG'	
+	| '\u0421\u0420\u0415\u0414\u041D\u0415\u0415' // СРЕДНЕЕ
+	;
+	
+ASSIGN	: ':='
+	;
+	
+COMMA	: ','			
+	;
+	
+THIS	: '$'
+	;	
+
+MINUS	: '-'
+	;
+	
+PLUS	: '+'	
+	;
+	
+MUL	: '*'	
+	;
+	
+DIV	: '/'	
+	;
+	
+MOD	: '%'	
+	;
+	
+EQ	: '='	
+	;
+	
+NEQ	
+	: '!=' 
+	| '\u041D\u0415\u0420\u0410\u0412\u041D\u041E' // НЕРАВНО
+	;
+	
+LE	: '<='
+	;	
+	
+GE	: '>='
+	;	
+	
+LESS	: '<'	
+	;
+	
+GREAT	: '>'
+	;
+	
+NOT	: 'NOT'	
+	| '!'
+	| '\u041D\u0415' // НЕ
+	;
+	
+TRUE	: 'TRUE'
+	| '\u0418\u0421\u0422\u0418\u041D\u0410' // ИСТИНА
+	;
+	
+FALSE	: 'FALSE'	
+	| '\u041B\u041E\u0416\u042C' // ЛОЖЬ
+	;
+	
+IN	: 'IN'
+	| '\u0412' // В
+	;
+	
+GRAFA	
+	: '\u0413\u0420\u0410\u0424\u0410' // ГРАФА
+	;
+	
+GRAFS	
+	: '\u0413\u0420\u0410\u0424\u042B' // ГРАФЫ
+	;
+	
+SUBECT  : 'SUBJECT'
+	| '\u0421\u0423\u0411\u042A\u0415\u041A\u0422' // СУБЪЕКТ
+	;			
+	
+OpenRoundBr
+	: '('
+	;
+	
+CloseRoundBr
+	: ')'
+	;
+	
+OpenSquareBr		
+	: '['
+	;
+	
+CloseSquareBr
+	: ']'
+	;	
+	
+DOT	: '.'	
+	;
+	
+ID  :	('A'..'Z'|'_'|'\u0410'..'\u042F'|'\u0401') ('A'..'Z'|'0'..'9'|'_'|'\u0410'..'\u042F'|'\u0401')*
+    ;
+
+INT :	'0'..'9'+
+    ;
+
+FLOAT
+    :   ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
+    |   '.' ('0'..'9')+ EXPONENT?
+    |   ('0'..'9')+ EXPONENT
+    ;
+
+COMMENT
+    :   '//' ~('\n'|'\r')* '\r'? '\n' {$channel=Hidden;}
+    |   '/*' ( options {greedy=false;} : . )* '*/' {$channel=Hidden;}
+    ;
+
+WS  :   ( ' '
+        | '\t'
+        | '\r'
+        | '\n'
+        ) {$channel=Hidden;}
+    ;
+
+STRING
+    :  '"' ( ESC_SEQ | ~('\\'|'"') )* '"'
+    |  '\'' ( ESC_SEQ | ~('\\'|'\'') )* '\''
+    ;
+
+fragment
+EXPONENT : ('e'|'E') ('+'|'-')? ('0'..'9')+ ;
+
+fragment
+HEX_DIGIT : ('0'..'9'|'a'..'f'|'A'..'F') ;
+
+fragment
+ESC_SEQ
+    :   '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
+    |   UNICODE_ESC
+    |   OCTAL_ESC
+    ;
+
+fragment
+OCTAL_ESC
+    :   '\\' ('0'..'3') ('0'..'7') ('0'..'7')
+    |   '\\' ('0'..'7') ('0'..'7')
+    |   '\\' ('0'..'7')
+    ;
+
+fragment
+UNICODE_ESC
+    :   '\\' 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+    ;    	

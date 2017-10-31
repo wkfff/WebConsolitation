@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Организации.ФНС_Должники" ClassType="7" SubClassType="0" Description="Классификатор организаций-должников, по которым числиться недоимка." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_ORG_FNSDEBTOR"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Org.FNSDebtor]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[1157397c-a2d2-4190-9e22-f013bfe6012d]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_ORG_FNSDEBTOR}{DV.DV_ORG_FNSDEBTOR}{2400}{600}{2715}{2710}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[c3088c29-b8fa-4fbd-b127-8710db5f4618]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[36ecc7e1-6b7d-4b8e-b93e-91b951f0a4ec]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Организации" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="ИНН">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ORG_FNSDEBTOR"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_ORG_FNSDEBTOR"."INNNAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ИНН" ClassType="31" SubClassType="0" Description="" Caption="ИНН" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_FNSDEBTOR"."INN"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="КПП" ClassType="31" SubClassType="0" Description="" Caption="КПП" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_FNSDEBTOR"."KPP"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Вид задолженности" ClassType="31" SubClassType="0" Description="" Caption="Вид задолженности" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_FNSDEBTOR"."DATAKIND"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код ИФНС" ClassType="31" SubClassType="0" Description="" Caption="Код ИФНС" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_FNSDEBTOR"."IFNS"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ORG_FNSDEBTOR"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

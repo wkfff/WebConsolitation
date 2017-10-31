@@ -1,0 +1,28 @@
+CALCULATE; 
+
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Квартал].members); 
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0); 
+
+END SCOPE; 
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members); 
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0); 
+
+END SCOPE; 
+
+SCOPE([Период__Период].[Период__Период].[Год].members); 
+    this = IIF(not IsEmpty(([Период__Период].[Период__Период].CurrentMember.FirstChild, Measures.CurrentMember)) and ([Период__Период].[Период__Период].CurrentMember.FirstChild, Measures.CurrentMember) <> 0, ([Период__Период].[Период__Период].CurrentMember.FirstChild, Measures.CurrentMember),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0));
+//Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0); 
+
+END SCOPE; 
+
+
+SCOPE(descendants([Период__Период].[Период__Период].[Данные всех периодов])); 
+    this = IIF([Measures].CurrentMember is [Measures].[Первоначальный план] and not IsLeaf([Период__Период].[Период__Период].CurrentMember),
+IIF(not IsEmpty(([Период__Период].[Период__Период].CurrentMember.FirstChild, Measures.CurrentMember)) and ([Период__Период].[Период__Период].CurrentMember.FirstChild, Measures.CurrentMember) <> 0, ([Период__Период].[Период__Период].CurrentMember.FirstChild, Measures.CurrentMember), Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember) and not (Measures.CurrentMember = 0)), 1).Item(0)), 
+(([Период__Период].[Период__Период].CurrentMember, Measures.CurrentMember))); 
+
+END SCOPE;
+

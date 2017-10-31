@@ -1,0 +1,72 @@
+CALCULATE;
+CREATE MEMBER CURRENTCUBE.Measures.[Финансирование] AS ValidMeasure([Measures].[Приход]) - ValidMeasure([Measures].[Возврат прихода]), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Финансирование нараст итог] AS /*IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов]
+or [Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].&[-1]
+or CInt(Mid(MemberToStr([Период__Период].[Период__Период].CurrentMember),25,4))=0
+or CInt(Mid(MemberToStr([Период__Период].[Период__Период].CurrentMember),25,4))=1
+or CInt(Mid(MemberToStr([Период__Период].[Период__Период].CurrentMember),25,4))=10
+or CInt(Mid(MemberToStr([Период__Период].[Период__Период].CurrentMember),25,4))=9991
+or CInt(Mid(MemberToStr([Период__Период].[Период__Период].CurrentMember),25,4))=100,
+([Период__Период].[Период__Период].CurrentMember,Measures.[Финансирование]),
+([Период__Период].[Период__Период].CurrentMember,Measures.[Финансирование])+([Период__Период].[Период__Период].CurrentMember.PrevMember,[Measures].[Финансирование нараст итог]))
+*/
+
+CalculationPassValue(
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+(Measures.[Финансирование], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):[Период__Период].[Период__Период].CurrentMember}, Measures.[Финансирование]))
+, 1), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста финансирования к прошлому периоду] AS IIF(IsEmpty((Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember)), null,
+IIF(((Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember) > 0) and ((Measures.[Финансирование], [Период__Период].[Период__Период].CurrentMember) > 0),
+(Measures.[Финансирование], [Период__Период].[Период__Период].CurrentMember)/(Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember),
+IIF(((Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember) < 0) and ((Measures.[Финансирование], [Период__Период].[Период__Период].CurrentMember) > 0),
+((Measures.[Финансирование], [Период__Период].[Период__Период].CurrentMember) + ABS((Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember))) / ABS((Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember)),
+IIF(((Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember) > 0) and ((Measures.[Финансирование], [Период__Период].[Период__Период].CurrentMember) < 0),
+((Measures.[Финансирование], [Период__Период].[Период__Период].CurrentMember) - (Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember)) / (Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember),
+-(Measures.[Финансирование], [Период__Период].[Период__Период].CurrentMember)/(Measures.[Финансирование], [Период__Период].[Период__Период].PrevMember))))), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Финансирование за аналогичный период прошлого года] AS ([Measures].[Финансирование], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение финансирования от аналогичного периода] AS Measures.[Финансирование] - [Measures].[Финансирование за аналогичный период прошлого года], FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста финансирования к прошлому году] AS IIF(IsEmpty(Measures.[Финансирование за аналогичный период прошлого года]), null,
+IIF((Measures.[Финансирование за аналогичный период прошлого года] > 0) and (Measures.[Финансирование] > 0),
+Measures.[Финансирование]/Measures.[Финансирование за аналогичный период прошлого года],
+IIF((Measures.[Финансирование за аналогичный период прошлого года] < 0) and (Measures.[Финансирование] > 0),
+(Measures.[Финансирование] + ABS(Measures.[Финансирование за аналогичный период прошлого года])) / ABS(Measures.[Финансирование за аналогичный период прошлого года]),
+IIF((Measures.[Финансирование за аналогичный период прошлого года] > 0) and (Measures.[Финансирование] < 0),
+(Measures.[Финансирование] - Measures.[Финансирование за аналогичный период прошлого года]) / Measures.[Финансирование за аналогичный период прошлого года],
+-Measures.[Финансирование]/Measures.[Финансирование за аналогичный период прошлого года])))), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Ассигнования нараст итог] AS CalculationPassValue(
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].CurrentMember)),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, ValidMeasure(Measures.[Ассигнования])))
+, 1), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Ассигнования к прошлому периоду] AS IIF(IsEmpty(ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember))), null,
+IIF((ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember)) > 0) and (ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].CurrentMember)) > 0),
+ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].CurrentMember))/ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember)),
+IIF((ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember)) < 0) and (ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].CurrentMember)) > 0),
+(ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].CurrentMember)) + ABS(ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember)))) / ABS(ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember))),
+IIF((ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember)) > 0) and (ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].CurrentMember)) < 0),
+(ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].CurrentMember)) - ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember))) / ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember)),
+-ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].CurrentMember))/ValidMeasure((Measures.[Ассигнования], [Период__Период].[Период__Период].PrevMember)))))), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Ассигнования за аналогичный период прошлого года] AS ([Measures].[Ассигнования], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение ассигнований от аналогичного периода прошлого года] AS ValidMeasure(Measures.[Ассигнования]) - ValidMeasure([Measures].[Ассигнования за аналогичный период прошлого года]), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста ассигнований к прошлому году] AS IIF(IsEmpty(Measures.[Ассигнования за аналогичный период прошлого года]), null,
+IIF((Measures.[Ассигнования за аналогичный период прошлого года] > 0) and (Measures.[Ассигнования] > 0),
+Measures.[Ассигнования]/Measures.[Ассигнования за аналогичный период прошлого года],
+IIF((Measures.[Ассигнования за аналогичный период прошлого года] < 0) and (Measures.[Ассигнования] > 0),
+(Measures.[Ассигнования] + ABS(Measures.[Ассигнования за аналогичный период прошлого года])) / ABS(Measures.[Ассигнования за аналогичный период прошлого года]),
+IIF((Measures.[Ассигнования за аналогичный период прошлого года] > 0) and (Measures.[Ассигнования] < 0),
+(Measures.[Ассигнования] - Measures.[Ассигнования за аналогичный период прошлого года]) / Measures.[Ассигнования за аналогичный период прошлого года],
+-Measures.[Ассигнования]/Measures.[Ассигнования за аналогичный период прошлого года])))), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от назначений] AS ValidMeasure(Measures.[Ассигнования]) - ValidMeasure(Measures.[Финансирование]), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения назначений] AS IIF (IsEmpty(Measures.[Ассигнования]), null, Measures.[Финансирование] / Measures.[Ассигнования]), FORMAT_STRING = "Percent";
+
+[Measures].[Ассигнования] = 
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember);
+
+[Measures].[Ассигнования нараст итог] = 
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember);

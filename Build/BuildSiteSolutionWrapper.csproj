@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="C:\Program Files\MSBuild\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\MSBuild.ExtensionPack.tasks"/>
+  <UsingTask 
+      TaskName="Krista.FM.Utils.MSBuildPublishSiteTask" 
+       AssemblyName="MSBuildPublishSiteTask, Version=1.0.0.0, Culture=neutral, PublicKeyToken=eb149f928998ec74"/>
+	  
+  <Target Name="BuildSolution">
+    <Exec Command="rmdir /S /Q ..\output\" IgnoreExitCode="True" />
+	<Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\VersionInfo.cs" />
+	<Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] &gt;&gt; ..\Projects\Config\VersionInfo.cs" />
+	<Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] &gt;&gt; ..\Projects\Config\VersionInfo.cs" />
+    <MSBuild Projects="$(SolutionDir)\$(SolutionName).sln" Properties="Configuration=Krista.FM.Server.Dashboards.Release" Targets="Clean;Build"/>
+  </Target>  
+    
+  <Target Name="PublishSite">  
+	<MSBuildPublishSiteTask SolutionName="$(SolutionDir)\$(SolutionName).sln" PublishingProjectsNames="">
+		<Output TaskParameter="PublishingProjectsNames" ItemName="PublishingProjects" />
+	</MSBuildPublishSiteTask>  
+    <MSBuild Projects="@(PublishingProjects)" Properties=" OutDir=bin\Drop\;WebProjectOutputDir=..\..\..\output\$(SolutionName)-$(VersionString);Configuration=Krista.FM.Server.Dashboards.Release" Targets="ResolveReferences;_CopyWebApplication"/> 
+  </Target>
+  
+  <Target Name="CreateArtifact">  
+	<MSBuild.ExtensionPack.Compression.DNZip TaskAction="Create" CompressPath="..\output\$(SolutionName)-$(VersionString)" ZipFileName="..\output\$(SolutionName)-$(VersionString).zip"/>
+	<Exec Command="rmdir /S /Q ..\output\$(SolutionName)-$(VersionString)" IgnoreExitCode="True" />
+  </Target>
+  
+  <Target Name="CopyToServer">  
+	<Exec Command="%windir%\system32\xcopy /EIY ..\output\$(SolutionName)-$(VersionString) $(WebProjectDeployDir)"/>
+  </Target>
+  
+  <Target Name="BuildSolutionWrapper" DependsOnTargets="BuildSolution;PublishSite;CopyToServer;CreateArtifact" />
+</Project>

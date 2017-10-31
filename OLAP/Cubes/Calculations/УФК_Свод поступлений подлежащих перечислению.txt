@@ -1,0 +1,44 @@
+CALCULATE;
+
+//Уровни бюджетов 
+([Уровни бюджетов].[Уровни бюджетов].&[6]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+
+([Уровни бюджетов].[Уровни бюджетов].&[4]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+
+([Уровни бюджетов].[Уровни бюджетов].&[14]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+
+([Уровни бюджетов].[Уровни бюджетов].&[7]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+
+([Уровни бюджетов].[Уровни бюджетов].&[2]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[0]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[С начала года] AS
+CalculationPassValue(
+IIF(
+[Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[(All)] or
+[Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Год] or
+([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+([Measures].[Сумма], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, Measures.[Сумма]))
+, 1),
+FORMAT_STRING = "Currency";

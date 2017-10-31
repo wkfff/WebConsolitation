@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="FO_0042_0001_date">
+    <![CDATA[
+-- FO_0042_0001_date
+with 
+    member [Measures].[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+    set [NonEmptySet] 
+    as 'Tail 
+        (
+            Filter 
+            (
+                [Период].[Период].Members,
+                not IsEmpty 
+                (
+                    (
+                        [Measures].[Значение],
+                        [Показатели].[Оценка качества ФМ_Сопоставимый].[Все показатели]
+                    ) 
+                ) and 
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+                [Период].[Период].CurrentMember.Name <> "Данные года" and 
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and 
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты" 
+            ),
+            1 
+        )' 
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows 
+from [ФО_Оценка качества ФМ_Показатели] 
+]]>
+</query>
+
+<query id="FO_0042_0001_grid">
+<![CDATA[
+-- FO_0042_0001_grid
+with               
+    set [Администраторы]             
+    as 'Descendants            
+        (
+            <%administrator_all_level%>,
+            <%administrator_dimension%>.[Администратор],
+            SELF            
+        )'             
+    set [Показатели]      
+    as 'Order
+        (
+            Filter
+            (
+                Descendants           
+                (
+                    <%indicator_all_level%>,
+                    <%indicator_dimension%>.[Показатели 1],
+                    SELF           
+                ),
+                not
+                (
+                   <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.CurrentMember.Parent.DataMember
+                ) and
+                (InStr(<%indicator_dimension%>.CurrentMember.Properties("Обозначение"), "Рейтинг") = 0) and
+                (InStr(<%indicator_dimension%>.CurrentMember.Properties("Обозначение"), "Р") > 0)
+            ),
+            StrToValue
+            (
+                <%indicator_dimension%>.CurrentMember.Properties("Код")
+            ),
+            BASC
+        )   '         
+    member <%indicator_dimension%>.[Код ГРБС]            
+    as '<%administrator_dimension%>.CurrentMember.Properties("Код")'          
+    member <%indicator_dimension%>.[Наименование ГРБС]            
+    as '<%administrator_dimension%>.CurrentMember.Name'        
+    member <%indicator_dimension%>.[Значение оценки показателей]          
+    as 'Sum         
+        (
+            [Показатели],
+            [Measures].CurrentMember
+        )'  
+    member [Measures].[Множитель] 
+    as 'IIF
+        (
+            [Период].[Период].[Данные всех периодов].[<%period_year%>] is [Период].[Период].[Данные всех периодов].[2008],
+            4,
+            1
+        )'        
+    member <%indicator_dimension%>.[Максимально возможное (наилучшее) значение оценки показателей]
+    as '[Measures].[Множитель]
+        * Sum 
+        (
+            [Показатели],
+            [Measures].[Применим ли в оценке] 
+        )'        
+    member <%indicator_dimension%>.[Значение оценки качества финансового менеджмента ГРБС]         
+    as 'IIF        
+        (
+            IsEmpty        
+            (
+                <%indicator_dimension%>.[Максимально возможное (наилучшее) значение оценки показателей]        
+            ) or <%indicator_dimension%>.[Максимально возможное (наилучшее) значение оценки показателей] = 0,
+            null,
+            100*
+            (
+                <%indicator_dimension%>.[Значение оценки показателей]      
+            ) /       
+            (
+                <%indicator_dimension%>.[Максимально возможное (наилучшее) значение оценки показателей]      
+            )       
+        )'     
+    member [Measures].[Не применим к оценке ]
+    as '"Не применим к оценке"'
+    member [Measures].[Оценка показателя ]
+    as 'IIF
+        (
+            (
+                <%indicator_dimension%>.[Аггрегированные показатели],
+                [Measures].[Применим ли в оценке]
+            ) = 0,
+            null,
+            IIF
+            (
+                [Measures].[Применим ли в оценке] = 0,
+                -100500,
+                IIF
+                (
+                    [Measures].[Процентный формат для значения],
+                    100 * [Measures].[<%selected_maasure%>],
+                    [Measures].[<%selected_maasure%>] 
+                )   
+            )
+        ) '  
+    member <%indicator_dimension%>.[№ п/п]
+    as '0'
+
+    member [Measures].[Процентный формат для значения]
+    as 'IIF
+        (
+            "<%selected_maasure%>" = "Оценка показателя" or
+            <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[№ п/п] or
+            <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[Код ГРБС] or
+            <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[Наименование ГРБС] or
+            <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[Значение оценки показателей] or
+            <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[Максимально возможное (наилучшее) значение оценки показателей] or
+            <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[Значение оценки качества финансового менеджмента ГРБС],
+            false,
+            <%indicator_dimension%>.CurrentMember.Properties("Единицы измерения") = "%"
+        )'
+        
+    member <%indicator_dimension%>.[Аггрегированные показатели] 
+    as 'Aggregate({[Показатели] })'         
+
+select
+    Filter     
+    (
+        {
+            {
+                <%indicator_dimension%>.[№ п/п],
+                <%indicator_dimension%>.[Код ГРБС],
+                <%indicator_dimension%>.[Наименование ГРБС],
+                <%indicator_dimension%>.[Значение оценки показателей],
+                <%indicator_dimension%>.[Максимально возможное (наилучшее) значение оценки показателей],
+                <%indicator_dimension%>.[Значение оценки качества финансового менеджмента ГРБС]      
+            } + [Показатели]          
+        },
+        IIF    
+        (
+            (
+                <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[Значение оценки показателей]    
+            ) or    
+            (
+                <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[Максимально возможное (наилучшее) значение оценки показателей]    
+            ) or    
+            (
+                <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.[Значение оценки качества финансового менеджмента ГРБС]    
+            ),
+            [Measures].[<%selected_maasure%>] is [Measures].[Оценка показателя],
+            true  
+        )   
+    ) on columns,
+    non empty
+    { 
+        [Администраторы]
+    } on rows            
+from [ФО_Оценка качества ФМ_Показатели]             
+where            
+    (
+        [Период].[Период].[Данные всех периодов].[<%period_year%>],
+        [Measures].[Оценка показателя ]           
+    )
+  ]]>
+</query>
+
+<query id="FO_0042_0001_indicatorDescription">
+<![CDATA[
+-- FO_0042_0001_indicatorDescription
+With
+    set [Показатели]      
+    as 'Filter
+        (
+            Descendants           
+            (
+                <%indicator_all_level%>,
+                <%indicator_dimension%>.[Показатели 1],
+                SELF           
+            ),
+            not
+            (
+               <%indicator_dimension%>.CurrentMember is <%indicator_dimension%>.CurrentMember.Parent.DataMember
+            )
+        )' 
+
+    member [Measures].[Обозначение]
+    as '<%indicator_dimension%>.CurrentMember.Properties("Обозначение")'
+    member [Measures].[Единицы измерения]
+    as '<%indicator_dimension%>.CurrentMember.Properties("Единицы измерения")'
+Select
+    {
+       [Measures].[Обозначение],
+       [Measures].[Единицы измерения]
+    } on columns,
+    { [Показатели] } on rows
+From [ФО_Оценка качества ФМ_Показатели]
+  ]]>
+</query>
+
+</root>

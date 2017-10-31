@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ЭО_Мониторинг_Пользователи сайта" ClassType="9" SubClassType="0" Description="Перечень пользователей официального сайта ." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."FV_STORDER_SITEUSER"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."FV_STORDER_SITEUSER"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."FV_STORDER_SITEUSER", "DV"."DV_DATE_REGISTER", "DV"."DV_DATE_DISCARD", "DV"."DV_STORDER_ORGSITE", "DV"."DV_STORDER_PERSONSITE", "DV"."DV_STORDER_YNACCRED"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."FV_STORDER_SITEUSER"."REFDATEREGISTER"="DV"."DV_DATE_REGISTER"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFDATEDISCARD"="DV"."DV_DATE_DISCARD"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFORGANIZATION"="DV"."DV_STORDER_ORGSITE"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFPERSON"="DV"."DV_STORDER_PERSONSITE"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFISACTIVE"="DV"."DV_STORDER_YNACCRED"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."FV_STORDER_SITEUSER"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.StOrder.SiteUser]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ИМПОРТ]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[df730423-0fc1-4e62-bcd5-084a11e4e753]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[fe366969-4402-46db-9ea0-8aa215949403]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[ec0c6586-de57-4f5f-bf19-2142b3c2741b]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."FV_STORDER_SITEUSER"."REFDATEREGISTER"="DV"."DV_DATE_REGISTER"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFDATEDISCARD"="DV"."DV_DATE_DISCARD"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFORGANIZATION"="DV"."DV_STORDER_ORGSITE"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFPERSON"="DV"."DV_STORDER_PERSONSITE"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFISACTIVE"="DV"."DV_STORDER_YNACCRED"."ID")]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_DATE_REGISTER}{DV.DV_DATE_REGISTER}{2190}{4665}{2580}{910}{1})({dv}{DV.FV_STORDER_SITEUSER}{DV.FV_STORDER_SITEUSER}{1935}{420}{2550}{1745}{1})({dv}{DV.DV_DATE_DISCARD}{DV.DV_DATE_DISCARD}{3150}{4680}{2580}{940}{1})({dv}{DV.DV_STORDER_ORGSITE}{DV.DV_STORDER_ORGSITE}{1170}{4650}{2580}{910}{1})({dv}{DV.DV_STORDER_PERSONSITE}{DV.DV_STORDER_PERSONSITE}{135}{3870}{2625}{955}{1})({dv}{DV.DV_STORDER_YNACCRED}{DV.DV_STORDER_YNACCRED}{4230}{4140}{2640}{925}{1})]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Мониторинг.Дата регистрации" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все периоды]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_REGISTER"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_REGISTER"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_REGISTER"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_REGISTER"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Дата" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_REGISTER"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг.Дата блокировки" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все периоды]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_DISCARD"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_DISCARD"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_DISCARD"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_DISCARD"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Дата" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_DATE_DISCARD"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг.Организации" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все организаторы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Организация" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_STORDER_ORGSITE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг.Пользователи" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все организаторы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Пользователь" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_STORDER_PERSONSITE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг.Аккредитация" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Аккредитация" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_STORDER_YNACCRED"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Количество пользователей" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="#" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."FV_STORDER_SITEUSER"."VAL"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ЭО_Мониторинг_Пользователи сайта" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ЭО_Мониторинг_По_ЭО_Мониторинг_Пользователисайта_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."FV_STORDER_SITEUSER"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."FV_STORDER_SITEUSER"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."FV_STORDER_SITEUSER", "DV"."DV_DATE_REGISTER", "DV"."DV_DATE_DISCARD", "DV"."DV_STORDER_ORGSITE", "DV"."DV_STORDER_PERSONSITE", "DV"."DV_STORDER_YNACCRED"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."FV_STORDER_SITEUSER"."REFDATEREGISTER"="DV"."DV_DATE_REGISTER"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFDATEDISCARD"="DV"."DV_DATE_DISCARD"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFORGANIZATION"="DV"."DV_STORDER_ORGSITE"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFPERSON"="DV"."DV_STORDER_PERSONSITE"."ID") AND ("DV"."FV_STORDER_SITEUSER"."REFISACTIVE"="DV"."DV_STORDER_YNACCRED"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[625331df-91a8-422e-87fa-9ec78a02edaf]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[ec0c6586-de57-4f5f-bf19-2142b3c2741b]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

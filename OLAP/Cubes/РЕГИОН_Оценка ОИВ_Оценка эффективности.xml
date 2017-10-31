@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="РЕГИОН_Оценка ОИВ_Оценка эффективности" ClassType="9" SubClassType="0" Description="Значения показателей оценки эффективности деятельности органов исполнительной власти субъектов РФ." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_OIV_REG10APP"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_OIV_REG10APP"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_OIV_REG10APP", "DV"."DATASOURCES", "DV"."D_TERRITORY_RF", "DV"."D_OIV_APPRAISAL", "DV"."FX_DATE_YEAR", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_OIV_REG10APP"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_OIV_REG10APP"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_OIV_REG10APP"."REFOIV"="DV"."D_OIV_APPRAISAL"."ID") AND ("DV"."F_OIV_REG10APP"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_OIV_REG10APP"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.OIV.REG10App]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{252}{3124}{2265}{955}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{1395}{4020}{2520}{910}{1})({dv}{DV.D_OIV_APPRAISAL}{DV.D_OIV_APPRAISAL}{2385}{4050}{2490}{985}{1})({dv}{DV.F_OIV_REG10APP}{DV.F_OIV_REG10APP}{1245}{615}{2115}{1865}{1})({dv}{DV.FX_DATE_YEAR}{DV.FX_DATE_YEAR}{3480}{3165}{1800}{910}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{1382}{7184}{2670}{910}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[dd7205ba-3b83-494f-be76-3b3bf2fd4112]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[4880d34a-2059-4932-80ba-f53854ac53f2]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_OIV_REG10APP"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_OIV_REG10APP"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_OIV_REG10APP"."REFOIV"="DV"."D_OIV_APPRAISAL"."ID") AND ("DV"."F_OIV_REG10APP"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[d6797f54-973a-4824-be5f-04701dad7cd8]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEAR"."DATEYEAR"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОИВ.Оценка эффективности" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_OIV_APPRAISAL"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_OIV_REG10APP"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="РЕГИОН_Оценка ОИВ_Оценка эффективности" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="РЕГИОН_Оцен_РЕГИОН_ОценкаОИВ_Оценкаэффективности_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_OIV_REG10APP"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_OIV_REG10APP"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_OIV_REG10APP", "DV"."DATASOURCES", "DV"."D_TERRITORY_RF", "DV"."D_OIV_APPRAISAL", "DV"."FX_DATE_YEAR", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_OIV_REG10APP"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_OIV_REG10APP"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_OIV_REG10APP"."REFOIV"="DV"."D_OIV_APPRAISAL"."ID") AND ("DV"."F_OIV_REG10APP"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[b20f6ccd-feed-43e2-9564-1c06f756ab5f]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[d6797f54-973a-4824-be5f-04701dad7cd8]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

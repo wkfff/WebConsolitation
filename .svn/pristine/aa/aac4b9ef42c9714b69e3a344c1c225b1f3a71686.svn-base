@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0035_0033_date">
+    <![CDATA[
+-- FO_0035_0033_date
+with 
+    member [Measures].[ДанныеНа] 
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName' 
+    set [NonEmptySet] 
+    as 'Tail 
+        (
+            Filter 
+            (
+                Descendants 
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[День],
+                    SELF 
+                ),
+                not IsEmpty ( ( [Measures].[Поступило из ФБ] ) ) and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Остатки на начало года" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные квартала" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные полугодия" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные года" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные месяца" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Заключительные обороты"
+            ),
+            1 
+        )' 
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows 
+from  [ФО_Остатки средств бюджета_ГРБС]
+  ]]>
+</query>
+
+<query id="FO_0035_0033_Grid">
+    <![CDATA[
+-- FO_0035_0033_Grid 
+with  
+    member [Measures].[Поступило из ФБ ] 
+    as '[Measures].[Поступило из ФБ] / 1000' 
+    member [Measures].[Перечислено ] 
+    as '[Measures].[Перечислено] / 1000' 
+    member [Measures].[Остаток ] 
+    as '[Measures].[Остаток] / 1000'  
+    member [Measures].[Глаз]  
+    as '"Глаз"'  
+    set [ГРБС]  
+    as 'filter  
+        (
+            [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].[ГРБС].members,
+            not  
+            (
+                [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].CurrentMember is [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].[Все].[Несопоставленные данные] 
+            )  
+        )'  
+    member [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].[Всего]  
+    as 'Aggregate ( [ГРБС] )'  
+select
+    {        
+        [Measures].[Поступило из ФБ ],
+        [Measures].[Перечислено ],
+        [Measures].[Остаток ] 
+    } on columns,
+    {
+        [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].[Всего],
+        [ГРБС]  
+    }   on rows  
+from   [ФО_Остатки средств бюджета_ГРБС] 
+where  
+    (
+        <%selected_period%> 
+    )  
+  ]]>
+</query>
+
+<query id="FO_0035_0033_rests_Date">
+<![CDATA[
+-- FO_0035_0033_rests_Date  
+with
+    member  [Measures].[Остаток]
+    as '[Measures].[Доходы бюджета] + [Measures].[Целевые поступления из ФБ]'
+    member [Measures].[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[День],
+                    SELF
+                ),
+                not IsEmpty
+                (
+                    (
+                        [Measures].[Остаток]
+                    )
+                ) and
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные квартала" and
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные года" and
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные месяца" and
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Заключительные обороты"
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from  [ФО_Остатки средств бюджета]
+  ]]>
+  </query>
+  
+</root>

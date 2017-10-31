@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by borisov (EMBRACE) -->
+<xs:schema xmlns="pumpProgram" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="pumpProgram" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:simpleType name="fmObjectType">
+		<xs:annotation>
+			<xs:documentation> Возможные типы наших объектов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="cls"/>
+			<xs:enumeration value="fixedCls"/>
+			<xs:enumeration value="factTable"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="attributeProcessRules">
+		<xs:annotation>
+			<xs:documentation> Правила обработки атрибутов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="constant"/>
+			<xs:enumeration value="globalConstant"/>
+			<xs:enumeration value="param"/>
+			<xs:enumeration value="refCls"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="fieldGroupTypes">
+		<xs:annotation>
+			<xs:documentation> Тип группы полей</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="clsRow"/>
+			<xs:enumeration value="factTableRow"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="convertValueModes">
+		<xs:annotation>
+			<xs:documentation>Режим конвертации значения</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="removeMask"/>
+			<xs:enumeration value="partValue"/>
+			<xs:enumeration value="concatValue"/>
+      <xs:enumeration value="padLeft"/>
+    </xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="processTypes">
+		<xs:annotation>
+			<xs:documentation> Правила обработки поля</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="directPump"/>
+			<xs:enumeration value="layerRef"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="attributeProcessRule">
+		<xs:annotation>
+			<xs:documentation>Правила обработки аттрибутов</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="processRule" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Правило обработки одного аттрибута</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="attributeName" use="required">
+						<xs:annotation>
+							<xs:documentation>Имя аттрибута (в терминах схемы)</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="attributeProcessRule" type="attributeProcessRules" use="required">
+						<xs:annotation>
+							<xs:documentation>Правило обработки аттрибута</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="dataValue" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Параметр для правила обработки (в настоящий момент - значение константы или имя параметра)</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="dataSource">
+		<xs:annotation>
+			<xs:documentation> Описание источника данных</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="supplierCode" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Поставщик данных</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dataCode" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Тип данных</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="kindsOfParams" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Тип параметров</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="year" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>Год</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="month" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>Месяц</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="quarter" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>Квартал</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="variant" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Вариант</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="layerDataPump">
+		<xs:annotation>
+			<xs:documentation>Схема для проверки шаблонов закачек из слоев</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="usedLayers">
+					<xs:annotation>
+						<xs:documentation>Список всех используемых слоев</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="layer" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Один слой</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="name" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Название (в терминах слоев)</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="synonym" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Синоним. Нужен для предотвращения ошибок набора и облегчения модификации программы</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="defaultDataSource" type="dataSource">
+					<xs:annotation>
+						<xs:documentation>Источник данных по умолчанию. Используется для наших объектов у которых источник явно не указан.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="usedFMObjects">
+					<xs:annotation>
+						<xs:documentation>Список всех используемых классификаторов и таблиц фактов</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="fmObject" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Один объект</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence minOccurs="0">
+										<xs:element name="processRules" type="attributeProcessRule" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>правила обработки аттрибутов (по умолчанию)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="dataSource" type="dataSource" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Источник данных на который будут закачиваться данные по этому объекту</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="name" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Название (в терминах схемы)</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="fmObjectType" type="fmObjectType" use="required">
+										<xs:annotation>
+											<xs:documentation>Тип объекта</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="synonym" use="required">
+										<xs:annotation>
+											<xs:documentation>Синоним. Нужен для предотвращения ошибок набора и облегчения модификации программы</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="steps">
+					<xs:annotation>
+						<xs:documentation>Порядок обработки слоев</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="step" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="fieldsGroup" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Группа полей текущей записи слоя</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="layerField" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>Одно поле слоя</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence minOccurs="0">
+																<xs:element name="processRules" type="attributeProcessRule">
+																	<xs:annotation>
+																		<xs:documentation>Дополнительные правила обработки аттрибутов</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="name" type="xs:string" use="required">
+																<xs:annotation>
+																	<xs:documentation>Название поля (а терминах слоя)</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="processType" type="processTypes" use="required">
+																<xs:annotation>
+																	<xs:documentation>Тип обработки (поле данных или ссылка на другой слой)</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="destinationObjectSynonym" type="xs:string" use="required">
+																<xs:annotation>
+																	<xs:documentation>Синоним нашего объекта схемы</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="destinationAttribute" type="xs:string" use="required">
+																<xs:annotation>
+																	<xs:documentation>Аттрибут (поле) нашего объекта схемы</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="destinationAttributeUseInSearch" type="xs:boolean">
+																<xs:annotation>
+																	<xs:documentation>Используется ли аттрибут приемника в качестве ключа при поиске</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="convertValueMode" type="convertValueModes">
+																<xs:annotation>
+																	<xs:documentation>Правило конвертации значения</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="convertValueModeParam1">
+																<xs:annotation>
+																	<xs:documentation>Параметр для правила конвертации</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="convertValueModeParam2">
+																<xs:annotation>
+																	<xs:documentation>Параметр для правила конвертации</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="refLayerSynonym" type="xs:string">
+																<xs:annotation>
+																	<xs:documentation>Имя слоя на который идет ссылка</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+															<xs:attribute name="refLayerFieldName" type="xs:string">
+																<xs:annotation>
+																	<xs:documentation>Имя поля в слое на который идет ссылка</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="fieldsGroupType" type="fieldGroupTypes" use="required">
+													<xs:annotation>
+														<xs:documentation>Тип группы полей (куда и как их качать)</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="name" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Название шага (для прогресса)</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="layerSynonym" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Синоним слоя</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Версия файла настроек. Пригодится.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Название закачки. Более нигде не фигурирует. Для наглядности</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

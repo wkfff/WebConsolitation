@@ -1,0 +1,24 @@
+﻿<RegionSettings>
+  <!--
+  // тип документа СКИФ для консолидированного бюджета субъекта
+  ConsolidateBudgetDocumentSKIFType,
+  // тип документа СКИФ для районов
+  RegionBudgetDocumentSKIFType,
+  // уровень бюджета СКИФ для уровня районов
+  RegionBudgetSKIFLevel
+  -->
+  <Region id="HMAO">
+    <ConsolidateBudgetDocumentSKIFType>[ТипДокумента].[СКИФ].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов]</ConsolidateBudgetDocumentSKIFType>
+    <RegionBudgetDocumentSKIFType>[ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов и районов (5+7+10)]</RegionBudgetDocumentSKIFType>
+    <RegionBudgetSKIFLevel>
+      Aggregate
+      (
+        {
+          [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет района],
+          [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения],
+          [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет гор.округа]
+        }
+      )
+    </RegionBudgetSKIFLevel>
+  </Region>
+</RegionSettings>

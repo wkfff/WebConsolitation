@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+    <query id="Sport_0001_0009_minsport">
+        <![CDATA[
+-- Sport_0001_0009_minsport_grid
+with  
+    member [Measures].[Кадры]  
+    as '  
+        (
+            filter  
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "1"  
+            ).item(0),
+            filter  
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "1"  
+            ).item(0),
+            [Measures].[Значение]  
+        )'  
+    member [Measures].[Занимающиеся]  
+    as '  
+        (
+            filter  
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "1"  
+            ).item(0),
+            filter  
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "13"  
+            ).item(0),
+            [Measures].[Значение]  
+        )'  
+    set [Строки]  
+    as 'filter  
+        (
+            descendants  
+            (
+                [Год].[Год].[Все],
+                [Год].[Год].[Год],
+                SELF  
+            ),
+            NOT isEmpty( [Measures].[Данные] )
+            AND [Год].[Год].currentMember.Name <= "<%param_year_last%>"
+        )'  
+select
+    { 
+        [Measures].[Кадры], 
+        [Measures].[Занимающиеся]     
+    } on columns,
+    { [Строки] } on rows  
+from [1-ФК]  
+where 
+    (
+        [Территории_сопоставимый].[Территории_сопоставимый].[All].<%param_territory%> 
+    ) 
+    ]]>
+    </query>
+
+    <query id="Sport_0001_0009_population">
+        <![CDATA[
+-- Sport_0001_0009_population_grid
+with  
+    set [Строки]  
+    as 'filter  
+        (
+            descendants  
+            (
+                [Период__Период].[Период__Период].[Данные всех периодов],
+                [Период__Период].[Период__Период].[Год],
+                SELF  
+            ),
+            NOT isEmpty( [Measures].[Факт] )    
+            AND [Период__Период].[Период__Период].currentMember.Name <= "<%param_year_last%>"
+        )'  
+select
+    { [Measures].[Факт] } on columns,
+    { [Строки] } on rows  
+from   [ФСГС_Численность населения]  
+where  
+    (
+        [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].<%param_territory%>,
+        [ФСГС__Численность населения].[ФСГС__Численность населения].[Все].[Все население],
+        [Вариант__ФСГС Население].[Вариант__ФСГС Население].[Все].[Численность населения на 1 января]  
+    )  
+    ]]>
+    </query>    
+    
+</root>

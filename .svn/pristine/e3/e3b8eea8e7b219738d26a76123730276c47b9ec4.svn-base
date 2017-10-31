@@ -1,0 +1,26 @@
+CALCULATE;
+/*
+SCOPE([Период__Период].[Период__Период].[Квартал]);
+this = CalculationPassValue(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember), 0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие]);
+this = CalculationPassValue(([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].CurrentMember), 0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год]);
+this = CalculationPassValue(([Период__Период].[Период__Период].CurrentMember, [Measures].CurrentMember), 0);
+END SCOPE;
+*/
+
+CREATE MEMBER CURRENTCUBE.Measures.[Значение_за аналогичный период прошлого года] AS 
+(ParallelPeriod([Период__Период].[Период__Период].[Год], 1,  [Период__Период].[Период__Период].CurrentMember), 
+[Measures].[Значение]), FORMAT_STRING = '0.00##';
+
+SCOPE(Descendants([Период__Период].[Период__Период].[Данные всех периодов]));
+this = IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов],
+Sum(([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember)),
+IIF(not ISLeaf([Период__Период].[Период__Период].CurrentMember), 
+([Период__Период].[Период__Период].CurrentMember.firstChild, [Measures].CurrentMember),
+([Период__Период].[Период__Период].CurrentMember, [Measures].CurrentMember)));
+END SCOPE;

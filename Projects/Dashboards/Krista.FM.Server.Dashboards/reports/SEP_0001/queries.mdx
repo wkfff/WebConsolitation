@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id = "G">
+    <![CDATA[with
+    member [Measures].[за перила]
+    as '
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2010].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD%>
+        )'
+    member [Measures].[АППГ]
+    as '
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2010].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD%>            
+        )-
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2009].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD_L%>
+        )'
+    member [Measures].[АППГ_2]
+    as '
+iif((
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2009].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD_L%>
+        )<>0,
+    100
+        *
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2010].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD%>
+        )/
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2009].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD_L%>
+        ),0 )'
+    member [Measures].[pri]
+    as '[Территории].[СЭП].CurrentMember.Properties("Принадлежность")'
+    member [Measures].[pri2]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    member [Measures].[pri3]
+    as ' [Measures].[pri]'/**/
+            member [Measures].[pri6]
+    as '[Территории].[СЭП].CurrentMember.Properties("Краткое наименование")'
+select
+    {
+    [Measures].[pri2],
+[Measures].[за перила],
+        [Measures].[АППГ],
+        [Measures].[АППГ_2],[Measures].[pri6]--,
+--        ,
+--        [Measures].[pri2]/**/
+    } on columns,
+    non empty
+    {
+        [Территории].[СЭП].[Территория].[Российская Федерация].datamember,
+        [Территории].[СЭП].[Территория].[<%REGION%>].datamember,
+        filter
+        (
+            [Территории].[СЭП].[Территория].members,
+
+            (
+                [Территории].[СЭП].CurrentMember.Properties("Принадлежность") = "<%REGION%>"
+            )
+        )
+    } on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+where
+(
+--[СЭП].[Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Труд]
+--<%LD%>
+<%SEP%>
+)]]>
+  </query>
+  <query id = "G_lr">
+    <![CDATA[with
+    member [Measures].[за перила]
+    as '
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2010].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD%>
+        )'
+    member [Measures].[АППГ]
+    as '
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2010].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD%>            
+        )-
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2009].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD_L%>
+        )'
+    member [Measures].[АППГ_2]
+    as '
+iif((
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2009].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD_L%>
+        )<>0,
+    100
+        *
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2010].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD%>
+        )/
+        (
+            [Measures].[За период],
+            --[Период].[Год Квартал Месяц].[Год].[2009].[Полугодие 1].[Квартал 1].[Январь]
+            <%LD_L%>
+        ),0 )'
+    member [Measures].[pri]
+    as '[Территории].[СЭП].CurrentMember.Properties("Принадлежность")'
+    member [Measures].[pri2]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    member [Measures].[pri3]
+    as 'null'/**/
+select
+    {
+
+[Measures].[за перила],[Measures].[pri3]
+
+--        ,
+--        [Measures].[pri2]/**/
+    } on columns,
+    non empty
+    {[Территории].[СЭП].[Территория].[Российская Федерация].datamember,
+    [Территории].[СЭП].[Территория].[Российская Федерация].datamember,
+        filter
+        (
+            [Территории].[СЭП].[Территория].members,
+            (
+                ([Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "РФ")
+                and
+                ([Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "")
+            )
+        )
+    } on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+where
+(
+--[СЭП].[Годовой сборник].[Данные всех источников].[СТАТ\0001 Отчетность - вариант: Без варианта].[Труд]
+--[Период].[Год Квартал Месяц].[Данные всех периодов].[2010].[Полугодие 2].[Квартал 4].[Октябрь]
+<%SEP%>
+)]]>
+  </query>
+    <query id = "FO">
+    <![CDATA[select
+    {
+		[Measures].[За период]
+    } on columns,
+    non empty
+    {
+        filter
+        (
+            [Территории].[СЭП].[Территория].members,
+
+            (
+                [Территории].[СЭП].CurrentMember.Properties("Принадлежность") = "РФ"
+            )
+        )
+    } on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+]]>
+  </query>
+<query id = "AllMount">
+    <![CDATA[
+select
+    {
+[Measures].[За период]
+    } on columns,
+    non empty
+    {
+[Период].[Год Квартал Месяц].[Месяц].Members
+    } on rows
+FROM  [СТАТ_СЭП_Годовой сборник]	
+]]>
+  </query>
+  
+  <query id = "AllSEP">
+    <![CDATA[
+with    
+    member [Measures].[pri4] 
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Сопоставимый показатель")' 
+    member [Measures].[pri2]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+select
+    {
+
+[Measures].[pri2],
+            [Measures].[pri4]
+          
+    } on columns,
+    non empty 
+    {
+    filter
+        (
+        [СЭП].[Годовой сборник].[Уровень 1].members ,
+          (not IsEmpty([Measures].[За период]))
+        )
+    } on rows 
+FROM  [СТАТ_СЭП_Годовой сборник] 
+where 
+    (
+       <%LD%>
+    ) 
+
+]]>
+  </query>
+  <query id = "Compare_And_Reverce">
+    <![CDATA[
+with    
+    member [Measures].[pri4] 
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Сопоставимый показатель")' 
+    member [Measures].[pri2]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    member [Measures].[pri3]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Единица измерения")'
+select
+    {
+
+			[Measures].[pri2],
+            [Measures].[pri4],
+            [Measures].[pri3]
+          
+    } on columns,
+    non empty 
+    {
+<%SEP%>
+    } on rows    
+FROM  [СТАТ_СЭП_Годовой сборник] 
+]]>
+  </query>
+</root>

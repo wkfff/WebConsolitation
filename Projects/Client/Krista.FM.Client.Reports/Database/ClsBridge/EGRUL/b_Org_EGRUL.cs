@@ -1,0 +1,74 @@
+﻿namespace Krista.FM.Client.Reports.Database.ClsBridge
+{
+    class b_Org_EGRUL
+    {
+        public const string InternalKey = "7473679b-3ebb-43ca-999d-7f8fdd3efb34";
+        public const string ID = "ID";
+        public const string NameP = "NameP";
+        public const string ShortName = "ShortName";
+        public const string OGRN = "OGRN";
+        public const string INN = "INN";
+        public const string INN20 = "INN20";
+        public const string Adress = "Adress";
+        public const string RefRegion = "RefRegion";
+        public const string RefAdress = "RefAdress";
+        public const string RefOrgStatus = "RefOrgStatus";
+        public const string RefOrgMNS = "RefOrgMNS";
+        public const string DateStartMNS = "DateStartMNS";
+        public const string DateFinishMNS = "DateFinishMNS";
+        public const string Contact = "Contact";
+        public const string DateName = "DateName";
+        public const string FirmName = "FirmName";
+        public const string ForeignName = "ForeignName";
+        public const string RefOKOPFBridge = "RefOKOPFBridge";
+        public const string RefKOPFBridge = "RefKOPFBridge";
+        public const string DateStatus = "DateStatus";
+        public const string RefOrgRO = "RefOrgRO";
+        public const string DateAdress = "DateAdress";
+        public const string NameIspOrg = "NameIspOrg";
+        public const string VidAdr = "VidAdr";
+        public const string OKATO = "OKATO";
+        public const string RefOrgROStart = "RefOrgROStart";
+        public const string DateStartUL = "DateStartUL";
+        public const string RegNum = "RegNum";
+        public const string RefTypeRegStart = "RefTypeRegStart";
+        public const string DateFinishUL = "DateFinishUL";
+        public const string RegNumFinish = "RegNumFinish";
+        public const string RefOrgROFinish = "RefOrgROFinish";
+        public const string RefTypeRegFinish = "RefTypeRegFinish";
+        public const string DateCapital = "DateCapital";
+        public const string SumCapital = "SumCapital";
+        public const string RefOrgKindCapital = "RefOrgKindCapital";
+        public const string CNTUchrFL = "CNTUchrFL";
+        public const string CNTRUL = "CNTRUL";
+        public const string CNTIUL = "CNTIUL";
+        public const string OGRNReestrAO = "OGRNReestrAO";
+        public const string NameReestrAO = "NameReestrAO";
+        public const string DateDirect = "DateDirect";
+        public const string NameDirect = "NameDirect";
+        public const string OGRNDirect = "OGRNDirect";
+        public const string DateOGRNDirect = "DateOGRNDirect";
+        public const string INNDirect = "INNDirect";
+        public const string INN20Direct = "INN20Direct";
+        public const string OKATODirect = "OKATODirect";
+        public const string AdressDirect = "AdressDirect";
+        public const string ContactDirect = "ContactDirect";
+        public const string RegNumPF = "RegNumPF";
+        public const string DateStartPF = "DateStartPF";
+        public const string DateFinishPF = "DateFinishPF";
+        public const string RefOrgPF = "RefOrgPF";
+        public const string RegNumFSS = "RegNumFSS";
+        public const string DateStartFSS = "DateStartFSS";
+        public const string DateFinishFSS = "DateFinishFSS";
+        public const string RefOrgFSS = "RefOrgFSS";
+        public const string RegNumFOMS = "RegNumFOMS";
+        public const string DateStartFOMS = "DateStartFOMS";
+        public const string DateFinishFOMS = "DateFinishFOMS";
+        public const string RefOrgFOMS = "RefOrgFOMS";
+        public const string NationalName = "NationalName";
+        public const string Last = "Last";
+        public const string RefNatLang = "RefNatLang";
+        public const string RefForLang = "RefForLang";
+        public const string MainOKVED = "MainOKVED";
+    }
+}

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0021_0004_date">
+    <![CDATA[
+-- FO_0021_0004_date
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[Квартал],
+                    SELF
+                ),
+                not IsEmpty
+                (
+                    (
+                        [Показатели].[ФПКУ_Сопоставимый].[Все показатели]
+                    )
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Квартал 1"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Остатки на начало года"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Данные квартала"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Данные полугодия"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Данные месяца"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Данные года"
+                ) and
+                (
+                   [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+                )
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФО_ФПКУ_Показатели]
+]]>
+  </query>
+
+  <query id="FO_0021_0004_map">
+    <![CDATA[
+-- FO_0021_0004_map
+with 
+    set [Список МО] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                [Районы].[Сопоставимый].[Уровень 04],
+                SELF 
+            ),
+            not 
+            (
+                [Районы].[Сопоставимый].CurrentMember is  [Районы].[Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or 
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" 
+            ) 
+        )' 
+select
+    {
+        <%selected_indicator%>
+    } on columns,
+    {
+        Order
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty([Measures].[Взвешенное значение]) 
+            ),
+            <%selected_indicator%>,
+            <%sorting_type%>
+        )
+    } on rows 
+from [ФО_ФПКУ_Показатели]
+where 
+    (
+        [Measures].[Взвешенное значение],
+        [Период].[Период].[Данные всех периодов].<%selected_period%>
+    ) 
+  ]]>
+</query>
+
+  <query id="FO_0021_0004_indicatorList">
+    <![CDATA[
+-- FO_0021_0004_indicatorList
+with 
+    set [Показатели] 
+    as 'Filter
+        (
+            Descendants  
+            (
+                [Показатели].[ФПКУ_Сопоставимый].[Все показатели],
+                [Показатели].[ФПКУ_Сопоставимый].[Показатели],
+                SELF  
+            ),       
+            (
+                [Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name <> "Итоговая оценка"
+            ) and        
+            (
+                [Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name <> "Рейтинг"       
+            ) and        
+            (
+                [Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name <> "Средняя оценка"       
+            ) and 
+            (
+                [Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name <> "Несопоставленные данные"  
+            ) and
+            <%direction_filter%> = true 
+        )' 
+
+    set [Список общих показателей]       
+    as '{
+            [Показатели].[ФПКУ_Сопоставимый].[Все показатели].[Итоговая оценка],
+            [Показатели].[ФПКУ_Сопоставимый].[Все показатели].[Рейтинг],
+            [Показатели].[ФПКУ_Сопоставимый].[Все показатели].[Средняя оценка]      
+        }' 
+        
+    member [Measures].[Имя] 
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Properties("Наименование")'
+    member [Measures].[Уникальное имя] 
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.UniqueName'
+    member [Measures].[Уровень]
+    as '0'  
+    member [Measures].[Полное имя]
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Properties("Наименование")'    
+    member [Measures].[Краткое имя]
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Name'    
+    member [Measures].[Тип]
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Properties("Содержание")'  
+    
+    member Measures.[Учитывать квартальный]       
+    as '[Показатели].[ФПКУ_Сопоставимый].CurrentMember.Properties("Содержание") = "Ежеквартально"' 
+    
+    set [Список районов] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                [Районы].[Сопоставимый].[Уровень 04],
+                SELF 
+            ),
+            not 
+            (
+                [Районы].[Сопоставимый].CurrentMember is  [Районы].[Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or  [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" 
+            ) 
+        )' 
+        
+    member [Районы].[Сопоставимый].[Аггрегироавнные районы]           
+    as 'Aggregate({[Список районов]})'          
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Полное имя],
+        [Measures].[Краткое имя],
+        [Measures].[Тип]
+    } on columns,
+    {
+        Filter
+        (
+           [Показатели] + [Список общих показателей],
+           not 
+           (
+               IsEmpty   
+               (
+                   ([Районы].[Сопоставимый].[Аггрегироавнные районы], [Период].[Период].[Данные всех периодов].<%selected_period%>)   
+               )
+           )
+        )   
+    } on rows 
+from  [ФО_ФПКУ_Показатели] 
+  ]]>
+  </query>  
+
+</root>

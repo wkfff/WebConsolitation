@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="MFRF_0004_0003_date">
+    <![CDATA[
+-- MFRF_0004_0003_date
+-- <#МФ РФ_Расходы ФБ]#>
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                [Период].[Период].Members,
+                not IsEmpty([Measures].[Факт за период]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+  from [МФ РФ_Расходы ФБ] 
+  ]]>
+  </query>
+  
+  <query id="MFRF_0004_0003_grid">
+<![CDATA[
+-- MFRF_0004_0003_grid
+-- <#МФ РФ_Расходы ФБ]#>
+WITH      
+    member [Measures].[Код]
+    as 'IIF
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember is [МФ РФ].[ГРБС ФБ Сопоставимый].[Всего по ГРБС],
+            0,
+            StrToValue([МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Properties("Код"))
+        )'   
+    member Measures.[Процент исполнения прошлый год]    
+    as '( [Measures].[Процент исполнения],[Период].[Период].[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>])  
+       '   
+    member [Measures].[Ранг %]     
+    as ' Rank      
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember,
+            Order      
+            (
+                [Список ГРБС],
+                [Measures].[Процент исполнения],
+                BDESC      
+            ),
+            [Measures].[Процент исполнения]    
+        ) '   
+    member Measures.[Худший ранг %]    
+    as 'max    
+        (
+           [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Siblings,
+           [Measures].[Ранг %]    
+        )    
+       '            
+    member [Measures].[Доля]     
+    as '    
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember,
+            [Measures].[Факт]    
+        ) /     
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].[Всего по ГРБС] ,
+            [Measures].[Факт]    
+        )'      
+    member [Measures].[Ранг доля]    
+    as ' Rank    
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember,
+            Order    
+            (
+                [Список ГРБС],
+                [Measures].[Доля],
+                BDESC    
+            ),
+            [Measures].[Доля]    
+        ) '    
+    member Measures.[Худший ранг доля]    
+    as 'max    
+        (
+           [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Siblings,
+           [Measures].[Ранг доля]    
+        )    
+       '          
+    member [МФ РФ].[ГРБС ФБ Сопоставимый].[Всего по ГРБС]      
+    as '[МФ РФ].[ГРБС ФБ Сопоставимый].[Все]'       
+    set [Список ГРБС]     
+    as 'Filter     
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].Children -     
+            {
+                [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].[Несопоставленные данные]     
+            },
+            [Measures].[План] <> 0 and [Measures].[Факт] <> 0     
+        )'     
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[План],
+        [Measures].[Факт],
+        [Measures].[Процент исполнения],
+        [Measures].[Ранг %],
+        [Measures].[Худший ранг %],
+        [Measures].[Процент исполнения прошлый год],
+        [Measures].[Доля],
+        [Measures].[Ранг доля],
+        [Measures].[Худший ранг доля]  
+    } on columns,
+    {
+        {
+            [МФ РФ].[ГРБС ФБ Сопоставимый].[Всего по ГРБС]      
+        } + [Список ГРБС]
+    } on rows     
+FROM  [МФ РФ_Расходы ФБ]      
+WHERE      
+    (
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        <%fkr_filter%>           
+    )               
+  ]]>
+</query>
+
+<query id="MFRF_0004_0003_chart">
+<![CDATA[
+-- MFRF_0004_0003_chart
+-- <#МФ РФ_Расходы ФБ]#>
+WITH
+    member [МФ РФ].[ГРБС ФБ Сопост Краткий].[Общие итоги]
+    as '[МФ РФ].[ГРБС ФБ Сопост Краткий].[Все]'
+    member [Measures].[Доля]
+    as '
+        (
+            [МФ РФ].[ГРБС ФБ Сопост Краткий].CurrentMember,
+            [Measures].[Факт]
+        ) /
+        (
+            [МФ РФ].[ГРБС ФБ Сопост Краткий].[Общие итоги],
+            [Measures].[Факт]
+        )'
+    member [МФ РФ].[ГРБС ФБ Сопост Краткий].[Среднее]
+    as 'AVG ([Список ГРБС], [Measures].CurrentMember)'
+    set [Список ГРБС]
+    as 'Order
+        (
+            Filter
+            (
+                [МФ РФ].[ГРБС ФБ Сопост Краткий].[Все].Children -
+                {
+                    [МФ РФ].[ГРБС ФБ Сопост Краткий].[Все].[]
+                },
+                [Measures].[План] <> 0 and [Measures].[Факт] <> 0
+            ),
+            [Measures].[<%filter%>],
+            BDESC
+        )'
+SELECT
+    {
+        [Measures].[Процент исполнения],
+        [Measures].[Доля]
+    } on columns,
+    {[Список ГРБС] + {[МФ РФ].[ГРБС ФБ Сопост Краткий].[Среднее]}} on rows
+FROM  [МФ РФ_Расходы ФБ]          
+WHERE           
+    (
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        <%fkr_filter%>                             
+    )   
+  ]]>
+</query>
+
+</root>

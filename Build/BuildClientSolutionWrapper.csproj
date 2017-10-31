@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="BuildSolutionWrapper">
+	<Exec Command="del ..\output\*.zip" IgnoreExitCode="True"/>
+	<Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>
+    <MSBuild Projects="$(SolutionWorkplaceDir)\Krista.FM.Client.Workplace.sln" Properties="Configuration=Krista.FM.Client.Workplace.Release" />
+    <MSBuild Projects="$(SolutionSchemeDesignerDir)\Krista.FM.Client.SchemeDesigner.sln" Properties="Configuration=Krista.FM.Client.SchemeDesigner.Release" />
+    <MSBuild Projects="$(SolutionOLAPAdminDir)\Krista.FM.Client.OLAPAdmin.sln" Properties="Configuration=Krista.FM.Client.OLAPAdmin.Release" />
+	<Exec Command="xcopy /EI ..\output Krista.FM.Client-$(VersionString)"/>
+	<Exec Command="zip -mr ..\output\Krista.FM.Client-$(VersionString).zip Krista.FM.Client-$(VersionString)*"/>
+	<Exec Command="rmdir /S /Q ..\output\Krista.FM.Client.Workplace" IgnoreExitCode="True"/>
+	<Exec Command="rmdir /S /Q ..\output\Krista.FM.Client.SchemeDesigner" IgnoreExitCode="True"/>
+	<Exec Command="rmdir /S /Q ..\output\Krista.FM.Client.OLAPAdmin" IgnoreExitCode="True"/>
+  </Target>
+</Project>

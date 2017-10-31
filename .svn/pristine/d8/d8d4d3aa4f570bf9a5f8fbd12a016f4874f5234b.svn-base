@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+	<query id="FO_0033_0001">
+    <![CDATA[
+with
+    member Measures.[План на месяц]
+    as 'IIF
+        (
+            [Период].[День].CurrentMember.Level.Name = "День",
+            (
+                [Период].[День].CurrentMember.Parent,
+                [Measures].[План на период]
+            ),
+            null
+        )'
+    member Measures.[Факт за месяц]
+    as 'IIF
+        (
+            [Период].[День].CurrentMember.Level.Name = "День",
+            (
+                [Период].[День].CurrentMember.Parent,
+                [Measures].[Факт за период]
+            ),
+            null
+        )'
+    member Measures.[Остатки_тыс]
+    as 'Measures.[План на месяц_тыс] - Measures.[Факт за месяц_тыс]'
+    member Measures.[% исполнения]
+    as 'IIF
+        (
+            IsEmpty(Measures.[План на месяц]),
+            null,
+            Measures.[Факт за месяц]/Measures.[План на месяц]
+        )'
+    member Measures.[План на месяц_тыс]
+    as 'Measures.[План на месяц]/1000'
+    member Measures.[Факт за месяц_тыс]
+    as 'Measures.[Факт за месяц]/1000'
+    member Measures.[Факт за период_тыс]
+    as 'Measures.[Факт за период]/1000'
+    member Measures.[План на год]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_План расходов]",
+            "([Measures].[Ассигнования], <%period_yqm_quarter%>)"
+        )'
+    member Measures.[Факт за год]
+    as 'LookupCube
+        (
+            "[ФО_АС Бюджет_КазнИсп_Финансирование]",
+            "([Measures].[Финансирование нараст итог], <%period_month_fo%>)"
+        ) + Measures.[Факт за месяц]'
+    member Measures.[План на год_тыс]
+    as 'Measures.[План на год]/1000'
+    member Measures.[Факт за год_тыс]
+    as 'Measures.[Факт за год]/1000'
+    member Measures.[% исполнения год]
+    as 'IIF
+        (
+            IsEmpty(Measures.[План на год]),
+            null,
+            Measures.[Факт за год]/Measures.[План на год]
+        )'
+select
+    {
+        Measures.[План на месяц_тыс],
+        Measures.[Факт за месяц_тыс],
+        [Measures].[Факт за период_тыс],
+        Measures.[Остатки_тыс],
+        Measures.[% исполнения],
+        Measures.[План на год_тыс],
+        Measures.[Факт за год_тыс],
+        Measures.[% исполнения год]
+    } on columns
+from [ФО_Платежный календарь]
+where
+    (
+        <%period_day_fo%>
+    )
+	]]></query>
+
+  <query id="FO_0033_0001_date">
+    <![CDATA[with
+member Measures.[ДеньUN] as '[Период].[День].CurrentMember.UniqueName'
+member Measures.[Месяц] as '[Период].[День].CurrentMember.Parent.Name'
+select
+    {Measures.[ДеньUN], Measures.[Месяц]} on columns,
+    {Tail(NonEmptyCrossjoin({[Период].[День].Members}))} on rows
+from [ФО_Платежный календарь]  
+	]]>
+  </query>
+
+  <query id="FO_0033_0001_V">
+    <![CDATA[
+        with
+    member Measures.[План на месяц]
+    as 'IIF
+        (
+            [Период].[День].CurrentMember.Level.Name = "День",
+            (
+                [Период].[День].CurrentMember.Parent,
+                [Measures].[План на период]
+            ),
+            null
+        )'
+    member Measures.[Факт за месяц]
+    as 'IIF
+        (
+            [Период].[День].CurrentMember.Level.Name = "День",
+            (
+                [Период].[День].CurrentMember.Parent,
+                [Measures].[Факт за период]
+            ),
+            null
+        )'
+    member Measures.[Остатки_тыс]
+    as 'Measures.[План на месяц_тыс] - Measures.[Факт за месяц_тыс]'
+    member Measures.[% исполнения]
+    as 'IIF
+        (
+            Measures.[План на месяц] = 0 or IsEmpty(Measures.[План на месяц]),
+            null,
+            Measures.[Факт за месяц]/Measures.[План на месяц]
+        )'
+    member Measures.[План на месяц_тыс]
+    as 'Measures.[План на месяц]/1000'
+    member Measures.[Факт за месяц_тыс]
+    as 'Measures.[Факт за месяц]/1000'
+    member  [Виды расходов].[Всего расходов]
+    as '[Виды расходов].[Все]'
+select
+    {
+        Measures.[Остатки_тыс],
+        Measures.[% исполнения]
+    } on columns,
+    non empty
+    {
+        Except
+        (
+            [Виды расходов].Members,
+            {
+                [Виды расходов].[Все],
+                [Виды расходов].[Все].['Значение не указано']
+            }
+        ) +
+        {
+            [Виды расходов].[Всего расходов]
+        }
+    } on rows
+from [ФО_Платежный календарь]
+where
+    (
+        <%period_day_fo%> 
+    )
+	]]>
+  </query>
+</root>

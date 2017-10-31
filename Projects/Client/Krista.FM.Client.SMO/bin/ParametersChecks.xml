@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<ServerConfiguration>
+	<ParameterChecks>
+		<Check parametr="OSVersion" class="CheckRegEx">
+			<Value>^5.1.2600 Service Pack 2*$|^5.0.2195 Service Pack 4*$|^5.2.3790 Service Pack 2*$</Value>
+			<ErrorMessage>Версия операционной системы  {0} не поддерживается</ErrorMessage>
+		</Check>
+		<Check parametr="OSVersion" class="CheckRegEx" invalid="true">
+			<Value>^5.1.2600 Service Pack 1*$</Value>
+			<ErrorMessage>Версия операционной системы  {0} не поддерживается</ErrorMessage>
+		</Check>
+		<Check parametr="Version" class="CheckVersion">
+			<ErrorMessage>Версия сборки отличается от основной версии системы</ErrorMessage>
+		</Check>
+		<Check parametr="InstallPath" class="CheckPath">
+			<Value></Value>
+			<ErrorMessage>Путь установки системы {0} некорректный</ErrorMessage>
+		</Check>
+		<Check parametr="MultiServerMode" class="CheckRegEx">
+		  <Value>^False$</Value>
+		  <ErrorMessage>Сервер работает в режиме MultiServerMode. Некоторые возможности, такие как автоматический расчет кубов и авто-обновление схемы, будут запрещены</ErrorMessage>
+		</Check>
+		<Check parametr="MDStoreRName" class="CheckDataSourceMD">
+			<ErrorMessage>Не совпадает основная реляционная база и та реляционная, на которую настроена многомерная база</ErrorMessage>
+		</Check>
+		<Check parametr="MDXUniqueNameStyle" class="CheckRegEx">
+			<Value>^2$</Value>
+			<ErrorMessage>В файле MAS.UDL параметру выбора алгоритма генерации уникальных имен (MDX Unique Name Style) должно быть присвоено нначение 2</ErrorMessage>
+		</Check>
+		<Check parametr="sLanguage" class="CheckRegEx">
+			<Value>^RUS$</Value>
+			<ErrorMessage>Язык системы должен быть выбран русский</ErrorMessage>
+		</Check>
+		<Check parametr="sDecimal" class="CheckRegEx">
+			<Value>^,$</Value>
+			<ErrorMessage>В качестве разделителя целой и дробной части должен быть выбран символ ','</ErrorMessage>
+		</Check>
+  </ParameterChecks>
+</ServerConfiguration>

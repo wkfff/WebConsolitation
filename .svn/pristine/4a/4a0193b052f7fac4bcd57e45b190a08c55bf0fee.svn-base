@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1494E1A2-740D-4113-89CC-8C213588548F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Krista.FM.Common.TaskDocuments</RootNamespace>
+    <AssemblyName>Krista.FM.Common.TaskDocuments</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ExcelPackage, Version=1.0.0.1, Culture=neutral, PublicKeyToken=f8bb63aa9d6969e8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\ExcelPackage.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <HintPath>..\..\..\FixedBin\WindowsBase.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\zlib.net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OfficeCustomPropertiesAdapters\CalumMcLellan.StructuredStorage\EnumeratorAdapter.cs" />
+    <Compile Include="OfficeCustomPropertiesAdapters\CalumMcLellan.StructuredStorage\PlatformDetect.cs" />
+    <Compile Include="OfficeCustomPropertiesAdapters\CalumMcLellan.StructuredStorage\PropertyAdapter.cs" />
+    <Compile Include="OfficeCustomPropertiesAdapters\CalumMcLellan.StructuredStorage\PropertySetAdapter.cs" />
+    <Compile Include="OfficeCustomPropertiesAdapters\CalumMcLellan.StructuredStorage\PropertySetsAdapter.cs" />
+    <Compile Include="OfficeCustomPropertiesAdapters\OfficeCustomPropertiesAdapter.cs" />
+    <Compile Include="OfficeCustomPropertiesAdapters\OfficeCustomPropertiesFactory.cs" />
+    <Compile Include="OfficeCustomPropertiesAdapters\OfficeOpenXmlAdapter.cs" />
+    <Compile Include="OfficeCustomPropertiesAdapters\StructuredStorageAdapter.cs" />
+    <Compile Include="OfficePluginFactory.cs" />
+    <Compile Include="OfficePluginFactoryException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\Config\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="TaskDocumentHelper.cs" />
+    <Compile Include="Trace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Krista.Diagnostics\Krista.Diagnostics.csproj">
+      <Project>{771564CF-3F02-4A9A-91CC-F710104EC4B3}</Project>
+      <Name>Krista.Diagnostics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Common.OfficeHelper\Krista.FM.Common.OfficeHelpers.csproj">
+      <Project>{BD8693E5-9D0B-4B2C-B263-1AD98D8776E4}</Project>
+      <Name>Krista.FM.Common.OfficeHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Common.OfficePluginServices\Krista.FM.Common.OfficePluginServices.csproj">
+      <Project>{A11B7C8D-2FC9-4CF1-97AB-0B9ABBFB0A7A}</Project>
+      <Name>Krista.FM.Common.OfficePluginServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Common\Krista.FM.Common.csproj">
+      <Project>{4FF19E83-61D5-4AF5-AAF7-737623059773}</Project>
+      <Name>Krista.FM.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.ServerLibrary\Krista.FM.ServerLibrary.csproj">
+      <Project>{24C607A3-2BA3-4D29-A6DB-F7F866302E76}</Project>
+      <Name>Krista.FM.ServerLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\..\..\FixedBin\Platform\x32\CalumMcLellan.StructuredStorage.dll">
+      <Link>References\x32\CalumMcLellan.StructuredStorage.dll</Link>
+    </None>
+    <None Include="..\..\..\FixedBin\Platform\x64\CalumMcLellan.StructuredStorage.dll">
+      <Link>References\x64\CalumMcLellan.StructuredStorage.dll</Link>
+    </None>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\ProjectOptions.xml" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\ProjectTargets.xml" />
+  <PropertyGroup>
+    <PostBuildEvent>md $(TargetDir)Platform
+md $(TargetDir)Platform\x32
+md $(TargetDir)Platform\x64
+copy "$(SolutionDir)\..\..\FixedBin\Platform\x32\CalumMcLellan.StructuredStorage.dll" "$(TargetDir)Platform\x32\CalumMcLellan.StructuredStorage.dll"
+copy "$(SolutionDir)\..\..\FixedBin\Platform\x64\CalumMcLellan.StructuredStorage.dll" "$(TargetDir)Platform\x64\CalumMcLellan.StructuredStorage.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

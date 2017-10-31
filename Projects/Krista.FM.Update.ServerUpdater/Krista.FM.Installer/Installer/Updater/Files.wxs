@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
+     xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension" 
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xml:lang ="en-us">
+
+  <?include Variables.wxi?>
+
+  <Fragment>
+
+    <DirectoryRef Id="INSTALLDIR">
+      <Component Id="ProductComponent" Guid="b11556a2-e066-4393-af5c-9c9210187eb2" DiskId='1'>
+        <File Id='Krista.FM.Update.ShedulerUpdateService.exe' Source='..\..\Krista.FM.Update.ShedulerUpdateService.exe' KeyPath='yes' />
+        <ServiceInstall  Id="ServiceInstaller"
+                         Type="ownProcess"
+                         Name="FMUpdateService"
+                         DisplayName="$(var.ServiceName)"
+                         Description="Служба автоматического обновления Анализ и Планирование"
+                         Start="auto"
+                         Account="[SERVICEACCOUNT]"
+                         Password="[SERVICEPASSWORD]"
+                         ErrorControl="normal"
+                         Interactive="no"
+                         Vital='yes'>
+        </ServiceInstall>
+        <ServiceControl Id="StartService"
+                        Stop="both"
+                        Start="install"
+                        Remove="uninstall"
+                        Name="FMUpdateService"
+                        Wait="yes"/>
+        <File Id='Common.Logging.dll' Source='..\..\Common.Logging.dll'/>
+        <File Id='Krista.FM.Update.Framework.dll' Source='..\..\Krista.FM.Update.Framework.dll'/>
+        <File Id='Microsoft.Practices.Unity.dll' Source='..\..\Microsoft.Practices.Unity.dll'/>
+        <File Id='Krista.Diagnostics.dll_1' Source='..\..\Krista.Diagnostics.dll'/>
+        <File Id='Quartz.dll' Source='..\..\Quartz.dll'/>
+                
+        <File Id='Krista.FM.Update.ShedulerUpdateService.exe.config' Source='..\..\Krista.FM.Update.ShedulerUpdateService.exe.config'/>
+        <util:XmlFile Id="SetSHARED_DIR"
+               Action="setValue"
+               ElementPath="//appSettings/add[\[]@key='BaseUri'[\]]/@value"
+               Value="[SHARED_DIR]"
+               File="[#Krista.FM.Update.ShedulerUpdateService.exe.config]"
+               SelectionLanguage="XPath"
+               Sequence="1" />
+
+        <util:XmlFile Id="SetFEED_PATH"
+               Action="setValue"
+               ElementPath="//appSettings/add[\[]@key='PublicFMPatchStore'[\]]/@value"
+               Value="[FEED_PATH]"
+               File="[#Krista.FM.Update.ShedulerUpdateService.exe.config]"
+               SelectionLanguage="XPath"
+               Sequence="1" />
+        
+        <util:XmlFile Id="SetLocalFMPatchStore"
+               Action="setValue"
+               ElementPath="//appSettings/add[\[]@key='LocalFMPatchStore'[\]]/@value"
+               Value="[LOCALFMPATCHSTORE]"
+               File="[#Krista.FM.Update.ShedulerUpdateService.exe.config]"
+               SelectionLanguage="XPath"
+               Sequence="1" />
+
+        <util:XmlFile Id="SetAutoUpdateClient"
+               Action="setValue"
+               ElementPath="//appSettings/add[\[]@key='AutoUpdateClient'[\]]/@value"
+               Value="[AUTOUPDATECLIENT]"
+               File="[#Krista.FM.Update.ShedulerUpdateService.exe.config]"
+               SelectionLanguage="XPath"
+               Sequence="1" />
+
+        <util:XmlFile Id="SetAutoUpdateMdx"
+               Action="setValue"
+               ElementPath="//appSettings/add[\[]@key='AutoUpdateMdx'[\]]/@value"
+               Value="[AUTOUPDATEMDX]"
+               File="[#Krista.FM.Update.ShedulerUpdateService.exe.config]"
+               SelectionLanguage="XPath"
+               Sequence="1" />
+
+        <util:XmlFile Id="SetAutoUpdateOffice"
+               Action="setValue"
+               ElementPath="//appSettings/add[\[]@key='AutoUpdateOffice'[\]]/@value"
+               Value="[AUTOUPDATEOFFICE]"
+               File="[#Krista.FM.Update.ShedulerUpdateService.exe.config]"
+               SelectionLanguage="XPath"
+               Sequence="1" />
+        
+        <File Id='Krista.FM.Update.Framework.pdb' Source='..\..\Krista.FM.Update.Framework.pdb'/>
+        <File Id='Krista.FM.Update.ShedulerUpdateService.pdb' Source='..\..\Krista.FM.Update.ShedulerUpdateService.pdb'/>
+        
+        <File Id='Krista.FM.Update.NotifyIconApp.exe' Source='..\..\Krista.FM.Update.NotifyIconApp.exe'/>
+        <File Id='Krista.FM.Update.NotifyIconApp.pdb' Source='..\..\Krista.FM.Update.NotifyIconApp.pdb'/>
+        <File Id='Krista.FM.Update.SchemeAdapter.dll' Source='..\..\Krista.FM.Update.SchemeAdapter.dll'/>
+        <File Id='Krista.FM.Update.SchemeAdapter.pdb' Source='..\..\Krista.FM.Update.SchemeAdapter.pdb'/>
+        <File Id='Krista.FM.ServerLibrary.dll1' Source='..\..\Krista.FM.ServerLibrary.dll'/>
+        <File Id='Krista.FM.ServerLibrary.pdb1' Source='..\..\Krista.FM.ServerLibrary.pdb'/>
+        
+        <File Id='bat.cmd' Source='..\..\bat.cmd'/>
+        
+        <File Id='Client.cmd' Source='..\CreateMSIScripts\Client.cmd'/>
+        <File Id='MDXExpert.cmd' Source='..\CreateMSIScripts\MDXExpert.cmd'/>
+        <File Id='OfficeAddIn.cmd' Source='..\CreateMSIScripts\OfficeAddIn.cmd'/>
+        
+        <File Id='CustomActions.dll' Source='..\..\Krista.FM.Update.CustomAction.CA.dll'/>
+        <File Id='Krista.FM.Updater.CustomActionExe.exe' Source='..\..\Krista.FM.Updater.CustomActionExe.exe'/>
+        <!--<RemoveFile Id='bat.cmd' On ='install'/>-->
+
+        <RemoveFolder Id="INSTALLDIR" On="uninstall"/>
+        <RemoveFile Id="filB9A4D5AFA80F4BEF8C32507D49F2C96E" On="uninstall" Name="*.*"/>
+        
+      </Component>
+      
+      <Directory Id="dirCC9C9654DB194C8BBCC915FEA6FB82AB" Name="Installer">
+        <Directory Id="dirC3824A25DA1640369C7727C7CD8895EF" Name="Office Add-in">
+          <Component Id="cmpD5B3D1C2A4324525B740BCEFABB6734B" Guid="{E80FE706-4248-46C4-A97F-99F58C2058A3}" Feature="ProductFeature">
+            <!--Файлы для создания инсталлятора pluggin-->
+            <File Id='fil31263AC1CCC149A993102CD3FDF6149D' Source='..\..\Installer\Office Add-in\Variables.wxi'/>
+            <File Id='fil92F762A0C6054D1C9D97E7F5FE41FAFD' Source='..\..\Installer\Office Add-in\Files.wxs'/>
+            <File Id='fil96EE177A41974FB69DD75568F77E78BD' Source='..\..\Installer\Office Add-in\Product.wxs'/>
+            <File Id='fil5763C7BEA91E494CACFBCCF1D2C5C83F' Source='..\..\Installer\Office Add-in\Feature.wxs'/>
+            <File Id='filF65C0ADF1E3547ECAC147B1F984D9C93' Source='..\..\Installer\Office Add-in\WiXUI_Wizard.wxs'/>
+            <File Id='fil89188CA8B32B4773B217B48E296AE9D2' Source='..\..\Installer\Office Add-in\ru-ru.wxl'/>
+            <File Id='fil6B1E12B3AED84DB7A6B64BED5FFE08AD' Source='..\..\Installer\Office Add-in\ui_en.wxl'/>
+            <File Id='fil7195A7A2AFD343689A95E5A65D06632A' Source='..\..\Installer\Office Add-in\Shortcuts.wxs'/>
+
+            <RemoveFile Id='fil13D2F5F5F0DD4B6E9D67C699493A4996' Name='*.*' On ='install'/>
+            <RemoveFolder Id='dirC3824A25DA1640369C7727C7CD8895EF' On='install'/>
+          </Component>
+        </Directory>
+        <Directory Id="DirB8C998D0BC5C4D06A794F413013165BE" Name="Client">
+          <Component Id="cmpD6E226FEA76D465B8D7846007C260DA5" Guid="{11D7FA4D-9782-4915-A784-BAF54A7EC053}" Feature="ProductFeature">
+            <!--Файлы для создания инсталлятора клиента-->
+            <File Id='f652FF7F6F0BE484197A7B0B57E71576D' Source='..\..\Installer\Client\Variables.wxi'/>
+            <File Id='f2ABC7A9CB91A4AA39E221A61BA733C1D' Source='..\..\Installer\Client\Files.wxs'/>
+            <File Id='fCAB77DCD1BD94EB38F961F5999218F60' Source='..\..\Installer\Client\Product.wxs'/>
+            <File Id='f31FC79A4449F47DEAB6BF01BD5B45F39' Source='..\..\Installer\Client\Shortcuts.wxs'/>
+            <File Id='fC0B64EAE8A6842B486A2D53FF344795A' Source='..\..\Installer\Client\Feature.wxs'/>
+            <File Id='f1378632F941E434F9BD2026D91FD8E95' Source='..\..\Installer\Client\WixUI_Shortcuts.wxs'/>
+            <File Id='f0F728287ED09478D92D7132F073FA5EB' Source='..\..\Installer\Client\WiXUI_Wizard.wxs'/>
+            <File Id='fil5E3BFBABC66A46428040C59969E06584' Source='..\..\Installer\Client\ru-ru.wxl'/>
+            <File Id='fil053EFCF5B5C7430EB65F3A9CD783E336' Source='..\..\Installer\Client\ui_en.wxl'/>
+          </Component>
+        </Directory>
+        <Directory Id='dir44BACAFE87EF4977B20FF29DB1317299' Name='BootstrapperMDXExpert'>
+          <Component Id="cmp0905F44063ABE70416FB9C817E51C7DE" Guid="071749FD-AA95-4E57-AA0F-26A5BC32CE81" Feature="ProductFeature">
+            <File Id="filEAFBEDB7FE43FC7776FCDD454984E030" Source="..\..\Installer\BootstrapperMDXExpert\Bundle.wxs" />
+          </Component>
+          <Component Id="cmp356A14AB3D3656B7CFD092131E34B0AD" Guid="10AAC65F-460C-4F6C-9B70-CA3FABA2DA48" Feature="ProductFeature">
+            <File Id="filAAC82EDDA7678D95975DF4B6C944E85E" Source="..\..\Installer\BootstrapperMDXExpert\logo.png" />
+          </Component>
+          <Component Id="cmp1325FB3E0AB91410CB3F0A26B102509A" Guid="CC51D04E-E8C6-42F2-93CD-6B77CFA8FC43" Feature="ProductFeature">
+            <File Id="fil0A774B6102962E915CAFB5A1FA0E146B" Source="..\..\Installer\BootstrapperMDXExpert\MyLicense.rtf" />
+          </Component>
+          <Component Id="cmp022C45856D16474CBF51F5A4A78D53C6" Guid="4FC8CCCB-3542-492D-8752-C0FDAC9B5AC7" Feature="ProductFeature">
+            <File Id="fil3EF39BD5FAC7C7B10FC16522903B3D40" Source="..\..\Installer\BootstrapperMDXExpert\MyTheme.xml" />
+          </Component>
+          <Component Id="cmpD1292BDA7AD054E0103C8F6681E5DE24" Guid="E83F5331-74EE-4A2D-9B62-D74D413100C0" Feature="ProductFeature">
+            <File Id="filF6A1C7579F17D873F58F2621D6071639" Source="..\..\Installer\BootstrapperMDXExpert\Package.wxs" />
+          </Component>
+          <Component Id="cmp3D39917A8FED83A9B7AEC92F8468C30F" Guid="2DE5940A-11D2-47E2-9713-62BBF74892E4" Feature="ProductFeature">
+            <File Id="filDF8E86C76936B216B8C113C0FF7F6DB1" Source="..\..\Installer\BootstrapperMDXExpert\Variables.wxi" />
+          </Component>
+        </Directory>
+        <Directory Id="dir51722F74862F4EC5AEE27B65C38B8677" Name="MDXExpert">
+          <Component Id="cmpE7D23986FA8B48F4A6A0D29C75D5AD9E" Guid="{92D9A12F-22A6-4195-A391-B28AB3128F3A}" Feature="ProductFeature">
+            <File Id='fil5FB39BD66FD44835A3AF884327FFFA63' Source='..\..\Installer\MDXExpert\Variables.wxi'/>
+            <File Id='fil0D1C0F34A7F647568A1CFAA8E6CCC632' Source='..\..\Installer\MDXExpert\Files.wxs'/>
+            <File Id='filFDDE14CE67CB4A889E6916C45F5705C8' Source='..\..\Installer\MDXExpert\Product.wxs'/>
+            <File Id='fil03CDCFEED5E6420695BBAEE41CB2A517' Source='..\..\Installer\MDXExpert\Shortcuts.wxs'/>
+            <File Id='filE22066E795C0412DBB9575D0D5C58036' Source='..\..\Installer\MDXExpert\Feature.wxs'/>
+            <File Id='filD0C299D7C03D4B49A3ABD88F6896CA47' Source='..\..\Installer\MDXExpert\WixUI_Shortcuts.wxs'/>
+            <File Id='fil4857D0D8617B49C284900DA0D6D99A8A' Source='..\..\Installer\MDXExpert\WiXUI_Wizard.wxs'/>
+            <File Id='filF5FBAA98D1C6484695DF5AE45FC3E521' Source='..\..\Installer\MDXExpert\ui_en.wxl'/>
+            <File Id='filBD33653462CA4C9C872BDAA7487CD66D' Source='..\..\Installer\MDXExpert\ru-ru.wxl'/>
+          </Component>
+        </Directory>        
+      </Directory>
+    </DirectoryRef>
+
+    <DirectoryRef Id="WixVer">
+      <Component Id="BinComponent" Guid="4f076d4f-16c3-4fb4-b3c3-3682988d4de8" Feature="ProductFeature">
+        <File Id='light.exe' Source='..\..\App\Wix\3.5\light.exe'/>
+        <File Id='candle.exe' Source='..\..\App\Wix\3.5\candle.exe'/>
+        <File Id='WixUtilExtension.dll' Source='..\..\App\Wix\3.5\WixUtilExtension.dll'/>
+        <File Id='WixUIExtension.dll' Source='..\..\App\Wix\3.5\WixUIExtension.dll'/>
+        <File Id='WixNetFxExtension.dll' Source='..\..\App\Wix\3.5\WixNetFxExtension.dll'/>
+        <File Id='WixIIsExtension.dll' Source='..\..\App\Wix\3.5\WixIIsExtension.dll'/>
+        <File Id='darice.cub' Source='..\..\App\Wix\3.5\darice.cub'/>
+        <File Id='wix.dll' Source='..\..\App\Wix\3.5\wix.dll'/>
+        <File Id='winterop.dll' Source='..\..\App\Wix\3.5\winterop.dll'/>
+        <File Id='wconsole.dll' Source='..\..\App\Wix\3.5\wconsole.dll'/>        
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="WixVer36">
+      <Component Id="WixVer36" Guid="{B3A41F75-1134-4720-B861-C1A88B1646C6}" Feature="ProductFeature">
+        <File Id="filCE570E4DDD45F92FAA1D04AA8D35FA1D" Source="..\..\App\Wix\3.6\candle.exe" />
+        <File Id="filAEF839D187CCC66EABAF71FA6ACF7318" Source="..\..\App\Wix\3.6\darice.cub" />
+        <File Id="filD5A136776F52EF2C7DD18349FE576FFD" Source="..\..\App\Wix\3.6\light.exe" />
+        <File Id="fil93E373DD46329780863FD3615660BCE9" Source="..\..\App\Wix\3.6\Microsoft.Deployment.Resources.dll" />
+        <File Id="filE8671F06B7FD066D9769289FF8F4BD73" Source="..\..\App\Wix\3.6\Microsoft.Deployment.WindowsInstaller.dll" />
+        <File Id="filAA51BB67BB958A2A124A0C2EA36BEA89" Source="..\..\App\Wix\3.6\wconsole.dll" />
+        <File Id="fil84A14D834C52255416609F2E6712B21E" Source="..\..\App\Wix\3.6\winterop.dll" />
+        <File Id="fil88C3D74595D6FF0A7711838808CDF8F9" Source="..\..\App\Wix\3.6\wix.dll" />
+        <File Id="filC1FB08C3489BAC65B6DCED580598E88F" Source="..\..\App\Wix\3.6\WixBalExtension.dll" />
+        <File Id="filD643434609A615D34595C9D127BAF09E" Source="..\..\App\Wix\3.6\WixIIsExtension.dll" />
+        <File Id="fil8FBEB49FED2EC3CC1D8BA48E5D3F286C" Source="..\..\App\Wix\3.6\WixNetFxExtension.dll" />
+        <File Id="filBAB519866A0F8C1C4260105A83596BC0" Source="..\..\App\Wix\3.6\WixUIExtension.dll" />
+        <File Id="fil8A90DD3E0AB688777D70AEC0AA7A7F9A" Source="..\..\App\Wix\3.6\WixUtilExtension.dll" />
+      </Component>
+      
+      <Directory Id="dirC792D760F70938268F5CE4961E91531F" Name="x86">
+        <Component Id="cmp54F48E2286CF40438D7CDE3576B32240" Guid="{BCBA771C-720F-416E-8F00-1AFF04BC4BE0}" Feature="ProductFeature">
+          <File Id="fil6D3902ADCF09265DB91AA3F758BC4A12" Source="..\..\App\Wix\3.6\x86\burn.exe" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+
+    <DirectoryRef Id='Icon'>
+      <Component Id='IconComponent' Guid='{D2D5B007-9E16-4FBB-A868-3C9929D3C384}' Feature="ProductFeature">
+        <File Id='filBDCC467A041E4565B091AE7EA8207A9A' Source='..\..\App\Icon\Client.ico'/>
+        <File Id='fil8C6FD66227CE4C8C809A5DB7BBDCDF36' Source='..\..\App\Icon\MDXExpert.ico'/>
+        <File Id='fil6BFBFAB3B0E84939B4D7312EE30469DD' Source='..\..\App\Icon\OfficeAddIn.ico'/>
+        <File Id='filF9E08E90BE3A4B13935A6FA8E2BC709A' Source='..\..\App\Icon\Updateicon.ico'/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="Bitmap">
+      <Component Id ="BitmapComponent" Guid="{D3949636-C33E-4A8D-9067-D59310D6A23A}" Feature="ProductFeature">
+        <CreateFolder/>
+        <File Id='bannrbmp.bmp' Source='..\..\App\Wix\Bitmaps\bannrbmp.bmp'/>
+        <File Id='dlgbmp.bmp' Source='..\..\App\Wix\Bitmaps\dlgbmp.bmp'/>
+        <File Id='exclamic.ico' Source='..\..\App\Wix\Bitmaps\exclamic.ico'/>
+        <File Id='info.ico' Source='..\..\App\Wix\Bitmaps\info.ico'/>
+        <File Id='New.ico' Source='..\..\App\Wix\Bitmaps\New.ico'/>
+        <File Id='Up.ico' Source='..\..\App\Wix\Bitmaps\Up.ico'/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id='ExternalApp'>
+      <Component Id='ExternalAppComponent' Guid='{66A099E2-D8D8-4FAC-9EAE-3C7F3ED48F3F}' Feature='ProductFeature'>
+        <CreateFolder/>
+        <File Id='filD63828D2855043148CD1D1B8A411A041' Source='..\..\ExternalApp\7za.exe'/>
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

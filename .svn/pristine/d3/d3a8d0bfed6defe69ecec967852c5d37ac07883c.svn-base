@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="РЕГИОН_Оценка ОМСУ_План мероприятий" ClassType="9" SubClassType="0" Description="" DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."D_OMSU_PLANMEAS"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."D_OMSU_PLANMEAS"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."D_OMSU_PLANMEAS", "DV"."DV_OMSU_ACTIONS", "DV"."D_OMSU_MARKSOMSU", "DV"."DATASOURCES"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_OMSU_PLANMEAS"."REFACTIONS"="DV"."DV_OMSU_ACTIONS"."ID") AND ("DV"."D_OMSU_PLANMEAS"."REFMARKSOMSU"="DV"."D_OMSU_MARKSOMSU"."ID") AND ("DV"."D_OMSU_PLANMEAS"."SOURCEID"="DV"."DATASOURCES"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."D_OMSU_PLANMEAS"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.OMSU.PlanMeas]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[f0a1d364-f888-4001-b30e-f34a4bf33fab]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[fb2b5567-74de-4803-baff-6ed51986233b]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[6b7467ec-13db-441c-a3e6-eee3840e0148]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_OMSU_MARKSOMSU}{DV.D_OMSU_MARKSOMSU}{2730}{3570}{2565}{910}{1})({dv}{DV.DV_OMSU_ACTIONS}{DV.DV_OMSU_ACTIONS}{1710}{3585}{2505}{910}{1})({dv}{DV.D_OMSU_PLANMEAS}{DV.D_OMSU_PLANMEAS}{1380}{720}{2205}{1745}{1})({dv}{DV.DATASOURCES}{DV.DATASOURCES}{630}{3570}{1800}{925}{1})]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОМСУ.Мероприятия" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все мероприятия]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_OMSU_ACTIONS"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Мероприятие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_OMSU_ACTIONS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ОМСУ.Показатели ОМСУ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_OMSU_MARKSOMSU"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="Связь показателей и мероприятий" IsVisible="true" SourceColumnType="3" AggregateFunction="1" FormatString="#,#" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."D_OMSU_PLANMEAS"."CODE"]]></property>
+      <CustomProperties>
+        <Property name="AggregateFunction" datatype="0"><![CDATA[Count]]></Property>
+      </CustomProperties>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="РЕГИОН_Оценка ОМСУ_План мероприятий" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="РЕГИОН_ОценкаО_РЕГИОН_ОценкаОМСУ_Планмероприятий_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."D_OMSU_PLANMEAS"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."D_OMSU_PLANMEAS"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."D_OMSU_PLANMEAS", "DV"."DV_OMSU_ACTIONS", "DV"."D_OMSU_MARKSOMSU", "DV"."DATASOURCES"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."D_OMSU_PLANMEAS"."REFACTIONS"="DV"."DV_OMSU_ACTIONS"."ID") AND ("DV"."D_OMSU_PLANMEAS"."REFMARKSOMSU"="DV"."D_OMSU_MARKSOMSU"."ID") AND ("DV"."D_OMSU_PLANMEAS"."SOURCEID"="DV"."DATASOURCES"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[ffc9bd89-73f7-40de-b2bd-514c1f03c704]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[6b7467ec-13db-441c-a3e6-eee3840e0148]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

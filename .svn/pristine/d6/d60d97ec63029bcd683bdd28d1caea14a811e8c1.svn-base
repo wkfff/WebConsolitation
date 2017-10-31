@@ -1,0 +1,37 @@
+CALCULATE;
+
+//Период__Период
+/*SCOPE([Период__Период].[Период__Период].[Месяц].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    
+END SCOPE;*/
+
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+   
+END SCOPE;
+
+/*SCOPE((Descendants([Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы])), {[Measures].CurrentMember}); 
+  
+this = IIF(not IsLeaf([Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember),
+ sum([Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Children, [Measures].[Факт]),
+
+[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember); 
+
+END SCOPE;*/
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[% исполнения] AS IIF(IsEmpty(Measures.[Годовые назначения]) or Measures.[Годовые назначения] = 0,
+null,
+Measures.[Факт]/Measures.[Годовые назначения]),
+FORMAT_STRING = "Percent";

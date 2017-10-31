@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0040_0003_date">
+    <![CDATA[
+-- FO_0040_0003_date
+with
+    member [Measures].[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[Квартал],
+                    SELF
+                ),
+                not IsEmpty
+                (
+                    (
+                        [Показатели__Оценка качества ОиОБП_Сопоставимый].[Показатели__Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Рейтинг]
+                    )
+                ) and
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Name <> "Остатки на начало года"
+                ) and
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Name <> "Данные квартала"
+                ) and
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Name <> "Данные полугодия"
+                ) and
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Name <> "Данные месяца"
+                ) and
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Name <> "Данные года"
+                ) and
+                (
+                    [Период__Период].[Период__Период].CurrentMember.Name <> "Заключительные обороты"
+                )
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from  [ФО_Оценка качества ОиОБП_Показатели]
+]]>
+  </query>
+
+  <query id="FO_0040_0003_map">
+    <![CDATA[
+-- FO_0040_0003_map
+with 
+    set [Список МО] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 04],
+                SELF 
+            ),
+            not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" 
+            ) 
+        )' 
+select
+    {
+        <%selected_indicator%>
+    } on columns,
+    {
+        Order
+        (
+            Filter 
+            (
+                [Список МО],
+                not IsEmpty([Measures].[Оценка показателя]) 
+            ),
+            <%selected_indicator%>,
+            BDESC
+        )
+    } on rows 
+from  [ФО_Оценка качества ОиОБП_Показатели] 
+where 
+    (
+        [Measures].[Оценка показателя],
+        [Период__Период].[Период__Период].[Данные всех периодов].<%selected_period%>
+    ) 
+  ]]>
+</query>
+
+<query id="FO_0040_0003_indicatorDescription">
+<![CDATA[
+-- FO_0040_0003_indicatorDescription
+With
+    member [Measures].[Наименование]
+    as '<%selected_indicator%>.Properties("Наименование")'
+    member [Measures].[Формат]
+    as '<%selected_indicator%>.Properties("Единицы измерения")'
+
+Select
+    {
+       [Measures].[Наименование],
+       [Measures].[Формат]
+    } on columns
+From [ФО_Оценка качества ОиОБП_Показатели]
+  ]]>
+</query>
+
+</root>

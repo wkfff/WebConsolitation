@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+
+  <!--***********************************Область навигации *********************************************** -->
+  <Navigation type="tree" ID="acNewsExtension" icon="Email" title="Новости" order="200" group="Новости" dashboardIcon="/Krista.FM.RIA.Extensions.Informator/Presentation/Content/Images/news.png/extention.axd" defaultItemId="">
+    <!--<Commands>
+      <Command id="cmdNewsShow" title="Опубликовать новость" icon="EmailAdd" >
+        <Handler>
+          function() {
+          var writeNewsWindow;
+          writeNewsWindow.autoLoad.url='/EntityNav/Index?'
+          writeNewsWindow.show();
+          }
+        </Handler>
+      </Command>
+    </Commands>-->
+    <Items>
+      <Item ID="nidbeNewsIncoming" title="Доступные новости" icon="EmailOpen">
+        <Params>
+          <Param name="url">'/View/News'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeNewsPosted" title="Опубликованные новости" icon="EmailGo"  condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/View/OutboxNews'</Param>
+        </Params>
+      </Item>
+    </Items>
+    <Action>MdiTab.addTab({ title: node.text, url: node.attributes.url, icon: node.attributes.iconCls, passParentSize: false});</Action>
+  </Navigation>
+
+  <!--*********************************** Представления *********************************************** -->
+  <Views>
+    <View id="News" title="Новости"
+        type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+        controlType="Krista.FM.RIA.Extensions.Informator.Presentation.Views.NewsView, Krista.FM.RIA.Extensions.Informator">
+    </View>
+    <View id="OutboxNews" title="Опубликованные новости"
+        type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+        controlType="Krista.FM.RIA.Extensions.Informator.Presentation.Views.OutboxNewsView, Krista.FM.RIA.Extensions.Informator">
+    </View>
+  </Views>
+</Extension>

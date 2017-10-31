@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="КД.МесОтч" ClassType="7" SubClassType="2" Description="Классификатор кодов доходов, сформированный по данным месячного отчета об исполнении бюджета." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_KD_MONTHREP"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.KD.MonthRep]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_KD_MONTHREP}{DV.D_KD_MONTHREP}{2400}{600}{2280}{5215}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[38b791a6-134e-4c4e-99a2-0078f75da360]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[e151c4f4-9fbd-4234-bb55-c6427a995963]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[fe3682d2-101a-4482-a6db-e5c4c12e6008]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Код дохода" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Группа;Подгруппа;Статья;Подстатья;Элемент подстатьи;Элемент;Программа;ЭКД уровень 1;ЭКД уровень 2;ЭКД уровень 3;Уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_KD_MONTHREP"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_KD_MONTHREP"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_KD_MONTHREP"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_KD_MONTHREP"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="KL" ClassType="31" SubClassType="0" Description="" Caption="KL" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_KD_MONTHREP"."KL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="KST" ClassType="31" SubClassType="0" Description="" Caption="KST" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_KD_MONTHREP"."KST"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_KD_MONTHREP"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

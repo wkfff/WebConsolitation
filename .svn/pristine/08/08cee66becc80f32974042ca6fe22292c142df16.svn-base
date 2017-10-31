@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+    <query id="FO_0002_0002_Settlement_last_period">
+        <![CDATA[
+-- FO_0002_0002_Settlement_last_period
+with 
+    member [ДанныеНа] 
+    as 'tail 
+        (
+            filter 
+            (
+                descendants 
+                (
+                    [Период__Период].[Период__Период],
+                    [Период__Период].[Период__Период].[Месяц],
+                    SELF 
+                ),
+                not isEmpty ( [Measures].[Факт] ) 
+                AND not isEmpty ( [Measures].[Годовые назначения] ) 
+            ) 
+        ).item(0).uniqueName' 
+select
+    { [Measures].[ДанныеНа] } on columns 
+from  [ФО_МесОтч_Дефицит Профицит] 
+where 
+    (
+        [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Консолидированный бюджет Астраханская область].[Районы Астраханской области],
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Собственный отчет поселения],
+        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения]  
+    )       
+]]>
+    </query>
+
+    <query id="FO_0002_0002_Settlement_filter_area">
+        <![CDATA[
+-- FO_0002_0002_Settlement_filter_area
+with  
+    member [Measures].[Уникальное имя]  
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.UniqueName'
+    member [Measures].[Имя]  
+    as 'iif
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Консолидированный бюджет Астраханская область].[Районы Астраханской области].[Ахтубинский район],
+            "Ахтубинский",
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name
+        )'
+    member [Measures].[Уровень]  
+    as '0'  
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень]  
+    } on columns,
+    {
+        filter
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Консолидированный бюджет Астраханская область].[Районы Астраханской области].Children,
+            not [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Консолидированный бюджет Астраханская область].[Районы Астраханской области].DATAMEMBER
+        )
+    } on rows  
+from [ФО_МесОтч_Дефицит Профицит]
+]]>
+    </query>
+
+
+    <query id="FO_0002_0002_Settlement_grid">
+        <![CDATA[
+-- FO_0002_0002_Settlement_grid  
+with      
+    member [Measures].[Мера]     
+    as '<%selected_measure%>'     
+    set [Поселения]
+    as 'filter
+        (
+            descendants
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 06],
+                SELF
+            ),
+            NOT isEmpty( [Measures].[Мера] ) 
+            AND NOT [Районы__Сопоставимый].[Районы__Сопоставимый].currentMember.properties("IS_DATAMEMBER")
+        )'
+    member [Measures].[Количество поселений]
+    as '[Поселения].count'
+    set [Профицитные]
+    as 'filter
+        (
+            [Поселения],
+            [Measures].[Мера] > 0
+        )'
+    member [Measures].[Профицитные]
+    as '[Профицитные].count'
+    member [Measures].[ПрофицитныеХинт]
+    as 'generate
+        (
+            [Профицитные],
+            [Районы__Сопоставимый].[Районы__Сопоставимый].currentmember.name, ","
+        )'
+    set [Дефицитные]
+    as 'filter
+        (
+            [Поселения],
+            [Measures].[Мера] < 0
+        )'
+    member [Measures].[Дефицитные]
+    as '[Дефицитные].count'
+    member [Measures].[ДефицитныеХинт]
+    as 'generate
+        (
+            [Дефицитные],
+            [Районы__Сопоставимый].[Районы__Сопоставимый].currentmember.name, ","
+        )'
+    set [Сбалансированные]
+    as 'filter
+        (
+            [Поселения],
+            not isEmpty( [Measures].[Мера] ) AND ( [Measures].[Мера] = 0 )
+        )'
+    member [Measures].[Сбалансированные]
+    as '[Сбалансированные].count'
+    member [Measures].[СбалансированныеХинт]
+    as 'generate
+        (
+            [Сбалансированные],
+            [Районы__Сопоставимый].[Районы__Сопоставимый].currentmember.name, ","
+        )'
+    member [Measures].[Объем профицита]
+    as 'sum
+        (
+            [Профицитные],
+            [Measures].[Мера]
+        ) / <%selected_scale%>'
+    member [Measures].[Объем дефицита]
+    as 'sum
+        (
+            [Дефицитные],
+            [Measures].[Мера]
+        ) / <%selected_scale%>'
+select
+    {
+        [Measures].[Количество поселений],
+        [Measures].[Профицитные],        
+        [Measures].[Дефицитные],        
+        [Measures].[Сбалансированные],        
+        [Measures].[Объем профицита],
+        [Measures].[Объем дефицита],
+        [Measures].[ПрофицитныеХинт],
+        [Measures].[ДефицитныеХинт],
+        [Measures].[СбалансированныеХинт]
+    } on columns
+from [ФО_МесОтч_Дефицит Профицит]      
+where      
+    (
+        <%selected_period%>,
+        <%selected_area%>,
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Собственный отчет поселения],
+        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения]       
+    )  
+]]>
+    </query>
+
+    <query id="FO_0002_0002_Settlement_chart">
+        <![CDATA[
+-- FO_0002_0002_Settlement_chart   
+with 
+    member [Measures].[Мера] 
+    as '<%selected_measure%> / <%selected_scale%>' 
+    set [Поселения] 
+    as 'order 
+        (
+            filter 
+            (
+                descendants 
+                (
+                    <%selected_area%>,
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 06],
+                    SELF 
+                ),
+                NOT isEmpty( [Measures].[Мера] ) AND
+                NOT [Районы__Сопоставимый].[Районы__Сопоставимый].currentMember.properties("IS_DATAMEMBER")
+            ),
+            [Measures].[Мера],
+            BDESC 
+        )' 
+select
+    { [Measures].[Мера] } on columns,
+    { [Поселения] } on rows 
+from [ФО_МесОтч_Дефицит Профицит] 
+where 
+    (
+        <%selected_period%>,
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Собственный отчет поселения],
+        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения] 
+    )
+]]>
+    </query>
+
+</root>

@@ -1,0 +1,40 @@
+CALCULATE;
+
+
+                              //Период__Период
+                              SCOPE([Период__Период].[Период__Период].[Месяц].members);
+                              this = IIF(([Measures].CurrentMEmber is [Measures].[План] or [Measures].CurrentMEmber is [Measures].[Поступило за месяц] or [Measures].CurrentMEmber is [Measures].[Поступило за месяц_прошлый год]),
+                              Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+                              END SCOPE;
+
+
+
+
+
+                              SCOPE({[Measures].[Поступило с начала года в рабочие дни_прошлый год]});
+                              this = IIF(not IsLeaf([Период__Период].[Период__Период].CurrentMember),
+                              Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0),
+                              ([Период__Период].[Период__Период].CurrentMember, Measures.CurrentMember));
+
+                              END SCOPE;
+
+
+
+                              SCOPE({[Measures].[Поступило с начала года по рабочим дням]});
+                              this = IIF(not IsLeaf([Период__Период].[Период__Период].CurrentMember),
+                              Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0),
+                              ([Период__Период].[Период__Период].CurrentMember, Measures.CurrentMember));
+
+                              END SCOPE;
+
+                              CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения за месяц] AS IIF(IsEmpty(([Measures].[План], [Период__Период].[Период__Период].CurrentMember)) or ([Measures].[План], [Период__Период].[Период__Период].CurrentMember) = 0, null,
+                              ([Measures].[Поступило за месяц], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[План], [Период__Период].[Период__Период].CurrentMember)), FORMAT_STRING = "Percent";
+
+                              CREATE MEMBER CURRENTCUBE.Measures.[Темп роста] AS IIF(IsEmpty(([Measures].[Поступило за месяц_прошлый год], [Период__Период].[Период__Период].CurrentMember)) or ([Measures].[Поступило за месяц_прошлый год], [Период__Период].[Период__Период].CurrentMember) = 0, null,
+                              ([Measures].[Поступило за месяц], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[Поступило за месяц_прошлый год], [Период__Период].[Период__Период].CurrentMember)), FORMAT_STRING = "Percent";
+
+                              CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к прошлому году] AS
+                              IIF(Isempty(([Measures].[Поступило с начала года в рабочие дни_прошлый год], [Период__Период].[Период__Период].CurrentMember)) or
+                              ([Measures].[Поступило с начала года в рабочие дни_прошлый год], [Период__Период].[Период__Период].CurrentMember) = 0, null,
+                              ([Measures].[Поступило с начала года по рабочим дням], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[Поступило с начала года в рабочие дни_прошлый год], [Период__Период].[Период__Период].CurrentMember)),
+                              FORMAT_STRING = "Percent";

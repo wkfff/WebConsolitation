@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="ОМСУ.Показатели" ClassType="7" SubClassType="2" Description="Перечень показателей оценки эффективности деятельности органов местного самоуправления по Указу Президента № 607 от 29.04.2008." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_OMSU_MARK", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_OMSU_MARK"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.OMSU.Mark]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_OMSU_MARK}{DV.D_OMSU_MARK}{2400}{600}{2085}{2935}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2400}{4110}{1935}{2110}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[ad8d453e-e2c5-43e2-87cc-2761f92ea191]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[1b22bcfd-e974-41b9-b504-d1d8a4c79f47]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[bea12892-f359-4f76-97c3-59c64b5d9fac]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Всего]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатель" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Уровень 1;Уровень 2;Уровень 3;Уровень 4;Уровень 5;Уровень 6" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_OMSU_MARK"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_OMSU_MARK"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_OMSU_MARK"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OMSU_MARK"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="12" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OMSU_MARK"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Описание" ClassType="31" SubClassType="0" Description="" Caption="Описание" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OMSU_MARK"."DESCR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OMSU_MARK"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Источник информации" ClassType="31" SubClassType="0" Description="" Caption="Источник информации" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OMSU_MARK"."SOURCE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Сфера" ClassType="31" SubClassType="0" Description="" Caption="Сфера" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OMSU_MARK"."FIELD"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Показатель обратный" ClassType="31" SubClassType="0" Description="" Caption="Показатель обратный" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OMSU_MARK"."FLAGREV"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

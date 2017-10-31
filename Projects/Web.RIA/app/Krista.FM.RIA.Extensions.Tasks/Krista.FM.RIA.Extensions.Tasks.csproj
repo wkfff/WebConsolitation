@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6C3DAF5D-F70B-4FCA-9749-5DFEFD2F79B7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Krista.FM.RIA.Extensions.Tasks</RootNamespace>
+    <AssemblyName>Krista.FM.RIA.Extensions.Tasks</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ext.Net">
+      <HintPath>..\..\lib\Ext.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Ext.Net.MVC">
+      <HintPath>..\..\lib\Ext.Net.MVC.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExtensionInstaller.cs" />
+    <Compile Include="..\..\..\Config\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Presentation\Controllers\TaskController.cs" />
+    <Compile Include="Presentation\Controllers\TaskNavController.cs" />
+    <Compile Include="TaskUtils\StaffOperation.cs" />
+    <Compile Include="TaskUtils\TaskUtils.cs" />
+    <Compile Include="Trace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Krista.Diagnostics\Krista.Diagnostics.csproj">
+      <Project>{771564CF-3F02-4A9A-91CC-F710104EC4B3}</Project>
+      <Name>Krista.Diagnostics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Krista.FM.Common.TaskDocuments\Krista.FM.Common.TaskDocuments.csproj">
+      <Project>{1494E1A2-740D-4113-89CC-8C213588548F}</Project>
+      <Name>Krista.FM.Common.TaskDocuments</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Krista.FM.Common.Tasks\Krista.FM.Common.Tasks.csproj">
+      <Project>{6B941535-BDE2-4731-9CE2-6E16E32C9C9C}</Project>
+      <Name>Krista.FM.Common.Tasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Krista.FM.Common\Krista.FM.Common.csproj">
+      <Project>{4FF19E83-61D5-4AF5-AAF7-737623059773}</Project>
+      <Name>Krista.FM.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Krista.FM.Extentions\Krista.FM.Extensions.csproj">
+      <Project>{AF342789-6944-45D9-A774-65EF22F7D828}</Project>
+      <Name>Krista.FM.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Krista.FM.ServerLibrary\Krista.FM.ServerLibrary.csproj">
+      <Project>{24C607A3-2BA3-4D29-A6DB-F7F866302E76}</Project>
+      <Name>Krista.FM.ServerLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.RIA.Core\Krista.FM.RIA.Core.csproj">
+      <Project>{70736B73-698D-49DA-9B2E-68BB24823D68}</Project>
+      <Name>Krista.FM.RIA.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Presentation\Content\css\Task.Show.css" />
+    <EmbeddedResource Include="Presentation\Views\Task\DocumentsTab.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Views\Task\Dummy.ascx" />
+    <EmbeddedResource Include="Presentation\Views\Task\Show.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Views\Task\TaskTab.ascx" />
+    <EmbeddedResource Include="Presentation\Views\Task\UploadWindow.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Presentation\js\Task.Show.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Presentation\Views\TaskNav\Index.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Presentation\js\TaskNav.Index.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Presentation\Content\images\task-72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Установщик Windows 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\ProjectOptions.xml" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\ProjectTargets.xml" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

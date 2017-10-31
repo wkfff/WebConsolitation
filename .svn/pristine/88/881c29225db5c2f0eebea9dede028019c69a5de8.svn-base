@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+      select
+          { <%marks%>  } on columns,
+          non empty {
+              
+                      [Период].[Год Квартал Месяц].[Год].Members }on rows 
+      from  [МО_Паспорт МО] 
+      where  
+          (
+              [Measures].[Значение],
+             <%current_region%>
+          )           
+	  ]]>
+  </query>
+  <query id="grid">
+    <![CDATA[ -- name: grid
+        WITH 
+    MEMBER [Measures].[Единица измерения] 
+    AS  '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'  
+select
+    { [Measures].[Значение],[Measures].[Единица измерения] } on columns,
+    {
+        <%marks%>
+    } on rows      
+from  [МО_Паспорт МО]             
+where            
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%period_last_date%>,
+        <%current_region%>
+    )            
+    ]]>
+  </query>
+  <query id="chart_avg_count">
+    <![CDATA[ -- name: chart_avg_count
+select
+    { [Measures].[Значение] } on rows,
+    non empty 
+    {
+        <%last_year%>: <%last_year%>.Lag(9)
+    } on columns
+from  [МО_Паспорт МО] 
+where 
+    (
+        <%current_region%>,
+        [<%current_branch%>],
+        [Источники данных].[Все источники данных].[МО Паспорт МО] 
+    )       
+    ]]>
+  </query>
+
+  <query id="chart_pie1">
+    <![CDATA[ -- name: chart_pie1
+    WITH       
+    MEMBER [Паспорт МО].[Показатели].[Единица измерения] 
+    AS  '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+select
+  non empty  {Filter (
+        <%chart_pie1_par%>.children,
+        [Measures].[Значение] > 0 and not 
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember 
+        ) 
+    )} Dimension properties [Паспорт МО].[Показатели].[Единица измерения] on rows,
+   non empty {
+    
+              
+                  Filter
+                  (
+                      [Период].[Год Квартал Месяц].[Год].Members,
+                      [Measures].[Значение] > 0
+                  )
+              
+    
+    } on columns 
+from [МО_Паспорт МО] 
+where 
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%current_region%>,
+        [Measures].[Значение]  
+    )
+  ]]>
+      </query>
+
+      <query id="chart_pie2">
+        <![CDATA[ -- name: chart_pie2
+           WITH       
+    MEMBER [Паспорт МО].[Показатели].[Единица измерения] 
+    AS  '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+select
+  non empty  {Filter (
+        <%chart_pie2_par%>.children,
+        [Measures].[Значение] > 0 and not 
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember 
+        ) 
+    )} Dimension properties [Паспорт МО].[Показатели].[Единица измерения] on rows,
+  non empty  {     
+              
+                  Filter
+                  (
+                      [Период].[Год Квартал Месяц].[Год].Members,
+                      [Measures].[Значение] > 0
+                  )
+               } on columns 
+from [МО_Паспорт МО] 
+where 
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%current_region%>,
+       [Measures].[Значение]
+    )
+  ]]>
+  </query>
+
+  <query id="chart_pie3">
+    <![CDATA[ -- name: chart_pie3
+       WITH       
+    MEMBER [Паспорт МО].[Показатели].[Единица измерения] 
+    AS  '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+select
+  non empty  {Filter (
+        <%chart_pie3_par%>.children,
+        [Measures].[Значение] > 0 and not 
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember 
+        ) 
+    )} Dimension properties [Паспорт МО].[Показатели].[Единица измерения] on rows,
+   non empty { 
+              
+                  Filter
+                  (
+                      [Период].[Год Квартал Месяц].[Год].Members,
+                      [Measures].[Значение] > 0
+                  )
+              } on columns 
+from [МО_Паспорт МО] 
+where 
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%current_region%>,
+        [Measures].[Значение]
+    )
+  ]]>
+  </query>
+  
+</root>

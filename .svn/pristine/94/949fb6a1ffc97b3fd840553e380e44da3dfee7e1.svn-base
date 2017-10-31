@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Мероприятия.Сопоставимый планирование" ClassType="7" SubClassType="2" Description="Дополнительный классификатор бюджетных мероприятий, уточняющий целевое назначение выделенных ассигнований. Позволяет выделить в аналитике плана расходов и исполнения бюджета различные федеральные, региональные и местные законы, целевые программы, разовые постановления и распоряжения органов исполнительной и законодательной власти (к примеру, ФЗ О ветеранах, ФЗ Об инвалидах, &quot;День города&quot;, Подготовка к зиме, Фонд помощи детям-инвалидам, Распоряжение Главы №123 от 01.02.2002 об оказании помощи семье погибшего Иванова И.И и т.п.)." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."BV_FACT_BRIDGEPLAN"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[b.Fact.BridgePlan]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.BV_FACT_BRIDGEPLAN}{DV.BV_FACT_BRIDGEPLAN}{2400}{600}{2268}{2424}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[83039e08-08dc-472d-a71a-85d6b2f5beca]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[f6c84dba-7ee5-4cf6-971a-96b8c00ff122]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[682089a1-bdba-4e56-a604-191df8bfe722]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все мероприятия]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Мероприятия" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Мероприятия уровень 1;Мероприятия уровень 2;Мероприятия уровень 3" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."BV_FACT_BRIDGEPLAN"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."BV_FACT_BRIDGEPLAN"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."BV_FACT_BRIDGEPLAN"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_FACT_BRIDGEPLAN"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_FACT_BRIDGEPLAN"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

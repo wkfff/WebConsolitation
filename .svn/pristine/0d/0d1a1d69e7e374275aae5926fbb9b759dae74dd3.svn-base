@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_part_percent">
+        <![CDATA[
+    -- skk_part_percent
+    member  <#member_base#> 
+    as 'IIF 
+        (			
+            isEmpty( <#op2#> ) or ( <#op2#> < 100 ),
+            null,
+            IIF
+            (
+                isEmpty( <#op1#> ) 
+                or ( not isEmpty( <#op1#> ) and ( ( <#op1#> / <#op2#> ) < 0.00005  ) ),
+                0,
+                <#op1#> / <#op2#>				
+            )
+        )' 
+    member  <#member_plus#> 
+    as 'IIF 
+        (			
+            not isEmpty( <#op2#> ) and ( <#op2#> > 0 ) and ( <#op2#> < 100 ),
+            IIF	
+            (
+                isEmpty( <#op1#> ),
+                "0 из " + cStr( <#op2#> ),
+                cStr( <#op1#> ) + " из " + cStr( <#op2#> )
+            ),
+            null
+        )' 	
+]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_part_rank">
+        <![CDATA[
+    -- skk_part_rank
+    member  <#member#>
+    as 'IIF
+        (
+            isEmpty( <#value#> ),
+            null,
+            IIF
+            (
+                round(<#value#>, 4) = 0,				
+                0,				
+                IIF
+                (
+                    round(<#value#>, 4) = round(max( <#set#>, <#value#> ), 4),
+                    1,
+                    IIF
+                    (
+                        round(<#value#>, 4) = round(min( <#set#>, <#value#> ), 4),
+                        -1,
+                        0
+                    )
+                )
+            )
+        ) '	
+]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_part_rank_empty">
+        <![CDATA[
+    -- skk_part_rank_empty
+    member  <#member#>
+    as 'null'	
+]]>
+    </query>
+    
+    <!-- ========================================================================================= -->
+    <query id="skk_part_updown">
+        <![CDATA[
+    -- skk_part_updown		
+    member <#member_base#>                           
+    as 'IIF      
+        (
+            not isEmpty( <#op1#> ) and ( <#op1#> <> 0 )
+                and not isEmpty( <#op2#> ) and ( <#op2#> <> 0 ),
+            IIF
+            (
+                ( <#op1#> > <#op2#> ) and ( <#op1#> < 2*<#op2#> ),
+                <#op1#> / <#op2#> - 1,
+                IIF
+                (
+                    ( <#op1#> < <#op2#> ) and ( 2*<#op1#> > <#op2#> ),
+                    1 - <#op1#> / <#op2#>,
+                    IIF
+                    (
+                        <#op1#> > <#op2#>,
+                        <#op1#> / <#op2#>,
+                        IIF
+                        (
+                            <#op1#> < <#op2#>,
+                            <#op2#> / <#op1#>,
+                            0
+                        )
+                    )
+                    
+                )
+            ),
+            IIF      
+            (		
+                not isEmpty( <#op1#> ) or not isEmpty( <#op2#> ),
+                IIF
+                (
+                    not isEmpty( <#op1#> ) and ( <#op1#> <> 0 ),
+                    <#op1#>,                
+                    IIF      
+                    (
+                        not isEmpty( <#op2#> ) and ( <#op2#> <> 0 ),
+                        <#op2#>,
+                        0  
+                    )
+                ),
+                null
+            )      
+        ) '  
+    member <#member_sign#>  
+    as 'IIF     
+        (
+            not isEmpty( <#op1#> ) and ( <#op1#> <> 0 )
+                and not isEmpty( <#op2#> ) and ( <#op2#> <> 0 ),
+            IIF  
+            (
+                <#op1#> > <#op2#>,
+                1,
+                IIF  
+                (
+                    <#op1#> < <#op2#>,
+                    -1,
+                    null  
+                )   
+            ),
+            IIF     
+            (
+                not isEmpty( <#op1#> ) and ( <#op1#> <> 0 ),
+                1,
+                IIF     
+                (
+                    not isEmpty( <#op2#> ) and ( <#op2#> <> 0 ),
+                    -1,
+                    null  
+                )     
+            )     
+        ) '		
+    member <#member_unit#>
+    as 'IIF
+        (
+            not isEmpty( <#op1#> ) and ( <#op1#> <> 0 )
+                and not isEmpty( <#op2#> ) and ( <#op2#> <> 0 ),
+            IIF
+            (
+                (( <#op1#> > <#op2#> ) and ( <#op1#> < 2*<#op2#> ))
+                    or (( <#op1#> < <#op2#> ) and ( 2*<#op1#> > <#op2#> )),
+                null, --"%"
+                IIF
+                (
+                    <#op1#> <> <#op2#>,
+                    "раз",						
+                    "#"
+                )
+            ),
+            "#"
+        )'
+    member <#member_format#>
+    as 'IIF
+        (
+            not isEmpty( <#op1#> ) and ( <#op1#> <> 0 )
+                and not isEmpty( <#op2#> ) and ( <#op2#> <> 0 ),
+            IIF
+            (
+                (( <#op1#> > <#op2#> ) and ( <#op1#> < 2*<#op2#> ))
+                    or (( <#op1#> < <#op2#> ) and ( 2*<#op1#> > <#op2#> )),
+                "P2", --%
+                IIF
+                (
+                    <#op1#> <> <#op2#>,
+                    "N2", --раз
+                    "#"
+                )
+            ),			
+            "#"
+        )'   		
+]]>
+    </query>
+
+
+    <!-- ========================================================================================= -->
+    <query id="skk_part_base_members">
+        <![CDATA[
+    -- skk_part_base_members
+    member [Measures].[Досмотрено_<#type#>_#] 
+    as ' 
+        (
+            [Показатели].[Показатель].[<#mark_view#>],
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период] 
+        )' 
+    member [Measures].[Выявлено_<#type#>_#]
+    as ' 
+        (
+            [Показатели].[Показатель].[<#mark_deny#>],
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период] 
+        )' 
+    member  [Measures].[Досмотрено_<#type#>_Сравн#]
+    as ' 
+        (
+            [Показатели].[Показатель].[<#mark_view#>],
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[период для сравнения] 
+        )' 
+    member  [Measures].[Выявлено_<#type#>_Сравн#]
+    as ' 
+        (
+            [Показатели].[Показатель].[<#mark_deny#>],
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[период для сравнения] 
+        )'
+]]>
+    </query>	
+    
+    <!-- ========================================================================================= -->
+    <query id="skk_part_tables_select_members">
+        <![CDATA[		
+    -- skk_part_select_members	
+    [Measures].[Досмотрено_<#type#>_#],
+    --[Measures].[Досмотрено_<#type#>_Сравн#],
+    [Measures].[Выявлено_<#type#>_#],        
+    [Measures].[Выявлено_<#type#>_%],	
+    --[Measures].[Выявлено_<#type#>_Сравн#],
+    --[Measures].[Выявлено_<#type#>_Сравн%],		
+    [Measures].[рост/снижение_<#type#>],	
+]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_part_tables_select_hidden_members">
+        <![CDATA[		
+    -- skk_part_select_hidden_members
+    [Measures].[Выявлено_<#type#>_%ранг],
+    [Measures].[Выявлено_<#type#>_%доп],
+    --[Measures].[Выявлено_<#type#>_Сравн%ранг],
+    --[Measures].[Выявлено_<#type#>_Сравн%доп],		
+    [Measures].[рост/снижение_<#type#>_си],
+    [Measures].[рост/снижение_<#type#>_флаг],
+    [Measures].[рост/снижение_<#type#>_формат],	
+]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_part_rank">
+        <![CDATA[
+    -- skk_part_rank
+    <#where#>
+]]>
+    </query>
+</root>

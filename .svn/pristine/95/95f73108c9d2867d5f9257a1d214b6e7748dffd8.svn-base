@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include Variables.wxi?>
+
+  <Fragment>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="4CEBD68F-E933-47f9-B02C-A4FC69FDB551">
+
+         <Shortcut Id="ShortcutFeedPath"
+         Name="Krista.FM.Update.ShedulerUpdateService.exe.config"
+         Description="$(var.ProductName)"
+         Target="[INSTALLDIR]Krista.FM.Update.ShedulerUpdateService.exe.config"
+         WorkingDirectory="INSTALLDIR"/>
+
+        <Shortcut Id="ShortcutNotifyIcon"
+         Name="Krista.FM.Update.NotifyIconApp.exe"
+         Description="Krista.FM.Update.NotifyIconApp.exe"
+         Target="[INSTALLDIR]Krista.FM.Update.NotifyIconApp.exe"
+         WorkingDirectory="INSTALLDIR"/>
+
+        <Shortcut Id="ShortcutNotifyStartup"
+          Directory="StartupFolder"
+          Name="Krista.FM.Update.NotifyIconApp.exe"
+          Target="[INSTALLDIR]Krista.FM.Update.NotifyIconApp.exe"
+          WorkingDirectory="INSTALLDIR"
+          />
+        
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder3">
+      <Component Id="CompanyMenuFolder" Feature="ProductFeature"
+        Guid="{E7D5A37A-7B27-4041-97DA-00A404CE2619}">
+        <RemoveFolder Id="ApplicationProgramsFolder3" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ApplicationProgramsFolder2">
+      <Component Id="CompanyMenuFolder2" Feature="ProductFeature"
+        Guid="{61622800-FB1E-4ADC-8F40-90AA13FB70FB}">
+        <RemoveFolder Id="ApplicationProgramsFolder2" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

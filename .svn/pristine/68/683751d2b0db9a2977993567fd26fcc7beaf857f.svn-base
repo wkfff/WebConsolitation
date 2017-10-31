@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <appSettings>
+    <add key="DataPumpPath" value=""/>
+    <add key="RepositoryPath" value="C:\Program Files\Krista\FM\Repository"/>
+    <add key="ServerPort" value="8008"/>
+    <add key="WebServiceUrl" value="http://fmserv/Krista.FM.Server.WebServices/PlaningService.asmx"/>
+    <add key="ProductName" value="Анализ и планирование"/>
+    <add key="SupportServiceInfo" value="fmsupport@krista.ru"/>
+	<add key="ArchiveShare" value="\\fmserv\Archive"/>
+	<add key="DataSourcesShare" value="\\fmserv\DataSources"/>
+	<add key="ExpertRepositoryShare" value="\\fmserv\Репозиторий Эксперта"/>
+	<!--
+		Параметр UseNullScriptingEngineImpl используется для отключения генерации sql-скриптов,
+		когда нет необходимости создавать таблицы в базе данных.
+		В базе данных будут сохраняться только мета-данные.
+	
+	<add key="UseNullScriptingEngineImpl" value="true"/>
+	-->
+
+	<!-- Параметр ProcessTimeOut задаёт максимальную продолжительность обработки пакета в милисекундах 
+	     для SSAS2005 без учета дополнительных операций 
+		 
+		 <add key="ProcessTimeOut" value="1800000"/>
+	-->
+  <!-- 
+		Параметр NotInitializeDatabaseVersion отключает проверку версии многомерной базы
+	  <add key="NotInitializeDatabaseVersion" value="true"/>
+  -->
+  <!-- 
+		Параметр WithOutOLAPProcessror отключает инициализацию Krista.FM.Server.OLAP.Processor
+	  <add key="WithOutOLAPProcessror" value="true"/>
+	-->
+    <!-- 
+    Параметр UseReplaceIPAddressTrackingHandler подключает добавление в контекст вызова имени
+    или адреса ремоутинг-сервера, видимого с клиента.
+    Актуально при одновременной работе с несколькими сетевыми адаптерами.
+    <add key="UseReplaceIPAddressTrackingHandler" value="true"/>
+  -->
+  </appSettings>
+  <system.runtime.remoting>
+    <application name="FMServer">
+      <service>
+        <wellknown mode="Singleton" type="Krista.FM.Server.ServerClass, Krista.FM.Server" objectUri="Server.rem" />
+      </service>
+      <channels>
+        <channel ref="tcp" port="8008">
+          <serverProviders>
+            <!--<provider ref="replaceIPAddress"/>-->
+            <formatter ref="binary" typeFilterLevel="Full" />
+          </serverProviders>
+        </channel>
+      </channels>
+    </application>
+    <!--<channelSinkProviders>
+      <serverProviders>
+        <provider id="replaceIPAddress"
+			    type="Krista.FM.Common.ReplaceIPAddressServerChannelSinkProvider, Krista.FM.Common" />
+      </serverProviders>
+    </channelSinkProviders>-->
+    <customErrors mode="Off"/>
+  </system.runtime.remoting>
+	<system.data>
+		<DbProviderFactories>
+			<add name="FM OracleClient Data Provider" invariant="Krista.FM.Providers.OracleDataAccess" description="FM OracleClient Data Provider" type="Krista.FM.Providers.OracleDataAccess.OracleDataAccessFactory, Krista.FM.Providers.OracleDataAccess, Culture=neutral" />
+			<add name="FM MSOracleClient Data Provider" invariant="Krista.FM.Providers.MSOracleDataAccess" description="FM MSOracleClient Data Provider" type="Krista.FM.Providers.MSOracleDataAccess.OracleDataAccessFactory, Krista.FM.Providers.MSOracleDataAccess, Culture=neutral" />
+		</DbProviderFactories>
+	</system.data>
+	<runtime>
+    <gcServer enabled="true"/>
+    <gcConcurrent enabled="false"/>
+    <generatePublisherEvidence enabled="false"/>
+  </runtime>
+  <system.diagnostics>
+    <sources>
+      <source name="Krista.FM.Common" switchValue="Verbose">
+        <listeners>
+          <add name="FileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+      <source name="Krista.FM.Server" switchValue="Verbose">
+        <listeners>
+          <add name="ColoredConsole"/>
+          <add name="FileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+      <source name="Krista.FM.Server.AppServer" switchValue="Verbose">
+        <listeners>
+          <add name="ColoredConsole"/>
+          <add name="FileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+      <source name="Krista.FM.Server.Common" switchValue="Verbose">
+        <listeners>
+          <add name="ColoredConsole"/>
+          <add name="FileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+      <source name="Krista.FM.Server.Scheme" switchValue="Verbose">
+        <listeners>
+          <add name="ColoredConsole"/>
+          <add name="FileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+      <source name="Krista.FM.Server.WriteBack" switchValue="Verbose">
+        <listeners>
+          <add name="ColoredConsole"/>
+          <add name="FileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+      <source name="Krista.FM.Server.OLAP.Processor" switchValue="Verbose">
+        <listeners>
+          <add name="ColoredConsole"/>
+          <add name="FileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+      <source name="Krista.FM.Server.DataSourcesManager" switchValue="Verbose">
+		<listeners>
+			<add name="ColoredConsole"/>
+			<add name="FileTextWriter"/>
+			<remove name="Default"/>
+		</listeners>
+	  </source>
+	  <source name="Krista.FM.Server.FinSourcePlanning" switchValue="Verbose">
+			<listeners>
+				<add name="ColoredConsole"/>
+				<add name="FileTextWriter"/>
+				<remove name="Default"/>
+			</listeners>
+	  </source>
+      <source name="Krista.FM.Server.PlaningProvider" switchValue="Verbose">
+        <listeners>
+          <add name="ColoredConsole"/>
+          <add name="PlaningProviderFileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+      <source name="Krista.FM.Server.MessagesManager" switchValue="Verbose">
+        <listeners>
+          <add name="ColoredConsole"/>
+          <add name="FileTextWriter"/>
+          <remove name="Default"/>
+        </listeners>
+      </source>
+    </sources>
+    <sharedListeners>
+      <add name="ColoredConsole" type="Krista.Diagnostics.ColoredConsoleTraceListener, Krista.Diagnostics"/>
+      <add name="FileTextWriter" type="System.Diagnostics.TextWriterTraceListener, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" initializeData="C:\Program Files\Krista\FM\X.X.X\Server\FMServer.log"/>
+      <add name="PlaningProviderFileTextWriter" type="System.Diagnostics.TextWriterTraceListener, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" initializeData="PlaningProvider.log"/>
+      <!--
+      <add name="ChatServer" type="Krista.Diagnostics.ChatServerTraceListener, Krista.Diagnostics" initializeData="tcp://fmserv:889/Krista.ChatServer/Server.rem"/>
+      -->
+    </sharedListeners>
+  </system.diagnostics>
+</configuration>

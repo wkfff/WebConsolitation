@@ -1,0 +1,56 @@
+﻿using System.Runtime.Serialization;
+using ProtoBuf;
+
+namespace Krista.FM.Common.Consolidation.Calculations.Expressions
+{
+    [DataContract][ProtoContract]
+    [KnownType(typeof(LeftValueSelector))]
+    [KnownType(typeof(UndependRowSelector))]
+    [KnownType(typeof(ConsSelector))]
+    [KnownType(typeof(RightValueSelector))]
+    [KnownType(typeof(DependSelector))]
+    [KnownType(typeof(DependRowSelector))]
+    [KnownType(typeof(BinaryExpression))]
+    [KnownType(typeof(UnaryExpression))]
+    [KnownType(typeof(ParamColumn))]
+    [KnownType(typeof(UndependParamColumn))]
+    [KnownType(typeof(DependParamColumn))]
+    [KnownType(typeof(DependContextParamColumn))]
+    [KnownType(typeof(LogicFunction))]
+    [KnownType(typeof(ExistFunction))]
+    [KnownType(typeof(SectionSelector))]
+    [KnownType(typeof(FormSelector))]
+    [KnownType(typeof(LayerSelector))]
+    [KnownType(typeof(ValueExpression))]
+    [ProtoInclude(1, typeof(AssignRelation))]
+    [ProtoInclude(2, typeof(BinaryExpression))]
+    [ProtoInclude(3, typeof(CalcFunction))]
+    [ProtoInclude(4, typeof(CheckRelation))]
+    [ProtoInclude(5, typeof(ClassMethod))]
+    [ProtoInclude(6, typeof(ClassProperty))]
+    [ProtoInclude(7, typeof(ConsRelationRoot))]
+    [ProtoInclude(8, typeof(ConsRowGenRelation))]
+    [ProtoInclude(9, typeof(ConsSelector))]
+    [ProtoInclude(10, typeof(DependRowSelector))]
+    [ProtoInclude(11, typeof(DependSelector))]
+    [ProtoInclude(12, typeof(ExistFunction))]
+    [ProtoInclude(13, typeof(FormSelector))]
+    [ProtoInclude(14, typeof(GroupFunction))]
+    [ProtoInclude(15, typeof(InStatement))]
+    [ProtoInclude(16, typeof(LayerSelector))]
+    [ProtoInclude(17, typeof(LeftValueSelector))]
+    [ProtoInclude(18, typeof(LogicFunction))]
+    [ProtoInclude(19, typeof(ParamExpression))]
+    [ProtoInclude(20, typeof(RightValueSelector))]
+    [ProtoInclude(21, typeof(SectionSelector))]
+    [ProtoInclude(22, typeof(Subject))]
+    [ProtoInclude(23, typeof(TotalRowGenRelation))]
+    [ProtoInclude(24, typeof(UnaryExpression))]
+    [ProtoInclude(25, typeof(UndependRowSelector))]
+    [ProtoInclude(26, typeof(ValueExpression))]
+    [ProtoInclude(27, typeof(VerifyRelation))]
+    public abstract class ConsRelationExpression
+    {
+        public abstract void Accept(ConsRelationVisitor visitor);
+    }
+}

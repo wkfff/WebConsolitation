@@ -1,0 +1,218 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Text;
+using System.Data.OracleClient;
+
+namespace Krista.FM.Providers.MSOracleDataAccess
+{
+    public class OracleDbCommand : DbCommand, IDbCommand
+    {
+        private OracleCommand command = null;
+
+        public OracleDbCommand()
+        {
+            this.command = new OracleCommand();
+        }
+
+        public OracleDbCommand(OracleCommand command)
+        {
+            System.Diagnostics.Trace.Assert(command != null, "Parameter command is null");
+            this.command = command;
+        }
+
+        public OracleDbCommand(string cmdText)
+        {
+            command = new OracleCommand(cmdText);
+        }
+
+        public OracleDbCommand(string cmdText, DbConnection conn)
+        {
+            command = new OracleCommand(cmdText, ((OracleDbConnection)conn).OracleConn);
+        }
+
+        public override void Cancel()
+        {
+            command.Cancel();
+        }
+
+        public override string CommandText
+        {
+            get
+            {
+                return command.CommandText;
+            }
+            set
+            {
+                command.CommandText = value;
+            }
+        }
+
+        public override int CommandTimeout
+        {
+            get
+            {
+                return command.CommandTimeout;
+            }
+            set
+            {
+                command.CommandTimeout = value;
+            }
+        }
+
+        public override CommandType CommandType
+        {
+            get
+            {
+                return command.CommandType;
+            }
+            set
+            {
+                command.CommandType = value;
+            }
+        }
+
+        protected override DbConnection DbConnection
+        {
+            get
+            {
+                OracleDbConnection conn = new OracleDbConnection(command.Connection);
+                return conn;
+            }
+            set
+            {
+                command.Connection = ((OracleDbConnection)value).OracleConn;
+            }
+        }
+
+        protected override DbParameterCollection DbParameterCollection
+        {
+            get 
+            {
+                OracleDbParametersCollection collection = new OracleDbParametersCollection(command.Parameters);
+                return collection; 
+            }
+        }
+
+        protected override DbTransaction DbTransaction
+        {
+            get
+            {
+                return new OracleDbTransaction(this.command.Transaction);
+            }
+            set
+            {
+				if (value is OracleDbTransaction)
+                {
+					this.command.Transaction = ((OracleDbTransaction)value).OracleTransaction;
+                }
+            }
+        }
+
+        public override bool DesignTimeVisible
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+                
+            }
+        }
+
+        protected override DbParameter CreateDbParameter()
+        {
+            OracleParameter param = command.CreateParameter();
+            return new OracleDbParameter(param);
+        }
+
+        public override UpdateRowSource UpdatedRowSource
+        {
+            get
+            {
+                return command.UpdatedRowSource;
+            }
+            set
+            {
+                command.UpdatedRowSource = value;
+            }
+        }
+
+        protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
+        {
+            return new OracleDbDataReader(command.ExecuteReader(behavior));
+        }
+
+        public override object ExecuteScalar()
+        {
+            return command.ExecuteScalar();
+        }
+
+        public override int ExecuteNonQuery()
+        {
+			//DumpCommand();
+			return command.ExecuteNonQuery();
+        }
+
+        public override void Prepare()
+        {
+            command.Prepare();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            lock (this)
+            {
+                if (disposing)
+                {
+                    if (command != null)
+                        command.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+		private void DumpCommand()
+		{
+			try
+			{
+				if (command.CommandText.ToUpper().Contains("OLAPOBJECTS"))
+				{
+					string psrt = String.Empty;
+					if (command.Parameters != null && command.Parameters.Count > 0)
+					{
+						try
+						{
+							StringBuilder sb = new StringBuilder("Значения параметров запроса:\n");
+							foreach (IDbDataParameter item in command.Parameters)
+							{
+								sb.AppendFormat("{0} [{1}]: ", item.ParameterName, item.DbType);
+								string value = Convert.ToString(item.Value);
+								sb.Append(value.Length <= 50 ? value : value.Substring(0, 50));
+								sb.AppendLine();
+							}
+							psrt = sb.ToString();
+						}
+						catch
+						{
+							psrt = String.Empty;
+						}
+					}
+					else
+						psrt = String.Empty;
+
+					Trace.TraceInformation("======================================================================");
+					Trace.TraceInformation("Запрос \"{0}\"\n{1}", command.CommandText, psrt);
+					//Console.WriteLine("======================================================================");
+					//Console.WriteLine("Запрос \"{0}\"\n{1}", command.CommandText, psrt);
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError(Krista.Diagnostics.KristaDiagnostics.ExpandException(e));
+			}
+		}
+	}
+}

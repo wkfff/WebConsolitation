@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="date_outcomes">
+    <![CDATA[
+-- fo_0035_0003_date_outcomes
+-- <#[ФО_Исполнение кассового плана]#>
+with 
+    member Measures.[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            NonEmptyCrossjoin({[Период].[Период].Members})
+        )
+    } on rows 
+from [ФО_Исполнение кассового плана_Расходы]
+	]]>
+  </query>
+
+  <query id="GridOutcomeKinds">
+    <![CDATA[
+-- fo_0035_0003_GridOutcomeKinds
+-- <#[ФО_Исполнение кассового плана_Расходы]#>
+with
+    member Measures.[План ]
+    as '[Measures].[<%measure_plan%>] / 1000'
+    member Measures.[План удел.сумма]
+    as 'IIF
+        (
+          IsEmpty(Sum
+          (
+              [Список ГРБС],
+              Measures.[План ]
+          )) or Sum
+          (
+              [Список ГРБС],
+              Measures.[План ]
+          ) = 0,
+          null,
+          (Measures.[План ]) / Sum
+          (
+              [Список ГРБС],
+              Measures.[План ]
+          )
+        )  '
+    member Measures.[Ранг план удел.сумма]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[План удел.сумма]
+            ),
+            null,
+            Rank
+            (
+                [Администратор].[ИспКасПланСопост].CurrentMember,
+                Order
+                (
+                    Filter
+                    (
+                        Except 
+                        (
+                            [Администратор].[ИспКасПланСопост].CurrentMember.Siblings,
+                            {
+                                [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+                                <%add_excepted%>
+                            } 
+                        ),
+                        not IsEmpty
+                        (
+                            Measures.[План удел.сумма]
+                        )
+                    ),
+                    Measures.[План удел.сумма],
+                    DESC
+                ),
+                Measures.[План удел.сумма]
+            )
+        )'
+    member Measures.[Худший ранг план удел.сумма]
+    as 'max
+        (
+            Except 
+            (
+                [Администратор].[ИспКасПланСопост].CurrentMember.Siblings,
+                {
+                    [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+                    <%add_excepted%>
+                } 
+            ),
+            Measures.[Ранг план удел.сумма]
+        )'
+    member Measures.[Факт ]
+    as '[Measures].[<%measure_fact%>] / 1000'
+    member Measures.[Факт удел.сумма]
+    as 'IIF
+        (
+          IsEmpty(Sum
+          (
+              [Список ГРБС],
+              Measures.[Факт ]
+          )) or Sum
+          (
+              [Список ГРБС],
+              Measures.[Факт ]
+          ) = 0, null, 
+          (Measures.[Факт ]) / Sum
+          (
+              [Список ГРБС],
+              Measures.[Факт ]
+          )
+       )   '
+    member Measures.[Ранг Факт удел.сумма]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Факт удел.сумма]
+            ),
+            null,
+            Rank
+            (
+                [Администратор].[ИспКасПланСопост].CurrentMember,
+                Order
+                (
+                    Filter
+                    (
+                        Except 
+                        (
+                            [Администратор].[ИспКасПланСопост].CurrentMember.Siblings,
+                            {
+                                [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+                                <%add_excepted%>
+                            } 
+                        ),
+                        not IsEmpty
+                        (
+                            Measures.[Факт удел.сумма]
+                        )
+                    ),
+                    Measures.[Факт удел.сумма],
+                    DESC
+                ),
+                Measures.[Факт удел.сумма]
+            )
+        )'
+    member Measures.[Худший Факт план удел.сумма]
+    as 'max
+        (
+            Except 
+            (
+                [Администратор].[ИспКасПланСопост].CurrentMember.Siblings,
+                {
+                    [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+                    <%add_excepted%>
+                } 
+            ),
+            Measures.[Ранг Факт удел.сумма]
+        )'
+    member Measures.[Код]
+    as '[Администратор].[ИспКасПланСопост].CurrentMember.Properties("Код")'
+    Set [Список ГРБС]
+    as 'Except
+        (
+            [Администратор].[ИспКасПланСопост].[ГРБС].Members,
+            {
+                [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+                <%add_excepted%>
+            }
+        ) '
+select
+    {
+        {
+            [Measures].[Код],
+            [Measures].[План ],
+            [Measures].[План удел.сумма],
+            [Measures].[Ранг план удел.сумма],
+            [Measures].[Худший ранг план удел.сумма],
+            [Measures].[Факт ],
+            [Measures].[Факт удел.сумма],
+            [Measures].[Ранг Факт удел.сумма],
+            [Measures].[Худший Факт план удел.сумма]
+        }
+    }  on columns,
+    {[Список ГРБС]}  on rows
+from [ФО_Исполнение кассового плана_Расходы]
+where
+    (
+        [Период].[Период].[Данные всех периодов]<%period_cur_date%>,
+        [Расходы].[ИспКасПлан].[Все].[Итого]
+    )
+	]]>
+      </query>
+
+      <query id="ChartOutcome">
+        <![CDATA[
+-- fo_0035_0003_ChartOutcome
+-- <#[ФО_Исполнение кассового плана_Расходы]#>
+with
+    member Measures.[План ]
+    as '[Measures].[<%measure_plan%>] / 1000' 
+    member Measures.[Факт ]
+    as '[Measures].[<%measure_fact%>] / 1000'
+select
+    {
+        {
+            [Measures].[План ],
+            [Measures].[Факт ]      
+        }      
+    }  on columns,
+    Except     
+    (
+        [Администратор].[ИспКасПланСопост].[ГРБС].Members,
+        {
+            [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+            <%add_excepted%>
+        }     
+    )  on rows
+from [ФО_Исполнение кассового плана_Расходы] 
+where     
+    (
+        [Период].[Период].[Данные всех периодов]<%period_cur_date%>,
+        [Расходы].[ИспКасПлан].[Все].[Итого]
+    )   
+	]]>
+  </query>
+
+</root>

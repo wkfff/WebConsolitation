@@ -1,0 +1,916 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="IncomesKDElementList">
+    <![CDATA[
+-- IncomesKDElementList    
+with 
+    member Measures.[Код] 
+    as '[КД].[Сопоставимый].CurrentMember.Properties("Код")' 
+    member Measures.[Уникальное имя] 
+    as '[КД].[Сопоставимый].CurrentMember.UniqueName' 
+    set [Элементы измерения] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [КД].[Сопоставимый].DefaultMember,
+                [КД].[Сопоставимый].[Подгруппа],
+                SELF_AND_BEFORE 
+            ),
+            not 
+            (
+                [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].CurrentMember.Parent.DataMember 
+            ) 
+        ) - 
+        {
+            [КД].[Сопоставимый].DefaultMember 
+        }' 
+select
+    {
+        Measures.[Уникальное имя],
+        Measures.[Код] 
+    } on columns,
+    [Элементы измерения] on rows 
+from [ФО_МесОтч_Доходы] 
+	]]>
+  </query>
+
+  <query id="OutcomesRzPrElementList">
+    <![CDATA[
+-- OutcomesRzPrElementList    
+with
+    member Measures.[Код]
+    as '[РзПр].[Сопоставимый].CurrentMember.Properties("Код")'
+    member Measures.[Уникальное имя]
+    as '[РзПр].[Сопоставимый].CurrentMember.UniqueName'
+    set [Элементы измерения]
+    as 'Filter
+        (
+            Descendants
+            (
+                [РзПр].[Сопоставимый].DefaultMember,
+                [РзПр].[Сопоставимый].[Подраздел],
+                SELF_AND_BEFORE
+            ),
+            not
+            (
+                [РзПр].[Сопоставимый].CurrentMember is [РзПр].[Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        ) -
+        {
+            [РзПр].[Сопоставимый].DefaultMember
+        }'
+select
+    {
+        Measures.[Уникальное имя],
+        Measures.[Код]
+    } on columns,
+    [Элементы измерения] on rows
+from [ФО_МесОтч_Расходы]
+	]]>
+  </query>
+
+  <query id="OutcomesKOSGUElementList">
+    <![CDATA[
+-- OutcomesKOSGUElementList    
+with
+    member Measures.[Код]
+    as '[КОСГУ].[Сопоставимый].CurrentMember.Properties("Код")'
+    member Measures.[Уникальное имя]
+    as '[КОСГУ].[Сопоставимый].CurrentMember.UniqueName'
+    set [Элементы измерения]
+    as 'Filter
+        (
+            Descendants
+            (
+                [КОСГУ].[Сопоставимый].DefaultMember,
+                [КОСГУ].[Сопоставимый].[Статья],
+                SELF_AND_BEFORE
+            ),
+            not
+            (
+                [КОСГУ].[Сопоставимый].CurrentMember is [КОСГУ].[Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        ) -
+        {
+            [КОСГУ].[Сопоставимый].DefaultMember
+        }'
+select
+    {
+        Measures.[Уникальное имя],
+        Measures.[Код]
+    } on columns,
+    [Элементы измерения] on rows
+from [ФО_МесОтч_Расходы]
+	]]>
+  </query>
+
+  <query id="FnsOkvedElementList">
+    <![CDATA[
+-- FnsOkvedElementList    
+with
+    member Measures.[Код]
+    as '[ОКВЭД].[Сопоставимый].CurrentMember.Properties("Код")'
+    member Measures.[Уникальное имя]
+    as '[ОКВЭД].[Сопоставимый].CurrentMember.UniqueName'
+    set [Элементы измерения]
+    as 'Filter
+        (
+            Descendants
+            (
+                [ОКВЭД].[Сопоставимый].DefaultMember,
+                [ОКВЭД].[Сопоставимый].[Подкласс],
+                SELF_AND_BEFORE
+            ),
+            not
+            (
+                [ОКВЭД].[Сопоставимый].CurrentMember is [ОКВЭД].[Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        ) -
+        {
+            [ОКВЭД].[Сопоставимый].DefaultMember
+        }'
+select
+    {
+        Measures.[Уникальное имя],
+        Measures.[Код]
+    } on columns,
+    [Элементы измерения] on rows
+from [ФНС_28н_с расщеплением]
+	]]>
+  </query>
+
+  <query id="BaseOutcomesElementList">
+    <![CDATA[
+-- BaseOutcomesElementList    
+with
+    member Measures.[Код]
+    as '[Расходы__Базовый].[Расходы__Базовый].CurrentMember.Properties("Код")'
+    member Measures.[Уникальное имя]
+    as '[Расходы__Базовый].[Расходы__Базовый].CurrentMember.UniqueName'
+    set [Элементы измерения]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Расходы__Базовый].[Расходы__Базовый].DefaultMember,
+                [Расходы__Базовый].[Расходы__Базовый].[Расходы уровень 6],
+                SELF_AND_BEFORE
+            ),
+            not
+            (
+                [Расходы__Базовый].[Расходы__Базовый].CurrentMember is [Расходы__Базовый].[Расходы__Базовый].CurrentMember.Parent.DataMember
+            )
+        ) -
+        {
+            [Расходы__Базовый].[Расходы__Базовый].DefaultMember
+        }'
+select
+    {
+        Measures.[Уникальное имя],
+        Measures.[Код]
+    } on columns,
+    [Элементы измерения] on rows
+from [ФО_АС Бюджет_КазнИсп_Факт расхода]
+	]]>
+  </query>
+
+  <query id="AdminElementList">
+    <![CDATA[
+-- AdminElementList    
+with
+    member Measures.[Код]
+    as '[Администратор__Сопоставим].[Администратор__Сопоставим].CurrentMember.Properties("Код")'
+    member Measures.[Уникальное имя]
+    as '[Администратор__Сопоставим].[Администратор__Сопоставим].CurrentMember.UniqueName'
+    set [Элементы измерения]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Администратор__Сопоставим].[Администратор__Сопоставим].DefaultMember,
+                [Администратор__Сопоставим].[Администратор__Сопоставим].[Администратор],
+                SELF_AND_BEFORE
+            ),
+            not
+            (
+                [Администратор__Сопоставим].[Администратор__Сопоставим].CurrentMember is [Администратор__Сопоставим].[Администратор__Сопоставим].CurrentMember.Parent.DataMember
+            )
+        ) -
+        {
+            [Администратор__Сопоставим].[Администратор__Сопоставим].DefaultMember
+        }'
+select
+    {
+        Measures.[Уникальное имя],
+        Measures.[Код]
+    } on columns,
+    [Элементы измерения] on rows
+from [ФО_АС Бюджет_КазнИсп_Факт расхода]
+	]]>
+  </query>
+
+  <query id="KOSGUElementList">
+    <![CDATA[
+-- KOSGUElementList    
+with
+    member Measures.[Код]
+    as '[КОСГУ__Сопоставимый].[КОСГУ__Сопоставимый].CurrentMember.Properties("Код")'
+    member Measures.[Уникальное имя]
+    as '[КОСГУ__Сопоставимый].[КОСГУ__Сопоставимый].CurrentMember.UniqueName'
+    set [Элементы измерения]
+    as 'Filter
+        (
+            Descendants
+            (
+                [КОСГУ__Сопоставимый].[КОСГУ__Сопоставимый].DefaultMember,
+                [КОСГУ__Сопоставимый].[КОСГУ__Сопоставимый].[Подстатья],
+                SELF_AND_BEFORE
+            ),
+            not
+            (
+                [КОСГУ__Сопоставимый].[КОСГУ__Сопоставимый].CurrentMember is [КОСГУ__Сопоставимый].[КОСГУ__Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        ) -
+        {
+            [КОСГУ__Сопоставимый].[КОСГУ__Сопоставимый].DefaultMember
+        }'
+select
+    {
+        Measures.[Уникальное имя],
+        Measures.[Код]
+    } on columns,
+    [Элементы измерения] on rows
+from [ФО_АС Бюджет_КазнИсп_Факт расхода]
+	]]>
+  </query>
+
+  <query id="MonthReportIncomesLastDate">
+    <![CDATA[
+-- MonthReportIncomesLastDate    
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                [Период].[Период].Members,
+                not IsEmpty([Measures].[Факт]) and   
+                (
+                    [Период].[Период].CurrentMember.Name <> "Остатки на начало года"  
+                ) and   
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные квартала"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные полугодия" 
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные года" 
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные месяца"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Заключительные обороты"  
+                )
+            )
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФО_МесОтч_Доходы]
+	]]>
+  </query>
+
+  <query id="MonthReportOutcomesLastDate">
+    <![CDATA[
+-- MonthReportOutcomesLastDate    
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                [Период].[Период].Members,
+                not IsEmpty([Measures].[Факт]) and
+                (
+                    [Период].[Период].CurrentMember.Name <> "Остатки на начало года"  
+                ) and   
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные квартала"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные полугодия" 
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные года" 
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные месяца"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Заключительные обороты"  
+                )
+            )
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФО_МесОтч_Расходы]
+	]]>
+  </query>
+
+  <query id="BudgetIncomesFactLastDate">
+    <![CDATA[
+-- BudgetIncomesFactLastDate
+with
+    member Measures.[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        Filter
+        (
+            OpeningPeriod
+            (
+                [Период__Период].[Период__Период].[День],
+                [Период__Период].[Период__Период].[Данные всех периодов].[2009]
+            ) : ClosingPeriod
+            (
+                [Период__Период].[Период__Период].[День],
+                [Период__Период].[Период__Период].[Данные всех периодов].[2012]
+            ),
+            not (IsEmpty([Measures].[Факт доходов])) and
+            not ([Период__Период].[Период__Период].CurrentMember.Name = "Заключительные обороты")
+        )
+    ) on rows
+from  [ФО_АС Бюджет_Факт доходов]
+  ]]>
+  </query>
+
+  <query id="BudgetOutcomesFactLastDate">
+    <![CDATA[
+-- BudgetOutcomesFactLastDate
+with
+    member Measures.[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        NonEmptyCrossjoin
+        (
+            OpeningPeriod
+            (
+               [Период__Период].[Период__Период].[День],
+               [Период__Период].[Период__Период].[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+               [Период__Период].[Период__Период].[День],
+               [Период__Период].[Период__Период].[Данные всех периодов].[2012]
+            )
+        )
+    ) on rows
+from  [ФО_АС Бюджет_КазнИсп_Факт расхода]
+  ]]>
+  </query>
+
+  <query id="FoDebtKzDzLastDate">
+    <![CDATA[
+-- FoDebtKzDzLastDate
+with 
+    member [Measures].[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+    set [NonEmptySet] 
+    as 'Tail 
+        (
+            Filter 
+            (
+                Descendants 
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[Квартал],
+                    SELF 
+                ),
+                not IsEmpty 
+                (
+                    [Measures].[Факт]                 
+                )and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Квартал 1" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Остатки на начало года" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные квартала" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные полугодия" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные месяца" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные года" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Заключительные обороты" 
+                )  
+            ) 
+        )' 
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows 
+from [ФО_Задолженность_КзДз] 
+where 
+    (
+        [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта]
+    ) 
+  ]]>
+  </query>
+
+  <query id="FkMonthReportIncomesLastDate">
+    <![CDATA[
+-- FkMonthReportIncomesLastDate    
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                OpeningPeriod 
+                (
+                    [Период].[Период].[Месяц],
+                    [Период].[Период].[Данные всех периодов].[2010]
+                ) : ClosingPeriod 
+                (
+                    [Период].[Период].[Месяц],
+                    [Период].[Период].[Данные всех периодов].[2020]
+                ),
+                not IsEmpty([Measures].[Исполнено]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+                [Период].[Период].CurrentMember.Name <> "Значение не указано"
+            )
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФК_МесОтч_Доходы]
+	]]>
+  </query>
+
+  <query id="FkMonthReportOutcomesLastDate">
+    <![CDATA[
+-- FkMonthReportOutcomesLastDate    
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                OpeningPeriod 
+                (
+                    [Период].[Период].[Месяц],
+                    [Период].[Период].[Данные всех периодов].[2010]
+                ) : ClosingPeriod 
+                (
+                    [Период].[Период].[Месяц],
+                    [Период].[Период].[Данные всех периодов].[2020]
+                ),
+                not IsEmpty([Measures].[Исполнено]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+                [Период].[Период].CurrentMember.Name <> "Значение не указано"
+            )
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФК_МесОтч_Расходы]
+	]]>
+  </query>
+
+  <query id="fns28nSplitLastDate">
+    <![CDATA[
+-- fns28nSplitLastDate    
+with      
+    member Measures.[ДанныеНа]      
+    as '[Период].[Период].CurrentMember.UniqueName'      
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail      
+    (
+        NonEmptyCrossjoin
+        (
+            Filter
+            (
+                OpeningPeriod    
+                (
+                    [Период].[Период].[Месяц],
+                    [Период].[Период].[Данные всех периодов].[2010]
+                ) : ClosingPeriod    
+                (
+                    [Период].[Период].[Месяц],
+                    [Период].[Период].[Данные всех периодов].[2012]
+                ),
+                StrToValue([Период].[Период].CurrentMember.Properties("PKID")) > 0
+            )
+        )
+    ) on rows  
+from [ФНС_28н_с расщеплением]  
+	]]>
+  </query>
+
+  <query id="fns28nNonSplitLastDate">
+    <![CDATA[
+-- fns28nNonSplitLastDate    
+with      
+    member Measures.[ДанныеНа]      
+    as '[Период].[Период].CurrentMember.UniqueName'      
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail      
+    (
+        NonEmptyCrossjoin
+        (
+            Filter
+            (
+                OpeningPeriod    
+                (
+                    [Период].[Период].[Месяц],
+                    [Период].[Период].[Данные всех периодов].[2010]
+                ) : ClosingPeriod    
+                (
+                    [Период].[Период].[Месяц],
+                    [Период].[Период].[Данные всех периодов].[2012]
+                ),
+                StrToValue([Период].[Период].CurrentMember.Properties("PKID")) > 0
+            )
+        )
+    ) on rows  
+from [ФНС_28н_без расщепления] 
+	]]>
+  </query>
+
+  <query id="moFinPassportLastDate">
+    <![CDATA[
+-- moFinPassportLastDate    
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        NonEmptyCrossjoin
+        (
+            OpeningPeriod
+            (
+                [Период].[Период].[Месяц],
+                [Период].[Период].[Данные всех периодов].[2010]
+            ) : ClosingPeriod
+            (
+                [Период].[Период].[Месяц],
+                [Период].[Период].[Данные всех периодов].[2020]
+            )
+        )
+    ) on rows
+from [ФО_Финпаспорт МО]
+where
+    (
+        [ТипДокумента].[СКИФ].[Все],
+        [Уровни бюджета].[СКИФ].[Все]
+    )   
+	]]>
+  </query>
+
+  <query id="foBudgetOutcomesLastDate">
+    <![CDATA[
+-- foBudgetOutcomesLastDate    
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        NonEmptyCrossjoin
+        (
+            OpeningPeriod
+            (
+                [Период].[Период].[День],
+                [Период].[Период].[Данные всех периодов].[2010]
+            ) : ClosingPeriod
+            (
+                [Период].[Период].[День],
+                [Период].[Период].[Данные всех периодов].[2020]
+            )
+        )
+    ) on rows
+from [ФО_Расходы бюджета]
+	]]>
+  </query>
+
+  <query id="foYearReportStatesLastDate">
+    <![CDATA[
+-- foYearReportStatesLastDate    
+with  
+    member Measures.[ДанныеНа]  
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'  
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail  
+    (
+        NonEmptyCrossjoin  
+        (
+            [Период__Период].[Период__Период].[Данные всех периодов].[2009] : [Период__Период].[Период__Период].[Данные всех периодов].[2020]  
+        )  
+    ) on rows  
+From [ФО_ГодОтч_Сеть Штаты Контингент] 
+where 
+    (
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все],
+        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все]
+    ) 
+	]]>
+  </query>
+
+  <query id="foYearReportBalansLastDate">
+    <![CDATA[
+-- foYearReportBalansLastDate   
+with
+    member Measures.[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        NonEmptyCrossjoin
+        (
+            [Период__Период].[Период__Период].[Данные всех периодов].[2009] : [Период__Период].[Период__Период].[Данные всех периодов].[2020]
+        )
+    ) on rows
+From [ФО_ГодОтч_Баланс]
+where
+    (
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все],
+        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все]
+    )
+	]]>
+  </query>
+
+  <query id="foMonthReportDebtLastDate">
+    <![CDATA[
+-- foMonthReportDebtLastDate  
+with
+    member Measures.[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        NonEmptyCrossjoin
+        (
+            [Период__Период].[Период__Период].[Данные всех периодов].[2009] : [Период__Период].[Период__Период].[Данные всех периодов].[2020]
+        )
+    ) on rows
+From [ФО_МесОтч_Задолженность]
+where
+    (
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все]
+    )
+	]]>
+  </query>  
+  
+  <query id="YaroslavlList">
+<![CDATA[
+--YaroslavlList	
+		with
+    member [Measures].[IsGRBS]
+    as '
+        (
+            [Районы].[Сопоставимый].CurrentMember.Name <> "Несопоставленные данные"
+        ) and
+        (
+            [Районы].[Сопоставимый].CurrentMember.Name <> "Федеральный бюджет"
+        ) and
+        (
+            [Районы].[Сопоставимый].CurrentMember.Name <> "Консолидированный бюджет Ярославской области"
+        ) and
+        (
+          [Районы].[Сопоставимый].CurrentMember.Name <> "Бюджет области"
+        )
+        and
+        (
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") <> "СБ"
+        )and
+        (
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") <> "МР"
+        )and
+        (
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") <> "ГО"
+        )and not
+        (
+           [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+        )
+        '
+  
+    set [Районы ]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                [Районы].[Сопоставимый].[Уровень 04],
+                SELF
+            ),
+            not
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )
+        )'
+    set [Города ]
+    as 'Filter
+        (
+            Descendants
+            (
+               [Районы].[Сопоставимый].[Все районы],
+               [Районы].[Сопоставимый].[Уровень 04],
+                SELF
+            ),
+            not
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+    member [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]
+    as '[Районы].[Сопоставимый].[Все районы]'
+	member [Районы].[Сопоставимый].[Бюджет субъекта]    
+    as '[Районы].[Сопоставимый].[Все районы]'    
+    member [Районы].[Сопоставимый].[Местные бюджеты]
+    as '[Районы].[Сопоставимый].[Все районы]'
+    member [Районы].[Сопоставимый].[Городские округа ]
+    as '[Районы].[Сопоставимый].[Все районы]'
+    member [Районы].[Сопоставимый].[Муниципальные районы ]
+    as '[Районы].[Сопоставимый].[Все районы]'
+    member [Measures].[Тип]
+    as 'IIF
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            "КБС",
+            IIF
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта],
+                "СБС",
+                IIF
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Местные бюджеты],
+                    "МБ",
+                    IIF
+                    (
+                        [Measures].[IsGRBS],
+                        "ГРБС",
+                        [Районы].[Сопоставимый].CurrentMember.Name
+                    )
+                )
+            )
+        )'
+    member [Measures].[Имя]
+    as 'IIF
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            "Консолидированный бюджет субъекта",
+            IIF
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта],
+                "Бюджет субъекта",
+                IIF
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Местные бюджеты],
+                    "Местные бюджеты",
+                    IIF
+                    (
+                        [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы ],
+                        "Муниципальные районы ",
+                        IIF
+                        (
+                            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ] ,
+                            "Городские округа ",
+                            IIF
+                            (
+                                [Measures].[IsGRBS],
+                                [Районы].[Сопоставимый].CurrentMember.Name,
+                                [Районы].[Сопоставимый].CurrentMember.Name
+                            )
+                        )
+                    )
+                )
+            )
+        )'
+    member [Measures].[Уникальное имя]
+    as '[Районы].[Сопоставимый].CurrentMember.UniqueName'
+    member [Measures].[LevelName]
+    as '[Районы].[Сопоставимый].CurrentMember.Level.Name'
+    member [Measures].[Уровень]
+    as 'IIF
+        (
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]
+            ) or
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта]
+            ) or
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Местные бюджеты]
+            ) or
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы ]
+            ) or
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ]
+            ),
+            0,
+            1
+        ) '
+    member [Measures].[Краткое имя]
+    as '[Районы].[Сопоставимый].CurrentMember.Properties("Краткое наименование")'
+    member [Measures].[Полное имя]
+    as '[Районы].[Сопоставимый].CurrentMember.Name'
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Тип],
+        [Measures].[Краткое имя],
+        [Measures].[Полное имя]
+    } on columns,
+    {
+        {
+            [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+			[Районы].[Сопоставимый].[Бюджет субъекта] 
+        } +
+        {
+            [Районы].[Сопоставимый].[Муниципальные районы ]
+        } + [Районы ] +
+        {
+            [Районы].[Сопоставимый].[Городские округа ]
+        } + [Города ]
+    } on rows
+from [ФО_МесОтч_Расходы]  
+
+ ]]>
+</query>
+
+  <query id="fstTariffsAndRegulationsLastDate">
+    <![CDATA[
+-- fstTariffsAndRegulationsLastDate   
+with      
+    set [Непустые периоды]      
+    as 'Filter      
+        (
+            Descendants      
+            (
+                [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Данные всех периодов],
+                [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Месяц],
+                SELF      
+            ),
+            not IsEmpty ( [Measures].[Тариф] ) and  StrToValue 
+            (
+                [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Properties("MEMBER_KEY")  
+            )>0  
+        )      ' 
+    member [Measures].[Уникальное имя]      
+    as '[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.UniqueName'      
+select
+    { [Measures].[Уникальное имя] } on columns,
+    { Tail([Непустые периоды]) } on rows  
+from [ФСТ_ЖКХ по МО_Тарифы и нормативы]  
+	]]>
+  </query>
+
+</root>

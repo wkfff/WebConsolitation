@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0003_0003_date">
+    <![CDATA[
+-- FO_0003_0003_date
+with
+    member [Measures].[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                <%period_dimension%>.Members,
+                not IsEmpty([Measures].[Факт]) and
+                <%period_dimension%>.CurrentMember.Name <> "Остатки на начало года" and
+                <%period_dimension%>.CurrentMember.Name <> "Данные месяца" and
+                <%period_dimension%>.CurrentMember.Name <> "Данные квартала" and
+                <%period_dimension%>.CurrentMember.Name <> "Данные полугодия" and
+                <%period_dimension%>.CurrentMember.Name <> "Данные года"
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from  [ФО_МесОтч_Доходы]
+WHERE
+    (
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Собственный отчет поселения],
+        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения]
+    )
+  ]]>
+  </query>
+
+  <query id="FO_0003_0003_Digest">
+    <![CDATA[
+-- FO_0003_0003_digest
+with   
+    set [МО] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 04],
+                self_and_after 
+            ),
+            not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Level is [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 05] 
+            )and not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Консолидированный бюджет Астраханская область].[Городские округа Астраханской области].[Знаменск] 
+            ) and not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Консолидированный бюджет Астраханская область].[Городские округа Астраханской области].[г.Астрахань] 
+            ) and not 
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Консолидированный бюджет Астраханская область].[Собственный бюджет Астраханская область].[Бюджет субъекта - Астраханская область] 
+            ) 
+        )'  
+    member [Measures].[Имя]   
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name'   
+    member [Measures].[Уникальное имя]   
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.UniqueName'   
+    member [Measures].[Уровень]   
+    as 'IIF   
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Level is [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 04],
+            0,
+            1   
+        ) '   
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень]   
+    } on columns,
+    { [МО] } on rows   
+from   [ФО_МесОтч_Доходы]   
+  ]]>
+  </query>
+  <query id="FO_0003_0003_grid">
+    <![CDATA[
+-- FO_0003_0003_detail_grid
+WITH
+    member [Measures].[Код]
+    as '[КД__Сопоставимый].[КД__Сопоставимый].Properties("Код")'
+    member [Measures].[Темп роста к прошлому году]
+    as 'IIF
+        (
+            [Measures].[Факт_прошлый год] = 0,
+            null,
+            (
+                [Measures].[Факт]/[Measures].[Факт_прошлый год]
+            )
+        )'
+        member Measures.[Уровень] 
+    as '<%incomes_kd_dimension%>.CurrentMember.Level.Name' 
+    member [Measures].[Годовые назначения ]
+    as '[Measures].[Годовые назначения]/ <%rub_multiplier%>'
+    member [Measures].[Факт ]
+    as '[Measures].[Факт]/ <%rub_multiplier%>'
+    member [Measures].[Факт_прошлый год ]
+    as '[Measures].[Факт_прошлый год]/ <%rub_multiplier%>'
+SELECT
+    non empty
+    {
+         Filter
+    (
+        Descendants
+        (
+           <%incomes_kd_dimension%>.[Все коды доходов], <%incomes_kd_dimension%>.[<%incomes_kd_subsection_level%>], Self_and_before
+        ) - {<%incomes_kd_dimension%>.[Все коды доходов]} - {<%incomes_kd_all_level%>} - {<%incomes_kd_dimension%>.Children.Item(0)} - {<%incomes_total%>} + {<%incomes_total%>},
+        not
+        (
+            IsEmpty ( Measures.CurrentMember)
+        ) and
+        not( <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember )
+
+    )
+    } ON rows,
+    {
+        [Measures].[Код],
+        [Measures].[Годовые назначения ],
+        [Measures].[Факт ],
+        [Measures].[% выполнения годовых назначений],
+        [Measures].[Факт_прошлый год ],
+        [Measures].[Темп роста к прошлому году],
+        Measures.[Уровень]
+    } ON columns
+FROM [ФО_МесОтч_Доходы]
+WHERE
+    (
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Собственный отчет поселения],
+        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения],
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        <%selected_region%>
+    )
+  ]]>
+  </query>
+
+</root>

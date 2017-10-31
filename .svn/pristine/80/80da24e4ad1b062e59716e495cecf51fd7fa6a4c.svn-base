@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="КИФ.Сопоставимый планирование" ClassType="7" SubClassType="2" Description="Сопоставимый классификатор источников финансирования дефицита бюджета (внутренних и внешних), предназначенный для планирования, т.е классификация источников, которая будет действовать в периоде планирования." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."BV_KIF_BRIDGEPLAN", "DV"."FX_KIF_DIRECTION", "DV"."FX_KIF_CLSASPECT"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."BV_KIF_BRIDGEPLAN"."REFKIF"="DV"."FX_KIF_DIRECTION"."ID") AND ("DV"."BV_KIF_BRIDGEPLAN"."REFKIFCLSASPECT"="DV"."FX_KIF_CLSASPECT"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[b.KIF.BridgePlan]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.BV_KIF_BRIDGEPLAN}{DV.BV_KIF_BRIDGEPLAN}{2400}{600}{2454}{4438}{1})({dv}{DV.FX_KIF_CLSASPECT}{DV.FX_KIF_CLSASPECT}{5612}{4309}{2010}{955}{1})({dv}{DV.FX_KIF_DIRECTION}{DV.FX_KIF_DIRECTION}{4350}{4605}{2145}{955}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[9ac20063-0cb8-46ed-b8f9-4e264ff5a3d3]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[6e166f3c-cfee-47fa-8c26-4b9673902f87]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[2065d31b-23eb-48f9-85aa-0d2097165aab]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все источники финансирования]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник финансирования" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Группа;Подгруппа;Статья;Подстатья;Элемент;Программа;ЭКИФ уровень 1;ЭКИФ уровень 2;ЭКИФ уровень 3" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Направление" ClassType="31" SubClassType="0" Description="" Caption="Направление" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."REFKIF"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код1" ClassType="31" SubClassType="0" Description="" Caption="Код1" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE1"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код2" ClassType="31" SubClassType="0" Description="" Caption="Код2" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE2"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код3" ClassType="31" SubClassType="0" Description="" Caption="Код3" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE3"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код4" ClassType="31" SubClassType="0" Description="" Caption="Код4" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE4"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код5" ClassType="31" SubClassType="0" Description="" Caption="Код5" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE5"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код6" ClassType="31" SubClassType="0" Description="" Caption="Код6" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE6"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код7" ClassType="31" SubClassType="0" Description="" Caption="Код7" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE7"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код8" ClassType="31" SubClassType="0" Description="" Caption="Код8" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE8"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код9" ClassType="31" SubClassType="0" Description="" Caption="Код9" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE9"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код10" ClassType="31" SubClassType="0" Description="" Caption="Код10" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."CODE10"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование" ClassType="31" SubClassType="0" Description="" Caption="Наименование" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."SHORT_NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование часть 2" ClassType="31" SubClassType="0" Description="" Caption="Наименование часть 2" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGEPLAN"."SHORT_NAME_PART2"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

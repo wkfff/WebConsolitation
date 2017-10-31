@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.Экономические Сопоставимый" ClassType="7" SubClassType="2" Description="Сопоставимый классификатор экономических показателей." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."BV_MARKS_ECONOMICBRIDGE", "DV"."DV_UNITS_OKEI_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."BV_MARKS_ECONOMICBRIDGE"."REFUNITS"="DV"."DV_UNITS_OKEI_BRIDGE"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[b.Marks.EconomicBridge]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.BV_MARKS_ECONOMICBRIDGE}{DV.BV_MARKS_ECONOMICBRIDGE}{2400}{600}{2580}{2008}{1})({dv}{DV.DV_UNITS_OKEI_BRIDGE}{DV.DV_UNITS_OKEI_BRIDGE}{2808}{3720}{2448}{1984}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[e596b39e-3c8b-4ce6-837c-5deff86bb04b]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[1446241b-1e1d-4b0c-8630-f4a2dd3c7cba]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[a9ae187b-dc7e-4d02-a579-189a1a26b2c2]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатели" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Показатель 1;Показатель 2;Показатель 3;Показатель 4" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."BV_MARKS_ECONOMICBRIDGE"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."BV_MARKS_ECONOMICBRIDGE"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."BV_MARKS_ECONOMICBRIDGE"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_MARKS_ECONOMICBRIDGE"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_MARKS_ECONOMICBRIDGE"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Наименование единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI_BRIDGE"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обозначение единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Обозначение единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI_BRIDGE"."SYMBOL"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

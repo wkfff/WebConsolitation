@@ -1,0 +1,29 @@
+CALCULATE;
+
+SCOPE( DESCENDANTS([Показатели__ФК_ФЦП].[Показатели__ФК_ФЦП].[Все показатели]));
+
+this = CalculationPassValue(
+IIF(IsEmpty([Показатели__ФК_ФЦП].[Показатели__ФК_ФЦП].CurrentMember.DataMember),
+[Показатели__ФК_ФЦП].[Показатели__ФК_ФЦП].CurrentMember,
+[Показатели__ФК_ФЦП].[Показатели__ФК_ФЦП].CurrentMember.DataMember),
+0);
+END SCOPE;
+
+[Показатели__ФК_ФЦП].[Показатели__ФК_ФЦП].[Все показатели] = Sum([Показатели__ФК_ФЦП].[Показатели__ФК_ФЦП].[Все показатели].Children, Measures.CurrentMember);
+
+//Период__День
+SCOPE([Период__Период].[Период__Период].[Месяц].members);
+this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;

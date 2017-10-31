@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[
+select
+          { <%marks%> }on rows ,
+          non empty {
+              
+         [Период].[Год Квартал Месяц].[Год].Members
+              
+          }  on columns
+      from  [МО_Паспорт МО] 
+      where  
+          (   [Measures].[Значение]
+          ,<%CurrentRegion%>
+           )   ]]>
+  </query>
+
+  <query id="G">
+    <![CDATA[WITH 
+    MEMBER [Measures].[Единица измерения] 
+    AS   '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'  
+select
+    {
+        [Measures].[Значение],
+        [Measures].[Единица измерения] 
+    } on columns,
+    filter({ <%marks%> }, not IsEmpty([Measures].[Значение])) on rows
+from [МО_Паспорт МО]  
+where  
+    (
+        <%last_year%>,
+       <%CurrentRegion%>
+    )     
+    ]]>
+  </query>
+
+  <query id="chart1">
+    <![CDATA[
+    select
+    non empty    
+    { <%marks%> } on rows ,
+    { [Measures].[Значение] } on columns 
+from [МО_Паспорт МО]    
+where    
+    (
+        <%last_year%>,
+        <%CurrentRegion%>
+   )  
+]]>
+  </query>
+
+  <query id="chart2_dinamic">
+    <![CDATA[ -- name: chart_dinamic
+select
+    { [Measures].[Значение] } on rows,
+    non empty 
+    {
+          [Период].[Год Квартал Месяц].[Год].Members
+    } on columns 
+from  [МО_Паспорт МО] 
+where 
+    (
+        <%CurrentRegion%>,
+        <%marks%>,
+        [Источники данных].[Все источники данных].[МО Паспорт МО] 
+    )       
+    ]]>
+  </query>
+
+  <query id="CD">
+    <![CDATA[
+    
+select
+    {
+        [Население].[Естественное движение].<%itemGrid%> 
+    }on rows,
+    non empty   
+    {
+        [Период].[Год Квартал Месяц].[Год].Members
+    }on columns  
+from  [СТАТ_Население_Естественное движение]  
+where  
+    (
+        [Measures].[За период],
+        [Группировки].[Население_Естественное движение].[Группировка].[По городам и районам],
+        [ОК].[Основные возрастные группы].[Основная возрастная группа].[Значение не указано],
+        [ОК].[Отдельные возрастные группы].[Отдельная возрастная группа].[Значение не указано],
+        [Половая принадлежность].[Пол].[Значение не указано],
+         <%CurrentRegion%>,
+        [Тип местности].[Тип местности].[Значение не указано]  
+    )
+    
+]]>
+  </query>
+
+
+
+
+</root>

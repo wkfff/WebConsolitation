@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Программы.Мероприятия ФЦП" ClassType="7" SubClassType="0" Description="Реестр мероприятий, разрабатываемых в рамках ФЦП." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP", "DV"."D_PROGRAMS_RCUSTOMER", "DV"."D_PROGRAMS_FCUSTOMER", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_PROGRAMS_MEASUREFAP"."REFPROGRAMSRCUSTOMER"="DV"."D_PROGRAMS_RCUSTOMER"."ID") AND ("DV"."D_PROGRAMS_RCUSTOMER"."REFPROGRAMS"="DV"."D_PROGRAMS_FCUSTOMER"."ID") AND ("DV"."D_PROGRAMS_MEASUREFAP"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Programs.MeasureFAP]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_PROGRAMS_MEASUREFAP}{DV.D_PROGRAMS_MEASUREFAP}{2400}{600}{2895}{3940}{1})({dv}{DV.D_PROGRAMS_RCUSTOMER}{DV.D_PROGRAMS_RCUSTOMER}{2415}{4410}{2685}{925}{1})({dv}{DV.D_PROGRAMS_FCUSTOMER}{DV.D_PROGRAMS_FCUSTOMER}{2400}{7725}{2700}{910}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{3797}{4444}{2685}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[c65c0109-a5cd-4ba4-b150-b99ef3a3b7e5]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[5dfcd32f-8bf4-4902-b495-35f32a63caa2]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[978b1957-01a4-453d-b754-cbb5a82a1d0b]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все мероприятия]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Мероприятие" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Цель мероприятия" ClassType="31" SubClassType="0" Description="" Caption="Цель мероприятия" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."GOAL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Ожидаемый результат" ClassType="31" SubClassType="0" Description="" Caption="Ожидаемый результат" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."RESULT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Региональный госзаказчик" ClassType="31" SubClassType="0" Description="" Caption="Региональный госзаказчик" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_RCUSTOMER"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Федеральный госзаказчик" ClassType="31" SubClassType="0" Description="" Caption="Федеральный госзаказчик" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_FCUSTOMER"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Мощность" ClassType="31" SubClassType="0" Description="" Caption="Мощность" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."POWER"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Срок реализации" ClassType="31" SubClassType="0" Description="" Caption="Срок реализации" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_PROGRAMS_MEASUREFAP"."DATEREALIZ"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

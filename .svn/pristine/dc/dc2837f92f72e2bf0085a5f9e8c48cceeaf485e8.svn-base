@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="IP_0001_0001_hmao">
+    <![CDATA[ -- IP_0001_0001_hamo
+      select
+	      ID, Name
+      from
+	      d_Territory_RF
+      where
+	      Name = 'Ханты-Мансийский автономный округ - Югра'
+    ]]>
+  </query>
+
+  <query id="IP_0001_0001_sub_terr">
+    <![CDATA[ -- IP_0001_0001_sub_terr
+      select
+        t_rf.ID, t_rf.Name, COUNT(ip_r.ID) as Projects
+      from
+        d_Territory_RF t_rf left outer join d_InvProject_Reestr ip_r on ip_r.RefTerritory = t_rf.ID and ip_r.RefStatus = 2 and ip_r.RefPart = 1
+      where
+        t_rf.ParentID = <%parent_id%>
+      group by
+        t_rf.ID, t_rf.Name
+    ]]>
+  </query>
+
+  <query id="IP_0001_0001_grid">
+    <![CDATA[ -- IP_0001_0001_grid
+      select
+        ip_r.ID, ip_r.Code, ip_r.Name, t_rf.Name as Terr, d_begin.DateYear as BeginYear, d_end.DateYear as EndYear
+      from
+        d_InvProject_Reestr ip_r, d_Territory_RF t_rf, fx_Date_YearDayUNV d_begin, fx_Date_YearDayUNV d_end
+      where
+        ip_r.RefTerritory = t_rf.ID and ip_r.RefStatus = 2 and ip_r.RefPart = 1 and d_begin.ID = ip_r.RefBeginDate and d_end.ID = ip_r.RefEndDate and t_rf.ID in (<%parent_id%>)
+    ]]>
+  </query>
+
+  <query id="IP_0001_0001_sum">
+    <![CDATA[ -- IP_0001_0001_sum
+      select
+	      SUM(ip_d.Value)
+      from
+	      f_InvProject_Data ip_d, d_InvProject_Indic ip_i
+      where
+	      ip_d.RefIndicator = ip_i.ID and ip_d.RefReestr = <%project_id%> and ip_i.RefTypeI = <%type_i%>
+    ]]>
+  </query>
+  
+</root>

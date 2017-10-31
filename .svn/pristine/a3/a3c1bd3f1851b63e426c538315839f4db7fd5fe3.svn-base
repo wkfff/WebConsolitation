@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="table">
+    <![CDATA[
+with
+    member [Уровни бюджетов].[Код]
+    as '[КД].[Сопоставимый].CurrentMember.Properties("Код")'
+    member [Уровни бюджетов].[Уровень]
+    as '[КД].[Сопоставимый].CurrentMember.Level.Name'
+select
+    non empty {{[Уровни бюджетов].[Код], [Уровни бюджетов].[Уровень]} + Filter
+    (
+        [Уровни бюджетов].Members,
+        [Уровни бюджетов].CurrentMember <> [Уровни бюджетов].CurrentMember.Parent.DataMember
+    )} on columns,
+    non empty Filter
+    (
+        [КД].[Сопоставимый].Members,
+        ([КД].[Сопоставимый].CurrentMember <> [КД].[Сопоставимый].CurrentMember.Parent.DataMember) and
+        (not IsEmpty([Measures].[С начала года]))
+    ) on rows
+FROM [ФНС_28н_с расщеплением]
+WHERE 
+    (
+        [Measures].[С начала года],
+        <%[Период].[Месяц]%>,
+        <%[Районы].[Сопоставимый]%>,
+        <%[ФНС_28н_Показатели]%> 
+    )   
+	]]>
+      </query>
+</root>

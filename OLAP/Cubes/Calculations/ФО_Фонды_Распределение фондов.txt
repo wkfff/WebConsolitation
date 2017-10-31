@@ -1,0 +1,21 @@
+CALCULATE;
+
+//Районы__Сопоставимый план
+SCOPE([Measures].[ИНП]);
+    this = IIF(not IsEmpty(([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember.DataMember)), CalculationPassValue(([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember.DataMember), 0), ([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember));
+END SCOPE;
+
+SCOPE([Measures].[ИБР]);
+    this = IIF(not IsEmpty(([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember.DataMember)), CalculationPassValue(([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember.DataMember), 0), ([Measures].CurrentMember, [Районы__Сопоставимый план].[Районы__Сопоставимый план].CurrentMember));
+END SCOPE;
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Предыдущий год_Сумма] AS 
+([Measures].[Сумма], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember));
+
+CREATE MEMBER CURRENTCUBE.Measures.[Предыдущий год_ИБР] AS 
+([Measures].[ИБР], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember));
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста_Сумма] AS IIF(not IsEmpty(([Measures].[Сумма], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember))) and ([Measures].[Сумма], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)) <> 0, [Measures].[Сумма]/([Measures].[Сумма], ParallelPeriod([Период__Период].[Период__Период], 1, [Период__Период].[Период__Период].CurrentMember)), null), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста_ИБР] AS IIF(not IsEmpty(([Measures].[ИБР], ParallelPeriod([Период__Период].[Период__Период], 1, [Период__Период].[Период__Период].CurrentMember))) and ([Measures].[ИБР], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)) <> 0, [Measures].[ИБР]/([Measures].[ИБР], ParallelPeriod([Период__Период].[Период__Период], 1, [Период__Период].[Период__Период].CurrentMember)), null), FORMAT_STRING = "Percent";

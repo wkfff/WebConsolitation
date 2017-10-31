@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="date">
+    <![CDATA[
+-- fo_0035_0002_date
+-- <#[ФО_Исполнение кассового плана]#>
+with 
+    member Measures.[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            NonEmptyCrossjoin({[Период].[Период].Members})
+        )
+    } on rows 
+from [ФО_Исполнение кассового плана] 
+]]>
+  </query>
+
+  <query id="data">
+    <![CDATA[
+-- fo_0035_0001_data   
+ select
+    {
+        [Measures].[План_Нарастающий итог],
+        [Measures].[Факт_Нарастающий итог]
+    } on columns,
+    {
+         [Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Все].[Остаток средств ],
+         [Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Все].[Остаток средств ],
+         [Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Все].[КАССОВЫЕ ПОСТУПЛЕНИЯ - ВСЕГО],
+         [Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Все].[КАССОВЫЕ ВЫПЛАТЫ - ВСЕГО]
+    }
+    on rows
+    from [ФО_Исполнение кассового плана] 
+where 
+    (
+        <%period_cur_date%>  
+    ) 
+  ]]>
+  </query>
+
+  <query id="ChartRests">
+    <![CDATA[
+-- fo_0035_0002_Grid 
+with
+member [Measures].[Месяц]
+    as '[Период].[Период].CurrentMember.Parent.Name'
+    member [Measures].[Остаток ]
+    as '[Measures].[Факт_Нарастающий итог] / 1000'
+select
+    {       
+       [Measures].[Остаток ],
+       [Measures].[Месяц]
+    } on columns,
+     Descendants
+        (
+            [Период].[Период].[Данные всех периодов]<%period_quater%>,
+            [Период].[Период].[День],
+            SELF
+        )  on rows
+from [ФО_Исполнение кассового плана]
+where
+    (
+        [Показатели].[ИспКасПлан].[Все].[Остаток средств]
+    )
+	]]>
+  </query>  
+</root>
+

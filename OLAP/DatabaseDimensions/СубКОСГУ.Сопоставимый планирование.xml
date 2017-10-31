@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="СубКОСГУ.Сопоставимый планирование" ClassType="7" SubClassType="2" Description="Субкод КЭСР. Формат номера XXX.XX.XX. Дополнительная разбивка экономических статей расходов бюджета на подстатьи. Позволяет подробнее раскрыть стандартный классификатор экономической статьи расходов ЭКР, особенно в статье социальных расходов, когда требуется выделить льготы по жилью, лекарствам, транспорту, на топливо пенсионерам и прочие субстатьи, не определенные в классификаторе ЭКР, но требующиеся в отчетности." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."BV_SUBKESR_BRIDGEPLAN"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[b.SubKESR.BridgePlan]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.BV_SUBKESR_BRIDGEPLAN}{DV.BV_SUBKESR_BRIDGEPLAN}{2400}{600}{2556}{2464}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[c07ba4f8-ff67-4d13-ae4c-dc4077752b9a]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[e0f49100-950c-4609-90f2-b81af1fca3cd]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[ed4ef4b4-9a7b-4ab8-8fd2-855ef2274db7]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все субкоды ЭКР]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Субкод КЭСР" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="СубЭКР уровень 1;СубЭКР уровень 2;СубЭКР уровень 3" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."BV_SUBKESR_BRIDGEPLAN"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."BV_SUBKESR_BRIDGEPLAN"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."BV_SUBKESR_BRIDGEPLAN"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_SUBKESR_BRIDGEPLAN"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_SUBKESR_BRIDGEPLAN"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

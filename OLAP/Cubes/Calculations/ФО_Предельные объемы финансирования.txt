@@ -1,0 +1,38 @@
+CALCULATE; 
+
+
+/*
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+this = IIF(([Measures].CurrentMember is [Measures].[ЛБО] or [Measures].CurrentMember is [Measures].[Учтено БО] or [Measures].CurrentMember is [Measures].[БО на рассмотрении] or [Measures].CurrentMember is [Measures].[Остаток ЛБО]),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+this = IIF(([Measures].CurrentMember is [Measures].[ЛБО] or [Measures].CurrentMember is [Measures].[Учтено БО] or [Measures].CurrentMember is [Measures].[БО на рассмотрении] or [Measures].CurrentMember is [Measures].[Остаток ЛБО]),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+this = IIF(([Measures].CurrentMember is [Measures].[ЛБО] or [Measures].CurrentMember is [Measures].[Учтено БО] or [Measures].CurrentMember is [Measures].[БО на рассмотрении] or [Measures].CurrentMember is [Measures].[Остаток ЛБО]),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+*/
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения за месяц] as 
+ IIF(isEmpty(([Measures].[План], [Период__Период].[Период__Период].CurrentMember)) or ([Measures].[План], [Период__Период].[Период__Период].CurrentMember) = 0, null,
+IIF([Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Месяц], 
+([Measures].[Исполнено за месяц], Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0)) / ([Measures].[План], Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0)),
+([Measures].[Исполнено за месяц], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[План], [Период__Период].[Период__Период].CurrentMember))), 
+FORMAT_STRING = "Percent", 
+VISIBLE = 1  ; 
+
+CREATE MEMBER CURRENTCUBE.Measures.[Исполнено за месяц_прошлый год] as 
+([Measures].[Исполнено за месяц], ParallelPeriod([Период__Период].[Период__Период].[Год],1,[Период__Период].[Период__Период].CurrentMember)), 
+FORMAT_STRING = "Currency", 
+VISIBLE = 1;
+
+//Период__День
+SCOPE([Период__Период].[Период__Период].[Месяц].members);
+    this = IIF(([Measures].CurrentMEmber is [Measures].[План] or [Measures].CurrentMEmber is [Measures].[Исполнено за месяц] or [Measures].CurrentMEmber is [Measures].[Остатки за месяц] or [Measures].CurrentMEmber is [Measures].[Исполнено за месяц_прошлый год]
+),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;

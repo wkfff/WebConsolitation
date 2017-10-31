@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+	<!-- ========================================================================================= -->
+	<query id="skk_001_grid">
+        <![CDATA[
+-- skk_001_grid
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate 
+		(
+			{ <%selected_period%> }, 
+			( 
+				[Пункты пропуска].[Субъект_Пункт пропуска].currentMember
+			)
+		)'
+    member [Периоды].[Год_Месяц].[период для сравнения]
+    as 'aggregate 
+		(
+			{ <%selected_period_compare%> }, 
+			( 
+				[Пункты пропуска].[Субъект_Пункт пропуска].currentMember
+			)
+		)'
+
+    member [Measures].[КоличествоПП#]
+    as 'count  
+        (
+            (
+                [Пункты пропуска].[Пункт пропуска].members,
+                [Пункты пропуска].[Субъект_Пункт пропуска].currentMember  
+            )  
+        )-1'
+		
+	<#skk_pattern_transport_members#>		
+	<#skk_pattern_transport_percent#>	
+	--< #skk_pattern_transport_percent_cmp#>
+	--<#skk_pattern_transport_rank#>
+	--< #skk_pattern_transport_rank_cmp#>	
+	<#skk_pattern_transport_updown#>		
+	
+	<#skk_pattern_people_members#>		
+	<#skk_pattern_people_percent#>	
+	--< #skk_pattern_people_percent_cmp#>
+	--<#skk_pattern_people_rank#>
+	--< #skk_pattern_people_rank_cmp#>	
+	<#skk_pattern_people_updown#>
+	
+	<#skk_pattern_goods_members#>		
+	<#skk_pattern_goods_percent#>	
+	--< #skk_pattern_goods_percent_cmp#>
+	--<#skk_pattern_goods_rank#>
+	--< #skk_pattern_goods_rank_cmp#>	
+	<#skk_pattern_goods_updown#>
+	
+	<#skk_pattern_gcapacity_members#>		
+	<#skk_pattern_gcapacity_percent#>	
+	--< #skk_pattern_gcapacity_percent_cmp#>
+	--<#skk_pattern_gcapacity_rank#>
+	--< #skk_pattern_gcapacity_rank_cmp#>	
+	<#skk_pattern_gcapacity_updown#>
+	
+	<#skk_pattern_gvolume_members#>		
+	<#skk_pattern_gvolume_percent#>	
+	--< #skk_pattern_gvolume_percent_cmp#>
+	--<#skk_pattern_gvolume_rank#>
+	--< #skk_pattern_gvolume_rank_cmp#>	
+	<#skk_pattern_gvolume_updown#>
+	
+    member [Measures].[Уровень]
+    as 'IIF 
+        (
+            [Пункты пропуска].[Субъект_Пункт пропуска].CurrentMember.level_number < 2,
+            0,
+            1 
+        )' 
+	member [Measures].[УровеньИерархии]
+    as '[Пункты пропуска].[Субъект_Пункт пропуска].CurrentMember.level_number'		
+		
+    member [Пункты пропуска].[Субъект_Пункт пропуска].[РФ]    
+    as '[Пункты пропуска].[Субъект_Пункт пропуска].[Все]'
+    set [СтрокиРФ] 	
+    as 'descendants
+        (
+            { <%selected_terra%>.children },
+            [Пункты пропуска].[Субъект_Пункт пропуска].[Субъект],
+            <%selected_detail%>
+        )'
+    set [СтрокиФО] 	
+    as 'descendants
+        (
+            { <%selected_terra%>.children },
+            [Пункты пропуска].[Субъект_Пункт пропуска].[Субъект],
+            <%selected_detail%>
+        )'
+    set [СтрокиСубъект] 	
+    as 'descendants
+        (
+            { <%selected_terra%>.children },
+            [Пункты пропуска].[Субъект_Пункт пропуска].[Субъект],
+            <%selected_detail%>
+        )'
+    set [Строки] 	   
+    as '
+		[Пункты пропуска].[Субъект_Пункт пропуска].[РФ] 
+		+
+		IIF
+		(
+			<%selected_terra%>.level_number = 0,
+			[СтрокиРФ],
+			IIF
+			(
+				<%selected_terra%>.level_number = 1,
+				{ <%selected_terra%> } + [СтрокиФО],
+				IIF
+				(
+					<%selected_terra%>.level_number = 2,
+					{ <%selected_terra%>.parent } + { <%selected_terra%> } + [СтрокиСубъект],
+					null
+				)
+			)
+		)'
+
+select
+    {
+		[Measures].[КоличествоПП#], 
+		
+        <#skk_pattern_transport_select#>
+		<#skk_pattern_people_select#>
+		
+		[Measures].[Досмотрено_Грузы_#],
+		--[Measures].[Досмотрено_Грузы_Сравн#],
+		--[Measures].[Выявлено_Грузы_#],        
+		[Measures].[Выявлено_Грузы_%],	
+		--[Measures].[Выявлено_Грузы_Сравн#],
+		--[Measures].[Выявлено_Грузы_Сравн%],		
+		[Measures].[рост/снижение_Грузы],
+		
+		<#skk_pattern_gcapacity_select#>
+		<#skk_pattern_gvolume_select#>
+		
+		<#skk_pattern_transport_select_hidden#>
+		<#skk_pattern_people_select_hidden#>	
+		<#skk_pattern_goods_select_hidden#>
+		<#skk_pattern_gcapacity_select_hidden#>
+		<#skk_pattern_gvolume_select_hidden#>
+		
+		[Measures].[УровеньИерархии],
+        [Measures].[Уровень] 
+    } on columns,
+    {
+        [Строки]
+    } on rows 
+from [СКК]
+where 
+(
+	<%selected_direction%>, 
+	<%selected_transport%>
+)
+  ]]>
+    </query>
+	
+</root>

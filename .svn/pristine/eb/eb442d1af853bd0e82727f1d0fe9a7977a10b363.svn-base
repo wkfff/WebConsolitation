@@ -1,0 +1,28 @@
+CALCULATE;
+
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+//Вычисляемые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Значение за период] AS
+ IIF(IsEmpty(([Measures].[Значение с начала года], [Период__Период].[Период__Период].CurrentMember)),
+null,
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or  [Период__Период].[Период__Период].CurrentMember.Level.Name = "All" or  
+[Период__Период].[Период__Период].CurrentMember is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level,  Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])), 
+([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение с начала года]),
+([Measures].[Значение с начала года], [Период__Период].[Период__Период].CurrentMember) -  (Tail(Filter({[Период__Период].[Период__Период].CurrentMember.PrevMember.FirstSibling:[Период__Период].[Период__Период].CurrentMember.PrevMember}, 
+not IsEmpty([Measures].[Значение с начала года]))).Item(0),[Measures].[Значение с начала года])
+));

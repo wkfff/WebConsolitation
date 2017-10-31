@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+      select
+          { [Measures].[Значение]  } on columns,
+          {
+              Tail 
+              (
+                  Filter 
+                  (
+                      [Период].[Год Квартал Месяц].[Год].Members,
+                      [Measures].[Значение] > 0 
+                  ) 
+              ).Item(0) 
+          } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows 
+      from  [МО_Паспорт МО] 
+      where  
+          (
+              <%current_region%>
+          )           
+	  ]]>
+  </query>
+  <query id="grid">
+    <![CDATA[ -- name: grid
+select
+    { [Measures].[Значение]} on columns,
+    {
+        [Паспорт МО].[Показатели].[Основные показатели экономического и социального развития].[Число предприятий, учреждений и организаций],
+        [Паспорт МО].[Показатели].[Основные показатели экономического и социального развития].[Число действующих предприятий, учреждений и организаций],
+        [Паспорт МО].[Показатели].[Основные показатели экономического и социального развития].[Число промышленных предприятий (крупных, средних, малых)]      
+    } on rows      
+from  [МО_Паспорт МО]             
+where            
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%period_last_date%>,
+        <%current_region%>
+    )            
+    ]]>
+  </query>
+  <query id="chart_avg_count">
+    <![CDATA[ -- name: chart_avg_count
+select
+    { [Measures].[Значение] } on rows,
+    non empty 
+    {
+        <%last_year%>: <%last_year%>.Lag(9)
+    } on columns
+from  [МО_Паспорт МО] 
+where 
+    (
+        <%current_region%>,
+        [Паспорт МО].[Показатели].[Основные показатели экономического и социального развития].[<%current_branch%>],
+        [Источники данных].[Все источники данных].[МО Паспорт МО] 
+    )       
+    ]]>
+  </query>
+
+  <query id="chart_pie1">
+    <![CDATA[ -- name: chart_pie1
+select
+    non empty Filter 
+    (
+        [Паспорт МО].[Показатели].[Основные показатели экономического и социального развития].[Продукция промышленности  в действующих ценах].children,
+        [Measures].[Значение] > 0 and not 
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember 
+        ) 
+    )  on rows,
+    { [Measures].[Значение] } on columns 
+from [МО_Паспорт МО] 
+where 
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%current_region%>,
+        <%last_year%> 
+    )
+  ]]>
+</query>
+
+  <query id="chart_pie2">
+    <![CDATA[ -- name: chart_pie2
+select
+    non empty Filter 
+    (
+        [Паспорт МО].[Показатели].[Основные показатели экономического и социального развития].[Производство основных видов продукции в натуральном выражении].children,
+        [Measures].[Значение] > 0 and not 
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember 
+        ) 
+    )  on rows,
+    { [Measures].[Значение] } on columns 
+from [МО_Паспорт МО] 
+where 
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%current_region%>,
+        <%last_year%> 
+    )
+  ]]>
+  </query>
+
+  <query id="chart_pie3">
+    <![CDATA[ -- name: chart_pie3
+select
+    non empty Filter 
+    (
+        [Паспорт МО].[Показатели].[Основные показатели экономического и социального развития].[Производство продуктов питания].children,
+        [Measures].[Значение] > 0 and not 
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember 
+        ) 
+    )  on rows,
+    { [Measures].[Значение] } on columns 
+from [МО_Паспорт МО] 
+where 
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%current_region%>,
+        <%last_year%> 
+    )
+  ]]>
+  </query>
+  
+</root>

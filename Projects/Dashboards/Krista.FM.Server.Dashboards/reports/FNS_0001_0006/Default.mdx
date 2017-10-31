@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FNS_0001_0006_date">
+    <![CDATA[
+-- FNS_0001_0006_date
+with  
+    member [Measures].[ДанныеНа]  
+    as '[Период].[Период].CurrentMember.UniqueName'  
+    set [NonEmptySet]  
+    as 'Tail  
+        (
+            Filter  
+            (
+                NonEmptyCrossjoin 
+                (
+                    OpeningPeriod 
+                    (
+                        [Период].[Период].[Месяц],
+                        [Период].[Период].[Данные всех периодов].[2008]
+                    ) : ClosingPeriod 
+                    (
+                        [Период].[Период].[Месяц],
+                        [Период].[Период].[Данные всех периодов].[2012]
+                    ) 
+                ),
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты"  
+            )  
+        )'  
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows  
+from [ФНС_28н_с расщеплением] 
+]]>
+
+  </query>
+  
+  <query id="FNS_0001_0006_grid_CurrentOKVED">
+    <![CDATA[
+-- FNS_0001_0006_grid_CurrentOKVED                                    
+  with                                                        
+    set [Список КД]     
+    as 'Filter                                                        
+        (
+            Descendants                                                        
+            (
+                [КД].[Сопоставимый].[Все коды доходов].[<%incomes_kd_root_name%>],
+                [КД].[Сопоставимый].[Статья],
+                SELF                                                        
+            ),
+            not  [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].CurrentMember.Parent.DataMember              
+        )'                                                        
+    member [КД].[Сопоставимый].[Итого ]                                                        
+    as 'Aggregate ( {[Список КД]} )'                                                        
+    member [Measures].[На начало года]                                                        
+    as '                                                        
+        (
+            [Период].[Период].[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+            [Measures].[С начала года, тыс.руб.]                                                        
+        )'                                                        
+    member [Measures].[UniqName]                                                        
+    as '[КД].[Сопоставимый].CurrentMember.UniqueName'                                                        
+    member [Measures].[С начала года, тыс.руб.]                                                        
+    as'[Measures].[С начала года]'    
+    member [Measures].[С начала года прошлый год, тыс.руб.]                                                        
+    as '[Measures].[С начала года прошлый год]'                  
+    set [Классы ОКВЭД]             
+    as 'Generate            
+        (
+            Filter           
+            (
+                Descendants            
+                (
+                    <%selected_section%>,
+                    [ОКВЭД].[Сопоставимый].[Подраздел],
+                    SELF            
+                ),
+                not            
+                (
+                    [ОКВЭД].[Сопоставимый].CurrentMember is [ОКВЭД].[Сопоставимый].CurrentMember.Parent.DataMember           
+                )           
+            ),
+            Generate           
+            (   {
+                    [ОКВЭД].[Сопоставимый].CurrentMember
+                }
+                +
+                Filter           
+                (
+                    Descendants           
+                    (
+                        [ОКВЭД].[Сопоставимый].CurrentMember,
+                        [ОКВЭД].[Сопоставимый].[Класс],
+                        SELF           
+                    ),
+                    not
+                    (
+                        [ОКВЭД].[Сопоставимый].CurrentMember is [ОКВЭД].[Сопоставимый].CurrentMember.Parent.DataMember )
+                     and  not IsEmpty 
+                    (
+                        (
+                            [КД].[Сопоставимый].[Итого ],
+                            [Measures].[С начала года, тыс.руб.] 
+                        ) 
+                    )
+                ),
+                {
+                    [ОКВЭД].[Сопоставимый].CurrentMember           
+                }           
+            ) 
+        ) '   
+        
+    member [КД].[Сопоставимый].[Подраздел ]       
+    as '[ОКВЭД].[Сопоставимый].CurrentMember.Parent.Name'       
+    
+select
+    {
+        {
+            [Классы ОКВЭД]            
+            *                                                        
+            {
+                [Measures].[На начало года],
+                [Measures].[С начала года прошлый год, тыс.руб.],
+                [Measures].[С начала года, тыс.руб.],
+                [Measures].[Темп роста к аналогичному периоду предыдущего года_С начала года]
+            }                                                        
+        }
+        +
+         { <%selected_section%> }
+         *
+         {
+                [Measures].[На начало года],
+                [Measures].[С начала года прошлый год, тыс.руб.],
+                [Measures].[С начала года, тыс.руб.],
+                [Measures].[Темп роста к аналогичному периоду предыдущего года_С начала года]
+         }
+        +                                  
+        {
+            {
+                [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД]                                                        
+            }                                                        
+            *{[Measures].[UniqName]}                                                        
+        }                                  
+    } on columns,
+ 
+    Filter
+    (
+         [Список КД] + {[КД].[Сопоставимый].[Итого ]},
+        not IsEmpty
+        (
+            (
+                [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД],
+                [Measures].[С начала года, тыс.руб.]
+            )
+        )
+    ) on rows                                                        
+from [ФНС_28н_с расщеплением]                                                        
+where                                                        
+    (
+        <%consolidate_region_element%>,
+        [ФНС_65н_Показатели].[Все].[Поступило - итого],
+        [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]                                                      
+    )                                                                                                 
+    
+
+      ]]>
+  </query>
+
+  <query id="FNS_0001_0006_grid_allOKVED">
+    <![CDATA[
+-- FNS_0001_0006_grid_allOKVED
+with  
+    set [Список ОКВЭД]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД],
+                [ОКВЭД].[Сопоставимый].[Раздел],
+                SELF  
+            ),
+            not  
+            (
+                [ОКВЭД].[Сопоставимый].CurrentMember is [ОКВЭД].[Сопоставимый].CurrentMember.Parent.DataMember  
+            )  
+        )'  
+    set [Список КД]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [КД].[Сопоставимый].[Все коды доходов].[<%incomes_kd_root_name%>],
+                [КД].[Сопоставимый].[Статья],
+                SELF  
+            ),
+            not  
+            (
+                [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].CurrentMember.Parent.DataMember  
+            )  
+        )'  
+    member [КД].[Сопоставимый].[Итого ]  
+    as 'Aggregate ( {[Список КД]} )'  
+    member [Measures].[На начало года]  
+    as '  
+        (
+            [Период].[Период].[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+            [Measures].[С начала года, тыс.руб.]
+        )'  
+    member [Measures].[UniqName]  
+    as '[КД].[Сопоставимый].CurrentMember.UniqueName'
+      
+    member [Measures].[С начала года, тыс.руб.]                                                        
+    as '
+            [Measures].[С начала года]/1000
+        '
+    member [Measures].[С начала года прошлый год, тыс.руб.]                                                        
+    as ' [Measures].[С начала года прошлый год]/1000'    
+     
+select
+    {
+        {
+            Filter
+            (
+              {
+                  [Список ОКВЭД] -  
+                  {
+                      [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД]  
+                  } +  
+                  {
+                      [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД]  
+                  } +  
+                  {
+                      [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД]  
+                  }  
+              },
+              not IsEmpty
+              ( 
+                  (
+                      [КД].[Сопоставимый].[Итого ],
+                      [Measures].[С начала года, тыс.руб.]
+                  )
+              )
+            )  
+            *  
+            {
+                [Measures].[На начало года],
+                [Measures].[С начала года прошлый год, тыс.руб.],
+                [Measures].[С начала года, тыс.руб.],
+                [Measures].[Темп роста к аналогичному периоду предыдущего года_С начала года]  
+            } 
+        } 
+         +        
+        {
+            {
+                [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД] 
+            } 
+            *{[Measures].[UniqName]} 
+        }  
+    } on columns,
+    Filter 
+    (
+        [Список КД] + {[КД].[Сопоставимый].[Итого ]},
+        not IsEmpty
+        (
+            (
+                [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД],
+                [Measures].[С начала года, тыс.руб.]
+            )
+        ) 
+    ) on rows
+from [ФНС_28н_с расщеплением]  
+where  
+    (
+        <%consolidate_region_element%>,
+        [ФНС_65н_Показатели].[Все].[Поступило - итого],
+        [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>] 
+    )      
+  ]]>
+  </query>
+
+  <query id="FNS_0001_0006_chart1">
+    <![CDATA[
+-- FNS_0001_0006_chart1
+with  
+    set [Список ОКВЭД]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД],
+                [ОКВЭД].[Сопоставимый].[Раздел],
+                SELF  
+            ),
+            not  
+            (
+                [ОКВЭД].[Сопоставимый].CurrentMember is [ОКВЭД].[Сопоставимый].CurrentMember.Parent.DataMember  
+            )  
+        )'  
+    set [Лучшие 5 ОКВЭД] 
+    as 'Head
+        (
+            Order       
+            (
+                [Список ОКВЭД] - {[ОКВЭД].[Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД]},
+                ([Measures].[С начала года, тыс.руб.], [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>] ),
+                BDESC
+            ),
+            5
+        )'    
+    set [Список КД]   
+    as 'Filter             
+        (
+            Descendants             
+            (
+                [КД].[Сопоставимый].[Все коды доходов].[<%incomes_kd_root_name%>],
+                [КД].[Сопоставимый].[Статья],
+                SELF             
+            ),
+            not             
+            (
+                [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].CurrentMember.Parent.DataMember             
+            )             
+        )' 
+    member [ОКВЭД].[Сопоставимый].[Прочие]
+    as 'Aggregate
+        (
+            {[Список ОКВЭД] - [Лучшие 5 ОКВЭД]}
+        )'
+    member [КД].[Сопоставимый].[Итого ]         
+    as 'Aggregate ( {[Список КД]} )'     
+    member [Measures].[С начала года, тыс.руб.]     
+    as ' [Measures].[С начала года] / 1000'     
+select
+    { [Measures].[С начала года, тыс.руб.] } on columns,
+    non Empty 
+    {
+        [Лучшие 5 ОКВЭД] +
+        {
+            [ОКВЭД].[Сопоставимый].[Прочие]
+        }
+    } on rows 
+from [ФНС_28н_с расщеплением]    
+where    
+    (
+        <%selected_kd_group%>,
+        <%consolidate_region_element%>,
+        [ФНС_65н_Показатели].[Все].[Поступило - итого],
+        [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта],
+        [Период].[Период].[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>] 
+    )    
+  ]]>
+</query>
+
+  <query id="FNS_0001_0006_chart1_CurrentOkved">
+<![CDATA[
+-- FNS_0001_0006_chart1_CurrentOkved
+with
+    set [Список ОКВЭД]
+    as 'Filter
+        (
+            Descendants
+            (
+                <%selected_section%>,
+                [ОКВЭД].[Сопоставимый].[Класс],
+                SELF
+            ),
+            not
+            (
+                [ОКВЭД].[Сопоставимый].CurrentMember is [ОКВЭД].[Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        )'
+    set [Лучшие 5 ОКВЭД]
+    as 'Head
+        (
+            Order
+            (
+                [Список ОКВЭД] - {[ОКВЭД].[Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД]},
+                ([Measures].[С начала года, тыс.руб.], [Период].[Период].[Данные всех периодов].[2010].[Полугодие 2].[Квартал 4].[ноябрь] ),
+                BDESC
+            ),
+            5
+        )'
+    set [Список КД]
+    as 'Filter
+        (
+            Descendants
+            (
+                [КД].[Сопоставимый].[Все коды доходов].[<%incomes_kd_root_name%>],
+                [КД].[Сопоставимый].[Статья],
+                SELF
+            ),
+            not
+            (
+                [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        )'
+    member [ОКВЭД].[Сопоставимый].[Прочие]
+    as 'Aggregate
+        (
+            {[Список ОКВЭД] - [Лучшие 5 ОКВЭД]}
+        )'
+    member [КД].[Сопоставимый].[Итого ]
+    as 'Aggregate ( {[Список КД]} )'
+    member [Measures].[С начала года, тыс.руб.]
+    as ' [Measures].[С начала года] / 1000'
+select
+    { [Measures].[С начала года, тыс.руб.] } on columns,
+    non Empty
+    {
+        [Лучшие 5 ОКВЭД] +
+        {
+            [ОКВЭД].[Сопоставимый].[Прочие]
+        }
+    } on rows
+from [ФНС_28н_с расщеплением]
+where
+    (
+         <%selected_kd_group%>,
+        <%consolidate_region_element%>,
+        [ФНС_65н_Показатели].[Все].[Поступило - итого],
+        [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта],
+        [Период].[Период].[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>] 
+    )
+
+  ]]>
+</query>
+   
+  <query id="FNS_0001_0006_chart2_CurrentOkved">
+<![CDATA[
+-- FNS_0001_0006_chart2_CurrentOkved
+with  
+    set [Список ОКВЭД] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                <%selected_section%>,
+                [ОКВЭД].[Сопоставимый].[Класс],
+                SELF 
+            ),
+            not 
+            (
+                [ОКВЭД].[Сопоставимый].CurrentMember is [ОКВЭД].[Сопоставимый].CurrentMember.Parent.DataMember 
+            ) 
+        )'
+    set [Лучшие 5 ОКВЭД] 
+    as 'Head
+        (
+            Order       
+            (
+                [Список ОКВЭД] - {[ОКВЭД].[Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД]},
+                ([Measures].[С начала года, тыс.руб.], [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>] ),
+                BDESC
+            ),
+            5
+        )'    
+    set [Список КД]   
+    as 'Filter             
+        (
+            Descendants             
+            (
+                [КД].[Сопоставимый].[Все коды доходов].[<%incomes_kd_root_name%>],
+                [КД].[Сопоставимый].[Статья],
+                SELF             
+            ),
+            not             
+            (
+                [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].CurrentMember.Parent.DataMember             
+            )             
+        )' 
+    member [ОКВЭД].[Сопоставимый].[Прочие]
+    as 'Aggregate
+        (
+            {[Список ОКВЭД] - [Лучшие 5 ОКВЭД]}
+        )'
+    member [КД].[Сопоставимый].[Итого ]         
+    as 'Aggregate ( {[Список КД]} )'     
+    member [Measures].[С начала года, тыс.руб.]     
+    as ' [Measures].[С начала года] / 1000'     
+select
+    { [Measures].[С начала года, тыс.руб.] } on columns,
+    non Empty 
+    {
+        [Лучшие 5 ОКВЭД] +
+        {
+            [ОКВЭД].[Сопоставимый].[Прочие]
+        }
+    } on rows 
+from [ФНС_28н_с расщеплением]    
+where    
+    (
+        <%selected_kd_group%>,
+        <%consolidate_region_element%>,
+        [ФНС_65н_Показатели].[Все].[Поступило - итого],
+        [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>] 
+    )    
+  ]]>
+</query>
+
+  <query id="FNS_0001_0006_chart2">
+    <![CDATA[
+-- FNS_0001_0006_chart2
+with  
+    set [Список ОКВЭД]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [ОКВЭД].[Сопоставимый].[Все коды ОКВЭД],
+                [ОКВЭД].[Сопоставимый].[Раздел],
+                SELF  
+            ),
+            not  
+            (
+                [ОКВЭД].[Сопоставимый].CurrentMember is [ОКВЭД].[Сопоставимый].CurrentMember.Parent.DataMember  
+            )  
+        )'  
+    set [Лучшие 5 ОКВЭД] 
+    as 'Head
+        (
+            Order       
+            (
+                [Список ОКВЭД] - {[ОКВЭД].[Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД]},
+                [Measures].[С начала года, тыс.руб.],
+                BDESC
+            ),
+            5
+        )'    
+    set [Список КД]   
+    as 'Filter             
+        (
+            Descendants             
+            (
+                [КД].[Сопоставимый].[Все коды доходов].[<%incomes_kd_root_name%>],
+                [КД].[Сопоставимый].[Статья],
+                SELF             
+            ),
+            not             
+            (
+                [КД].[Сопоставимый].CurrentMember is [КД].[Сопоставимый].CurrentMember.Parent.DataMember             
+            )             
+        )' 
+    member [ОКВЭД].[Сопоставимый].[Прочие]
+    as 'Aggregate
+        (
+            {[Список ОКВЭД] - [Лучшие 5 ОКВЭД]}
+        )'
+    member [КД].[Сопоставимый].[Итого ]         
+    as 'Aggregate ( {[Список КД]} )'  
+    member  [Measures].[С начала года, тыс.руб.]  
+    as ' [Measures].[С начала года] / 1000'         
+select
+    { [Measures].[С начала года, тыс.руб.] } on columns,
+    non Empty 
+    {
+        [Лучшие 5 ОКВЭД] +
+        {
+            [ОКВЭД].[Сопоставимый].[Прочие]
+        }
+    } on rows 
+from [ФНС_28н_с расщеплением]    
+where    
+    (
+        <%selected_kd_group%>,
+        <%consolidate_region_element%>,
+        [ФНС_65н_Показатели].[Все].[Поступило - итого],
+        [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>] 
+    )    
+  ]]>
+  </query>
+  
+</root>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <?include Variables.wxi?>
+
+    <DirectoryRef Id="INSTALLDIR">
+      <Component Id="cmp96AB763F18CA409BA09978A3D5FC61A8" Guid="{D6279701-AB3F-4C83-B885-1591F4FA4A4A}" Win64="$(var.Win64)">
+        <?if $(var.buildMode) = global?>
+          <File Id='fil6602C049EB3C4E89A4470D1203070D45' Source='$(var.OfficeAddinFilesDir)\Krista.FM.Update.ShedulerUpdateService.exe.config'/>
+        <?endif?>
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1" />
+      </Component>
+
+      <Component Id="cmp21B68520EEF343EC83564BAA647D7BC8" Guid="{C6481F8E-A70A-41D4-BB58-3BD586E4E9E9}"  Win64="$(var.Win64)">
+        <?if $(var.buildMode) = global?>
+        <File Id='fil0F4CC5A1CFE646F59D748457B82B08CF' Source='$(var.OfficeAddinFilesDir)\Krista.FM.Update.SchemeAdapter.dll'/>
+        <?endif?>
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1" />
+      </Component>
+      
+      <Component Id="ProductComponent" Guid="{A2CEAEA1-95CE-4EFA-8168-CADA8572526E}" DiskId='1'  Win64="$(var.Win64)">
+        <File Id ='Krista.FM.Updater.CustomActionExe.exe' Source='$(var.OfficeAddinFilesDir)\Krista.FM.Updater.CustomActionExe.exe'></File>
+        <Registry Id='RegUser' Root='HKCU' Key='Software\Krista\FM\ExcelAddIn' Action='removeKeyOnUninstall' />
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1" />
+      </Component>
+
+      <Component Id='RemoveReg' Guid='F7DFE9BA-9FAD-11DA-9578-00E08161165F' Feature="ProductFeature" KeyPath="yes"  Win64="$(var.Win64)">
+        <Registry Id='RegUser' Root='HKCU' Key='Software\Krista\FM\ExcelAddIn' Action='removeKeyOnInstall'/>
+      </Component>
+
+      <Component Id="cmpAEAE6A21BD89B8DE37665D76F010655A" Guid="{56995333-BD49-4055-9E10-C2F5EA79B564}" Feature="ProductFeature"  Win64="$(var.Win64)">        
+        <File Id="filF63161FCC826BD199FEA5F14BA9A9ADF" KeyPath="yes" Source="$(var.OfficeAddinFilesDir)\Krista.FM.Update.framework.dll" />
+        <File Id="fil483A4DEECD87457FBA4816497A4509BD"  Source="$(var.OfficeAddinFilesDir)\Microsoft.Practices.Unity.dll" />
+      </Component>
+      
+      <Component Id="COMComponent2" Guid="{7E850E42-440E-4B95-950B-68BE0D2555F7}" SharedDllRefCount="yes" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <Class Id="{0326AF68-B98D-4076-B7ED-565FC78711B8}" Context="InprocServer32" Description="PlaningProvider Object" Advertise="yes">
+          <ProgId Id="PlaningProvider.PlaningProvider_" Description="PlaningProvider Object" Advertise="yes" />
+        </Class>
+        <File Id="PlaningProvider.dll" Source="$(var.OfficeAddinFilesDir)\PlaningProvider.dll" Vital="no" DiskId="1">
+          <TypeLib Id="{5FD3EBE4-F952-4377-90CD-081C708DECF2}" Advertise="no" HelpDirectory="INSTALLDIR" Language="1049" MajorVersion="1" MinorVersion="0" />
+        </File>
+      </Component>
+
+      <!-- FMExcelAddin -->
+      <Component Id="COMComponent6" Guid="{52ACF376-6745-456F-891C-A352B89140E6}" SharedDllRefCount="yes" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <File Id="FMExcelAddin.dll" Source="$(var.OfficeAddinFilesDir)\FMExcelAddin.dll" Vital="no" DiskId="1" >
+          <TypeLib Id="{BD0B1F95-72C2-4C95-9FAB-0DD9FDA46FAE}" Advertise="no" Description="Project2 Library" HelpDirectory="INSTALLDIR" Language="0" MajorVersion="1" MinorVersion="0" >
+            <Class Id="{775772AE-84D8-4EE8-8907-E1A9B6E47303}" Context="InprocServer32" Description="SOAPDimEditor Object" ThreadingModel="apartment" Version="1.0">
+              <ProgId Id="FMExcelAddin.SOAPDimEditor" Description="SOAPDimEditor Object" />
+            </Class>
+            <Class Id="{7C76582A-8ACE-4F4B-8950-9F34C04A802E}" Context="InprocServer32" Description="DTExtensibility2 Object" ThreadingModel="apartment" Version="1.0">
+              <ProgId Id="FMExcelAddin.DTExtensibility2" Description="DTExtensibility2 Object" />
+            </Class>
+            <Class Id="{E0C8DFBC-B49B-4167-A000-2BE924710FD2}" Context="InprocServer32" Description="SOAPDimChooser Object" ThreadingModel="apartment" Version="1.0">
+              <ProgId Id="FMExcelAddin.SOAPDimChooser" Description="SOAPDimChooser Object" />
+            </Class>
+            <Interface Id="{0D3B3075-8467-4255-81A5-CA7FB3B9A600}" Name="ISOAPDimEditor" ProxyStubClassId="{00020424-0000-0000-C000-000000000046}" ProxyStubClassId32="{00020424-0000-0000-C000-000000000046}" />
+            <Interface Id="{B65AD801-ABAF-11D0-BB8B-00A0C90F2744}" Name="IDTExtensibility2" ProxyStubClassId="{00020424-0000-0000-C000-000000000046}" ProxyStubClassId32="{00020424-0000-0000-C000-000000000046}" />
+            <Interface Id="{C73630B5-97EF-4227-9C08-B8C646FA23AE}" Name="ISOAPDimChooser" ProxyStubClassId="{00020424-0000-0000-C000-000000000046}" ProxyStubClassId32="{00020424-0000-0000-C000-000000000046}" />
+          </TypeLib>
+        </File>
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1" />
+        
+        <RegistryValue Id="Registry72" Root="HKMU" Key="Software\Krista\FM\ExcelAddIn" Value="" Type="string" />
+        <RegistryValue Id="Registry75" Root="HKMU" Key="Software\Krista\FM\ExcelAddIn" Name="AutoCloseProcessForm" Value="1" Type="integer" />
+        <RegistryValue Id="Registry76" Root="HKMU" Key="Software\Krista\FM\ExcelAddIn\Connection" Value="" Type="string" />
+        <RegistryValue Id="Registry77" Root="HKMU" Key="Software\Krista\FM\ExcelAddIn\Connection\WebService" Value="" Type="string" />
+        <RegistryValue Id="Registry78" Root="HKMU" Key="Software\Krista\FM\ExcelAddIn\Connection\WebService" Name="URL" Value="" Type="string" />
+        <RegistryValue Id="Registry80" Root="HKMU" Key="Software\Krista\FM\ExcelAddIn\Connection\WebService" Name="ServiceList" Value="" Type="string" />
+        <RegistryValue Id="Registry79" Root="HKMU" Key="Software\Krista\FM\ExcelAddIn\Connection\WebService" Name="Scheme" Value="" Type="string" />
+        <RegistryValue Id="Registry73" Root="HKMU" Key="Software\Krista\FM\ExcelAddIn" Name="LogEnable" Value="1" Type="integer" />
+        <RegistryValue Id="Registry55" Root="HKMU" Key="Software\Microsoft\Office\Excel\Addins\FMExcelAddIn.DTExtensibility2" Name="LoadBehavior" Value="3" Type="integer" />
+        <RegistryValue Id="Registry54" Root="HKMU" Key="Software\Microsoft\Office\Excel\Addins\FMExcelAddIn.DTExtensibility2" Name="FriendlyName" Value="Лист планирования (Криста)" Type="string" />
+        <RegistryValue Id="Registry53" Root="HKMU" Key="Software\Microsoft\Office\Excel\Addins\FMExcelAddIn.DTExtensibility2" Value="" Type="string" />
+        <RegistryValue Id="Registry52" Root="HKMU" Key="Software\Microsoft\Office\Excel\Addins" Value="" Type="string" />
+        <RegistryValue Id="Registry51" Root="HKMU" Key="Software\Microsoft\Office\Excel" Value="" Type="string" />
+      </Component>
+      
+      <!-- FMWordAddin -->
+      <Component Id="COMComponent4" Guid="{94221C6A-A76E-4BD2-B2F5-BDACCC2C86A7}" SharedDllRefCount="yes" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <File Id="filC1E1DB84915ACFEDD26A5C82FBF97EB8" Source="$(var.OfficeAddinFilesDir)\FMWordAddin.dll" KeyPath="yes" Vital="no" DiskId="1">
+          <TypeLib Id="{46725E42-C42C-49F5-8051-84F550CFC1CD}" Advertise="no" Description="Project1 Library" HelpDirectory="INSTALLDIR" Language="0" MajorVersion="1" MinorVersion="0" >
+            <Class Id="{738489E0-B19C-4E76-ACCB-C977902AFD93}" Context="InprocServer32" Description="FMWordAddin Object" ThreadingModel="apartment" Version="1.0">
+              <ProgId Id="FMWordAddin.FMWordAddin" Description="FMWordAddin Object" />
+            </Class>
+            <Interface Id="{B65AD801-ABAF-11D0-BB8B-00A0C90F2744}" Name="IDTExtensibility2" ProxyStubClassId="{00020424-0000-0000-C000-000000000046}" ProxyStubClassId32="{00020424-0000-0000-C000-000000000046}" />
+          </TypeLib>
+        </File>
+        <RegistryValue Id="Registry31" Root="HKMU" Key="Software\Microsoft\Office\Word\Addins\FMWordAddIn.FMWordAddin" Name="RepositoryDir" Value="C:\" Type="string" />
+        <RegistryValue Id="Registry30" Root="HKMU" Key="Software\Microsoft\Office\Word\Addins\FMWordAddIn.FMWordAddin" Name="IsRepositoryEnabled" Value="0" Type="integer" />
+        <RegistryValue Id="Registry29" Root="HKMU" Key="Software\Microsoft\Office\Word\Addins\FMWordAddIn.FMWordAddin" Name="LoadBehavior" Value="3" Type="integer" />
+        <RegistryValue Id="Registry27" Root="HKMU" Key="Software\Microsoft\Office\Word\Addins\FMWordAddIn.FMWordAddin" Value="" Type="string" />        
+        <RegistryValue Id="Registry28" Root="HKMU" Key="Software\Microsoft\Office\Word\Addins\FMWordAddIn.FMWordAddin" Name="FriendlyName" Value="Финансово-Экономический Анализ - word" Type="string" />
+      </Component>
+
+      <Component Id="Wrapper" Guid="{15C8ECF9-2344-4271-A8A1-8F0C4977CAEE}" SharedDllRefCount="yes" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <File Id="Krista.FM.ServerLibrary.dll" Source="$(var.OfficeAddinFilesDir)\Krista.FM.ServerLibrary.dll" Vital="no" DiskId="1" />
+        <File Id="Krista.Diagnostics.dll" Source="$(var.OfficeAddinFilesDir)\Krista.Diagnostics.dll" Vital="no" DiskId="1" />
+        <File Id="Krista.FM.Common.dll" Source="$(var.OfficeAddinFilesDir)\Krista.FM.Common.dll" Vital="no" DiskId="1" />
+        <File Id="fil90C6BC8474774F9A8752F37BE5747F93" Source="$(var.OfficeAddinFilesDir)\Руководство пользователя_Надстройка для MS Office (Криста).doc" Vital="no" DiskId="1" />
+      </Component>
+
+      <!-- PlaningProviderComWrapper -->
+      <Component Id="cmpEC46BF022CAEE95EA6A94629DE8577DD" Guid="{798AB262-6CE1-48EA-96BC-1A24CCB4F117}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <Class Id="{0D590FFF-4333-4781-8896-1B023F05F5CE}" Context="InprocServer32" Description="Krista.FM.PlaningProviderCOMWrapper.PlaningProviderComWrapper" ThreadingModel="both" ForeignServer="mscoree.dll">
+            <ProgId Id="Krista.FM.PlaningProviderCOMWrapper.PlaningProviderComWrapper" Description="Krista.FM.PlaningProviderCOMWrapper.PlaningProviderComWrapper" />
+        </Class>
+        <File Id="fil78928D8BFFBF7B180CDF30C55177F2AA" KeyPath="yes" Source="$(var.OfficeAddinFilesDir)\Krista.FM.PlaningProviderCOMWrapper.dll" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\InprocServer32\3.0.11429.396" Name="Class" Value="Krista.FM.PlaningProviderCOMWrapper.PlaningProviderComWrapper" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\InprocServer32\3.0.11429.396" Name="Assembly" Value="Krista.FM.PlaningProviderCOMWrapper, Version=3.0.11429.396, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\InprocServer32\3.0.11429.396" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\InprocServer32\3.0.11429.396" Name="CodeBase" Value="file:///[#fil78928D8BFFBF7B180CDF30C55177F2AA]" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\InprocServer32" Name="Class" Value="Krista.FM.PlaningProviderCOMWrapper.PlaningProviderComWrapper" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\InprocServer32" Name="Assembly" Value="Krista.FM.PlaningProviderCOMWrapper, Version=3.0.11429.396, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="CLSID\{0D590FFF-4333-4781-8896-1B023F05F5CE}\InprocServer32" Name="CodeBase" Value="file:///[#fil78928D8BFFBF7B180CDF30C55177F2AA]" Type="string" Action="write" />
+        <RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
+      </Component>
+
+      <Component Id="RegisterSvrLib.exe" Guid="{A227E105-8626-45C7-B7AD-037DB8348FDC}" SharedDllRefCount="yes" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <File Id="RegisterSvrLib.exe" Source="$(var.OfficeAddinFilesDir)\RegisterSvrLib.exe" KeyPath="yes" />
+        <File Id="register.bat" Source="$(var.OfficeAddinFilesDir)\register.bat" Vital="no" DiskId="1" />
+      </Component>
+      
+      <!-- Planing.tlb -->
+      <Component Id="COMComponent5" Guid="{838B9C4C-1C15-4986-9BDB-23BF08C0561A}" SharedDllRefCount="yes" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <File Id="filBC0CE97D05F0B08E47690FF1FEE51588" Source="$(var.OfficeAddinFilesDir)\Planing.tlb">
+          <TypeLib Id="{910CC719-16D1-403C-9D57-E254AA61EACD}" Advertise="no" Description="Planing Library (Krista)" HelpDirectory="INSTALLDIR" Language="0" MajorVersion="1" MinorVersion="0" />
+        </File>
+        <RegistryValue Id="Registry41" Root="HKCR" Key="Interface\{8BE1EEBC-9FE3-4CC3-8B78-66AE4C41892D}\TypeLib" Name="Version" Value="1.0" Type="string" />
+        <RegistryValue Id="Registry40" Root="HKCR" Key="Interface\{8BE1EEBC-9FE3-4CC3-8B78-66AE4C41892D}\TypeLib" Value="{910CC719-16D1-403C-9D57-E254AA61EACD}" Type="string" />
+        <RegistryValue Id="Registry39" Root="HKCR" Key="Interface\{8BE1EEBC-9FE3-4CC3-8B78-66AE4C41892D}\ProxyStubClsid32" Value="{00020424-0000-0000-C000-000000000046}" Type="string" />
+        <RegistryValue Id="Registry38" Root="HKCR" Key="Interface\{8BE1EEBC-9FE3-4CC3-8B78-66AE4C41892D}\ProxyStubClsid" Value="{00020424-0000-0000-C000-000000000046}" Type="string" />
+        <RegistryValue Id="Registry37" Root="HKCR" Key="Interface\{8BE1EEBC-9FE3-4CC3-8B78-66AE4C41892D}" Value="IFMPlanningExtension" Type="string" />
+        <RegistryValue Id="Registry36" Root="HKCR" Key="Interface\{17B449CC-4A4B-4063-B1F9-AFE4AE7EC9D3}\TypeLib" Name="Version" Value="1.0" Type="string" />
+        <RegistryValue Id="Registry35" Root="HKCR" Key="Interface\{17B449CC-4A4B-4063-B1F9-AFE4AE7EC9D3}\TypeLib" Value="{910CC719-16D1-403C-9D57-E254AA61EACD}" Type="string" />
+        <RegistryValue Id="Registry34" Root="HKCR" Key="Interface\{17B449CC-4A4B-4063-B1F9-AFE4AE7EC9D3}\ProxyStubClsid32" Value="{00020424-0000-0000-C000-000000000046}" Type="string" />
+        <RegistryValue Id="Registry33" Root="HKCR" Key="Interface\{17B449CC-4A4B-4063-B1F9-AFE4AE7EC9D3}\ProxyStubClsid" Value="{00020424-0000-0000-C000-000000000046}" Type="string" />
+        <RegistryValue Id="Registry32" Root="HKCR" Key="Interface\{17B449CC-4A4B-4063-B1F9-AFE4AE7EC9D3}" Value="IFMPlanningAncillary" Type="string" />
+      </Component>
+      
+      <!-- Krista.FM.PlaningProviderCOMWrapper.tlb -->
+      <Component Id="cmp983424DEEB095D648CEC860BB536F55A" Guid="{F495D975-B414-4FDD-AC17-4508A70C46B8}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <File Id="fil8AB95CE7E55D50FD987F90813A644893" KeyPath="yes" Source="$(var.OfficeAddinFilesDir)\Krista.FM.PlaningProviderCOMWrapper.tlb">
+           <TypeLib Id="{04DB24FD-686F-4854-A597-E065E1EAA812}" Description="Krista_FM_PlaningProviderCOMWrapper" Language="0" MajorVersion="1" MinorVersion="0">
+              <Interface Id="{8E723ADA-D71E-39C6-A370-7EF57EF1F29F}" Name="_PlaningProviderComWrapper" ProxyStubClassId="{00020424-0000-0000-C000-000000000046}" ProxyStubClassId32="{00020424-0000-0000-C000-000000000046}" />
+           </TypeLib>
+        </File>
+      </Component>
+      
+      <!-- PlaningTools -->
+      <Component Id="COMComponent3" Guid="{527C8D61-DA3A-4922-8778-EA1C5087A202}" SharedDllRefCount="yes" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <File Id="PlaningTools.dll" Source="$(var.OfficeAddinFilesDir)\PlaningTools.dll" KeyPath="yes" Vital="no" DiskId="1">
+          <TypeLib Id="{D8A7FF1E-C463-4A8F-B234-CA42E03CC361}" Advertise="no" HelpDirectory="INSTALLDIR" Language="0" MajorVersion="1" MinorVersion="0" >
+            <Class Id="{5B07B2DB-ADEB-497B-AD64-73B38756DF45}" Context="InprocServer32" Description="ProcessForm Object" ThreadingModel="apartment" Version="1.0">
+                  <ProgId Id="PlaningTools.ProcessForm" Description="ProcessForm Object" />
+              </Class>
+              <Class Id="{DF608F6C-1893-4C1B-A7F1-8A0C3814ED52}" Context="InprocServer32" Description="Operation Object" Version="1.0">
+                  <ProgId Id="PlaningTools.Operation" Description="Operation Object" />
+              </Class>
+              <Interface Id="{57BCCE39-AD6D-4AD2-A1E8-B090D5E82FE9}" Name="IProcessForm" ProxyStubClassId="{00020424-0000-0000-C000-000000000046}" ProxyStubClassId32="{00020424-0000-0000-C000-000000000046}" />
+              <Interface Id="{8DDEDF81-EE9C-46AE-9A1E-2E515D6454BD}" Name="IProcessFormEvents" ProxyStubClassId="{00020420-0000-0000-C000-000000000046}" ProxyStubClassId32="{00020420-0000-0000-C000-000000000046}" />
+              <Interface Id="{A76B33A9-C507-4ADD-8707-6E2CF2ECD710}" Name="IOperation" ProxyStubClassId="{00020424-0000-0000-C000-000000000046}" ProxyStubClassId32="{00020424-0000-0000-C000-000000000046}" />
+          </TypeLib>
+        </File>
+      </Component>
+
+      <Component Id="cmp97A841B3B4264BFE9AC4238E662F0693" Guid="{56FC0268-39E7-4EC6-88F5-B025E8798714}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <Registry Id="regC2CBB37E3305424286D565899625C884" Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4FA2C771-B14F-4F81-966D-B95A955C9834}">
+          <Permission ChangePermission="yes" User="[UsersAccount]" GenericAll="yes" />
+        </Registry>
+        <Registry Id="regBEA413B4538C45E4A509B9781BBBDE7A" Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{73B68EB1-3A5D-40CB-8101-8B97F73CB763}">
+          <Permission ChangePermission="yes" User="[UsersAccount]" GenericAll="yes" />
+        </Registry>
+        <Registry Id="reg3F41D50BA0174671B0FF20CD742BEAC4" Root="HKLM" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1E782B79-C2E5-458C-80A7-7574695D4789}">
+          <Permission ChangePermission="yes" User="[UsersAccount]" GenericAll="yes" />
+        </Registry>
+      </Component>
+      
+      <Directory Id="SERVER" Name="Server" />
+
+      <Directory Id="dirC2035E6DDF5860D4E0626552DC2E706A" Name="ExcelAddins">
+        <Component Id="cmp4AE99158FD9C9753CBB814785A9EA681" Guid="{7C383117-936D-4F5E-A875-519FECD174BA}" Feature="ProductFeature"  Win64="$(var.Win64)">
+          <File Id="filD5953D4A3F83E68A586CF941C517512E" Source="$(var.OfficeAddinFilesDir)\ExcelAddins\Дополнительные функции (Криста).xla" />
+        </Component>
+        <Component Id="cmp77FF9BBFBFC24AC50B8D8E276E7FFDFF" Guid="{C254B03D-6035-4A1F-978A-CBC9A1304AC1}" Feature="ProductFeature"  Win64="$(var.Win64)">
+          <File Id="fil80780D1DC601395247A8CD69DF5F7945" Source="$(var.OfficeAddinFilesDir)\ExcelAddins\Программы для надстройки Excel (Криста).xla" />
+        </Component>
+      </Directory>
+      <Directory Id="dirBA100B932F1C51CF4A5EF099422E5DB7" Name="WordAddins">
+        <Component Id="cmp8C7E429628E333D01B9BD7813D12751A" Guid="{E9774F0B-8330-457A-BEA3-209097D2B7A7}" Feature="ProductFeature"  Win64="$(var.Win64)">
+          <File Id="fil302FCEF081BA48938E5864C55CEC5547" Source="$(var.OfficeAddinFilesDir)\WordAddins\Программы для надстройки Word (Криста).dot" />
+        </Component>
+      </Directory>
+
+      <Directory Id="dirF9C6C158ADE94C70A74D31412ECE7983" Name="Шаблоны">
+        <Component Id="cmp110635A3B2BB499AB8634DA0F29CE7B1" Guid="{FFF362C9-AB4E-482B-BCAF-1D507E519C8C}" Feature="ProductFeature"  Win64="$(var.Win64)">
+          <CreateFolder/>
+        </Component>
+      </Directory>
+            
+    </DirectoryRef>
+
+    <DirectoryRef Id="filF43EFE569AD04CF28E99520AB82EDD9E" FileSource=".">
+      <Component Id="filE69C6B4CDB124386BEF1488ED4420D44" Guid="{87541CB9-BCC6-49C7-9607-E7F8F2797CDD}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <CreateFolder/>
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\Krista\FM\ExcelAddIn" Name="LogPath" Type="string" Value="[AppDataFolder]Krista\FM\Office Add-in\Log\" />
+        <RemoveFolder Id="filF43EFE569AD04CF28E99520AB82EDD9E" On="uninstall"/>
+        <RemoveFile Id="filE09E8C41D7E946F590194FFED73C1552" On="uninstall" Name="*.*"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="fil9EDC78D6CF384D8A968EDF9B0DCEF4F5" FileSource=".">
+      <Component Id="filFECAF35792E147BEA33E6609492691DC" Guid="{00B71622-E35A-472C-B559-4A6037451876}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <CreateFolder/>
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\ExcelAddIn" Name="installed" Type="integer" Value="1" />
+        <RemoveFolder Id="fil9EDC78D6CF384D8A968EDF9B0DCEF4F5" On="uninstall"/>
+        <RemoveFile Id="fil9DD2FA85784B438CAB5C586C6ADA2C12" On="uninstall" Name="*.*"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="fil8CA0BF8E50FA4F3EBA5C6778E4706BAB" FileSource=".">
+      <Component Id="filDAF4160610F141F38E8949E4ED14F299" Guid="{A6A51AC6-242F-4D31-8871-75B0A9F6C728}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\ExcelAddIn" Name="installed" Type="integer" Value="1" />
+        <RemoveFolder Id="fil8CA0BF8E50FA4F3EBA5C6778E4706BAB" On="uninstall"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="fil363E1FCCB1B5425E8A84305B0E8C4CA4" FileSource=".">
+      <Component Id="filFC5C22F9B937441BBBC286E1B145F5A4" Guid="{A55B8A39-357F-4646-9B16-0CF008E24E99}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\ExcelAddIn" Name="installed" Type="integer" Value="1" />
+        <RemoveFolder Id="fil363E1FCCB1B5425E8A84305B0E8C4CA4" On="uninstall"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="filA55DD37262F94E2499FDC5915DD21CC6" FileSource=".">
+      <Component Id="filD5348CF9E9CF4C29A8C7EC852872DAD8" Guid="{BDD993C7-A5CD-4B1A-A9BF-D797196601A2}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\ExcelAddIn" Name="installed" Type="integer" Value="1" />
+        <RemoveFolder Id="filA55DD37262F94E2499FDC5915DD21CC6" On="uninstall"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ProgramMenuFolder" FileSource=".">
+      <Component Id="fil9C7F48EEEF374AC68BF10E510A61752A" Guid="{E974B0A4-DE01-4CAA-9757-675F134F336C}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\ExcelAddIn" Name="installed" Type="integer" Value="1" />
+        <RemoveFolder Id="ProgramMenuFolder" On="uninstall"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder3" FileSource=".">
+      <Component Id="filB9C1734085B545CAAFCB0979F0F41231" Guid="{AA8A8E6D-F719-437D-92AD-898CA37FDA7A}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\ExcelAddIn" Name="installed" Type="integer" Value="1" />
+        <RemoveFolder Id="ApplicationProgramsFolder3" On="uninstall"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder2" FileSource=".">
+      <Component Id="fil116EF0D75CAF487EB60F7C41B2951FF8" Guid="{7617F31B-3792-4CC2-98D4-F41DE0547195}" Feature="ProductFeature"  Win64="$(var.Win64)">
+        <RegistryValue Root="HKCU" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\ExcelAddIn" Name="installed" Type="integer" Value="1" />
+        <RemoveFolder Id="ApplicationProgramsFolder2" On="uninstall"/>
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

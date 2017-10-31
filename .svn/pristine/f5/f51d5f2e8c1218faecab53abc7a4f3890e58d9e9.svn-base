@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ЭО_Прогноз_Показатели инфляции" ClassType="9" SubClassType="0" Description="Прогнозные значения показателей инфляции." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_FORECAST_EO2INFLATION"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_FORECAST_EO2INFLATION"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_FORECAST_EO2INFLATION", "DV"."DATASOURCES", "DV"."FX_FX_KINDOFFORECASTS", "DV"."D_FORECAST_INFLATION", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FORECAST_VARSCENCOND"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_FORECAST_EO2INFLATION"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_FORECAST_EO2INFLATION"."REFFX"="DV"."FX_FX_KINDOFFORECASTS"."ID") AND ("DV"."F_FORECAST_EO2INFLATION"."REFFORECAST"="DV"."D_FORECAST_INFLATION"."ID") AND ("DV"."F_FORECAST_EO2INFLATION"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_FORECAST_EO2INFLATION"."REFVARSCENCOND"="DV"."D_FORECAST_VARSCENCOND"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_FORECAST_EO2INFLATION"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.Forecast.EO2Inflation]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{10}{3915}{2130}{925}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{3422}{4999}{2685}{925}{1})({dv}{DV.FX_FX_KINDOFFORECASTS}{DV.FX_FX_KINDOFFORECASTS}{1050}{4890}{2745}{940}{1})({dv}{DV.D_FORECAST_VARSCENCOND}{DV.D_FORECAST_VARSCENCOND}{4485}{3900}{2985}{910}{1})({dv}{DV.D_FORECAST_INFLATION}{DV.D_FORECAST_INFLATION}{2235}{4995}{2670}{940}{1})({dv}{DV.F_FORECAST_EO2INFLATION}{DV.F_FORECAST_EO2INFLATION}{1245}{570}{2895}{2510}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[daf35236-a4fa-4dbb-a88b-74594c5451c7]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[5d348f22-1759-47e7-9477-8ccf7916222b]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[182eace6-eb03-424e-9dd5-df867aa30d08]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Виды прогнозов" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид прогноза" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_FX_KINDOFFORECASTS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Прогноз.Варианты сценарных условий" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все варианты]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вариант сценарных условий" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FORECAST_VARSCENCOND"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Прогноз.Показатели инфляции" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FORECAST_INFLATION"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Отчет" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_FORECAST_EO2INFLATION"."FACT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Оценка" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_FORECAST_EO2INFLATION"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Прогноз" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_FORECAST_EO2INFLATION"."FORECAST"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ЭО_Прогноз_Показатели инфляции" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ЭО_Прогноз_Показат_ЭО_Прогноз_Показателиинфляции_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_FORECAST_EO2INFLATION"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_FORECAST_EO2INFLATION"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_FORECAST_EO2INFLATION", "DV"."DATASOURCES", "DV"."FX_FX_KINDOFFORECASTS", "DV"."D_FORECAST_INFLATION", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FORECAST_VARSCENCOND"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_FORECAST_EO2INFLATION"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_FORECAST_EO2INFLATION"."REFFX"="DV"."FX_FX_KINDOFFORECASTS"."ID") AND ("DV"."F_FORECAST_EO2INFLATION"."REFFORECAST"="DV"."D_FORECAST_INFLATION"."ID") AND ("DV"."F_FORECAST_EO2INFLATION"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_FORECAST_EO2INFLATION"."REFVARSCENCOND"="DV"."D_FORECAST_VARSCENCOND"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[064b60e5-d979-4f09-9e33-4037ee30c0ba]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[182eace6-eb03-424e-9dd5-df867aa30d08]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="UserRoleEstimate" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.FO41.UserRoleEstimateValueProvider, Krista.FM.RIA.Extensions.FO41"></ValueProvider>
+    </Param>
+    <Param name="FO41OKTMO" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.FO41.Params.FO41OKTMOValueProvider, Krista.FM.RIA.Extensions.FO41"></ValueProvider>
+    </Param>
+  </Params>
+
+  <!-- Register types -->
+  <Types>
+    <Register from="Krista.FM.RIA.Extensions.FO41.Services.IIndicatorService, Krista.FM.RIA.Extensions.FO41"
+              to="Krista.FM.RIA.Extensions.FO41.Services.IndicatorService, Krista.FM.RIA.Extensions.FO41"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO41.Services.IExportService, Krista.FM.RIA.Extensions.FO41"
+              to="Krista.FM.RIA.Extensions.FO41.Services.ExportService, Krista.FM.RIA.Extensions.FO41"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO41.Services.IAppPrivilegeService, Krista.FM.RIA.Extensions.FO41"
+              to="Krista.FM.RIA.Extensions.FO41.Services.AppPrivilegeService, Krista.FM.RIA.Extensions.FO41"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO41.Services.IFactsService, Krista.FM.RIA.Extensions.FO41"
+              to="Krista.FM.RIA.Extensions.FO41.Services.FactsService, Krista.FM.RIA.Extensions.FO41"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO41.Services.IAppFromOGVService, Krista.FM.RIA.Extensions.FO41"
+              to="Krista.FM.RIA.Extensions.FO41.Services.AppFromOGVService, Krista.FM.RIA.Extensions.FO41"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO41.Services.ICategoryTaxpayerService, Krista.FM.RIA.Extensions.FO41"
+              to="Krista.FM.RIA.Extensions.FO41.Services.CategoryTaxpayerService, Krista.FM.RIA.Extensions.FO41"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+  </Types>
+
+  <!-- Область навигации -->
+  <Navigation type="list" ID="acFO41" icon="Vector" title="Оценка эффективности льгот" order="200" group="Оценка эффективности льгот" dashboardIcon="/Krista.FM.RIA.Extensions.Tasks/Presentation/Content/images/task-72.png/extention.axd" defaultItemId="">
+    <Items>
+      <!-- Ярославль -->
+      <Item ID="nidbeRequestList" title="Список заявок от налогоплательщиков" icon="ApplicationViewList" condition="($(UserRoleEstimate) == 'ОГВ') and ($(FO41OKTMO) == '52 000 000')">
+        <Params>
+          <Param name="url">'/View/RequestList'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeRequestListForTaxPayer" title="Создание и просмотр заявок" icon="ApplicationViewList" condition="($(UserRoleEstimate) == 'Налогоплательщик') and ($(FO41OKTMO) == '52 000 000')">
+        <Params>
+          <Param name="url">'/View/RequestList'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeEstimate" title="Список заявок на оценку" icon="ApplicationViewList" condition="($(UserRoleEstimate) == 'ОГВ' or $(UserRoleEstimate) == 'ДФ') and ($(FO41OKTMO) == '52 000 000')">
+        <Params>
+          <Param name="url">'/View/EstimateRequestList'</Param>
+        </Params>
+      </Item>
+
+      <!-- ХМАО -->
+      <Item ID="nidbeRequestListFO41HMAO" title="Создание и просмотр заявок" icon="ApplicationViewList" condition="$(UserRoleEstimate) == 'Налогоплательщик' and ($(FO41OKTMO) == '71 800 000')">
+        <Params>
+          <Param name="url">'/View/RequestListFO41HMAO'</Param>
+        </Params>
+      </Item>
+
+      <Item ID="nidbeFO41TaxOnProfit" title="Налог на прибыль организаций" icon="ApplicationViewList" condition="$(UserRoleEstimate) == 'ОГВ' and ($(FO41OKTMO) == '71 800 000')">
+        <Params>
+          <Param name="url">'/View/FO41HMAOTaxType4'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeFO4PropertyTax" title="Налог на имущество организаций" icon="ApplicationViewList" condition="$(UserRoleEstimate) == 'ОГВ' and ($(FO41OKTMO) == '71 800 000')">
+        <Params>
+          <Param name="url">'/View/FO41HMAOTaxType9'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeFO41MotorVehicleTax" title="Транспортный налог" icon="ApplicationViewList" condition="$(UserRoleEstimate) == 'ОГВ' and ($(FO41OKTMO) == '71 800 000')">
+        <Params>
+          <Param name="url">'/View/FO41HMAOTaxType11'</Param>
+        </Params>
+      </Item>
+
+    </Items>
+    <Action>MdiTab.addTab({ title: menuItem.text, url: menuItem.url, icon: menuItem.iconCls, passParentSize: menuItem.passParentSize});</Action>
+    <ButtomBar></ButtomBar>
+  </Navigation>
+
+  <Views>
+
+    <View id="RequestList" title="Список заявок от налогоплательщиков"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.FO41.Presentation.Views.RequestsListView, Krista.FM.RIA.Extensions.FO41">
+    </View>
+
+    <View id="EstimateRequestList" title="Список заявок на оценку"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+        controlType="Krista.FM.RIA.Extensions.FO41.Presentation.Views.EstimateRequestsListView, Krista.FM.RIA.Extensions.FO41">
+      <Tax id="4"/>
+    </View>
+
+    <View id="RequestListFO41HMAO" title="Создание и просмотр заявок"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.FO41.Presentation.Views.HMAO.HMAOReqListForTaxPayerView, Krista.FM.RIA.Extensions.FO41">
+      <Tax id="9"/>
+    </View>
+
+    <View id="FO41HMAOTaxType4" title="Вид налога"
+          type="Krista.FM.RIA.Extensions.FO41.Presentation.Views.HMAO.XTaxView, Krista.FM.RIA.Extensions.FO41"
+          controlType="Krista.FM.RIA.Extensions.FO41.Presentation.Views.HMAO.HMAOTaxView, Krista.FM.RIA.Extensions.FO41">
+      <Tax id="4"/>
+    </View>
+    <View id="FO41HMAOTaxType9" title="Вид налога"
+          type="Krista.FM.RIA.Extensions.FO41.Presentation.Views.HMAO.XTaxView, Krista.FM.RIA.Extensions.FO41"
+          controlType="Krista.FM.RIA.Extensions.FO41.Presentation.Views.HMAO.HMAOTaxView, Krista.FM.RIA.Extensions.FO41">
+      <Tax id="9"/>
+    </View>
+    <View id="FO41HMAOTaxType11" title="Вид налога"
+          type="Krista.FM.RIA.Extensions.FO41.Presentation.Views.HMAO.XTaxView, Krista.FM.RIA.Extensions.FO41"
+          controlType="Krista.FM.RIA.Extensions.FO41.Presentation.Views.HMAO.HMAOTaxView, Krista.FM.RIA.Extensions.FO41">
+      <Tax id="11"/>
+    </View>
+
+  </Views>
+</Extension>
+  

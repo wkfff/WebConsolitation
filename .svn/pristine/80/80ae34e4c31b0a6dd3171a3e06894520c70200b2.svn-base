@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФНС_5 ЖМ_Районы" ClassType="9" SubClassType="0" Description="Отчет содержит данные формы 5-ЖМ о налоговой базе и структуре начислений по сбору за пользование объектами животного мира в разрезе районов." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="6" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="6">
+  <property name="SourceTable"><![CDATA["DV"."F_D_FNS5GMREGIONS"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_D_FNS5GMREGIONS"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_D_FNS5GMREGIONS", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."DV_REGIONS_FNS", "DV"."BV_REGIONS_BRIDGE", "DV"."B_REGIONS_BRIDGEFNS", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."D_MARKS_FNS5GM", "DV"."B_MARKS_FNS5GMBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_D_FNS5GMREGIONS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFREGIONS"="DV"."DV_REGIONS_FNS"."ID") AND ("DV"."DV_REGIONS_FNS"."REFBRIDGE"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."DV_REGIONS_FNS"."REFREGIONSBRIDGEFNS"="DV"."B_REGIONS_BRIDGEFNS"."ID") AND ("DV"."DV_REGIONS_FNS"."REFBRIDGEPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."D_MARKS_FNS5GM"."REFFNS5GMBRIDGE"="DV"."B_MARKS_FNS5GMBRIDGE"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFMARKS"="DV"."D_MARKS_FNS5GM"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_D_FNS5GMREGIONS"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.D.FNS5GMRegions]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[c729132b-008d-46c1-9adc-77d271f90132]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_D_FNS5GMREGIONS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFREGIONS"="DV"."DV_REGIONS_FNS"."ID") AND ("DV"."DV_REGIONS_FNS"."REFBRIDGE"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."DV_REGIONS_FNS"."REFREGIONSBRIDGEFNS"="DV"."B_REGIONS_BRIDGEFNS"."ID") AND ("DV"."DV_REGIONS_FNS"."REFBRIDGEPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."D_MARKS_FNS5GM"."REFFNS5GMBRIDGE"="DV"."B_MARKS_FNS5GMBRIDGE"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFMARKS"="DV"."D_MARKS_FNS5GM"."ID")]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[229c90d0-a9e0-4ab7-8d38-d4a22bda03c9]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[4f84c2b7-d098-4055-a06e-486e1ed1ffbe]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="true" IsVisible="false">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Район" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_REGIONS_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.ФНС" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_REGIONS_FNS"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Район" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_REGIONS_FNS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.Сопоставимый План" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Район" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_REGIONS_BRIDGEPLAN"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.Сопоставимый ФНС" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Районы" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_REGIONS_BRIDGEFNS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.ФНС 5 ЖМ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатели" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_FNS5GM"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.ФНС 5 ЖМ Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатели" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_MARKS_FNS5GMBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_D_FNS5GMREGIONS"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ФНС_5 ЖМ_Районы" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФНС_5ЖМ_Районы_ФНС_5ЖМ_Районы_" EstimatedRows="6" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_FNS5GMREGIONS"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_FNS5GMREGIONS"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_FNS5GMREGIONS", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."DV_REGIONS_FNS", "DV"."BV_REGIONS_BRIDGE", "DV"."B_REGIONS_BRIDGEFNS", "DV"."BV_REGIONS_BRIDGEPLAN", "DV"."D_MARKS_FNS5GM", "DV"."B_MARKS_FNS5GMBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_FNS5GMREGIONS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFREGIONS"="DV"."DV_REGIONS_FNS"."ID") AND ("DV"."DV_REGIONS_FNS"."REFBRIDGE"="DV"."BV_REGIONS_BRIDGE"."ID") AND ("DV"."DV_REGIONS_FNS"."REFREGIONSBRIDGEFNS"="DV"."B_REGIONS_BRIDGEFNS"."ID") AND ("DV"."DV_REGIONS_FNS"."REFBRIDGEPLAN"="DV"."BV_REGIONS_BRIDGEPLAN"."ID") AND ("DV"."D_MARKS_FNS5GM"."REFFNS5GMBRIDGE"="DV"."B_MARKS_FNS5GMBRIDGE"."ID") AND ("DV"."F_D_FNS5GMREGIONS"."REFMARKS"="DV"."D_MARKS_FNS5GM"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ObjectKey" datatype="8"><![CDATA[c729132b-008d-46c1-9adc-77d271f90132]]></Property>
+        <Property name="ID" datatype="8"><![CDATA[751f66f4-70ac-4b27-92d2-1a508929b32b]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

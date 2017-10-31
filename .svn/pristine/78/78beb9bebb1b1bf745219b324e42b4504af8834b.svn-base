@@ -1,0 +1,49 @@
+CALCULATE;
+
+SCOPE([МФ РФ__КОСГУ].[МФ РФ__КОСГУ].[Все]);
+    
+this = IIF(not IsEmpty([МФ РФ__КОСГУ].[МФ РФ__КОСГУ].[Операции].&[2]) and [МФ РФ__КОСГУ].[МФ РФ__КОСГУ].CurrentMember is [МФ РФ__КОСГУ].[МФ РФ__КОСГУ].[Все], [МФ РФ__КОСГУ].[МФ РФ__КОСГУ].[Операции].&[2], Sum([МФ РФ__КОСГУ].[МФ РФ__КОСГУ].CurrentMember.Children, [Measures].CurrentMember));
+
+END SCOPE;
+
+
+
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения] AS 
+IIF([Measures].[План] = 0, null, [Measures].[Факт] / [Measures].[План]),
+ FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Факт за период] AS 
+IIF(IsEmpty(([Measures].[Факт], [Период__Период].[Период__Период].CurrentMember)),
+null,
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or  [Период__Период].[Период__Период].CurrentMember.Level.Name = "All" or  
+[Период__Период].[Период__Период].CurrentMember is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level,  Ancestor([Период__Период].[Период__Период].CurrentMember, [Период]. [Период].[Год])), 
+([Период__Период].[Период__Период].CurrentMember, [Measures].[Факт]),
+IIF([Период__Период].[Период__Период].CurrentMember.Name = "Июль", ([Measures].[Факт], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[Факт], [Период]. [Период].Lag(3)),
+IIF([Период__Период].[Период__Период].CurrentMember.Name = "Апрель" or [Период__Период].[Период__Период].CurrentMember.Name = "Октябрь", ([Measures].[Факт], [Период]. [Период].CurrentMember) - ([Measures].[Факт], [Период__Период].[Период__Период].Lag(2)),
+([Measures].[Факт], [Период__Период].[Период__Период].CurrentMember) -  (Tail(Filter({[Период__Период].[Период__Период].CurrentMember.PrevMember.FirstSibling:[Период]. [Период].CurrentMember.PrevMember}, 
+not IsEmpty([Measures].[Факт]))).Item(0),[Measures].[Факт])
+)
+)));
+
+CREATE MEMBER CURRENTCUBE.Measures.[Факт прошлый год] AS 
+([Measures].[Факт], ParallelPeriod([Период__Период].[Период__Период].[Год],1,[Период__Период].[Период__Период].CurrentMember));
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к аналогичному периоду прошлого года_Факт] AS 
+IIF(IsEmpty([Measures].[Факт прошлый год]) or [Measures].[Факт прошлый год] = 0, null, [Measures].[Факт] / [Measures].[Факт прошлый год]);

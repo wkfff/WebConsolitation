@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФСТ_ЖКХ_Инвестиции" ClassType="9" SubClassType="0" Description="ФСТ_ЖКХ_Инвестиции" DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_FTS_INVESTRESOURCES"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_FTS_INVESTRESOURCES"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_FTS_INVESTRESOURCES", "DV"."D_FTS_INDICATORS", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FTS_SPHERE", "DV"."D_FTS_SOURCEOFFINANCE", "DV"."D_FTS_TERRITORY", "DV"."B_TERRITORY_RFBRIDGE", "DV"."DATASOURCES"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_FTS_INVESTRESOURCES"."REFINDICATOR"="DV"."D_FTS_INDICATORS"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."REFYEARQUARTER"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."REFSPHERE"="DV"."D_FTS_SPHERE"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."REFFINSOURCES"="DV"."D_FTS_SOURCEOFFINANCE"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."REFTERRITORY"="DV"."D_FTS_TERRITORY"."ID") AND ("DV"."D_FTS_TERRITORY"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."SOURCEID"="DV"."DATASOURCES"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_FTS_INVESTRESOURCES"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2430}{5820}{2715}{910}{1})({dv}{DV.D_FTS_INDICATORS}{DV.D_FTS_INDICATORS}{1395}{5025}{2715}{925}{1})({dv}{DV.D_FTS_SPHERE}{DV.D_FTS_SPHERE}{3420}{5805}{2730}{940}{1})({dv}{DV.D_FTS_SOURCEOFFINANCE}{DV.D_FTS_SOURCEOFFINANCE}{4485}{5235}{2865}{1000}{1})({dv}{DV.D_FTS_TERRITORY}{DV.D_FTS_TERRITORY}{5655}{4365}{2595}{925}{1})({dv}{DV.F_FTS_INVESTRESOURCES}{DV.F_FTS_INVESTRESOURCES}{1530}{660}{2595}{3380}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{5640}{7425}{3120}{910}{1})({dv}{DV.DATASOURCES}{DV.DATASOURCES}{390}{4260}{2640}{925}{1})]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.FTS.InvestResources]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ИМПОРТ]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[7167dcaf-7d78-4f4f-af04-2668f82177d3]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[820cc60b-afa4-4672-9616-ddb64d508816]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[dc8dccc4-9743-42f1-896c-c95c63c3dd7a]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ФСТ.Показатели" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FTS_INDICATORS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ФСТ.Сферы ЖКХ" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все сферы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Сфера" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FTS_SPHERE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ФСТ.Источники финансирования" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник финансирования" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FTS_SOURCEOFFINANCE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ФСТ.Территории" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FTS_TERRITORY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="План на год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_FTS_INVESTRESOURCES"."PLANING"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Профинансировано" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_FTS_INVESTRESOURCES"."SPONSORSHIP"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Освоено" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_FTS_INVESTRESOURCES"."DISBURSED"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="План на квартал" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[План на квартал] AS 'IIF ([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Месяц"
+or IsEmpty((Ancestor([Период].[Год Квартал Месяц].CurrentMember, [Период].[Год Квартал Месяц].[Год]),[Measures].[План на год])),
+null,
+(Ancestor([Период].[Год Квартал Месяц].CurrentMember, [Период].[Год Квартал Месяц].[Год]),[Measures].[План на год]) / 4)']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ФСТ_ЖКХ_Инвестиции" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФСТ_ЖКХ_Инвестиции_ФСТ_ЖКХ_Инвестиции_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_FTS_INVESTRESOURCES"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_FTS_INVESTRESOURCES"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_FTS_INVESTRESOURCES", "DV"."D_FTS_INDICATORS", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FTS_SPHERE", "DV"."D_FTS_SOURCEOFFINANCE", "DV"."D_FTS_TERRITORY", "DV"."B_TERRITORY_RFBRIDGE", "DV"."DATASOURCES"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_FTS_INVESTRESOURCES"."REFINDICATOR"="DV"."D_FTS_INDICATORS"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."REFYEARQUARTER"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."REFSPHERE"="DV"."D_FTS_SPHERE"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."REFFINSOURCES"="DV"."D_FTS_SOURCEOFFINANCE"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."REFTERRITORY"="DV"."D_FTS_TERRITORY"."ID") AND ("DV"."D_FTS_TERRITORY"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_FTS_INVESTRESOURCES"."SOURCEID"="DV"."DATASOURCES"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[3bfa24ab-dffe-40cf-bfd9-3d08c98b3762]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[dc8dccc4-9743-42f1-896c-c95c63c3dd7a]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

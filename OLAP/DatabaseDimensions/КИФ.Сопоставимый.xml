@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="КИФ.Сопоставимый" ClassType="7" SubClassType="2" Description="Сопоставимый классификатор источников внутреннего и внешнего финансирования." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."BV_KIF_BRIDGE", "DV"."FV_KIF_DIRECTION_BRIDGE", "DV"."FV_KIF_CLSASPECT_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."BV_KIF_BRIDGE"."REFDIRECTION"="DV"."FV_KIF_DIRECTION_BRIDGE"."ID") AND ("DV"."BV_KIF_BRIDGE"."REFCLSASPECT"="DV"."FV_KIF_CLSASPECT_BRIDGE"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[b.KIF.Bridge]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.BV_KIF_BRIDGE}{DV.BV_KIF_BRIDGE}{45}{300}{2280}{5575}{1})({dv}{DV.FV_KIF_CLSASPECT_BRIDGE}{DV.FV_KIF_CLSASPECT_BRIDGE}{4665}{3495}{2730}{1105}{1})({dv}{DV.FV_KIF_DIRECTION_BRIDGE}{DV.FV_KIF_DIRECTION_BRIDGE}{3435}{3510}{2640}{1030}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[72da15c8-4cef-40a8-a048-c23a9851d955]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[0773168f-923d-4140-98cc-01328f353e40]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[02693d85-9622-4ec3-aa17-a6ea5163f336]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все источники финансирования]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источники финансирования" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Группа;Подгруппа;Статья;Подстатья;Элемент;Программа;ЭКИФ уровень 1;ЭКИФ уровень 2;ЭКИФ уровень 3" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Администратор" ClassType="31" SubClassType="0" Description="" Caption="Администратор" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."KVSR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Вид источника" ClassType="31" SubClassType="0" Description="" Caption="Вид источника" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."DESCRIPTIONCODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Значимый вид источника" ClassType="31" SubClassType="0" Description="" Caption="Значимый вид источника" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."MAINDESCRIPTIONCODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Элемент" ClassType="31" SubClassType="0" Description="" Caption="Элемент" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."ITEMCODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Программа" ClassType="31" SubClassType="0" Description="" Caption="Программа" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."PROGRAMCODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Операция госсектора" ClassType="31" SubClassType="0" Description="" Caption="Операция госсектора" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."KESR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Направление" ClassType="31" SubClassType="0" Description="" Caption="Направление" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FV_KIF_DIRECTION_BRIDGE"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Принадлежность" ClassType="31" SubClassType="0" Description="" Caption="Принадлежность" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FV_KIF_CLSASPECT_BRIDGE"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код1" ClassType="31" SubClassType="0" Description="" Caption="Код1" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE1"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код2" ClassType="31" SubClassType="0" Description="" Caption="Код2" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE2"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код3" ClassType="31" SubClassType="0" Description="" Caption="Код3" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE3"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код4" ClassType="31" SubClassType="0" Description="" Caption="Код4" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE4"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код5" ClassType="31" SubClassType="0" Description="" Caption="Код5" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE5"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код6" ClassType="31" SubClassType="0" Description="" Caption="Код6" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE6"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код7" ClassType="31" SubClassType="0" Description="" Caption="Код7" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE7"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код8" ClassType="31" SubClassType="0" Description="" Caption="Код8" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE8"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код9" ClassType="31" SubClassType="0" Description="" Caption="Код9" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE9"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код10" ClassType="31" SubClassType="0" Description="" Caption="Код10" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."CODE10"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование" ClassType="31" SubClassType="0" Description="" Caption="Наименование" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."SHORT_NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование часть 2" ClassType="31" SubClassType="0" Description="" Caption="Наименование часть 2" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."BV_KIF_BRIDGE"."SHORT_NAME_PART2"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

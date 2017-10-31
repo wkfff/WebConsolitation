@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by glazova (EMBRACE) -->
+<layerDataPump name="Закачка Доходов от предпринимательской деятельности" version="1.0">
+	<usedLayers>
+		<layer name="Данные.ДоходыОтПлатныхУслугПредприниматДеят.Карелия" synonym="a"/>
+		<layer name="Справочник.ЛицевыеСчета" synonym="b"/>
+	</usedLayers>
+	<defaultDataSource supplierCode="ФО" dataCode="0019" kindsOfParams="1" year="2007"/>
+	<usedFMObjects>
+		<fmObject name="a6e33772-325a-4932-a0aa-7ce82f0b3921" synonym="KD" fmObjectType="cls"/>
+		<fmObject name="dd69b4e1-f257-49ce-b553-442d094ae39a" synonym="KVSR" fmObjectType="cls">
+			<processRules>
+				<processRule attributeName="Name" attributeProcessRule="constant" dataValue="Неизвестные данные"/>
+			</processRules>
+		</fmObject>
+		<fmObject name="3f71b13b-3e87-45ad-8f72-1d023da07d10" synonym="PlanIncomes" fmObjectType="factTable">
+			<processRules>
+				<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="2007"/>
+				<processRule attributeName="RefBudLevel" attributeProcessRule="param" dataValue="uneBudgetLevels"/>
+				<processRule attributeName="RefVariant" attributeProcessRule="param" dataValue="uneVariants"/>
+				<processRule attributeName="RefRegions" attributeProcessRule="param" dataValue="uneRegionsPlan"/>
+			</processRules>
+		</fmObject>
+	</usedFMObjects>
+	<steps>
+		<step layerSynonym="a" name="Закачка Доходов от предпринимательской деятельности">
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="FacialAccCls" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Code" destinationAttributeUseInSearch="true" refLayerSynonym="b" refLayerFieldName="Код" convertValueMode="partValue" convertValueModeParam1="0" convertValueModeParam2="3"/>
+				<layerField name="FacialAccCls" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Name" refLayerSynonym="b" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КодыДоходов" processType="directPump" destinationObjectSynonym="KD" destinationAttribute="CodeStr" destinationAttributeUseInSearch="true" convertValueMode="removeMask"/>
+				<layerField name="КодыДоходовНаименование" processType="directPump" destinationObjectSynonym="KD" destinationAttribute="Name"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Год2007" processType="directPump" destinationObjectSynonym="PlanIncomes" destinationAttribute="Forecast">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20070001"/>
+						<processRule attributeName="RefBudgetLevels" attributeProcessRule="param" dataValue="uneBudgetLevels"/>
+						<processRule attributeName="RefRegion" attributeProcessRule="param" dataValue="uneRegionsPlan"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Год2008" processType="directPump" destinationObjectSynonym="PlanIncomes" destinationAttribute="Forecast">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20080001"/>
+						<processRule attributeName="RefBudgetLevels" attributeProcessRule="param" dataValue="uneBudgetLevels"/>
+						<processRule attributeName="RefRegion" attributeProcessRule="param" dataValue="uneRegionsPlan"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Год2009" processType="directPump" destinationObjectSynonym="PlanIncomes" destinationAttribute="Forecast">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20090001"/>
+						<processRule attributeName="RefBudgetLevels" attributeProcessRule="param" dataValue="uneBudgetLevels"/>
+						<processRule attributeName="RefRegion" attributeProcessRule="param" dataValue="uneRegionsPlan"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+		</step>
+	</steps>
+</layerDataPump>

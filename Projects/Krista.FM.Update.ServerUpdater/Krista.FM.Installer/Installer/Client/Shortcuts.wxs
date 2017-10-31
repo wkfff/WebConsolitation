@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include Variables.wxi?>
+
+  <Fragment>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="WPShortcut" Guid="{18C5F900-A1E0-4497-B224-5E2C8B54518A}">
+        <Shortcut Id="ShortcutWorkplace"
+        Name="$(var.Manufacturer).$(var.Division).$(var.Workplace)"
+        Description="$(var.ProductName)"
+        Target="[INSTALLLOCATIONWP]Krista.FM.Client.Workplace.exe"
+        WorkingDirectory="INSTALLLOCATIONWP"/>
+
+        <RemoveFile Id="PurgeAppFolder" Name="*.*" On="uninstall" />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+        <Condition>SHORTCUT_PROGRAMMENU</Condition>
+
+      </Component>
+      <Component Id="ApplicationShortcutSchemeDisigner" Guid="{8E6639DE-C075-44e0-B359-612D71394868}">
+        <Shortcut Id="ShortcutSchemeDisigner"
+          Name="$(var.Manufacturer).$(var.Division).$(var.SchemeDesigner)"
+          Description="$(var.ProductName)"
+          Target="[INSTALLLOCATIONSD]Krista.FM.Client.SchemeDesigner.exe"
+          WorkingDirectory="INSTALLLOCATIONSD"/>
+        <RegistryValue Root="HKCU"
+        Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)"
+          Name="installed"
+          Type="integer"
+          Value="1"
+           />
+        <Condition>SHORTCUT_PROGRAMMENU</Condition>
+      </Component>
+
+      <Component Id="ApplicationShortcutOlapAdmin" Guid="{9FFA00FD-7076-4789-B55F-001834D2C1CF}">
+        <Shortcut Id="ShortcutOlapAdmin"
+          Name="$(var.Manufacturer).$(var.Division).$(var.OLAPAdmin)"
+          Description="$(var.ProductName)"
+          Target="[INSTALLLOCATIONOA]Krista.FM.Client.OLAPAdmin.exe"
+          WorkingDirectory="INSTALLLOCATIONOA"/>
+        <RegistryValue Root="HKCU"
+        Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)"
+          Name="installed"
+          Type="integer"
+          Value="1"
+           />
+        <Condition>SHORTCUT_PROGRAMMENU</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationDocuments">
+      <Component Id="cmp22B9567DEEBE4E8FAEC6A90B530EC244" Guid="{444CBD67-FE8C-4859-BBAC-8A48835F81BF}" Feature="WPFeature">
+        <!--Документация-->
+        <Shortcut Id="shtBC14C71E532C45929CAA3233CC26795B"
+        Name="Руководство администратора.doc"
+        Description="Руководство администратора.doc"
+        Target="[INSTALLLOCATIONWP]\Руководство администратора.doc"
+        WorkingDirectory="ApplicationDocuments" />
+
+        <Shortcut Id="sht4442608F8AE44E71BC4BA54DDF55D352"
+        Name="Руководство пользователя.doc"
+        Description="Руководство пользователя.doc"
+        Target="[INSTALLLOCATIONWP]\Руководство пользователя.doc"
+        WorkingDirectory="ApplicationDocuments"/>
+
+        <Shortcut Id="shtFDACE1E77D314944BB7A74E4CE136351"
+        Name="Справка по многомерной базе.chm"
+        Description="Справка по многомерной базе.chm"
+        Target="[INSTALLLOCATIONWP]\Справка по многомерной базе.chm"
+        WorkingDirectory="ApplicationDocuments" />
+
+        <Shortcut Id="sht980E459276D745229C07A4F456A9D8E9"
+        Name="Справка по структуре данных.chm"
+        Description="Справка по структуре данных.chm"
+        Target="[INSTALLLOCATIONWP]\Справка по структуре данных.chm"
+        WorkingDirectory="ApplicationDocuments"/>
+
+        <RemoveFolder Id="ApplicationDocuments" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+        <Condition>SHORTCUT_PROGRAMMENU</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <!-- Рабочии стол -->
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopWPShortcut" Guid="{B2FF73CF-AB3F-4a8b-93A0-2CCD096ECB13}">
+        <Shortcut Id="DesctopShortcutWorkplace"
+        Name="$(var.Manufacturer).$(var.Division).$(var.Workplace)"
+        Description="$(var.ProductName)"
+        Target="[INSTALLLOCATIONWP]Krista.FM.Client.Workplace.exe"
+        WorkingDirectory="INSTALLLOCATIONWP"/>
+
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+        <Condition>SHORTCUT_DESKTOP</Condition>
+      </Component>
+      <Component Id="DesctopApplicationShortcutSchemeDisigner" Guid="{99872A47-4E1B-49c4-B11B-00DA0772C61F}">
+        <Shortcut Id="DesctopShortcutSchemeDisigner"
+          Name="$(var.Manufacturer).$(var.Division).$(var.SchemeDesigner)"
+          Description="$(var.ProductName)"
+          Target="[INSTALLLOCATIONSD]Krista.FM.Client.SchemeDesigner.exe"
+          WorkingDirectory="INSTALLLOCATIONSD"/>
+        <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU"
+        Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)"
+          Name="installed"
+          Type="integer"
+          Value="1"
+           />
+        <Condition>SHORTCUT_DESKTOP</Condition>
+      </Component>
+      <Component Id="DesctopApplicationShortcutOlapAdmin" Guid="{6076A7E2-FA9E-4FC8-99E4-F980829F96F8}">
+        <Shortcut Id="DesctopShortcutOlapAdmin"
+          Name="$(var.Manufacturer).$(var.Division).$(var.OLAPAdmin)"
+          Description="Утилита администрирования многомерных баз"
+          Target="[INSTALLLOCATIONOA]Krista.FM.Client.OLAPAdmin.exe"
+          WorkingDirectory="INSTALLLOCATIONOA"/>
+        <RegistryValue Root="HKCU"
+        Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)"
+          Name="installed"
+          Type="integer"
+          Value="1"
+           />
+        <Condition>SHORTCUT_DESKTOP</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder3">
+      <Component Id="CompanyMenuFolder"
+        Guid="{538E16CA-A0D1-48b6-8F68-5AEA0091BFEF}" Feature="WPFeature">
+        <RemoveFolder Id="ApplicationProgramsFolder3" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ApplicationProgramsFolder2">
+      <Component Id="CompanyMenuFolder2"
+        Guid="{AC5CA100-B9AB-490d-ACA5-6E581EF09764}" Feature="WPFeature">
+        <RemoveFolder Id="ApplicationProgramsFolder2" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+      </Component>
+    </DirectoryRef>
+    
+  </Fragment>
+</Wix>

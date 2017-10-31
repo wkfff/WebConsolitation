@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ЭО_Мониторинг_Оценка ЭЗД" ClassType="9" SubClassType="0" Description="Значения показателей оценки эффективности закупочной деятельности." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_STORDER_TERRITORY", "DV"."D_STORDER_EPAMARKSEFFICIENCY", "DV"."DV_STORDER_ORGANIZER"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_STORDER_EPAMARKSEFFICIENCY"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFTERRYTORY"="DV"."D_STORDER_TERRITORY"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFEPAMARKSEFFICIENCY"="DV"."D_STORDER_EPAMARKSEFFICIENCY"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFORGANIZATION"="DV"."DV_STORDER_ORGANIZER"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.StOrder.EPAMarksEfficiency]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[5fec912e-9aa5-4a92-8bd6-6d45411aaac7]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[62fd0b88-ff49-48f2-b1ca-198819b07f5f]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[a76e9a5e-b1f1-4898-861d-14e7c81ec107]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{255}{4365}{2940}{925}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2340}{5130}{3405}{910}{1})({dv}{DV.D_STORDER_TERRITORY}{DV.D_STORDER_TERRITORY}{3345}{5175}{3390}{925}{1})({dv}{DV.F_STORDER_EPAMARKSEFFICIENCY}{DV.F_STORDER_EPAMARKSEFFICIENCY}{1755}{555}{3315}{2150}{1})({dv}{DV.D_STORDER_EPAMARKSEFFICIENCY}{DV.D_STORDER_EPAMARKSEFFICIENCY}{1275}{5055}{3390}{955}{1})({dv}{DV.DV_STORDER_ORGANIZER}{DV.DV_STORDER_ORGANIZER}{4517}{4564}{2940}{910}{1})]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_STORDER_EPAMARKSEFFICIENCY"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFTERRYTORY"="DV"."D_STORDER_TERRITORY"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFEPAMARKSEFFICIENCY"="DV"."D_STORDER_EPAMARKSEFFICIENCY"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFORGANIZATION"="DV"."DV_STORDER_ORGANIZER"."ID")]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг.Территории" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_STORDER_TERRITORY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг.Организаторы" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все организаторы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Организатор" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_STORDER_ORGANIZER"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг.Показатели оценки ЭЗД" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_STORDER_EPAMARKSEFFICIENCY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Оценка" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Среднее" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Среднее] AS 'SUM([Период].[Год Квартал Месяц].CurrentMember.Children,[Measures].[Значение])/
+COUNT(Filter([Период].[Год Квартал Месяц].CurrentMember.Children,not IsEmpty([Measures].[Значение])))', VISIBLE = '0']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="AllNull" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[AllNull] FOR '({[Мониторинг].[Показатели оценки ЭЗД].[Все показатели]})' AS '""']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ЭЗД" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ЭЗД] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Степень достижения запланированного результата закупочной деятельности]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.11,"Высоко",
+  IIF([Measures].[Среднее]<0.21,"Хорошо",
+    IIF([Measures].[Среднее]<0.31,"Средне",
+      IIF([Measures].[Среднее]<0.41,"Удовлетворительно","Неудовлетворительно")))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кээ" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кээ] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент экономической эффективности]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.11,"Высоко",
+  IIF([Measures].[Среднее]<0.21,"Хорошо",
+    IIF([Measures].[Среднее]<0.31,"Средне",
+      IIF([Measures].[Среднее]<0.51,"Удовлетворительно",
+        IIF([Measures].[Среднее]<0.61,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кэс" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кэс] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент стоимости]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.2,"Высоко",
+  IIF([Measures].[Среднее]<0.4,"Хорошо",
+    IIF([Measures].[Среднее]<0.5,"Средне",
+      IIF([Measures].[Среднее]<0.6,"Удовлетворительно",
+        IIF([Measures].[Среднее]<0.8,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="оКэсi" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[оКэсi] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент стоимости каждой процедуры размещения заказа]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.26,"Высоко",
+IIF([Measures].[Среднее]<0.71,"Хорошо",
+IIF([Measures].[Среднее]<1,"Средне",
+IIF([Measures].[Среднее]<1.01,"Удовлетворительно",
+IIF([Measures].[Среднее]<2.01,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кэсi" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кэсi] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент стоимости (единичный)]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.2,"Высоко",
+IIF([Measures].[Среднее]<0.4,"Хорошо",
+IIF([Measures].[Среднее]<0.5,"Средне",
+IIF([Measures].[Среднее]<0.6,"Удовлетворительно",
+IIF([Measures].[Среднее]<1,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кэк" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кэк] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент качества]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.11,"Высоко",
+IIF([Measures].[Среднее]<0.21,"Хорошо",
+IIF([Measures].[Среднее]<0.31,"Средне",
+IIF([Measures].[Среднее]<0.51,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.61,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кэв" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кэв] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент времени]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.11,"Высоко",
+IIF([Measures].[Среднее]<0.21,"Хорошо",
+IIF([Measures].[Среднее]<0.31,"Средне",
+IIF([Measures].[Среднее]<0.51,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.61,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кц" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кц] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент ценовой эффективности]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.21,"Высоко",
+IIF([Measures].[Среднее]<0.41,"Хорошо",
+IIF([Measures].[Среднее]<0.81,"Средне",
+IIF([Measures].[Среднее]<0.91,"Удовлетворительно",
+IIF([Measures].[Среднее]<1,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Цэбс" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Цэбс] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент экономии бюджетных средств]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.21,"Высоко",
+IIF([Measures].[Среднее]<0.41,"Хорошо",
+IIF([Measures].[Среднее]<0.81,"Средне",
+IIF([Measures].[Среднее]<0.91,"Удовлетворительно",
+IIF([Measures].[Среднее]<1,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Цэбсi" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Цэбсi] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент экономии бюджетных средств каждой процедуры размещения заказа]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.21,"Высоко",
+IIF([Measures].[Среднее]<0.41,"Хорошо",
+IIF([Measures].[Среднее]<0.81,"Средне",
+IIF([Measures].[Среднее]<0.91,"Удовлетворительно",
+IIF([Measures].[Среднее]<1,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Цэп" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Цэп] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент эффективности планирования]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.16,"Высоко",
+IIF([Measures].[Среднее]<0.21,"Хорошо",
+IIF([Measures].[Среднее]<0.31,"Средне",
+IIF([Measures].[Среднее]<0.41,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.51,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Цэпi" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Цэпi] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент эффективности планирования каждой процедуры размещения заказа]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.16,"Высоко",
+IIF([Measures].[Среднее]<0.21,"Хорошо",
+IIF([Measures].[Среднее]<0.31,"Средне",
+IIF([Measures].[Среднее]<0.41,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.51,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Ко" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Ко] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент организационной  эффективности]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.19,"Высоко",
+IIF([Measures].[Среднее]<0.31,"Хорошо",
+IIF([Measures].[Среднее]<0.41,"Средне",
+IIF([Measures].[Среднее]<0.61,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.71,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Ккп" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Ккп] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент процедурной эффективности]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.21,"Высоко",
+IIF([Measures].[Среднее]<0.31,"Хорошо",
+IIF([Measures].[Среднее]<0.41,"Средне",
+IIF([Measures].[Среднее]<0.61,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.81,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кквк" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кквк] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент внешнего контроля (значимость/весовой коэффициент равен 60%)]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.06,"Высоко",
+IIF([Measures].[Среднее]<0.11,"Хорошо",
+IIF([Measures].[Среднее]<0.21,"Средне",
+IIF([Measures].[Среднее]<0.31,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.51,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кквк1" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кквк1] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент арбитражного контроля]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.06,"Высоко",
+IIF([Measures].[Среднее]<0.11,"Хорошо",
+IIF([Measures].[Среднее]<0.21,"Средне",
+IIF([Measures].[Среднее]<0.31,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.51,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кквк2" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кквк2] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент административного контроля]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.06,"Высоко",
+IIF([Measures].[Среднее]<0.11,"Хорошо",
+IIF([Measures].[Среднее]<0.21,"Средне",
+IIF([Measures].[Среднее]<0.31,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.51,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Кш" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Кш] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент административного урегулирования]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.06,"Высоко",
+IIF([Measures].[Среднее]<0.11,"Хорошо",
+IIF([Measures].[Среднее]<0.21,"Средне",
+IIF([Measures].[Среднее]<0.31,"Удовлетворительно",
+IIF([Measures].[Среднее]<0.51,"Неудовлетворительно","Неприемлимо"))))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ЭЗДС" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ЭЗДС] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Эффективность закупочной деятельности]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.11,"Высоко",
+IIF([Measures].[Среднее]<0.21,"Хорошо",
+IIF([Measures].[Среднее]<0.31,"Средне",
+IIF([Measures].[Среднее]<0.41,"Удовлетворительно","Неудовлетворительно")))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ЭОС" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ЭОС] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Эффективность работы официального сайта по размещению заказа]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.11,"Высоко",
+IIF([Measures].[Среднее]<0.21,"Хорошо",
+IIF([Measures].[Среднее]<0.31,"Средне",
+IIF([Measures].[Среднее]<0.41,"Удовлетворительно","Неудовлетворительно")))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ЭОПИ" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ЭОПИ] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Эффективность работы официального печатного издания]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.11,"Высоко",
+IIF([Measures].[Среднее]<0.21,"Хорошо",
+IIF([Measures].[Среднее]<0.31,"Средне",
+IIF([Measures].[Среднее]<0.41,"Удовлетворительно","Неудовлетворительно")))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ЭК" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ЭК] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Эффективность работы органа, осуществляющего контроль за размещением государственного заказа]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.11,"Высоко",
+IIF([Measures].[Среднее]<0.21,"Хорошо",
+IIF([Measures].[Среднее]<0.31,"Средне",
+IIF([Measures].[Среднее]<0.41,"Удовлетворительно","Неудовлетворительно")))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Ктк" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Ктк] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент текущего контроля]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.06,"Высоко",
+IIF([Measures].[Среднее]<0.1,"Хорошо",
+IIF([Measures].[Среднее]<0.45,"Средне",
+IIF([Measures].[Среднее]<0.81,"Удовлетворительно","Неудовлетворительно")))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Ккпр" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Ккпр] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент корректности проверок]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.06,"Высоко",
+IIF([Measures].[Среднее]<0.1,"Хорошо",
+IIF([Measures].[Среднее]<0.45,"Средне",
+IIF([Measures].[Среднее]<0.81,"Удовлетворительно","Неудовлетворительно")))))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Касс" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Касс] FOR '({[Measures].[Оценка]},{[Мониторинг].[Показатели оценки ЭЗД].[Показатель].[Коэффициент административных санкций]})' AS 'IIF(IsEmpty([Measures].[Среднее]),"",
+IIF([Measures].[Среднее]<0.06,"Высоко",
+IIF([Measures].[Среднее]<0.1,"Хорошо",
+IIF([Measures].[Среднее]<0.45,"Средне",
+IIF([Measures].[Среднее]<0.81,"Удовлетворительно","Неудовлетворительно")))))']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ЭО_Мониторинг_Оценка ЭЗД" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ЭО_Мониторинг_ОценкаЭЗД_ЭО_Мониторинг_ОценкаЭЗД_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_STORDER_EPAMARKSEFFICIENCY", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_STORDER_TERRITORY", "DV"."D_STORDER_EPAMARKSEFFICIENCY", "DV"."DV_STORDER_ORGANIZER"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_STORDER_EPAMARKSEFFICIENCY"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFTERRYTORY"="DV"."D_STORDER_TERRITORY"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFEPAMARKSEFFICIENCY"="DV"."D_STORDER_EPAMARKSEFFICIENCY"."ID") AND ("DV"."F_STORDER_EPAMARKSEFFICIENCY"."REFORGANIZATION"="DV"."DV_STORDER_ORGANIZER"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[558b744d-c37a-4c45-996f-47132dfbdcfc]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[a76e9a5e-b1f1-4898-861d-14e7c81ec107]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

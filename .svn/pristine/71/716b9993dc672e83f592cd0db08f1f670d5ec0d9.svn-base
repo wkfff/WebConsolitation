@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="MFRF_0004_0004_date">
+    <![CDATA[
+-- MFRF_0004_0004_date
+-- <#МФ РФ_Расходы ФБ]#>
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                [Период].[Период].Members,
+                not IsEmpty([Measures].[Факт за период]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+  from [МФ РФ_Расходы ФБ] 
+  ]]>
+</query>
+
+<query id="MFRF_0004_0004_grid">
+<![CDATA[
+-- MFRF_0004_0004_grid  
+-- <#МФ РФ_Расходы ФБ]#>
+WITH 
+    member [Measures].[Код]
+    as 'IIF
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember is [МФ РФ].[ГРБС ФБ Сопоставимый].[Всего по ГРБС],
+            0,
+            StrToValue([МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Properties("Код"))
+        )'
+    member [Measures].[План прошлый год] 
+    as '
+        (
+            [Measures].[План],
+            [Период].[Период].[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+        )'  
+    member [Measures].[Темп роста план] 
+    as 'IIF 
+        (
+            IsEmpty([Measures].[План прошлый год]) or [Measures].[План прошлый год] = 0,
+            null,
+            [Measures].[План] / [Measures].[План прошлый год]
+        )'  
+    member [МФ РФ].[ГРБС ФБ Сопоставимый].[Всего по ГРБС] 
+    as '[МФ РФ].[ГРБС ФБ Сопоставимый].[Все]' 
+    set [Список ГРБС] 
+    as 'Filter 
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].Children - 
+            {
+                [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].[Несопоставленные данные] 
+            },
+            [Measures].[План] <> 0 and [Measures].[Факт] <> 0 
+        )' 
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[Факт],
+        [Measures].[Факт прошлый год],
+        [Measures].[Темп роста к аналогичному периоду прошлого года_Факт],
+        [Measures].[План],
+        [Measures].[План прошлый год],
+        [Measures].[Темп роста план],
+        [Measures].[Процент исполнения]
+    } on columns,
+    {
+        {
+            [МФ РФ].[ГРБС ФБ Сопоставимый].[Всего по ГРБС] 
+        } + [Список ГРБС]
+    } on rows 
+FROM  [МФ РФ_Расходы ФБ] 
+WHERE 
+    (
+        [МФ РФ].[КОСГУ].[Все],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+    ) 
+  ]]>
+</query>
+
+<query id="MFRF_0004_0004_chart">
+<![CDATA[
+-- MFRF_0004_0004_chart
+-- <#МФ РФ_Расходы ФБ]#>
+WITH 
+    Member [Measures].[Факт млн.руб.] 
+    as '[Measures].[<%fkr_filter%>] / 1000000' 
+    Member [Measures].[Итого] 
+    as '
+        (
+            [Measures].[Факт млн.руб.],
+            [МФ РФ].[КОСГУ].[Все].[Итого]
+        )' 
+    Member [Measures].[Заработная плата] 
+    as '
+        (
+            [Measures].[Факт млн.руб.],
+            [МФ РФ].[КОСГУ].[Все].[Заработная плата]
+        )' 
+SELECT
+    {
+        [Measures].[Заработная плата],
+        [Measures].[Итого]
+    } on columns,
+    {
+      Filter
+      (
+          OpeningPeriod
+          (
+              [Период].[Период].[Месяц],
+              [Период].[Период].[Данные всех периодов].[<%period_last_year%>]
+          ) : ClosingPeriod
+          (
+              [Период].[Период].[Месяц],
+              [Период].[Период].[Данные всех периодов].[<%period_year%>]
+          ),
+          [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+          [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+          [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+          [Период].[Период].CurrentMember.Name <> "Данные года" and
+          [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+          [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+      )    
+    } on rows 
+FROM  [МФ РФ_Расходы ФБ] 
+WHERE 
+    (
+        <%filter%>
+    ) 
+  ]]>
+</query>
+
+</root>

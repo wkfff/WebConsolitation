@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="IP_0001_0003_hmao">
+    <![CDATA[ -- IP_0001_0003_hamo
+      select
+	      ID, Name
+      from
+	      d_Territory_RF
+      where
+	      Name = 'Ханты-Мансийский автономный округ - Югра'
+    ]]>
+  </query>
+
+  <query id="IP_0001_0003_sub_terr">
+    <![CDATA[ -- IP_0001_0003_sub_terr
+      select
+        t_rf.ID, t_rf.Name, COUNT(ip_r.ID) as Projects
+      from
+        d_Territory_RF t_rf left outer join d_InvProject_Reestr ip_r on ip_r.RefTerritory = t_rf.ID and ip_r.RefStatus = 2 and ip_r.RefPart = 2
+      where
+        t_rf.ParentID = <%parent_id%>
+      group by
+        t_rf.ID, t_rf.Name
+    ]]>
+  </query>
+
+  <query id="IP_0001_0003_grid">
+    <![CDATA[ -- IP_0001_0003_grid
+      select
+        ip_r.ID, ip_r.Code, ip_r.Name, t_rf.Name as Terr, ip_r.Goal, ip_r.ExpectedOutput, ip_r.Production, ip_r.PaybackPeriod,
+        ip_r.InvestorName, ip_r.LegalAddress, ip_r.Email, ip_r.Phone, ip_r.Contact
+      from
+        d_InvProject_Reestr ip_r, d_Territory_RF t_rf
+      where
+        ip_r.RefTerritory = t_rf.ID and ip_r.RefStatus = 2 and ip_r.RefPart = 2 and t_rf.ID in (<%parent_id%>)
+    ]]>
+  </query>
+  
+</root>

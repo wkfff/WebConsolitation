@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F89C6C69-F7FD-48F2-BAA9-D290579A4124}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Krista.FM.Server.Dashboards.MinSportSupport</RootNamespace>
+    <AssemblyName>Krista.FM.Server.Dashboards.MinSportSupport</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\DashboardsDefaultImport.xml" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Krista.FM.Server.Dashboards.Debug'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Krista.FM.Server.Dashboards.Release'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Config\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Factor.cs" />
+    <Compile Include="GridConverter.cs" />
+    <Compile Include="GridFullR.cs" />
+    <Compile Include="ProcessingQueryResult.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MinSportHelper.cs" />
+    <Compile Include="GridCommon.cs" />
+    <Compile Include="QueryWorker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="QueryCreator.cs" />
+    <Compile Include="QueryTemplateWorker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TotalElements.cs" />
+    <Compile Include="UseHandBook.cs" />
+    <Compile Include="XMLWorker.cs" />
+    <Compile Include="XmlWriter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Krista.FM.Server.Dashboards.Common\Krista.FM.Server.Dashboards.Common.csproj">
+      <Project>{62258010-D25C-4128-93DE-1F6553D3870B}</Project>
+      <Name>Krista.FM.Server.Dashboards.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Server.Dashboards.Core\Krista.FM.Server.Dashboards.Core.csproj">
+      <Project>{134223D3-2075-431F-A85E-BEA38D1E799B}</Project>
+      <Name>Krista.FM.Server.Dashboards.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Server.Dashboards\Krista.FM.Server.Dashboards.Components.csproj">
+      <Project>{A11B6335-913A-469F-93C9-C3C2AB7E7C9A}</Project>
+      <Name>Krista.FM.Server.Dashboards.Components</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Установщик Windows 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\ProjectOptions.xml" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\ProjectTargets.xml" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

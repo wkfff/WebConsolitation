@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="Compile">
+	<Exec Command="del ..\output\*.zip" IgnoreExitCode="True"/>
+	<Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>
+    <MSBuild Projects="$(SolutionDir)\$(SolutionName).sln" />
+  </Target>
+  <Target Name="BuildArtifact">
+	<Exec Command="%windir%\system32\xcopy /EI ..\output\$(SolutionName) $(SolutionName)-$(VersionString)"/>
+	<Exec Command="zip -mr ..\output\$(SolutionName)-$(VersionString).zip $(SolutionName)-$(VersionString)"/>
+	<Exec Command="rmdir /S /Q ..\output\$(SolutionName)" IgnoreExitCode="True"/>
+  </Target>
+  <Target Name="BuildSolutionWrapper" DependsOnTargets="Compile;BuildArtifact">
+  </Target>
+</Project>

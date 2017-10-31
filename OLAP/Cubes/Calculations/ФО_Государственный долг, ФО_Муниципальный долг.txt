@@ -1,0 +1,46 @@
+CALCULATE;
+
+//Период.Период
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0);
+END SCOPE;
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к предыдущему месяцу] AS 
+IIF(IsEmpty(([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение])), null,
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Месяц",
+IIF(not IsEmpty(([Период__Период].[Период__Период].CurrentMember.Lag(1), [Measures].[Значение])) and ([Период__Период].[Период__Период].CurrentMember.Lag(1), [Measures].[Значение]) <> 0, ([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение]) / ([Период__Период].[Период__Период].CurrentMember.Lag(1), [Measures].[Значение]),
+	/*IIF(not IsEmpty(([Период__Период].[Период__Период].CurrentMember.Lag(2), [Measures].[Значение])) and ([Период__Период].[Период__Период].CurrentMember.Lag(2), [Measures].[Значение]) <> 0, ([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение]) / ([Период__Период].[Период__Период].CurrentMember.Lag(2), [Measures].[Значение]),
+IIF(not IsEmpty(([Период__Период].[Период__Период].CurrentMember.Lag(3), [Measures].[Значение])) and ([Период__Период].[Период__Период].CurrentMember.Lag(3), [Measures].[Значение]) <> 0, ([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение]) / ([Период].
+[Период].CurrentMember.Lag(3), [Measures].[Значение]),*/
+
+IIF([Период__Период].[Период__Период].CurrentMember.Name = "Январь" and (not IsEmpty(([Measures].[Значение], (ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).Prevmember).LastChild)) and ([Measures].[Значение], (ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).Prevmember).LastChild )<> 0),
+(Measures.[Значение], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[Значение], (ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).Prevmember).LastChild),
+null)), 
+
+/*Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].[Темп роста к предыдущему месяцу])*/
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)
+
+)), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Значение прошлый год] AS 
+([Measures].[Значение], ParallelPeriod([Период__Период].[Период__Период].[Год],1,[Период__Период].[Период__Период].CurrentMember)), VISIBLE = 0;
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к предыдущему году] AS IIF(IsEmpty([Measures].[Значение прошлый год]) or [Measures].[Значение прошлый год] = 0,
+null,
+Measures.[Значение] / [Measures].[Значение прошлый год]), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к началу года] AS 
+IIF(IsEmpty(([Measures].[Значение], (ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).Prevmember).LastChild)) or ([Measures].[Значение], (ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).Prevmember).LastChild )= 0,
+null,
+(Measures.[Значение], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[Значение], (ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]).Prevmember).LastChild)), FORMAT_STRING = "Percent";
+
+([Период__Период].[Период__Период].[Данные всех периодов]) = 
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0);

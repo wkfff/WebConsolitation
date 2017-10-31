@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by mik-a-el (KRISTA) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="DataPumpStagesParams">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PreviewData" type="StageType"/>
+				<xs:element name="PumpData" type="StageType"/>
+				<xs:element name="ProcessData" type="StageType"/>
+				<xs:element name="AssociateData" type="StageType"/>
+				<xs:element name="ProcessCube" type="StageType"/>
+				<xs:element name="CheckData" type="StageType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="StageType">
+		<xs:attribute name="State" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="InQueue"/>
+					<xs:enumeration value="Skipped"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="Comment" type="xs:string"/>
+	</xs:complexType>
+</xs:schema>

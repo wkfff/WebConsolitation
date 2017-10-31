@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФО_Расходы бюджета" ClassType="9" SubClassType="0" Description="Таблица фактов, содержащая данные об исполнении областного бюджета по расходам (данные отдельного отчета АС Бюджет)." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_F_CHARGESBUD"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_F_CHARGESBUD"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_F_CHARGESBUD", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."DV_R_EXCTCACHPL", "DV"."DV_EKR_EXCTCACHPL", "DV"."DV_SUBKESR_EXCTCACHPL", "DV"."BV_EKR_BRIDGE", "DV"."BV_FKR_BRIDGE", "DV"."B_SUBKESR_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_F_CHARGESBUD"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_CHARGESBUD"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_F_CHARGESBUD"."REFR"="DV"."DV_R_EXCTCACHPL"."ID") AND ("DV"."F_F_CHARGESBUD"."REFEKR"="DV"."DV_EKR_EXCTCACHPL"."ID") AND ("DV"."F_F_CHARGESBUD"."REFSEKRBRIDGE"="DV"."DV_SUBKESR_EXCTCACHPL"."ID") AND ("DV"."DV_EKR_EXCTCACHPL"."REFKOSGU"="DV"."BV_EKR_BRIDGE"."ID") AND ("DV"."DV_R_EXCTCACHPL"."REFFKR"="DV"."BV_FKR_BRIDGE"."ID") AND ("DV"."DV_SUBKESR_EXCTCACHPL"."REFSEKRBRIDGE"="DV"."B_SUBKESR_BRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_F_CHARGESBUD"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{100}{2310}{2490}{910}{1})({dv}{DV.F_F_CHARGESBUD}{DV.F_F_CHARGESBUD}{3302}{484}{2235}{4130}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{1470}{3435}{2490}{910}{1})({dv}{DV.DV_R_EXCTCACHPL}{DV.DV_R_EXCTCACHPL}{6870}{3975}{1800}{2200}{1})({dv}{DV.DV_EKR_EXCTCACHPL}{DV.DV_EKR_EXCTCACHPL}{3165}{4665}{2175}{2920}{1})({dv}{DV.DV_SUBKESR_EXCTCACHPL}{DV.DV_SUBKESR_EXCTCACHPL}{9225}{2100}{1800}{2200}{1})({dv}{DV.B_SUBKESR_BRIDGE}{DV.B_SUBKESR_BRIDGE}{9570}{5280}{1800}{2200}{1})({dv}{DV.BV_FKR_BRIDGE}{DV.BV_FKR_BRIDGE}{6540}{6420}{1800}{2200}{1})({dv}{DV.BV_EKR_BRIDGE}{DV.BV_EKR_BRIDGE}{3180}{7560}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[8b2f1913-aaef-485c-af02-9d624a35a8ac]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[06a869b8-f9a4-497d-aa62-556a0ea0a260]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.F.ChargesBud]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ИМПОРТ]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[86b6c77e-c101-412d-bdbd-36b1c86efdf4]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Расходы.ФО_ИспКасПлан" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_R_EXCTCACHPL"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Расходы" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_R_EXCTCACHPL"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="РзПр.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все коды ФКР]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код ФКР" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_FKR_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="КОСГУ.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все коды ЭКР]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Код ЭКР" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_EKR_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="КОСГУ.ФО_ИспКасПлан" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_EKR_EXCTCACHPL"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="КОСГУ" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_EKR_EXCTCACHPL"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СубКОСГУ.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все субкоды ЭКР]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Субкод КЭСР" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_SUBKESR_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СубКОСГУ.ФО_ИспКасПлан" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_SUBKESR_EXCTCACHPL"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="СубКОСГУ" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_SUBKESR_EXCTCACHPL"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Факт за день" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CHARGESBUD"."FACTDAY"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="План на месяц" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CHARGESBUD"."PLANEMONTH"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Факт с начала  месяца" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CHARGESBUD"."FACTMONTH"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="План на год" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CHARGESBUD"."PLANEYEAR"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Факт с начала года" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_CHARGESBUD"."FACTYEAR"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Нараст итог" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Нараст итог] FOR '(DESCENDANTS([Период].[Период].[Данные всех периодов]))' AS 'Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember)  and ([Measures].CurrentMember is [Measures].[План на год] or  [Measures].CurrentMember is [Факт с начала года])']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="% исполнения за месяц" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[% исполнения за месяц] AS 'IIF(IsEmpty([Measures].[План на месяц]) or [Measures].[План на месяц] = 0, null,
+[Measures].[Факт с начала  месяца] / [Measures].[План на месяц])', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="% исполнения за год" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[% исполнения за год] AS 'IIF(IsEmpty([Measures].[План на год]) or [Measures].[План на год] = 0, null,
+[Measures].[Факт с начала года] / [Measures].[План на год])', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Месяц" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Месяц] FOR '([Период.Период].[Месяц].MEMBERS)' AS 'Tail(Filter([Период].[Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember) and ([Measures].CurrentMember is [Measures].[План на месяц] or [Measures].CurrentMember is [Measures].[Факт с начала  месяца])']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ФО_Расходы бюджета" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_Расходыбюджета_ФО_Расходыбюджета_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_F_CHARGESBUD"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_F_CHARGESBUD"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_F_CHARGESBUD", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."DV_R_EXCTCACHPL", "DV"."DV_EKR_EXCTCACHPL", "DV"."DV_SUBKESR_EXCTCACHPL", "DV"."BV_EKR_BRIDGE", "DV"."BV_FKR_BRIDGE", "DV"."B_SUBKESR_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_F_CHARGESBUD"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_CHARGESBUD"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_F_CHARGESBUD"."REFR"="DV"."DV_R_EXCTCACHPL"."ID") AND ("DV"."F_F_CHARGESBUD"."REFEKR"="DV"."DV_EKR_EXCTCACHPL"."ID") AND ("DV"."F_F_CHARGESBUD"."REFSEKRBRIDGE"="DV"."DV_SUBKESR_EXCTCACHPL"."ID") AND ("DV"."DV_EKR_EXCTCACHPL"."REFKOSGU"="DV"."BV_EKR_BRIDGE"."ID") AND ("DV"."DV_R_EXCTCACHPL"."REFFKR"="DV"."BV_FKR_BRIDGE"."ID") AND ("DV"."DV_SUBKESR_EXCTCACHPL"."REFSEKRBRIDGE"="DV"."B_SUBKESR_BRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[d199357f-6cf9-4e78-a713-1a12667a32a5]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[86b6c77e-c101-412d-bdbd-36b1c86efdf4]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

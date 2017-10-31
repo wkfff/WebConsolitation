@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by mik-a-el (KRISTA) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="PumpSchedule">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ScheduleSettings">
+					<xs:complexType>
+						<xs:choice minOccurs="0">
+							<xs:element name="DailySchedule">
+								<xs:complexType>
+									<xs:attribute name="DayPeriod" type="xs:int" use="required"/>
+								</xs:complexType>
+							</xs:element>
+              <xs:element name="HourSchedule">
+                <xs:complexType>
+                  <xs:attribute name="HourPeriod" type="xs:int" use="required"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="WeeklySchedule">
+								<xs:complexType>
+									<xs:attribute name="Week" type="xs:int" use="required"/>
+									<xs:attribute name="WeekDays" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Список номеров дней недели (0 - воскресенье, 1 - понедельник, ... 6 - суббота) через ;</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MonthlySchedule">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="MonthlyByDayNumbers">
+											<xs:complexType>
+												<xs:attribute name="Day" type="xs:int" use="required"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="MonthlyByWeekDays">
+											<xs:complexType>
+												<xs:attribute name="Week" type="xs:int" use="required">
+													<xs:annotation>
+														<xs:documentation>Номер недели в месяце. 0 - первая, 4 - последняя неделя.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="Day" type="xs:int" use="required">
+													<xs:annotation>
+														<xs:documentation>0 - понедельник, ... 6 - воскресенье.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="MonthlyScheduleKind" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="ByDayNumbers"/>
+												<xs:enumeration value="ByWeekDays"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="Months" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Список номеров месяцев (0-11) через ;</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="Enabled" type="xs:boolean" use="required"/>
+						<xs:attribute name="Periodicity" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Once"/>
+									<xs:enumeration value="Daily"/>
+									<xs:enumeration value="Weekly"/>
+									<xs:enumeration value="Monthly"/>
+                  <xs:enumeration value="Hour"/>
+                </xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="StartTime" type="xs:int" use="required">
+							<xs:annotation>
+								<xs:documentation>Формат времени: HHMM</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="StartDate" type="xs:int" use="required">
+							<xs:annotation>
+								<xs:documentation>Формат даты: YYYYMMDD</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

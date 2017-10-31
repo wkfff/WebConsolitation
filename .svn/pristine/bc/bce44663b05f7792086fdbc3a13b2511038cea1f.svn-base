@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.БККУ_МесОтч" ClassType="7" SubClassType="0" Description="Классификатор показателей оперативного мониторинга месячного отчета." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP", "DV"."DV_UNITS_OKEI", "DV"."FX_FX_VERIFICATIONCONDITIONS"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_MARKS_BKKUMONTHREP"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID") AND ("DV"."DV_MARKS_BKKUMONTHREP"."REFVERIFICATIONCONDITIONS"="DV"."FX_FX_VERIFICATIONCONDITIONS"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Marks.BKKUMonthRep]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_MARKS_BKKUMONTHREP}{DV.DV_MARKS_BKKUMONTHREP}{2779}{458}{2730}{3070}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{4950}{4755}{1800}{2200}{1})({dv}{DV.FX_FX_VERIFICATIONCONDITIONS}{DV.FX_FX_VERIFICATIONCONDITIONS}{3360}{4485}{3315}{925}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[8ee58301-1c30-4a24-b6fe-b1212cf4bd62]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[2861694c-6f51-40b2-a08c-f0d6f337b1f8]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[55d0feb2-1b54-40a3-a314-ac12b3bfc8de]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ID источника" ClassType="31" SubClassType="0" Description="" Caption="ID источника" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."SOURCEID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатели" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."SYMBOL"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Пороговое значение" ClassType="31" SubClassType="0" Description="" Caption="Пороговое значение" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."THRESHOLD"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Формула" ClassType="31" SubClassType="0" Description="" Caption="Формула" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."FORMULA"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."SYMBOL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Условия проверок" ClassType="31" SubClassType="0" Description="" Caption="Условия проверок" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FX_FX_VERIFICATIONCONDITIONS"."VALUE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование" ClassType="31" SubClassType="0" Description="" Caption="Наименование" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Содержание" ClassType="31" SubClassType="0" Description="" Caption="Содержание" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."MEANING"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_BKKUMONTHREP"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

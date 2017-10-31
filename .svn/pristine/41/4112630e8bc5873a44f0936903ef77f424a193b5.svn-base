@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФНС РФ_5 НДПИ" ClassType="9" SubClassType="0" Description="Отчет содержит данные ФНС РФ по форме 5-НДПИ о налоговой базе и структуре начислений по налогу на добычу полезных ископаемых. Данные представлены по субъектам РФ." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_D_FNSRF5NDPI"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_D_FNSRF5NDPI"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_D_FNSRF5NDPI", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_MARKS_FNSRF5NDPI", "DV"."B_MARKS_FNSRF5NDPIBRIDGE", "DV"."DV_TERRITORY_FNSRF", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_D_FNSRF5NDPI"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_D_FNSRF5NDPI"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_MARKS_FNSRF5NDPI"."REFMARKSFNSRF5NDPIBRIDGE"="DV"."B_MARKS_FNSRF5NDPIBRIDGE"."ID") AND ("DV"."F_D_FNSRF5NDPI"."REFMARKS"="DV"."D_MARKS_FNSRF5NDPI"."ID") AND ("DV"."F_D_FNSRF5NDPI"."REFTERRITORY"="DV"."DV_TERRITORY_FNSRF"."ID") AND ("DV"."DV_TERRITORY_FNSRF"."REFTERRITORYRFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_D_FNSRF5NDPI"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.D.FNSRF5NDPI]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[1f2bbcaf-bf97-4c6b-96a3-304e311d197a]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{150}{2805}{1965}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{4935}{3900}{2430}{925}{1})({dv}{DV.D_MARKS_FNSRF5NDPI}{DV.D_MARKS_FNSRF5NDPI}{2160}{3660}{2280}{940}{1})({dv}{DV.B_MARKS_FNSRF5NDPIBRIDGE}{DV.B_MARKS_FNSRF5NDPIBRIDGE}{2145}{6705}{2955}{910}{1})({dv}{DV.DV_TERRITORY_FNSRF}{DV.DV_TERRITORY_FNSRF}{3615}{3840}{2250}{910}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3600}{7005}{2535}{910}{1})({dv}{DV.F_D_FNSRF5NDPI}{DV.F_D_FNSRF5NDPI}{2104}{443}{2130}{3335}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[ac4c4433-e748-4b36-92b7-1c3fbce07093]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[e7a5d4de-603d-4b8e-b7b4-25423730c230]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.ФНС РФ_5 НДПИ_Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатели" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_MARKS_FNSRF5NDPIBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.ФНС РФ_5 НДПИ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатели" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_MARKS_FNSRF5NDPI"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.ФНС РФ" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_TERRITORY_FNSRF"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_TERRITORY_FNSRF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение с начала года" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_D_FNSRF5NDPI"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Значение за период" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Значение за период] AS 'IIF(IsEmpty(([Measures].[Значение с начала года], [Период].[Период].CurrentMember)),
+null,
+IIF([Период].[Период].CurrentMember.Level.Name = "Год" or  [Период].[Период].CurrentMember.Level.Name = "All" or  
+[Период].[Период].CurrentMember is OpeningPeriod([Период].[Период].CurrentMember.Level,  Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год])), 
+([Период].[Период].CurrentMember, [Measures].[Значение с начала года]),
+([Measures].[Значение с начала года], [Период].[Период].CurrentMember) -  (Tail(Filter({[Период].[Период].CurrentMember.PrevMember.FirstSibling:[Период].[Период].CurrentMember.PrevMember}, 
+not IsEmpty([Measures].[Значение с начала года]))).Item(0),[Measures].[Значение с начала года])
+)
+)
+/*IIF(IsEmpty(([Measures].[Значение с начала года], [Период].[Год Квартал Месяц].CurrentMember)),
+null,
+IIF([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Год" or [Период].[Год Квартал Месяц].CurrentMember.Level.Name = "All" or  [Период].[Год Квартал Месяц].CurrentMember is OpeningPeriod([Период].[Год Квартал Месяц].CurrentMember.Level, Ancestor([Период].[Год Квартал Месяц].CurrentMember, [Период].[Год Квартал Месяц].[Год])),
+[Measures].[Значение с начала года],
+
+IIF([Период].[Год Квартал Месяц].CurrentMember.Name = "Квартал 1", ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember),
+IIF([Период].[Год Квартал Месяц].CurrentMember.Name = "Квартал 2", ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember),
+
+IIF(not IsEmpty(([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(1))) and ([Период].[Год Квартал Месяц].CurrentMember.Lag(1).Name <> "Декабрь"), ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(1)),
+IIF(not IsEmpty(([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(2))) and ([Период].[Год Квартал Месяц].CurrentMember.Lag(2).Name <> "Декабрь"), ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(2)),
+IIF(not IsEmpty(([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(3))) and ([Период].[Год Квартал Месяц].CurrentMember.Lag(3).Name <> "Декабрь"),([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(3)),
+IIF(not IsEmpty(([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(4))) and ([Период].[Год Квартал Месяц].CurrentMember.Lag(4).Name <> "Декабрь"),([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(4)),
+IIF(not IsEmpty(([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(5))) and ([Период].[Год Квартал Месяц].CurrentMember.Lag(5).Name <> "Декабрь"),([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(5)),
+IIF(not IsEmpty(([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(6))) and ([Период].[Год Квартал Месяц].CurrentMember.Lag(6).Name <> "Декабрь"),([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember) - ([Measures].[Значение С начала года], [Период].[Год Квартал Месяц].CurrentMember.Lag(6))
+,[Measures].[Значение С начала года]))))))))
+))*/']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Значение с начала года_нарастающий" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Значение с начала года_нарастающий] FOR '({[Measures].[Значение с начала года]})' AS 'IIF([Период].[Период].CurrentMember is [Период].[Период].[Данные всех периодов], Sum([Период].[Период].[Данные всех периодов].Children), Tail(Filter([Период].[Период].CurrentMember.Children, not IsEmpty([Measures].[Значение с начала года])),1).Item(0)
+)', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember)']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ФНС РФ_5 НДПИ" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФНСРФ_5НДПИ_ФНСРФ_5НДПИ_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_D_FNSRF5NDPI"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_D_FNSRF5NDPI"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_D_FNSRF5NDPI", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_MARKS_FNSRF5NDPI", "DV"."B_MARKS_FNSRF5NDPIBRIDGE", "DV"."DV_TERRITORY_FNSRF", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_D_FNSRF5NDPI"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_D_FNSRF5NDPI"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_MARKS_FNSRF5NDPI"."REFMARKSFNSRF5NDPIBRIDGE"="DV"."B_MARKS_FNSRF5NDPIBRIDGE"."ID") AND ("DV"."F_D_FNSRF5NDPI"."REFMARKS"="DV"."D_MARKS_FNSRF5NDPI"."ID") AND ("DV"."F_D_FNSRF5NDPI"."REFTERRITORY"="DV"."DV_TERRITORY_FNSRF"."ID") AND ("DV"."DV_TERRITORY_FNSRF"."REFTERRITORYRFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[1b03fdbb-9339-43a9-b726-071602066580]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[1f2bbcaf-bf97-4c6b-96a3-304e311d197a]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

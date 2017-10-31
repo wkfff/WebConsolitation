@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Исполнение расходов.Мероприятия" ClassType="7" SubClassType="0" Description="Перечень мероприятий." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."D_EXCCOSTS_EVENTS", "DV"."D_EXCCOSTS_CREATORS", "DV"."D_EXCCOSTS_TASKS"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_EXCCOSTS_EVENTS"."REFCREATORS"="DV"."D_EXCCOSTS_CREATORS"."ID") AND ("DV"."D_EXCCOSTS_EVENTS"."REFTASK"="DV"."D_EXCCOSTS_TASKS"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.ExcCosts.Events]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[98e43b5b-be62-45a1-9772-7a65d6bb7325]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_EXCCOSTS_EVENTS}{DV.D_EXCCOSTS_EVENTS}{2400}{600}{2880}{2545}{1})({dv}{DV.D_EXCCOSTS_CREATORS}{DV.D_EXCCOSTS_CREATORS}{4005}{3990}{2565}{955}{1})({dv}{DV.D_EXCCOSTS_TASKS}{DV.D_EXCCOSTS_TASKS}{2865}{3960}{2580}{925}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[8ac5d4c5-3e98-4221-9f4a-e0f8de3d25c7]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[91dbfc8f-c31d-4300-93d7-7bebfccf04d7]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все мероприятия]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Мероприятие" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_EXCCOSTS_EVENTS"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_EXCCOSTS_EVENTS"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_EXCCOSTS_EVENTS"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_EXCCOSTS_EVENTS"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Ожидаемые результаты" ClassType="31" SubClassType="0" Description="" Caption="Ожидаемые результаты" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_EXCCOSTS_EVENTS"."RESULTS"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_EXCCOSTS_EVENTS"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Эффект от реализации мероприятия" ClassType="31" SubClassType="0" Description="" Caption="Эффект от реализации мероприятия" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_EXCCOSTS_EVENTS"."RESULTEV"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Причина не выполнения" ClassType="31" SubClassType="0" Description="" Caption="Причина не выполнения" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_EXCCOSTS_EVENTS"."REASONFAIL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Заказчик" ClassType="31" SubClassType="0" Description="" Caption="Заказчик" PropertyType="0" IsVisible="true" ColumnSize="512" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_EXCCOSTS_CREATORS"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Задача" ClassType="31" SubClassType="0" Description="" Caption="Задача" PropertyType="0" IsVisible="true" ColumnSize="4000" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_EXCCOSTS_TASKS"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

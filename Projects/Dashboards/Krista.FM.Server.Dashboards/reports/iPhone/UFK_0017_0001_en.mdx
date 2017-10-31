@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>	 
+  <query id="ShortNames">
+    <![CDATA[
+with
+    member Measures.[Сокращенное наименование]
+    as '[Территории].[Сопоставимый].CurrentMember.Properties("Сокращенное наименование")'
+    member Measures.[Сокращенное наименование ФО]
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Properties("Сокращенное наименование")'
+select
+    {Measures.[Сокращенное наименование], Measures.[Сокращенное наименование ФО]} on columns
+from [МФ РФ_Фонды]
+where
+    (
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>]
+    )
+  ]]>
+  </query>
+</root>

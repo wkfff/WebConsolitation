@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id ="grid">
+    <![CDATA[  
+    WITH
+    MEMBER [Measures].[Единица измерения]
+    AS  '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+select
+    {<%marks%>}
+    on rows,
+    { [Measures].[Единица измерения] ,
+    [Measures].[Значение]
+    } on columns
+from [МО_Паспорт МО]      
+where 
+  (
+      <%current_region%>,
+      [Период].[Год Квартал Месяц].[Год].[<%last_year%>]
+  )
+
+    ]]>
+  </query>
+  <query id ="chart1_danamic">
+    <![CDATA[
+    --dina
+    WITH
+    MEMBER [Measures].[Единица измерения]
+    AS  '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")'
+select
+    non empty        
+    {
+       <%marks%> } on rows,
+    non empty
+
+filter (
+        {
+            [Период].[Год Квартал Месяц].[Год].members
+        },
+        [Measures].[Значение]>0)on columns
+from [МО_Паспорт МО]
+where <%current_region%>
+]]>
+    
+  </query>
+  <query id ="chart2">
+    <![CDATA[
+    WITH 
+    MEMBER [Measures].[Единица измерения] 
+    AS  '[Паспорт МО].[Показатели].CurrentMember.Properties("Единица измерения")' 
+select
+    non empty 
+    {
+       <%chart2_mark%>.children
+    }on columns ,
+    non empty  filter 
+    (
+        {
+            [Период].[Год Квартал Месяц].[Год].[<%last_year%>]: [Период].[Год Квартал Месяц].[Год].[<%last_year%>].Lag(4)
+        },
+        [Measures].[Значение]>0
+    ) on rows 
+from [МО_Паспорт МО] 
+where <%current_region%>
+    ]]>
+  </query>
+  <query id ="lastdate" >
+    <![CDATA[
+
+    select
+    { [Measures].[Значение] } on columns,
+    {
+        Tail  
+        (
+            Filter  
+            (
+                [Период].[Год Квартал Месяц].[Год].members,
+                [Measures].[Значение]>0 
+            )  
+        ).Item(0)  
+    } on rows  
+from [МО_Паспорт МО]  
+where
+(
+    [Паспорт МО].[Показатели].[Медицинское обслуживание],
+    <%current_region%>
+)
+
+    ]]>
+  </query>
+  
+</root>

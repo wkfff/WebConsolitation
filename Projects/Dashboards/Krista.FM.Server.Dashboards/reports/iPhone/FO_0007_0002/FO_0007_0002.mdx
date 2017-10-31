@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0007_0002_rests_date">
+    <![CDATA[
+-- FO_0007_0002_rests_date
+with 
+    member [Measures].[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+    set [NonEmptySet] 
+    as 'Tail 
+        (
+            Filter 
+            (
+                [Период].[Период].[Месяц].Members,
+                not IsEmpty([Measures].[Факт]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" 
+            ),
+            1
+        )' 
+select
+    { [Measures].[ДанныеНа] } on columns,
+     { [NonEmptySet] } on rows 
+from  [ФО_МесОтч_Дефицит Профицит]
+  ]]>
+  </query>
+
+  <query id="date_last">
+    <![CDATA[
+-- fo_0035_0001_date
+with 
+    member Measures.[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail 
+        (
+            NonEmptyCrossjoin 
+            (
+                {
+                    Filter 
+                    (
+                        [Период].[Период].Members,
+                        [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and [Период].[Период].CurrentMember.Name <> "Данные квартала" and [Период].[Период].CurrentMember.Name <> "Данные полугодия" and [Период].[Период].CurrentMember.Name <> "Данные года"
+                    ) 
+                } 
+            ) 
+        ) 
+    } on rows 
+from [ФО_Исполнение кассового плана] 
+  ]]>
+  </query>
+  
+<query id="ChartOutcomesAll">
+<![CDATA[
+-- fo_0035_0001_data
+with
+SET [NonFilterColumnSet]
+    AS 'filter
+        (
+            Descendants
+            (
+                [Период].[Период].[Данные всех периодов] ,
+                [Период].[Период].[Год] ,
+                SELF
+            ),
+            not
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Период].[Период].CurrentMember.Properties("PKID") <= ParallelPeriod([Период].[Период].[Год], 1, <%period_cur_date%>).Properties("PKID")
+            )
+            and
+            (
+                [Период].[Период].CurrentMember.Properties("PKID") >= ParallelPeriod([Период].[Период].[Год], 5, <%period_cur_date%>).Properties("PKID")
+            )
+        ) + filter
+        (
+            Descendants
+            (
+                [Период].[Период].[Данные всех периодов] ,
+                [Период].[Период].[Месяц] ,
+                SELF
+            ),
+            not
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].CurrentMember.Parent.DataMember
+            )   and
+            (
+                [Период].[Период].CurrentMember.Properties("PKID") >=  <%period_cur_date%>.Parent.Parent.Parent.Properties("PKID")
+            )   and
+            (
+                [Период].[Период].CurrentMember.Properties("PKID") <= <%period_cur_date%>.Properties("PKID")
+            )
+        )'
+     member [Measures].[Факт ]
+    as 'IIF
+        (
+            isEmpty ([Measures].[Факт]),
+            0,
+            [Measures].[Факт]  / 1000
+        )'
+        member [Measures].[Год ]
+    as '[Период].[Период].CurrentMember.Parent.Parent.Parent.Name'
+SELECT
+    {
+        [Measures].[Факт ],
+        [Measures].[Год ]
+    } ON COLUMNS ,
+    {[NonFilterColumnSet]} ON ROWS
+FROM [ФО_МесОтч_Дефицит Профицит]
+WHERE
+    (
+        [ТипДокумента].[СКИФ].[Все].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов] ,
+        [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта]
+    )
+  ]]>
+  </query>
+</root>

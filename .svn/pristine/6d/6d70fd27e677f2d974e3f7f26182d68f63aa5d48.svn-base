@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ЭО_КЖН_Ленинградская область МО" ClassType="9" SubClassType="0" Description="Значение показателей оценки качества жизни населения МО по методике Ленинградской области." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_QLIFE_LENINMO"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_QLIFE_LENINMO"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_QLIFE_LENINMO", "DV"."DATASOURCES", "DV"."FX_DATE_YEAR", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_QLIFE_LENINGRADMO"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_QLIFE_LENINMO"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFQLIFE"="DV"."D_QLIFE_LENINGRADMO"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_QLIFE_LENINMO"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.QLife.LeninMO]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[50ed70d4-e623-4e3d-ac23-7581ee2c2672]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[7a15b239-a89b-4e40-9f54-422d55fa35f5]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[5cc13232-5dbe-4047-9f76-abc6d0eeff4e]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{145}{3765}{2700}{910}{1})({dv}{DV.FX_DATE_YEAR}{DV.FX_DATE_YEAR}{1155}{4275}{2655}{955}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{3285}{3870}{2640}{925}{1})({dv}{DV.F_QLIFE_LENINMO}{DV.F_QLIFE_LENINMO}{975}{435}{2550}{2240}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3255}{7215}{2625}{925}{1})({dv}{DV.D_QLIFE_LENINGRADMO}{DV.D_QLIFE_LENINGRADMO}{2265}{4320}{2625}{910}{1})]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_QLIFE_LENINMO"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFQLIFE"="DV"."D_QLIFE_LENINGRADMO"."ID")]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEAR"."DATEYEAR"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="КЖН.Ленинградская область МО" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_QLIFE_LENINGRADMO"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_QLIFE_LENINMO"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Динамика" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_QLIFE_LENINMO"."DINAMICS"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Оценка" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_QLIFE_LENINMO"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Вспом" ClassType="10" SubClassType="0" Description="" IsVisible="false" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_QLIFE_LENINMO"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="ОценкаВсе" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ОценкаВсе] FOR '({[Measures].[Оценка]}, {[КЖН].[Ленинградская область МО].[Все показатели]})' AS 'null']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ОценкаИнтегрПок" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ОценкаИнтегрПок] FOR '({[Measures].[Оценка]},{[КЖН].[Ленинградская область МО].[Интегральный показатель].MEMBERS})' AS '[Measures].[Вспом]']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ОценкаЧастИнд" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ОценкаЧастИнд] FOR '({[Measures].[Оценка]},{[КЖН].[Ленинградская область МО].[Частный индикатор].MEMBERS})' AS 'IIF (CDbl([КЖН].[Ленинградская область МО].CurrentMember.Properties("Весовой коэффициент"))>0,
+  [Measures].[Вспом]/ CDbl([КЖН].[Ленинградская область МО].CurrentMember.Properties("Весовой коэффициент")),
+  null)
+']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ОценкаNull" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ОценкаNull] FOR '({[Measures].[Оценка]})' AS 'null']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ВспомЧастИнд" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ВспомЧастИнд] FOR '({[Measures].[Вспом]},{[КЖН].[Ленинградская область МО].[Частный индикатор].MEMBERS})' AS 'CalculationPassValue(([КЖН].[Ленинградская область МО].CurrentMember,[Measures].[Вспом]),1)
+    * CDbl([КЖН].[Ленинградская область МО].CurrentMember.Properties("Весовой коэффициент"))', CALCULATION_PASS_NUMBER = '2']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ВспомПоказатели" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ВспомПоказатели] FOR '({[Measures].[Вспом]},{[КЖН].[Ленинградская область МО].[Показатель].MEMBERS})' AS 'IIF(Val([КЖН].[Ленинградская область МО].CurrentMember.Properties("Флаг")) = 0,
+  IIF(([Период].[Год].CurrentMember.PrevMember,[Measures].[Значение])>0,
+    ([Период].[Год].CurrentMember,[Measures].[Значение])/([Период].[Год].CurrentMember.PrevMember,[Measures].[Значение])
+    * CDbl([КЖН].[Ленинградская область МО].CurrentMember.Properties("Весовой коэффициент")),
+    null),
+  IIF(([Период].[Год].CurrentMember,[Measures].[Значение])>0,
+    ([Период].[Год].CurrentMember.PrevMember,[Measures].[Значение])/([Период].[Год].CurrentMember,[Measures].[Значение])
+    * CDbl([КЖН].[Ленинградская область МО].CurrentMember.Properties("Весовой коэффициент")),
+    null)
+)', FORMAT_STRING = '0.0000']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ВспомNull" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[ВспомNull] FOR '({[Measures].[Вспом]})' AS 'null']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ЭО_КЖН_Ленинградская область МО" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ЭО_КЖН_Ленинградск_ЭО_КЖН_ЛенинградскаяобластьМО_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_QLIFE_LENINMO"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_QLIFE_LENINMO"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_QLIFE_LENINMO", "DV"."DATASOURCES", "DV"."FX_DATE_YEAR", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_QLIFE_LENINGRADMO"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_QLIFE_LENINMO"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_QLIFE_LENINMO"."REFQLIFE"="DV"."D_QLIFE_LENINGRADMO"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[574cf495-98b3-49b2-8afa-4e9598569c47]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[5cc13232-5dbe-4047-9f76-abc6d0eeff4e]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

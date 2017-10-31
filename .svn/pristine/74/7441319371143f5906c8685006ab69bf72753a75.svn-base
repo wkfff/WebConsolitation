@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0035_0034_date">
+    <![CDATA[
+-- FO_0035_0034_date
+with 
+    member [Measures].[ДанныеНа] 
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName' 
+    set [NonEmptySet] 
+    as 'Tail 
+        (
+            Filter 
+            (
+                Descendants 
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[День],
+                    SELF 
+                ),
+                not IsEmpty ( ( [Measures].[Поступило из ФБ] ) ) and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Остатки на начало года" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные квартала" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные полугодия" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные года" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Данные месяца" and 
+                [Период__Период].[Период__Период].CurrentMember.Name <> "Заключительные обороты"
+            ),
+            1 
+        )' 
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows 
+from  [ФО_Остатки средств бюджета_ГРБС]
+  ]]>
+  </query>
+
+  <query id="FO_0035_0034_ReviewGrid">
+    <![CDATA[
+-- FO_0035_0034_ReviewGrid
+with   
+    member [Measures].[Поступило из ФБ ]   
+    as '[Measures].[Поступило из ФБ] / 1000'   
+    member [Measures].[Перечислено ]   
+    as '[Measures].[Перечислено] / 1000'   
+    member [Measures].[Остаток ]   
+    as '[Measures].[Остаток] / 1000'   
+    member [Measures].[Код] 
+    as '[Код цели__Сопоставимый].[Код цели__Сопоставимый].CurrentMember.Properties("Код")' 
+    member [Код цели__Сопоставимый].[Код цели__Сопоставимый].[Всего]  
+    as 'Aggregate ( [Цели] )'  
+    set [Цели]  
+    as 'filter  
+        (
+            Descendants  
+            (
+                [Код цели__Сопоставимый].[Код цели__Сопоставимый].[Все],
+                [Код цели__Сопоставимый].[Код цели__Сопоставимый].[Код цели],
+                SELF  
+            ),
+            not  [Код цели__Сопоставимый].[Код цели__Сопоставимый].CurrentMember is [Код цели__Сопоставимый].[Код цели__Сопоставимый].CurrentMember.Parent.Datamember and  
+            (
+                not isEmpty ( [Measures].[Поступило из ФБ ]) or not isEmpty ( [Measures].[Перечислено ] ) or not isEmpty ( [Measures].[Остаток ] )  
+            )  
+        )'  
+select
+    {
+        [Measures].[Код],
+        [Measures].[Поступило из ФБ ],
+        [Measures].[Перечислено ],
+        [Measures].[Остаток ]   
+    } on columns,
+    {
+        [Код цели__Сопоставимый].[Код цели__Сопоставимый].[Всего],
+        [Цели]  
+    } ON rows  
+from   [ФО_Остатки средств бюджета_ГРБС] 
+WHERE       
+    (        
+        <%selected_period%>,    
+        [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].[Все].[<%grbs%>]
+    )      
+  ]]>
+</query>
+
+    <query id="person">
+        <![CDATA[
+-- fo_0035_0001_data   
+  with         
+    member [Measures].[Имя ]   
+    as ' [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].CurrentMember.Properties("Краткое наименование")' 
+    member [Measures].[Сайт ] 
+    as ' [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].CurrentMember.Properties("Сайт")' 
+    member [Measures].[ФИО ] 
+    as ' [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].CurrentMember.Properties("ФИО")' 
+    member [Measures].[Телефон ] 
+    as ' [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].CurrentMember.Properties("Телефон")' 
+    member [Measures].[Адрес электронной почты ] 
+    as ' [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].CurrentMember.Properties("Адрес электронной почты")' 
+select
+    {
+        [Measures].[Имя ],
+        [Measures].[Сайт ],
+        [Measures].[ФИО ],
+        [Measures].[Телефон ],
+        [Measures].[Адрес электронной почты ]
+    }   on columns,
+    {
+        [Администратор__ИспКасПланСопост].[Администратор__ИспКасПланСопост].[Все].[<%grbs%>]   
+    }  on rows     
+from [ФО_Реестр платежных поручений]          
+where        
+    (
+       <%selected_period%>
+    )  
+  ]]>
+    </query>
+    
+</root>

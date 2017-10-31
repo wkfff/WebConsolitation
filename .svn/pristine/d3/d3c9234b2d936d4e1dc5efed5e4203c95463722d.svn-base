@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by glazova (EMBRACE) -->
+<layerDataPump name="Закачка данных по бюджетным ассигнованиям" version="1.0">
+	<usedLayers>
+		<layer name="Закон.Данные.БазисДоходы" synonym="a"/>
+		<layer name="Классификаторы.КВСР" synonym="b"/>
+	</usedLayers>
+	<defaultDataSource supplierCode="ФО" dataCode="0019" kindsOfParams="1" year="2011"/>
+	<usedFMObjects>
+		<fmObject name="a6e33772-325a-4932-a0aa-7ce82f0b3921" synonym="KD" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="dd69b4e1-f257-49ce-b553-442d094ae39a" synonym="KVSR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="3f71b13b-3e87-45ad-8f72-1d023da07d10" synonym="FOPlanIncDivide" fmObjectType="factTable">
+			<processRules>
+				<processRule attributeName="RefBudLevel" attributeProcessRule="param" dataValue="uneBudgetLevels"/>
+				<processRule attributeName="RefVariant" attributeProcessRule="param" dataValue="uneVariants"/>
+				<processRule attributeName="RefRegions" attributeProcessRule="param" dataValue="uneRegionsPlan"/>
+				<processRule attributeName="RefFODepartments" attributeProcessRule="constant" dataValue="-1"/>
+				<processRule attributeName="RefOrganizations" attributeProcessRule="constant" dataValue="-1"/>
+				<processRule attributeName="RefTaxObjects" attributeProcessRule="constant" dataValue="-1"/>
+			</processRules>
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+	</usedFMObjects>
+	<steps>
+		<step layerSynonym="a" name="Закачка данных по проекту доходов">
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КВСР" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Code" destinationAttributeUseInSearch="true" refLayerSynonym="b" refLayerFieldName="Код"/>
+				<layerField name="КВСР" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Name" refLayerSynonym="b" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_КД" processType="directPump" destinationObjectSynonym="KD" destinationAttribute="CodeStr" destinationAttributeUseInSearch="true"/>
+				<layerField name="Наименование" processType="directPump" destinationObjectSynonym="KD" destinationAttribute="Name"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Сумма" processType="directPump" destinationObjectSynonym="FOPlanIncDivide" destinationAttribute="Forecast">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20110001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Сумма1" processType="directPump" destinationObjectSynonym="FOPlanIncDivide" destinationAttribute="Forecast">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20120001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Сумма2" processType="directPump" destinationObjectSynonym="FOPlanIncDivide" destinationAttribute="Forecast">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20130001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+		</step>
+	</steps>
+</layerDataPump>

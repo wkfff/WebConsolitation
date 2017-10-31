@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ЭО_Мониторинг закупок_Показатели работы" ClassType="9" SubClassType="0" Description="Данные по показателям работы органов власти, уполномоченных на осуществление контроля за соблюдением законодательства о размещении заказов." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_PURCHASE_MARKS"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_PURCHASE_MARKS"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_PURCHASE_MARKS", "DV"."DATASOURCES", "DV"."D_PURCHASE_MARKS", "DV"."D_PURCHASE_ORG", "DV"."FX_PURCHASE_TYPCHECK", "DV"."FX_PURCHASE_TYPORDER", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."D_PURCHASE_AREA"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_PURCHASE_MARKS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFMARK"="DV"."D_PURCHASE_MARKS"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFORG"="DV"."D_PURCHASE_ORG"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFCHECK"="DV"."FX_PURCHASE_TYPCHECK"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFORDER"="DV"."FX_PURCHASE_TYPORDER"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFTERR"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."D_PURCHASE_MARKS"."REFAREA"="DV"."D_PURCHASE_AREA"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_PURCHASE_MARKS"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{737}{4069}{2340}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{5805}{4560}{2610}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{6840}{4080}{2430}{910}{1})({dv}{DV.D_PURCHASE_MARKS}{DV.D_PURCHASE_MARKS}{1725}{4545}{2505}{910}{1})({dv}{DV.D_PURCHASE_ORG}{DV.D_PURCHASE_ORG}{2745}{4530}{2550}{910}{1})({dv}{DV.FX_PURCHASE_TYPCHECK}{DV.FX_PURCHASE_TYPCHECK}{3765}{4515}{2610}{910}{1})({dv}{DV.FX_PURCHASE_TYPORDER}{DV.FX_PURCHASE_TYPORDER}{4770}{4515}{2655}{925}{1})({dv}{DV.F_PURCHASE_MARKS}{DV.F_PURCHASE_MARKS}{1875}{345}{2505}{2720}{1})({dv}{DV.D_PURCHASE_AREA}{DV.D_PURCHASE_AREA}{1695}{7635}{2385}{910}{1})]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.Purchase.Marks]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[d26989fd-7ed2-43c2-841a-99b6f1c4ba05]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[ec60c85d-0c36-4ecd-9808-1dd837a470ea]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[581527ef-1fad-4f3b-8dc6-ddef6fcba72c]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг закупок.Показатели" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PURCHASE_MARKS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг закупок.Организации" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все организации]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Организация" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PURCHASE_ORG"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг закупок.Типы проверок" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все типы проверок]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Тип проверки" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_PURCHASE_TYPCHECK"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг закупок.Виды заказа" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды заказа]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид заказа" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_PURCHASE_TYPORDER"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Мониторинг закупок.Направления" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все направления]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Направление" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PURCHASE_AREA"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_PURCHASE_MARKS"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ЭО_Мониторинг закупок_Показатели работы" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ЭО_Монитор_ЭО_Мониторингзакупок_Показателиработы_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_PURCHASE_MARKS"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_PURCHASE_MARKS"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_PURCHASE_MARKS", "DV"."DATASOURCES", "DV"."D_PURCHASE_MARKS", "DV"."D_PURCHASE_ORG", "DV"."FX_PURCHASE_TYPCHECK", "DV"."FX_PURCHASE_TYPORDER", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."D_PURCHASE_AREA"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_PURCHASE_MARKS"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFMARK"="DV"."D_PURCHASE_MARKS"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFORG"="DV"."D_PURCHASE_ORG"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFCHECK"="DV"."FX_PURCHASE_TYPCHECK"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFORDER"="DV"."FX_PURCHASE_TYPORDER"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PURCHASE_MARKS"."REFTERR"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."D_PURCHASE_MARKS"."REFAREA"="DV"."D_PURCHASE_AREA"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[9d235202-978c-422e-a538-e5e7c5222401]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[581527ef-1fad-4f3b-8dc6-ddef6fcba72c]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

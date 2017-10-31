@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="РЕГИОН_Оценка ЭРБС" ClassType="9" SubClassType="0" Description="Значения показателей по оценке эффективности." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_ERBS_REG13"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_ERBS_REG13"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_ERBS_REG13", "DV"."DATASOURCES", "DV"."FX_DATE_YEAR", "DV"."D_TERRITORY_RF", "DV"."DV_ERBS_MARKS", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_ERBS_REG13"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ERBS_REG13"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."F_ERBS_REG13"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_ERBS_REG13"."REFERBS"="DV"."DV_ERBS_MARKS"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_ERBS_REG13"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.ERBS.REG13]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{225}{3510}{2340}{910}{1})({dv}{DV.FX_DATE_YEAR}{DV.FX_DATE_YEAR}{1215}{4215}{2355}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{3315}{3705}{2265}{925}{1})({dv}{DV.F_ERBS_REG13}{DV.F_ERBS_REG13}{947}{709}{2460}{2555}{1})({dv}{DV.DV_ERBS_MARKS}{DV.DV_ERBS_MARKS}{2220}{4200}{2370}{910}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3345}{6555}{2745}{925}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[f55da77a-2684-426e-aff5-329b9e39e697]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[21b69186-dfae-4286-a242-d61c671a0558]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[492423c2-5132-47f6-bfd9-dbd589b16392]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_ERBS_REG13"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ERBS_REG13"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."F_ERBS_REG13"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_ERBS_REG13"."REFERBS"="DV"."DV_ERBS_MARKS"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEAR"."DATEYEAR"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ЭРБС.Показатели" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Направление" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ERBS_MARKS"."REFTREND"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Группа" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ERBS_MARKS"."REFGROUP"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_ERBS_MARKS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="План" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_ERBS_REG13"."PLANVALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Факт" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_ERBS_REG13"."FACT"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Темп прироста" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста] AS 'IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Показатель" and IsLeaf([Территории].[РФ].CurrentMember) and IsLeaf([Период].[Год].CurrentMember),
+  IIF(([Measures].[Факт],[Период].[Год].CurrentMember.PrevMember)=0,
+    null,
+    ([Measures].[Факт],[Период].[Год].CurrentMember)/([Measures].[Факт],[Период].[Год].CurrentMember.PrevMember)*100-100),
+  null)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Отклонение" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Отклонение] AS 'IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Показатель" and IsLeaf([Территории].[РФ].CurrentMember) and IsLeaf([Период].[Год].CurrentMember),
+  IIF(([Measures].[План])=0,
+    null,
+    (([Measures].[Факт])-([Measures].[План]))/([Measures].[План])*100),
+  null)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Балл" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Балл] AS 'IIF(not IsEmpty([Measures].[Отклонение]),
+  IIF(Val([ЭРБС].[Показатели].CurrentMember.Properties("Обратное значение")) = 0,
+    IIF([Measures].[Отклонение]<0,
+      IIF(([Measures].[Отклонение])>-50,Fix(([Measures].[Отклонение])/10)+4,-1),
+      IIF(([Measures].[Отклонение])<25, Fix(([Measures].[Отклонение])/5 )+5,10)),
+    IIF([Measures].[Отклонение]>0,
+      IIF(([Measures].[Отклонение])<50, ABS(Fix(([Measures].[Отклонение])/10 )-4),-1),
+      IIF(([Measures].[Отклонение])>-25,ABS(Fix(([Measures].[Отклонение])/5))+5,10))),
+  null)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ВспомРасходы" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[ВспомРасходы] AS 'IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Показатель",
+ (StrToMember("[ЭРБС].[Показатели].[" + Ancestor([ЭРБС].[Показатели].CurrentMember,2).Name + "].[Вспомогательные показатели]").FirstChild,
+[Measures].[Темп прироста]),
+  null)', VISIBLE = '0']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Коэффициент взаимоувязки" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Коэффициент взаимоувязки] AS 'IIF((IsEmpty([Measures].[Темп прироста])) or (IsEmpty([Measures].[ВспомРасходы]))
+  or (Ancestor([ЭРБС].[Показатели].CurrentMember,1).Properties("Код группы")="А"),
+    1,
+    IIF(Val([ЭРБС].[Показатели].CurrentMember.Properties("Обратное значение")) = 0,
+      IIF([Measures].[ВспомРасходы]>5,
+        IIF([Measures].[Темп прироста]>5,1.6,
+        IIF([Measures].[Темп прироста]>=1,1.15,
+        IIF([Measures].[Темп прироста]>-1,0.9,
+        IIF([Measures].[Темп прироста]>=-5,0.65,0.3)))),
+      IIF([Measures].[ВспомРасходы]>=1,
+        IIF([Measures].[Темп прироста]>5,1.7,
+        IIF([Measures].[Темп прироста]>=1,1.2,
+        IIF([Measures].[Темп прироста]>-1,0.95,
+        IIF([Measures].[Темп прироста]>=-5,0.7,0.4)))),
+      IIF([Measures].[ВспомРасходы]>-1,
+        IIF([Measures].[Темп прироста]>5,1.8,
+        IIF([Measures].[Темп прироста]>=1,1.3,
+        IIF([Measures].[Темп прироста]>-1,1,
+        IIF([Measures].[Темп прироста]>=-5,0.75,0.5)))),
+      IIF([Measures].[ВспомРасходы]>=-5,
+        IIF([Measures].[Темп прироста]>5,1.9,
+        IIF([Measures].[Темп прироста]>=1,1.4,
+        IIF([Measures].[Темп прироста]>-1,1.05,
+        IIF([Measures].[Темп прироста]>=-5,0.8,0.55)))),
+        IIF([Measures].[Темп прироста]>5,2,
+        IIF([Measures].[Темп прироста]>=1,1.5,
+        IIF([Measures].[Темп прироста]>-1,1.1,
+        IIF([Measures].[Темп прироста]>=-5,0.85,0.6))))
+      )))),
+      IIF([Measures].[ВспомРасходы]>5,
+        IIF([Measures].[Темп прироста]>5,0.3,
+        IIF([Measures].[Темп прироста]>=1,0.65,
+        IIF([Measures].[Темп прироста]>-1,0.9,
+        IIF([Measures].[Темп прироста]>=-5,1.15,0.6)))),
+      IIF([Measures].[ВспомРасходы]>=1,
+        IIF([Measures].[Темп прироста]>5,0.4,
+        IIF([Measures].[Темп прироста]>=1,0.7,
+        IIF([Measures].[Темп прироста]>-1,0.95,
+        IIF([Measures].[Темп прироста]>=-5,1.2,1.7)))),
+      IIF([Measures].[ВспомРасходы]>-1,
+        IIF([Measures].[Темп прироста]>5,0.5,
+        IIF([Measures].[Темп прироста]>=1,0.75,
+        IIF([Measures].[Темп прироста]>-1,1,
+        IIF([Measures].[Темп прироста]>=-5,1.3,1.8)))),
+      IIF([Measures].[ВспомРасходы]>=-5,
+        IIF([Measures].[Темп прироста]>5,0.55,
+        IIF([Measures].[Темп прироста]>=1,0.8,
+        IIF([Measures].[Темп прироста]>-1,1.05,
+        IIF([Measures].[Темп прироста]>=-5,1.4,1.9)))),
+        IIF([Measures].[Темп прироста]>5,0.6,
+        IIF([Measures].[Темп прироста]>=1,0.85,
+        IIF([Measures].[Темп прироста]>-1,1.1,
+        IIF([Measures].[Темп прироста]>=-5,1.5,2))))
+      ))))
+))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="ВспомИнтег" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[ВспомИнтег] AS 'IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Показатель",
+  [Measures].[Балл]*[Measures].[Коэффициент взаимоувязки],
+  null)', VISIBLE = '0']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Интегральный показатель" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Интегральный показатель] AS 'IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Группа",
+  Sum([ЭРБС].[Показатели].CurrentMember.Children,[Measures].[ВспомИнтег]) * CDbl([ЭРБС].[Показатели].CurrentMember.Properties("Вес")),
+  IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Направление",
+    Sum([ЭРБС].[Показатели].CurrentMember.Children,[Measures].[Интегральный показатель]),
+    null))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Максимальный показатель" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Максимальный показатель] AS 'IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Группа" and IsLeaf([Территории].[РФ].CurrentMember) and IsLeaf([Период].[Год].CurrentMember),
+  IIF([ЭРБС].[Показатели].CurrentMember.Properties("Код группы")="А",
+    Count([ЭРБС].[Показатели].CurrentMember.Children) * CDbl([ЭРБС].[Показатели].CurrentMember.Properties("Вес"))*10,
+    Count([ЭРБС].[Показатели].CurrentMember.Children) * CDbl([ЭРБС].[Показатели].CurrentMember.Properties("Вес"))*2*10),
+  IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Направление",
+    Sum([ЭРБС].[Показатели].CurrentMember.Children,[Measures].[Максимальный показатель]),
+    null))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Уровень эффективности" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Уровень эффективности] AS 'IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Направление",
+  IIF([Measures].[Максимальный показатель]=0 or [Measures].[Интегральный показатель]=0,
+    null,
+    Round([Measures].[Интегральный показатель]/[Measures].[Максимальный показатель]*100,2)), 
+  null)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Оценка эффективности" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Оценка эффективности] AS 'IIF([ЭРБС].[Показатели].CurrentMember.Level.Name = "Направление",
+  IIF([Measures].[Уровень эффективности]=0,"",
+    IIF([Measures].[Уровень эффективности]<0,
+    "Отсутствуют признаки эффективности ("+ CStr([Measures].[Уровень эффективности]) + "%)",
+    IIF([Measures].[Уровень эффективности]<25,
+    "Низкая эффективность ("+ CStr([Measures].[Уровень эффективности]) + "%)",
+    IIF([Measures].[Уровень эффективности]<50,
+    "Удовлетворительная эффективность ("+ CStr([Measures].[Уровень эффективности]) + "%)",
+    IIF([Measures].[Уровень эффективности]<75,
+    "Средняя эффективность ("+ CStr([Measures].[Уровень эффективности]) + "%)",
+    "Высокая эффективность ("+ CStr([Measures].[Уровень эффективности]) + "%)"))))),
+  "")']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="РЕГИОН_Оценка ЭРБС" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="РЕГИОН_ОценкаЭРБС_РЕГИОН_ОценкаЭРБС_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_ERBS_REG13"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_ERBS_REG13"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_ERBS_REG13", "DV"."DATASOURCES", "DV"."FX_DATE_YEAR", "DV"."D_TERRITORY_RF", "DV"."DV_ERBS_MARKS", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_ERBS_REG13"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_ERBS_REG13"."REFYEAR"="DV"."FX_DATE_YEAR"."ID") AND ("DV"."F_ERBS_REG13"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_ERBS_REG13"."REFERBS"="DV"."DV_ERBS_MARKS"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[da5b1eaf-a84d-4818-a14a-315887d2f6f9]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[492423c2-5132-47f6-bfd9-dbd589b16392]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

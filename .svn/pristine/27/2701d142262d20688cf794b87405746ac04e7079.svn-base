@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-5"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by mik-a-el (RPA Krista) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="ClsHierarchy">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ParentChildPair" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Линейный вид задания иерархии.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="Code" type="xs:int" use="required">
+							<xs:annotation>
+								<xs:documentation>Код элемента.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="ParentCode" type="xs:int">
+							<xs:annotation>
+								<xs:documentation>Код родительского элемента.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ParentType">
+		<xs:sequence>
+			<xs:element name="HierarchyElement" type="ParentType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Родительский или подчиненный элемент иерахии. Тип элемента определяется его положением относительно других элементов xml.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="ID" type="xs:int" use="required">
+			<xs:annotation>
+				<xs:documentation>ID элемента</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

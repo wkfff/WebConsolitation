@@ -1,0 +1,3151 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0002_0021_date">
+    <![CDATA[
+-- FO_0002_0021_date
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        Filter
+        (
+            OpeningPeriod
+            (
+                [Период].[Период].[Месяц],
+                [Период].[Период].[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+                [Период].[Период].[Месяц],
+                [Период].[Период].[Данные всех периодов].[2012]
+            ),
+            not IsEmpty([Measures].[Факт])
+        )
+    ) on rows
+from [ФО_МесОтч_Доходы]
+  ]]>
+  </query>
+
+  <query id="FO_0002_0021_grid">
+    <![CDATA[
+-- FO_0002_0021_grid
+with                    
+    member Measures.[Брать данные из годовой отчетности]                   
+    as '(                  
+          (
+              [Период].[Период].CurrentMember is [Период].[Период].[Данные всех периодов].[<%period_year%>].PrevMember.PrevMember       
+          ) or                   
+          (
+              [Период].[Период].CurrentMember is [Период].[Период].[Данные всех периодов].[<%period_year%>].PrevMember       
+          )
+        ) and <%use_year_reporting%>'                   
+    member <%incomes_kd_dimension%>.[Мера для ГодОтч]                 
+    as 'IIF                 
+        (
+            [Measures].CurrentMember is [Measures].[Факт],
+            "[Measures].[Исполнено]",
+            IIF                 
+            (
+                [Measures].CurrentMember is [Measures].[Годовые назначения],
+                "[Measures].[Назначено]",
+                IIF                 
+                (
+                    [Measures].CurrentMember is [Measures].[% выполнения годовых назначений],
+                    "[Measures].[Процент выполнения назначений]",
+                    " "                 
+                )                 
+            )                 
+        )'                 
+    member <%incomes_kd_dimension%>.[ДОХОДЫ ]                    
+    as 'IIF                 
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube                 
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "                 
+                (
+                    <%incomes_all%>,
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr                 
+                    (
+                        [Период].[Период].CurrentMember                 
+                    ) + ",
+                    " + MemberToStr                 
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                 
+                    ) + ",
+                    " + MemberToStr                 
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                 
+                    ) + ",
+                    " + MemberToStr                 
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                 
+                    ) + "                 
+                )"                 
+            ),
+            <%incomes_all%>
+        )'                 
+    member <%incomes_kd_dimension%>.[Доходы без учета субвенций, возврата остатков и доходов от возврата остатков субсидий и субвенций прошлых лет ]                    
+    as '                    
+        (
+            <%incomes_kd_dimension%>.[ДОХОДЫ ]                    
+        ) -                    
+        (
+            <%incomes_kd_dimension%>.[Доходы от возврата остатков субсидий и субвенций прошлых лет ]                    
+        )  -                    
+        (
+            <%incomes_kd_dimension%>.[Возврат остатков субсидий и субвенций прошлых лет ]                    
+        )  -                    
+        (
+            <%incomes_kd_dimension%>.[Субвенции ]                    
+        )'                    
+    member <%incomes_kd_dimension%>.[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ ]                    
+    as 'IIF                
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube                
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "                
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr                
+                    (
+                        [Период].[Период].CurrentMember                
+                    ) + ",
+                    " + MemberToStr                
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                
+                    ) + ",
+                    " + MemberToStr                
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                
+                    ) + ",
+                    " + MemberToStr                
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                
+                    ) + "                
+                )"                
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>]               
+        )'                
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы без учета возврата остатков и доходов от возврата остатков субсидий и субвенций прошлых лет ]                    
+    as '                    
+        (
+            <%incomes_kd_dimension%>.[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ ]                    
+        ) -                    
+        (
+            <%incomes_kd_dimension%>.[Доходы от возврата остатков субсидий и субвенций прошлых лет ]                    
+        )  -                    
+        (
+            <%incomes_kd_dimension%>.[Возврат остатков субсидий и субвенций прошлых лет ]                    
+        )'                     
+    member <%incomes_kd_dimension%>.[Налог на доходы физических лиц ]                 
+    as 'IIF                 
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube                 
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "                 
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на доходы физических лиц],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr                 
+                    (
+                        [Период].[Период].CurrentMember                 
+                    ) + ",
+                    " + MemberToStr                 
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                 
+                    ) + ",
+                    " + MemberToStr                 
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                 
+                    ) + ",
+                    " + MemberToStr                 
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                 
+                    ) + "                 
+                )"                 
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на доходы физических лиц]                 
+        )'                 
+    member <%incomes_kd_dimension%>.[Единый налог на вмененный доход ]                    
+    as 'IIF               
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube               
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "               
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый налог на вмененный доход для отдельных видов деятельности],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr               
+                    (
+                        [Период].[Период].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Районы].[Сопоставимый].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember               
+                    ) + "               
+                )"               
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый налог на вмененный доход для отдельных видов деятельности]              
+        )'               
+    member <%incomes_kd_dimension%>.[Единый сельскохозяйственный налог ]                    
+    as 'IIF               
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube               
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "               
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый сельскохозяйственный налог],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr               
+                    (
+                        [Период].[Период].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Районы].[Сопоставимый].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember               
+                    ) + "               
+                )"               
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый сельскохозяйственный налог]              
+        )'               
+    member <%incomes_kd_dimension%>.[Налог на имущество физических лиц ]                    
+    as 'IIF               
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube               
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "               
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество физических лиц],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr               
+                    (
+                        [Период].[Период].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Районы].[Сопоставимый].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember               
+                    ) + "               
+                )"               
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество физических лиц]              
+        )'               
+    member <%incomes_kd_dimension%>.[Налог на имущество организаций ]                    
+    as 'IIF               
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube               
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "               
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество организаций],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr               
+                    (
+                        [Период].[Период].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Районы].[Сопоставимый].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember               
+                    ) + "               
+                )"               
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество организаций]              
+        )'               
+    member <%incomes_kd_dimension%>.[Земельный налог ]                    
+    as 'IIF               
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube               
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "               
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Земельный налог],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr               
+                    (
+                        [Период].[Период].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Районы].[Сопоставимый].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember               
+                    ) + "               
+                )"               
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Земельный налог]              
+        )'               
+    member <%incomes_kd_dimension%>.[Государственная пошлина ]                    
+    as 'IIF               
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube               
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "               
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr               
+                    (
+                        [Период].[Период].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Районы].[Сопоставимый].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember               
+                    ) + ",
+                    " + MemberToStr               
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember               
+                    ) + "               
+                )"               
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА]              
+        )'               
+    member <%incomes_kd_dimension%>.[Задолженность и перерасчеты по отмененным налогам, сборам и иным платежам ]                    
+    as 'IIF              
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube              
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "              
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr              
+                    (
+                        [Период].[Период].CurrentMember              
+                    ) + ",
+                    " + MemberToStr              
+                    (
+                        [Районы].[Сопоставимый].CurrentMember              
+                    ) + ",
+                    " + MemberToStr              
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember              
+                    ) + ",
+                    " + MemberToStr              
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember              
+                    ) + "              
+                )"              
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]             
+        )'              
+    member <%incomes_kd_dimension%>.[Доходы от использования имущества, находящегося в муниципальной собственности ]                    
+    as 'IIF             
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube             
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "             
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr             
+                    (
+                        [Период].[Период].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [Районы].[Сопоставимый].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember             
+                    ) + "             
+                )"             
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ]            
+        )'             
+    member <%incomes_kd_dimension%>.[Платежи при пользовании природными ресурсами ]                    
+    as 'IIF             
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube             
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "             
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr             
+                    (
+                        [Период].[Период].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [Районы].[Сопоставимый].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember             
+                    ) + "             
+                )"             
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ]            
+        )'             
+    member <%incomes_kd_dimension%>.[Доходы от оказания платных услуг ]                    
+    as 'IIF             
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube             
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "             
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr             
+                    (
+                        [Период].[Период].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [Районы].[Сопоставимый].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember             
+                    ) + ",
+                    " + MemberToStr             
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember             
+                    ) + "             
+                )"             
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА]            
+        )'             
+    member <%incomes_kd_dimension%>.[Доходы от продажи материальных и нематериальных активов ]                    
+    as 'IIF            
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube            
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "            
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr            
+                    (
+                        [Период].[Период].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [Районы].[Сопоставимый].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember            
+                    ) + "            
+                )"            
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ]           
+        )'            
+    member <%incomes_kd_dimension%>.[Штрафы, санкции, возмещение ущерба ]                    
+    as 'IIF            
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube            
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "            
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr            
+                    (
+                        [Период].[Период].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [Районы].[Сопоставимый].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember            
+                    ) + "            
+                )"            
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА]           
+        )'            
+    member <%incomes_kd_dimension%>.[Прочие неналоговые доходы ]                    
+    as 'IIF            
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube            
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "            
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ПРОЧИЕ НЕНАЛОГОВЫЕ ДОХОДЫ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr            
+                    (
+                        [Период].[Период].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [Районы].[Сопоставимый].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember            
+                    ) + "            
+                )"            
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ПРОЧИЕ НЕНАЛОГОВЫЕ ДОХОДЫ]           
+        )'            
+    member <%incomes_kd_dimension%>.[Доходы от возврата остатков субсидий и субвенций прошлых лет ]                    
+    as 'IIF            
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube            
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "            
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ДОХОДЫ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ ОТ ВОЗВРАТА ОСТАТКОВ СУБСИДИЙ, СУБВЕНЦИЙ И ИНЫХ МЕЖБЮДЖЕТНЫХ ТРАНСФЕРТОВ, ИМЕЮЩИХ ЦЕЛЕВОЕ НАЗНАЧЕНИЕ, ПРОШЛЫХ ЛЕТ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr            
+                    (
+                        [Период].[Период].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [Районы].[Сопоставимый].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember            
+                    ) + ",
+                    " + MemberToStr            
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember            
+                    ) + "            
+                )"                        
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ДОХОДЫ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ ОТ ВОЗВРАТА ОСТАТКОВ СУБСИДИЙ, СУБВЕНЦИЙ И ИНЫХ МЕЖБЮДЖЕТНЫХ ТРАНСФЕРТОВ, ИМЕЮЩИХ ЦЕЛЕВОЕ НАЗНАЧЕНИЕ, ПРОШЛЫХ ЛЕТ]           
+        )'            
+    member <%incomes_kd_dimension%>.[Возврат остатков субсидий и субвенций прошлых лет ]                    
+    as 'IIF           
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube           
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "           
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ВОЗВРАТ ОСТАТКОВ СУБСИДИЙ, СУБВЕНЦИЙ И ИНЫХ МЕЖБЮДЖЕТНЫХ ТРАНСФЕРТОВ, ИМЕЮЩИХ ЦЕЛЕВОЕ НАЗНАЧЕНИЕ, ПРОШЛЫХ ЛЕТ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr           
+                    (
+                        [Период].[Период].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Районы].[Сопоставимый].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember           
+                    ) + "           
+                )"           
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[<%incomes_kd_root_name%>].[ВОЗВРАТ ОСТАТКОВ СУБСИДИЙ, СУБВЕНЦИЙ И ИНЫХ МЕЖБЮДЖЕТНЫХ ТРАНСФЕРТОВ, ИМЕЮЩИХ ЦЕЛЕВОЕ НАЗНАЧЕНИЕ, ПРОШЛЫХ ЛЕТ]          
+        )'           
+    member <%incomes_kd_dimension%>.[БЕЗВОЗМЕЗНЫЕ ПОСТУПЛЕНИЯ ]                    
+    as 'IIF           
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube           
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "           
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr           
+                    (
+                        [Период].[Период].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Районы].[Сопоставимый].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember           
+                    ) + "           
+                )"           
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ]          
+        )'           
+    member <%incomes_kd_dimension%>.[Безвозмездные поступления без учета субвенций ]                    
+    as '[КД__Сопоставимый].[КД__Сопоставимый].[БЕЗВОЗМЕЗНЫЕ ПОСТУПЛЕНИЯ ] - <%incomes_kd_dimension%>.[Субвенции ]'           
+    member <%incomes_kd_dimension%>.[Дотации ]                    
+    as 'IIF           
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube           
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "           
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Дотации бюджетам субъектов Российской Федерации и муниципальных образований],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr           
+                    (
+                        [Период].[Период].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Районы].[Сопоставимый].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember           
+                    ) + "           
+                )"           
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Дотации бюджетам субъектов Российской Федерации и муниципальных образований]          
+        )'           
+    member <%incomes_kd_dimension%>.[Субсидии ]                    
+    as 'IIF           
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube           
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "           
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Субсидии бюджетам субъектов Российской Федерации и муниципальных образований (межбюджетные субсидии)],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr           
+                    (
+                        [Период].[Период].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Районы].[Сопоставимый].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember           
+                    ) + "           
+                )"           
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Субсидии бюджетам субъектов Российской Федерации и муниципальных образований (межбюджетные субсидии)]          
+        )'           
+    member <%incomes_kd_dimension%>.[Субвенции ]                    
+    as 'IIF           
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube           
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "           
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Субвенции бюджетам субъектов Российской Федерации и муниципальных образований],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr           
+                    (
+                        [Период].[Период].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Районы].[Сопоставимый].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember           
+                    ) + "           
+                )"           
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Субвенции бюджетам субъектов Российской Федерации и муниципальных образований]          
+        )'           
+    member <%incomes_kd_dimension%>.[Иные межбюджетные трансферты ]    
+    as 'IIF    
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube    
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "   
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Иные межбюджетные трансферты],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr    
+                    (
+                        [Период].[Период].CurrentMember    
+                    ) + ",
+                    " + MemberToStr    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember    
+                    ) + ",
+                    " + MemberToStr    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember    
+                    ) + ",
+                    " + MemberToStr    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember    
+                    ) + "    
+                )"
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ДРУГИХ БЮДЖЕТОВ БЮДЖЕТНОЙ СИСТЕМЫ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Иные межбюджетные трансферты]     
+        )'             
+    member <%incomes_kd_dimension%>.[Поступления от организаций ]                    
+    as 'IIF           
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube           
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "           
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ГОСУДАРСТВЕННЫХ (МУНИЦИПАЛЬНЫХ) ОРГАНИЗАЦИЙ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr           
+                    (
+                        [Период].[Период].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Районы].[Сопоставимый].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember           
+                    ) + "           
+                )"           
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ ОТ ГОСУДАРСТВЕННЫХ (МУНИЦИПАЛЬНЫХ) ОРГАНИЗАЦИЙ]          
+        )'           
+    member <%incomes_kd_dimension%>.[Прочие безвозмездные поступления ]                    
+    as 'IIF           
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube           
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "           
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[ПРОЧИЕ БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr           
+                    (
+                        [Период].[Период].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Районы].[Сопоставимый].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember           
+                    ) + "           
+                )"           
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[ПРОЧИЕ БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ]          
+        )'           
+    member <%incomes_kd_dimension%>.[ДОХОДЫ ОТ ПРИНОСЯЩЕЙ ДОХОД ДЕЯТЕЛЬНОСТИ]                    
+    as 'IIF           
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube           
+            (
+                "[ФО_ГодОтч_Доходы]",
+                "           
+                (
+                    <%incomes_kd_dimension%>.[Все коды доходов].[ДОХОДЫ ОТ ПРЕДПРИНИМАТЕЛЬСКОЙ И ИНОЙ ПРИНОСЯЩЕЙ ДОХОД ДЕЯТЕЛЬНОСТИ],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr           
+                    (
+                        [Период].[Период].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Районы].[Сопоставимый].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember           
+                    ) + ",
+                    " + MemberToStr           
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember           
+                    ) + "           
+                )"           
+            ),
+            <%incomes_kd_dimension%>.[Все коды доходов].[ДОХОДЫ ОТ ПРЕДПРИНИМАТЕЛЬСКОЙ И ИНОЙ ПРИНОСЯЩЕЙ ДОХОД ДЕЯТЕЛЬНОСТИ]          
+        )'           
+    member <%incomes_kd_dimension%>.[РАСХОДЫ ]                    
+    as 'IIF         
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube          
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "          
+                (
+                    <%outcomes_all%>,
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr          
+                    (
+                        [Период].[Период].CurrentMember          
+                    ) + ",
+                    " + MemberToStr          
+                    (
+                        [Районы].[Сопоставимый].CurrentMember          
+                    ) + ",
+                    " + MemberToStr          
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember          
+                    ) + ",
+                    " + MemberToStr          
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember          
+                    ) + "          
+                )"          
+            ),
+            LookupCube          
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    <%outcomes_all%>,
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )         
+        )'          
+    member <%incomes_kd_dimension%>.[Оплата труда и начисления на выплаты по оплате труда(210) ]                    
+    as 'IIF         
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube         
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "         
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr         
+                    (
+                        [Период].[Период].CurrentMember         
+                    ) + ",
+                    " + MemberToStr         
+                    (
+                        [Районы].[Сопоставимый].CurrentMember         
+                    ) + ",
+                    " + MemberToStr         
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember         
+                    ) + ",
+                    " + MemberToStr         
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember         
+                    ) + "         
+                )"         
+            ),
+            LookupCube         
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )        
+        )'         
+    member <%incomes_kd_dimension%>.[Оплата работ, услуг(220) ]                    
+    as 'IIF        
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube        
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "        
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr        
+                    (
+                        [Период].[Период].CurrentMember        
+                    ) + ",
+                    " + MemberToStr        
+                    (
+                        [Районы].[Сопоставимый].CurrentMember        
+                    ) + ",
+                    " + MemberToStr        
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember        
+                    ) + ",
+                    " + MemberToStr        
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember        
+                    ) + "        
+                )"        
+            ),
+            LookupCube        
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )       
+        )'        
+    member <%incomes_kd_dimension%>.[Услуги связи(221) ]                    
+    as 'IIF       
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube       
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "       
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Услуги связи],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr       
+                    (
+                        [Период].[Период].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [Районы].[Сопоставимый].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember       
+                    ) + "       
+                )"       
+            ),
+            LookupCube       
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Услуги связи],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )      
+        )'       
+    member <%incomes_kd_dimension%>.[Транспортные услуги(222) ]                    
+    as 'IIF       
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube       
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "       
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Транспортные услуги],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr       
+                    (
+                        [Период].[Период].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [Районы].[Сопоставимый].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember       
+                    ) + "       
+                )"       
+            ),
+            LookupCube       
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Транспортные услуги],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )      
+        )'       
+    member <%incomes_kd_dimension%>.[Коммунальные услуги(223) ]                    
+    as 'IIF       
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube       
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "       
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Коммунальные услуги],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr       
+                    (
+                        [Период].[Период].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [Районы].[Сопоставимый].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember       
+                    ) + ",
+                    " + MemberToStr       
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember       
+                    ) + "       
+                )"       
+            ),
+            LookupCube       
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Коммунальные услуги],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )      
+        )'       
+    member <%incomes_kd_dimension%>.[Арендная плата за пользование имуществом (224) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Арендная плата за пользование имуществом],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Арендная плата за пользование имуществом],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Работы, услуги по содержанию имущества (225) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Работы, услуги по содержанию имущества],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Работы, услуги по содержанию имущества],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Прочие работы, услуги (226) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Прочие работы, услуги],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Прочие работы, услуги],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Прочие работы, услуги (226) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Прочие работы, услуги],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Оплата работ, услуг].[Прочие работы, услуги],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Обслуживание муниципального долга (230) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Обслуживание государственного (муниципального) долга],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Обслуживание государственного (муниципального) долга],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Безвозмездные перечисления государственным и муниципальным организациям (241) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Безвозмездные перечисления организациям].[Безвозмездные перечисления государственным и муниципальным организациям],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Безвозмездные перечисления организациям].[Безвозмездные перечисления государственным и муниципальным организациям],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Безвозмездные перечисления организациям, за исключением государственных и муниципальных организаций (242) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Безвозмездные перечисления организациям].[Безвозмездные перечисления организациям, за исключением государственных и муниципальных организаций],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Безвозмездные перечисления организациям].[Безвозмездные перечисления организациям, за исключением государственных и муниципальных организаций],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Безвозмездные и безвозвратные перечисления бюджетам (250) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Безвозмездные перечисления бюджетам],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Безвозмездные перечисления бюджетам],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Социальное обеспечение (260) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Социальное обеспечение],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Социальное обеспечение],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Прочие расходы (290) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Прочие расходы],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Расходы].[Прочие расходы],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Увеличение стоимости основных средств (310) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости основных средств],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости основных средств],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Увеличение стоимости нематериальных активов (320) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости нематериальных активов],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости нематериальных активов],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Увеличение стоимости материальных запасов (340) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости материальных запасов],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости материальных запасов],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Увеличение стоимости акций и иных форм участия в капитале (530) ]                    
+    as 'IIF     
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube     
+            (
+                "[ФО_ГодОтч_Расходы]",
+                "     
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Поступление финансовых активов].[Увеличение стоимости акций и иных форм участия в капитале],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr     
+                    (
+                        [Период].[Период].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Районы].[Сопоставимый].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember     
+                    ) + ",
+                    " + MemberToStr     
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember     
+                    ) + "     
+                )"     
+            ),
+            LookupCube     
+            (
+                "[ФО_МесОтч_Расходы]",
+                "                    
+                (
+                    [КОСГУ].[Сопоставимый].[Все коды ЭКР].[Поступление финансовых активов].[Увеличение стоимости акций и иных форм участия в капитале],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )    
+        )'     
+    member <%incomes_kd_dimension%>.[Профицит (+)/дефицит (-) ]                    
+    as 'IIF    
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube    
+            (
+                "[ФО_ГодОтч_Дефицит Профицит]",
+                "    
+                (
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr    
+                    (
+                        [Период].[Период].CurrentMember    
+                    ) + ",
+                    " + MemberToStr    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember    
+                    ) + ",
+                    " + MemberToStr    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember    
+                    ) + ",
+                    " + MemberToStr    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember    
+                    ) + "    
+                )"    
+            ),
+            LookupCube    
+            (
+                "[ФО_МесОтч_Дефицит Профицит]",
+                "                    
+                (
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )   
+        )'    
+    member <%incomes_kd_dimension%>.[Размер дефицита в % от суммы налоговых и неналоговых доходов]                    
+    as 'IIF                    
+        (
+            (
+                <%incomes_kd_dimension%>.[Профицит (+)/дефицит (-) ] > 0                    
+            ) or IsEmpty                    
+            (
+                <%incomes_kd_dimension%>.[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ ]                    
+            ) or                    
+            (
+                <%incomes_kd_dimension%>.[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ ]                    
+            ) = 0,
+            null,
+            1000 * 100 *
+            (
+                -<%incomes_kd_dimension%>.[Профицит (+)/дефицит (-) ]                    
+            ) /                    
+            (
+                <%incomes_kd_dimension%>.[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ ]                    
+            )                    
+        )'                    
+    member <%incomes_kd_dimension%>.[ИСТОЧНИКИ ФИНАНСИРОВАНИЯ ДЕФИЦИТА ]                    
+    as 'IIF   
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube   
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "   
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[Источники финансирования дефицита бюджета - всего],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr   
+                    (
+                        [Период].[Период].CurrentMember   
+                    ) + ",
+                    " + MemberToStr   
+                    (
+                        [Районы].[Сопоставимый].CurrentMember   
+                    ) + ",
+                    " + MemberToStr   
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember   
+                    ) + ",
+                    " + MemberToStr   
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember   
+                    ) + "   
+                )"   
+            ),
+            LookupCube   
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[Источники финансирования дефицита бюджета - всего],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            )  
+        )'   
+    member <%incomes_kd_dimension%>.[Кредиты кредитных организаций ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Кредиты кредитных организаций в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Кредиты кредитных организаций в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Получение кредитов ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Кредиты кредитных организаций в валюте Российской Федерации].[Получение кредитов от кредитных организаций в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Кредиты кредитных организаций в валюте Российской Федерации].[Получение кредитов от кредитных организаций в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Погашение кредитов ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Кредиты кредитных организаций в валюте Российской Федерации].[Погашение кредитов, предоставленных кредитными организациями в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Кредиты кредитных организаций в валюте Российской Федерации].[Погашение кредитов, предоставленных кредитными организациями в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Бюджетные кредиты от других бюджетов бюджетной системы РФ ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Бюджетные кредиты от других бюджетов бюджетной системы Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Бюджетные кредиты от других бюджетов бюджетной системы Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Получение кредитов  ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Бюджетные кредиты от других бюджетов бюджетной системы Российской Федерации].[Получение бюджетных кредитов от других бюджетов бюджетной системы Российской Федерации в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Бюджетные кредиты от других бюджетов бюджетной системы Российской Федерации].[Получение бюджетных кредитов от других бюджетов бюджетной системы Российской Федерации в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Погашение кредитов  ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Бюджетные кредиты от других бюджетов бюджетной системы Российской Федерации].[Погашение бюджетных кредитов, полученных от других бюджетов бюджетной системы Российской Федерации в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Бюджетные кредиты от других бюджетов бюджетной системы Российской Федерации].[Погашение бюджетных кредитов, полученных от других бюджетов бюджетной системы Российской Федерации в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Акции и иные формы участия в капитале, находящиеся в муниципальной собственности ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Акции и иные формы участия в капитале, находящиеся в государственной и муниципальной собственности],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Акции и иные формы участия в капитале, находящиеся в государственной и муниципальной собственности],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Исполнение муниципальных гарантий в валюте РФ ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Исполнение государственных и муниципальных гарантий в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Исполнение государственных и муниципальных гарантий в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Бюджетные кредиты, предоставленные из местного бюджета ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Бюджетные кредиты, предоставленные внутри страны в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Бюджетные кредиты, предоставленные внутри страны в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Возврат кредитов ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Бюджетные кредиты, предоставленные внутри страны в валюте Российской Федерации].[Возврат бюджетных кредитов, предоставленных внутри страны в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Бюджетные кредиты, предоставленные внутри страны в валюте Российской Федерации].[Возврат бюджетных кредитов, предоставленных внутри страны в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Предоставление кредитов ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Бюджетные кредиты, предоставленные внутри страны в валюте Российской Федерации].[Предоставление бюджетных кредитов внутри страны в валюте Российской Федерации],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[ИСТОЧНИКИ ВНУТРЕННЕГО ФИНАНСИРОВАНИЯ ДЕФИЦИТОВ БЮДЖЕТОВ].[Иные источники внутреннего финансирования дефицитов бюджетов].[Бюджетные кредиты, предоставленные внутри страны в валюте Российской Федерации].[Предоставление бюджетных кредитов внутри страны в валюте Российской Федерации],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member <%incomes_kd_dimension%>.[Изменение остатов на счетах по учёту средств бюджета ]                    
+    as 'IIF  
+        (
+            Measures.[Брать данные из годовой отчетности],
+            LookupCube  
+            (
+                "[ФО_ГодОтч_Источники финансирования]",
+                "  
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[Изменение остатков средств на счетах по учету средств бюджета],
+                    " + <%incomes_kd_dimension%>.[Мера для ГодОтч] + ",
+                    " + MemberToStr  
+                    (
+                        [Период].[Период].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember  
+                    ) + ",
+                    " + MemberToStr  
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember  
+                    ) + "  
+                )"  
+            ),
+            LookupCube  
+            (
+                "[ФО_МесОтч_ИсточникВнутрФинансирования]",
+                "                    
+                (
+                    [КИФ].[Сопоставимый].[Все источники финансирования].[Изменение остатков средств на счетах по учету средств бюджета],
+                    " + MemberToStr ( [Measures].CurrentMember ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Период].[Период].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Районы].[Сопоставимый].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [ТипДокумента].[СКИФ].CurrentMember                    
+                    ) + ",
+                    " + MemberToStr                    
+                    (
+                        [Уровни бюджета].[СКИФ].CurrentMember                    
+                    ) + "                    
+                )"                    
+            ) 
+        )'  
+    member [Measures].[Прирост к прошлому году]                    
+    as 'IIF                    
+        (
+            [Период].[Период].CurrentMember.Level is [Период].[Период].[Месяц],
+            IIF                    
+            (
+                IsEmpty                    
+                (
+                    (
+                        [Measures].[Факт ],
+                        [Период].[Период].CurrentMember.Parent.Parent.Parent.PrevMember                    
+                    )                    
+                ) or                    
+                (
+                    [Measures].[Факт ],
+                    [Период].[Период].CurrentMember.Parent.Parent.Parent.PrevMember                    
+                ) <= 0 or
+                (
+                    [Measures].[Годовые назначения ],
+                    [Период].[Период].CurrentMember                 
+                ) < 0 or [Measures].[Не рассчитывается % исполнения и темп роста],
+                null,
+                100                    
+                *                    
+                (
+                    [Measures].[Годовые назначения ],
+                    [Период].[Период].CurrentMember                
+                )/                    
+                (
+                    [Measures].[Факт ],
+                    [Период].[Период].CurrentMember.Parent.Parent.Parent.PrevMember                    
+                )                    
+            ),
+            IIF                    
+            (
+                IsEmpty                    
+                (
+                    (
+                        [Measures].[Факт ],
+                        [Период].[Период].CurrentMember.PrevMember                    
+                    )                    
+                ) or                    
+                (
+                    [Measures].[Факт ],
+                    [Период].[Период].CurrentMember.PrevMember                    
+                ) <= 0 or 
+                (
+                    [Measures].[Факт ],
+                    [Период].[Период].CurrentMember                    
+                ) < 0 or [Measures].[Не рассчитывается % исполнения и темп роста],
+                null,
+                100                    
+                *                    
+                (
+                    [Measures].[Факт ],
+                    [Период].[Период].CurrentMember                    
+                )/                    
+                (
+                    [Measures].[Факт ],
+                    [Период].[Период].CurrentMember.PrevMember                    
+                )                    
+            )                    
+        ) '                    
+    member [ТипДокумента].[СКИФ].[Тип документа ]                    
+    as 'IIF                    
+        (
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР",
+            <%region_document_skif_type%>,
+            <%district_document_skif_type%>
+        )'                    
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета района / городского округа]                    
+    as 'IIF                    
+        (
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР",
+            <%region_budget_level%>,
+            <%district_budget_level%>                 
+        )'           
+    member [Measures].[Годовые назначения ]          
+    as ' [Measures].[Годовые назначения] / 1000 '          
+    member [Measures].[Факт ]          
+    as ' [Measures].[Факт] / 1000 '           
+    member [Measures].[% выполнения годовых назначений ]                    
+    as 'IIF                    
+        (
+            [Период].[Период].CurrentMember.Level is [Период].[Период].[Месяц],
+            IIF                    
+            (
+                IsEmpty                    
+                (
+                    (
+                        [Measures].[Годовые назначения ],
+                        [Период].[Период].CurrentMember              
+                    )                    
+                ) or                    
+                (
+                    [Measures].[Годовые назначения ],
+                    [Период].[Период].CurrentMember                   
+                ) = 0 or [Measures].[Не рассчитывается % исполнения и темп роста],
+                null,
+                100                    
+                *                    
+                (
+                    [Measures].[Факт ],
+                    [Период].[Период].CurrentMember                    
+                )/                    
+                (
+                    [Measures].[Годовые назначения ],
+                    [Период].[Период].CurrentMember          
+                )                    
+            ),
+            IIF                    
+            (
+                IsEmpty                    
+                (
+                    (
+                        [Measures].[Годовые назначения ],
+                        [Период].[Период].CurrentMember                    
+                    )                    
+                ) or                    
+                (
+                    [Measures].[Годовые назначения ],
+                    [Период].[Период].CurrentMember                    
+                ) = 0 or [Measures].[Не рассчитывается % исполнения и темп роста],
+                null,
+                100                    
+                *                    
+                (
+                    [Measures].[Факт ],
+                    [Период].[Период].CurrentMember                    
+                )/                    
+                (
+                    [Measures].[Годовые назначения ],
+                    [Период].[Период].CurrentMember                    
+                )                    
+            )                    
+        )'                    
+    member [Measures].[Уровень]                    
+    as 'IIF                    
+        (
+            (
+                <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[ДОХОДЫ ]                    
+            ) or                    
+            (
+                <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[РАСХОДЫ ]                    
+            ) or                    
+            (
+                <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[ИСТОЧНИКИ ФИНАНСИРОВАНИЯ ДЕФИЦИТА ]                    
+            ),
+            0,
+            IIF                    
+            (
+                (
+                    <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ ]                    
+                ) or                    
+                (
+                    <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[БЕЗВОЗМЕЗНЫЕ ПОСТУПЛЕНИЯ ]                    
+                ) or                    
+                (
+                    <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[ДОХОДЫ ОТ ПРИНОСЯЩЕЙ ДОХОД ДЕЯТЕЛЬНОСТИ]                    
+                ),
+                1,
+                IIF                    
+                (
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Доходы без учета субвенций, возврата остатков и доходов от возврата остатков субсидий и субвенций прошлых лет ]                    
+                    ) or                    
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы без учета возврата остатков и доходов от возврата остатков субсидий и субвенций прошлых лет ]                    
+                    ) or                    
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Безвозмездные поступления без учета субвенций ]                    
+                    ) or                    
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Профицит (+)/дефицит (-) ]                    
+                    ),
+                    2,
+                    IIF                    
+                    (
+                        (
+                            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Получение кредитов ]                    
+                        ) or                    
+                        (
+                            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Погашение кредитов ]                    
+                        ) or                    
+                        (
+                            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Получение кредитов  ]                    
+                        ) or                    
+                        (
+                            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Погашение кредитов  ]                    
+                        ) or                    
+                        (
+                            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Возврат кредитов ]                    
+                        ) or                    
+                        (
+                            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Предоставление кредитов ]                    
+                        ),
+                        4,
+                        3                    
+                    )                    
+                )                    
+            )                    
+        )'                    
+    member [Measures].[Не рассчитывается % исполнения и темп роста]                    
+    as '                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Профицит (+)/дефицит (-) ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Размер дефицита в % от суммы налоговых и неналоговых доходов]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[ИСТОЧНИКИ ФИНАНСИРОВАНИЯ ДЕФИЦИТА ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Кредиты кредитных организаций ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Получение кредитов ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Погашение кредитов ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Бюджетные кредиты от других бюджетов бюджетной системы РФ ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Получение кредитов  ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Погашение кредитов  ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Акции и иные формы участия в капитале, находящиеся в муниципальной собственности ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Исполнение муниципальных гарантий в валюте РФ ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Бюджетные кредиты, предоставленные из местного бюджета ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Возврат кредитов ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Предоставление кредитов ]                    
+        ) or                    
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Изменение остатов на счетах по учёту средств бюджета ]                    
+        ) or                    
+        (
+            [Measures].[Годовые назначения] < 0                    
+        ) or ([Measures].[Факт] < 0)'                    
+select
+    {
+        {
+            {
+                [Период].[Период].[Данные всех периодов].[<%period_year%>].PrevMember.PrevMember                         
+            }                           
+            *                           
+            {
+                [Measures].[Годовые назначения ],
+                [Measures].[Факт ],
+                [Measures].[% выполнения годовых назначений ]
+            }                          
+        } +                          
+        {
+            {
+                [Период].[Период].[Данные всех периодов].[<%period_year%>].PrevMember       
+            }        
+            *                          
+            {
+                [Measures].[Годовые назначения ],
+                [Measures].[Факт ],
+                [Measures].[% выполнения годовых назначений ],
+                [Measures].[Прирост к прошлому году]                      
+            }                         
+        } +        
+        {
+            {
+                [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]   
+            }        
+            *        
+            {
+                [Measures].[Годовые назначения ],
+                [Measures].[Факт ],
+                [Measures].[% выполнения годовых назначений ],
+                [Measures].[Прирост к прошлому году],
+                [Measures].[Уровень]       
+            }        
+        }        
+    } on columns,
+    non empty
+      {  
+        <%incomes_kd_dimension%>.[ДОХОДЫ ],
+        <%incomes_kd_dimension%>.[Доходы без учета субвенций, возврата остатков и доходов от возврата остатков субсидий и субвенций прошлых лет ],
+        <%incomes_kd_dimension%>.[НАЛОГОВЫЕ И НЕНАЛОГОВЫЕ ДОХОДЫ ],
+        <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы без учета возврата остатков и доходов от возврата остатков субсидий и субвенций прошлых лет ],
+        <%incomes_kd_dimension%>.[Налог на доходы физических лиц ],
+        <%incomes_kd_dimension%>.[Единый налог на вмененный доход ],
+        <%incomes_kd_dimension%>.[Единый сельскохозяйственный налог ],
+        <%incomes_kd_dimension%>.[Налог на имущество физических лиц ],
+        <%incomes_kd_dimension%>.[Налог на имущество организаций ],
+        <%incomes_kd_dimension%>.[Земельный налог ],
+        <%incomes_kd_dimension%>.[Государственная пошлина ],
+        <%incomes_kd_dimension%>.[Задолженность и перерасчеты по отмененным налогам, сборам и иным платежам ],
+        <%incomes_kd_dimension%>.[Доходы от использования имущества, находящегося в муниципальной собственности ],
+        <%incomes_kd_dimension%>.[Платежи при пользовании природными ресурсами ],
+        <%incomes_kd_dimension%>.[Доходы от оказания платных услуг ],
+        <%incomes_kd_dimension%>.[Доходы от продажи материальных и нематериальных активов ],
+        <%incomes_kd_dimension%>.[Штрафы, санкции, возмещение ущерба ],
+        <%incomes_kd_dimension%>.[Прочие неналоговые доходы ],
+        <%incomes_kd_dimension%>.[Доходы от возврата остатков субсидий и субвенций прошлых лет ],
+        <%incomes_kd_dimension%>.[Возврат остатков субсидий и субвенций прошлых лет ],
+        <%incomes_kd_dimension%>.[БЕЗВОЗМЕЗНЫЕ ПОСТУПЛЕНИЯ ],
+        <%incomes_kd_dimension%>.[Безвозмездные поступления без учета субвенций ],
+        <%incomes_kd_dimension%>.[Дотации ],
+        <%incomes_kd_dimension%>.[Субсидии ],
+        <%incomes_kd_dimension%>.[Субвенции ],
+        <%incomes_kd_dimension%>.[Иные межбюджетные трансферты ],
+        <%incomes_kd_dimension%>.[Поступления от организаций ],
+        <%incomes_kd_dimension%>.[Прочие безвозмездные поступления ],
+        <%incomes_kd_dimension%>.[ДОХОДЫ ОТ ПРИНОСЯЩЕЙ ДОХОД ДЕЯТЕЛЬНОСТИ],
+        <%incomes_kd_dimension%>.[РАСХОДЫ ],
+        <%incomes_kd_dimension%>.[Оплата труда и начисления на выплаты по оплате труда(210) ],
+        <%incomes_kd_dimension%>.[Оплата работ, услуг(220) ],
+        <%incomes_kd_dimension%>.[Услуги связи(221) ],
+        <%incomes_kd_dimension%>.[Транспортные услуги(222) ],
+        <%incomes_kd_dimension%>.[Коммунальные услуги(223) ],
+        <%incomes_kd_dimension%>.[Арендная плата за пользование имуществом (224) ],
+        <%incomes_kd_dimension%>.[Работы, услуги по содержанию имущества (225) ],
+        <%incomes_kd_dimension%>.[Прочие работы, услуги (226) ],
+        <%incomes_kd_dimension%>.[Обслуживание муниципального долга (230) ],
+        <%incomes_kd_dimension%>.[Безвозмездные перечисления государственным и муниципальным организациям (241) ],
+        <%incomes_kd_dimension%>.[Безвозмездные перечисления организациям, за исключением государственных и муниципальных организаций (242) ],
+        <%incomes_kd_dimension%>.[Безвозмездные и безвозвратные перечисления бюджетам (250) ],
+        <%incomes_kd_dimension%>.[Социальное обеспечение (260) ],
+        <%incomes_kd_dimension%>.[Прочие расходы (290) ],
+        <%incomes_kd_dimension%>.[Увеличение стоимости основных средств (310) ],
+        <%incomes_kd_dimension%>.[Увеличение стоимости нематериальных активов (320) ],
+        <%incomes_kd_dimension%>.[Увеличение стоимости материальных запасов (340) ],
+        <%incomes_kd_dimension%>.[Увеличение стоимости акций и иных форм участия в капитале (530) ],
+        <%incomes_kd_dimension%>.[Профицит (+)/дефицит (-) ],
+        <%incomes_kd_dimension%>.[Размер дефицита в % от суммы налоговых и неналоговых доходов],
+        <%incomes_kd_dimension%>.[ИСТОЧНИКИ ФИНАНСИРОВАНИЯ ДЕФИЦИТА ],
+        <%incomes_kd_dimension%>.[Кредиты кредитных организаций ],
+        <%incomes_kd_dimension%>.[Получение кредитов ],
+        <%incomes_kd_dimension%>.[Погашение кредитов ],
+        <%incomes_kd_dimension%>.[Бюджетные кредиты от других бюджетов бюджетной системы РФ ],
+        <%incomes_kd_dimension%>.[Получение кредитов  ],
+        <%incomes_kd_dimension%>.[Погашение кредитов  ],
+        <%incomes_kd_dimension%>.[Акции и иные формы участия в капитале, находящиеся в муниципальной собственности ],
+        <%incomes_kd_dimension%>.[Исполнение муниципальных гарантий в валюте РФ ],
+        <%incomes_kd_dimension%>.[Бюджетные кредиты, предоставленные из местного бюджета ],
+        <%incomes_kd_dimension%>.[Возврат кредитов ],
+        <%incomes_kd_dimension%>.[Предоставление кредитов ],
+        <%incomes_kd_dimension%>.[Изменение остатов на счетах по учёту средств бюджета ]
+      }
+     on rows                      
+from [ФО_МесОтч_Доходы]                      
+where                      
+    (
+        <%selected_region%>,
+        [ТипДокумента].[СКИФ].[Тип документа ],
+        [Уровни бюджета].[СКИФ].[<%selected_skif_level%>]
+    )                        
+  ]]>
+  </query>
+
+</root>

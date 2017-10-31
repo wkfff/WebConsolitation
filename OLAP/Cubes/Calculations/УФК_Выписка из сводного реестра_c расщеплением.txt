@@ -1,0 +1,69 @@
+CALCULATE;
+
+//Уровни бюджетов 
+([Уровни бюджетов].[Уровни бюджетов].&[6]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[4]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[14]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[7]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+([Уровни бюджетов].[Уровни бюджетов].&[2]) = 
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember);
+
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма с начала года] AS CalculationPassValue(
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+([Measures].[Сумма За период], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, [Measures].[Сумма За период]))
+, 1),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Предыдущий год_Сумма за период] AS ([Measures].[Сумма За период], ParallelPeriod([Период__Период].[Период__Период].[Год], 1,  [Период__Период].[Период__Период].CurrentMember)), VISIBLE = 0;
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к прошлому году] AS IIF(IsEmpty([Measures].[Предыдущий год_Сумма за период]) or ([Measures].[Предыдущий год_Сумма за период]) = 0, null,
+IIF(([Measures].[Предыдущий год_Сумма за период] > 0) and ([Measures].[Сумма За период] > 0),
+[Measures].[Сумма За период]/[Measures].[Предыдущий год_Сумма за период],
+IIF(([Measures].[Предыдущий год_Сумма за период] < 0) and ([Measures].[Сумма За период] > 0),
+([Measures].[Сумма За период] + ABS([Measures].[Предыдущий год_Сумма за период])) / ABS([Measures].[Предыдущий год_Сумма за период]),
+IIF(([Measures].[Предыдущий год_Сумма за период] > 0) and ([Measures].[Сумма За период] < 0),
+([Measures].[Сумма За период] - [Measures].[Предыдущий год_Сумма за период]) / [Measures].[Предыдущий год_Сумма за период],
+-[Measures].[Сумма За период]/[Measures].[Предыдущий год_Сумма за период])))), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к прошлому периоду] AS IIF(IsEmpty(([Measures].[Сумма За период], [Период__Период].[Период__Период].CurrentMember.PrevMember)) or ([Measures].[Сумма За период], [Период__Период].[Период__Период].CurrentMember.PrevMember) = 0,
+null,
+([Measures].[Сумма За период], [Период__Период].[Период__Период].CurrentMember)/([Measures].[Сумма За период], [Период__Период].[Период__Период].CurrentMember.PrevMember)), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Ранг] AS IIF(([Организации__Сопоставимый].[Организации__Сопоставимый].CurrentMember is [Организации__Сопоставимый].[Организации__Сопоставимый].[Все]) or (IsEmpty([Measures].[Сумма За период])),
+null,
+Rank(
+[Организации__Сопоставимый].[Организации__Сопоставимый].CurrentMember,
+Order([Организации__Сопоставимый].[Организации__Сопоставимый].CurrentMember.Parent.Children, [Measures].[Сумма За период], DESC),
+[Measures].[Сумма За период])
+);
+
+CREATE MEMBER CURRENTCUBE.Measures.[Списано с начала года] AS CalculationPassValue(
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+([Measures].[Списано за период], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, [Measures].[Списано за период]))
+, 1),
+FORMAT_STRING = "Currency";
+
+SCOPE([Период__День ФК].[Период__День ФК].members);
+this = 
+  IIF(isEmpty([Период__День ФК].[Период__День ФК].CurrentMember.DataMember),
+    [Период__День ФК].[Период__День ФК].CurrentMember,
+    [Период__День ФК].[Период__День ФК].CurrentMember.DataMember)
+;
+END SCOPE;

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
+     xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension" 
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xml:lang ="en-us">
+
+  <?include Variables.wxi?>
+
+  <Fragment>
+
+    <DirectoryRef Id="OfficeAddInFolder">
+      <Component Id="OfficeAddInComponent" Guid="{9646A4F2-D444-48B6-909D-1AD518732475}">
+          <File Id="filC347ABF8CF282177B80D97A2983DC8FD" Source="$(var.OfficeAddinFilesDir)\FMExcelAddin.dll" />
+          <File Id="filC1E1DB84915ACFEDD26A5C82FBF97EB8" Source="$(var.OfficeAddinFilesDir)\FMWordAddin.dll" />
+          <File Id="fil0D25FFC6F9875D9D36136D2CA70E3AFB" Source="$(var.OfficeAddinFilesDir)\Krista.Diagnostics.dll" />
+          <File Id="fil6E52315E2139BEF38A68F218DDA7B93E" Source="$(var.OfficeAddinFilesDir)\Krista.FM.Common.dll" />
+          <File Id="fil78928D8BFFBF7B180CDF30C55177F2AA" Source="$(var.OfficeAddinFilesDir)\Krista.FM.PlaningProviderCOMWrapper.dll" />
+          <File Id="fil0D265CEF089B7A6D487001552DD87267" Source="$(var.OfficeAddinFilesDir)\Krista.FM.ServerLibrary.dll" />
+          <File Id="filF2F15F37AA87DD903EFAB737AEA91308" Source="$(var.OfficeAddinFilesDir)\Krista.FM.Update.Framework.dll" />
+          <File Id="fil0A0D04BF30E84D5299AC979DAFA3D9F9" Source="$(var.OfficeAddinFilesDir)\Microsoft.Practices.Unity.dll" />
+          <File Id="filBC0CE97D05F0B08E47690FF1FEE51588" Source="$(var.OfficeAddinFilesDir)\Planing.tlb" />
+          <File Id="filDE1DEC3DE4F120FE0409530E9D7C3855" Source="$(var.OfficeAddinFilesDir)\PlaningProvider.dll" />
+          <File Id="filDD07BC052E5B09463D57BC855982A671" Source="$(var.OfficeAddinFilesDir)\PlaningTools.dll" />
+          <File Id="filD57568B8CBE6A916F6A556944AA825BC" Source="$(var.OfficeAddinFilesDir)\register.bat" />
+          <File Id="filD7B48731B031A4BD6769FCB5C4AF8C59" Source="$(var.OfficeAddinFilesDir)\RegisterSvrLib.exe" />
+          <File Id="fil8AB95CE7E55D50FD987F90813A644893" KeyPath="yes" Source="$(var.OfficeAddinFilesDir)\Krista.FM.PlaningProviderCOMWrapper.tlb"/>
+          <File Id="fil14C7E7CBCA8042B3ACC92630BF9263B3" Source="$(var.OfficeAddinFilesDir)\Руководство пользователя_Надстройка для MS Office (Криста).doc"/>
+         
+        </Component>
+     
+        <Directory Id="dirC2035E6DDF5860D4E0626552DC2E706A" Name="ExcelAddins">
+          <Component Id="cmp4AE99158FD9C9753CBB814785A9EA681" Guid="{7C383117-936D-4F5E-A875-519FECD174BA}" Feature="ProductFeature">
+            <File Id="filD5953D4A3F83E68A586CF941C517512E" Source="$(var.OfficeAddinFilesDir)\ExcelAddins\Дополнительные функции (Криста).xla" />
+          </Component>
+          <Component Id="cmp77FF9BBFBFC24AC50B8D8E276E7FFDFF" Guid="{C254B03D-6035-4A1F-978A-CBC9A1304AC1}" Feature="ProductFeature">
+            <File Id="fil80780D1DC601395247A8CD69DF5F7945" Source="$(var.OfficeAddinFilesDir)\ExcelAddins\Программы для надстройки Excel (Криста).xla" />
+          </Component>
+        </Directory>
+        <Directory Id="dirBA100B932F1C51CF4A5EF099422E5DB7" Name="WordAddins">
+          <Component Id="cmp8C7E429628E333D01B9BD7813D12751A" Guid="{E9774F0B-8330-457A-BEA3-209097D2B7A7}" Feature="ProductFeature">
+            <File Id="fil302FCEF081BA48938E5864C55CEC5547" Source="$(var.OfficeAddinFilesDir)\WordAddins\Программы для надстройки Word (Криста).dot" />
+          </Component>
+        </Directory>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

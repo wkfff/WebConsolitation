@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  
+<query id="FO_0002_0011_01_Omsk_date">
+<![CDATA[
+-- FO_0002_0011_01_Omsk_date
+-- <#[ФО_МесОтч_Доходы]#>
+with
+    member [Measures].[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                <%period_dimension%>.Members,
+                not IsEmpty([Measures].[Факт])
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from  [ФО_МесОтч_Доходы]
+]]>
+</query>
+
+<query id="FO_0002_0011_01_Omsk_grid">
+    <![CDATA[
+-- FO_0002_0011_01_Omsk_grid
+-- <#[ФО_МесОтч_Доходы]#>
+With      
+    set [Субъекты северной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная зона"    
+            )    
+        )'    
+    set [Субъекты северной лесостепной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона"    
+            )    
+        )'    
+    set [Субъекты южной лесостепной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона"    
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )    
+        )'    
+    set [Субъекты степной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Степная зона"    
+            )    
+        )'    
+    member [Районы].[Сопоставимый].[Северная зона ]    
+    as 'Aggregate ( { [Субъекты северной зоны] } )'    
+    member [Районы].[Сопоставимый].[Северная лесостепная зона ]    
+    as 'Aggregate    
+        (
+            {
+                [Субъекты северной лесостепной зоны]    
+            }    
+        )'    
+    member [Районы].[Сопоставимый].[Южная лесостепная зона ]    
+    as 'Aggregate    
+        (
+            {
+                [Субъекты южной лесостепной зоны]    
+            }    
+        )'    
+    member [Районы].[Сопоставимый].[Степная зона ]    
+    as 'Aggregate ( { [Субъекты степной зоны] } )'    
+    set [Климатические зоны]    
+    as '   
+        {
+            [Районы].[Сопоставимый].[Северная зона ]    
+        } + [Субъекты северной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Северная лесостепная зона ]    
+        } + [Субъекты северной лесостепной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Южная лесостепная зона ]    
+        } + [Субъекты южной лесостепной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Степная зона ]    
+        } + [Субъекты степной зоны] '    
+    member [Measures].[IsClimaticZone]    
+    as ' [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная лесостепная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Южная лесостепная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Степная зона ] '   
+    member [Районы].[Сопоставимый].[Муниципальные районы ]
+    as 'Aggregate 
+        ( 
+            Filter        
+            (
+                Descendants        
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF        
+                ),
+                not        
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+                ) and        
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"        
+                )        
+            )
+        )'
+
+    member [Районы].[Сопоставимый].[Городские округа ]
+    as 'Aggregate 
+        ( 
+            Filter        
+            (
+                Descendants        
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF        
+                ),
+                not        
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+                ) and        
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"        
+                )        
+            )
+        )'  
+
+    member <%period_dimension%>.[<%period_last_year%> год]      
+    as '<%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]'
+    member <%period_dimension%>.[<%period_year%> год]      
+    as '<%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]'      
+    member <%period_dimension%>.[<%period_year%> год к <%period_last_year%> году]
+    as '<%period_dimension%>.[Данные всех периодов]'      
+    member [Measures].[Отклонение (+,-)]      
+    as '     
+        (
+            [Measures].[Факт],
+            <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+        ) -      
+        (
+            [Measures].[Факт],
+            <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+        )'      
+    member [Measures].[Темп роста]      
+    as '     
+        (
+            [Measures].[Темп роста к аналогичному периоду предыдущего года_Факт],
+            <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+        )'      
+    member [Measures].[Рост (снижение)]      
+    as '     
+        (
+            [Measures].[Темп роста к аналогичному периоду предыдущего года_Факт],
+            <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+        ) - 1'
+    member [Measures].[Доля]
+    as '
+        (
+            [Measures].[Факт],
+            <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+            <%incomes_kd_dimension%>.CurrentMember
+        ) /
+        (
+            [Measures].[Факт],
+            <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+            <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>]
+        )'
+    member [Measures].[Уровень]      
+    as '<%incomes_kd_dimension%>.CurrentMember.Level.Name'      
+Select
+    {
+        {
+            {
+                <%period_dimension%>.[<%period_last_year%> год],
+                <%period_dimension%>.[<%period_year%> год]      
+            }      
+            *      
+            {
+                [Measures].[Годовые назначения],
+                [Measures].[Факт],
+                [Measures].[% выполнения годовых назначений]      
+            }      
+        } +      
+        {
+            {<%period_dimension%>.[<%period_year%> год к <%period_last_year%> году] }
+            *
+            {[Measures].[Отклонение (+,-)],
+            [Measures].[Темп роста],
+            [Measures].[Рост (снижение)]}
+        }+
+        {
+            {
+                <%period_dimension%>.[Данные всех периодов]      
+            }      
+            * {[Measures].[Доля], [Measures].[Уровень]}
+        }      
+    } on columns,
+    Filter      
+    (
+        Descendants      
+        (
+            <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>],
+            <%incomes_kd_dimension%>.[Статья],
+            SELF_AND_BEFORE      
+        ),
+        not      
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember or IsEmpty      
+            (
+                (
+                    [Measures].[Факт],
+                    <%period_dimension%>.[<%period_year%> год]
+                ) 
+            )
+        )   
+    )  on rows   
+From [ФО_МесОтч_Доходы]  
+Where 
+    (
+        <%budget_SKIF_level%>,
+        <%document_type%>,
+        <%selected_region%>
+    )
+  ]]>
+</query>
+  
+  <query id="FO_0002_0011_01_Omsk_chart1">
+    <![CDATA[
+-- FO_0002_0011_01_Omsk_chart1
+-- <#[ФО_МесОтч_Доходы]#>
+With       
+    set [Субъекты северной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная зона"    
+            )    
+        )'    
+    set [Субъекты северной лесостепной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона"    
+            )    
+        )'    
+    set [Субъекты южной лесостепной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона"    
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )    
+        )'    
+    set [Субъекты степной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Степная зона"    
+            )    
+        )'    
+    member [Районы].[Сопоставимый].[Северная зона ]    
+    as 'Aggregate ( { [Субъекты северной зоны] } )'    
+    member [Районы].[Сопоставимый].[Северная лесостепная зона ]    
+    as 'Aggregate    
+        (
+            {
+                [Субъекты северной лесостепной зоны]    
+            }    
+        )'    
+    member [Районы].[Сопоставимый].[Южная лесостепная зона ]    
+    as 'Aggregate    
+        (
+            {
+                [Субъекты южной лесостепной зоны]    
+            }    
+        )'    
+    member [Районы].[Сопоставимый].[Степная зона ]    
+    as 'Aggregate ( { [Субъекты степной зоны] } )'    
+    set [Климатические зоны]    
+    as '   
+        {
+            [Районы].[Сопоставимый].[Северная зона ]    
+        } + [Субъекты северной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Северная лесостепная зона ]    
+        } + [Субъекты северной лесостепной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Южная лесостепная зона ]    
+        } + [Субъекты южной лесостепной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Степная зона ]    
+        } + [Субъекты степной зоны] '    
+    member [Measures].[IsClimaticZone]    
+    as ' [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная лесостепная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Южная лесостепная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Степная зона ] '   
+    member [Районы].[Сопоставимый].[Муниципальные районы ]
+    as 'Aggregate 
+        ( 
+            Filter        
+            (
+                Descendants        
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF        
+                ),
+                not        
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+                ) and        
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"        
+                )        
+            )
+        )'
+
+    member [Районы].[Сопоставимый].[Городские округа ]
+    as 'Aggregate 
+        ( 
+            Filter        
+            (
+                Descendants        
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF        
+                ),
+                not        
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+                ) and        
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"        
+                )        
+            )
+        )'  
+
+    member <%incomes_kd_dimension%>.[Налог на прибыль организаций ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на прибыль организаций]'    
+    member <%incomes_kd_dimension%>.[Налог на доходы физических лиц ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на доходы физических лиц]'    
+    member <%incomes_kd_dimension%>.[Акцизы ]  
+    as 'Aggregate  
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), производимым на территории Российской Федерации],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), ввозимым на территорию Российской Федерации]
+                
+            }  
+        )'    
+    member <%incomes_kd_dimension%>.[Налог, взимаемый в связи с упрощенной системой ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Налог, взимаемый в связи с применением упрощенной системы налогообложения]'  
+    member <%incomes_kd_dimension%>.[Единый налог на вмененный доход ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый налог на вмененный доход для отдельных видов деятельности]'  
+    member <%incomes_kd_dimension%>.[Налог на имущество организаций ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество организаций]'  
+    member <%incomes_kd_dimension%>.[Транспортный налог ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Транспортный налог]'  
+    member <%incomes_kd_dimension%>.[Земельный налог ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Земельный налог]'  
+    member <%incomes_kd_dimension%>.[Доходы от использования имущества ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ]'  
+    member <%incomes_kd_dimension%>.[Плата за использование лесов ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ].[Плата за использование лесов]'  
+    member <%incomes_kd_dimension%>.[Доходы от продажи имущества ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ] '   
+Select
+    {
+        [Measures].[Годовые назначения],
+        [Measures].[Факт]    
+    } on columns,
+    {
+        <%incomes_kd_dimension%>.[Налог на прибыль организаций ],
+        <%incomes_kd_dimension%>.[Налог на доходы физических лиц ],
+        <%incomes_kd_dimension%>.[Акцизы ],
+        <%incomes_kd_dimension%>.[Налог, взимаемый в связи с упрощенной системой ],
+        <%incomes_kd_dimension%>.[Единый налог на вмененный доход ],
+        <%incomes_kd_dimension%>.[Налог на имущество организаций ],
+        <%incomes_kd_dimension%>.[Транспортный налог ],
+        <%incomes_kd_dimension%>.[Земельный налог ],
+        <%incomes_kd_dimension%>.[Доходы от использования имущества ],
+        <%incomes_kd_dimension%>.[Доходы от продажи имущества ],
+        <%incomes_kd_dimension%>.[Плата за использование лесов ]
+    }  on rows  
+From [ФО_МесОтч_Доходы]       
+Where          
+    (
+        <%budget_SKIF_level%>,
+        <%document_type%>,
+        <%selected_region%>,
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+    )          
+  ]]>
+      </query>
+
+      <query id="FO_0002_0011_01_Omsk_chart2">
+        <![CDATA[
+-- FO_0002_0011_01_Omsk_chart2
+-- <#[ФО_МесОтч_Доходы]#>
+With      
+    set [Субъекты северной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная зона"    
+            )    
+        )'    
+    set [Субъекты северной лесостепной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона"    
+            )    
+        )'    
+    set [Субъекты южной лесостепной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона"    
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )    
+        )'    
+    set [Субъекты степной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Климатическая зона") = "Степная зона"    
+            )    
+        )'    
+    member [Районы].[Сопоставимый].[Северная зона ]    
+    as 'Aggregate ( { [Субъекты северной зоны] } )'    
+    member [Районы].[Сопоставимый].[Северная лесостепная зона ]    
+    as 'Aggregate    
+        (
+            {
+                [Субъекты северной лесостепной зоны]    
+            }    
+        )'    
+    member [Районы].[Сопоставимый].[Южная лесостепная зона ]    
+    as 'Aggregate    
+        (
+            {
+                [Субъекты южной лесостепной зоны]    
+            }    
+        )'    
+    member [Районы].[Сопоставимый].[Степная зона ]    
+    as 'Aggregate ( { [Субъекты степной зоны] } )'    
+    set [Климатические зоны]    
+    as '   
+        {
+            [Районы].[Сопоставимый].[Северная зона ]    
+        } + [Субъекты северной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Северная лесостепная зона ]    
+        } + [Субъекты северной лесостепной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Южная лесостепная зона ]    
+        } + [Субъекты южной лесостепной зоны] +    
+        {
+            [Районы].[Сопоставимый].[Степная зона ]    
+        } + [Субъекты степной зоны] '    
+    member [Measures].[IsClimaticZone]    
+    as ' [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Северная лесостепная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Южная лесостепная зона ] or  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Степная зона ] '   
+    member [Районы].[Сопоставимый].[Муниципальные районы ]
+    as 'Aggregate 
+        ( 
+            Filter        
+            (
+                Descendants        
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF        
+                ),
+                not        
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+                ) and        
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"        
+                )        
+            )
+        )'
+
+    member [Районы].[Сопоставимый].[Городские округа ]
+    as 'Aggregate 
+        ( 
+            Filter        
+            (
+                Descendants        
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF        
+                ),
+                not        
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember        
+                ) and        
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"        
+                )        
+            )
+        )'  
+
+    member <%incomes_kd_dimension%>.[Налог на прибыль организаций ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на прибыль организаций]'    
+    member <%incomes_kd_dimension%>.[Налог на доходы физических лиц ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на доходы физических лиц]'    
+    member <%incomes_kd_dimension%>.[Акцизы ]  
+    as 'Aggregate  
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), производимым на территории Российской Федерации],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), ввозимым на территорию Российской Федерации]
+                
+            }  
+        )'    
+    member <%incomes_kd_dimension%>.[Налог, взимаемый в связи с упрощенной системой ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Налог, взимаемый в связи с применением упрощенной системы налогообложения]'  
+    member <%incomes_kd_dimension%>.[Единый налог на вмененный доход ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый налог на вмененный доход для отдельных видов деятельности]'  
+    member <%incomes_kd_dimension%>.[Налог на имущество организаций ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество организаций]'  
+    member <%incomes_kd_dimension%>.[Транспортный налог ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Транспортный налог]'  
+    member <%incomes_kd_dimension%>.[Земельный налог ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Земельный налог]'  
+    member <%incomes_kd_dimension%>.[Доходы от использования имущества ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ]'  
+    member <%incomes_kd_dimension%>.[Плата за использование лесов ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ].[Плата за использование лесов]'  
+    member <%incomes_kd_dimension%>.[Доходы от продажи имущества ]  
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ] ' 
+    
+    member <%period_dimension%>.[<%period_last_year%> год]
+    as '<%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]'
+    
+    member <%period_dimension%>.[<%period_year%> год]
+    as '<%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]'
+Select
+    {
+        <%period_dimension%>.[<%period_last_year%> год],
+        <%period_dimension%>.[<%period_year%> год]
+    } on columns,
+    Non Empty
+    {
+        <%incomes_kd_dimension%>.[Налог на прибыль организаций ],
+        <%incomes_kd_dimension%>.[Налог на доходы физических лиц ],
+        <%incomes_kd_dimension%>.[Акцизы ],
+        <%incomes_kd_dimension%>.[Налог, взимаемый в связи с упрощенной системой ],
+        <%incomes_kd_dimension%>.[Единый налог на вмененный доход ],
+        <%incomes_kd_dimension%>.[Налог на имущество организаций ],
+        <%incomes_kd_dimension%>.[Транспортный налог ],
+        <%incomes_kd_dimension%>.[Земельный налог ],
+        <%incomes_kd_dimension%>.[Доходы от использования имущества ],
+        <%incomes_kd_dimension%>.[Доходы от продажи имущества ],
+        <%incomes_kd_dimension%>.[Плата за использование лесов ]
+    }  on rows  
+From [ФО_МесОтч_Доходы]       
+Where          
+    (
+        <%budget_SKIF_level%>,
+        <%document_type%>,
+        <%selected_region%>,    
+        [Measures].[% выполнения годовых назначений]
+    )
+  ]]>
+</query>
+
+</root>

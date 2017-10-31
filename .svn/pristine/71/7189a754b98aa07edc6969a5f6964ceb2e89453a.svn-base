@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by rth77 (rth77) -->
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by glazova (EMBRACE) -->
+<layerDataPump name="Закачка данных проекта расходов из слоя Базис Резания" version="1.0">
+	<usedLayers>
+		<layer name="БазисРезанья" synonym="a"/>
+		<layer name="Классификаторы.КВСР" synonym="b"/>
+		<layer name="Классификаторы.КФСР" synonym="c"/>
+		<layer name="Классификаторы.ЦСР" synonym="d"/>
+		<layer name="Классификаторы.КВР" synonym="e"/>
+		<layer name="Классификаторы.КЭСР" synonym="f"/>
+		<layer name="Классификаторы.Мероприятие" synonym="h"/>
+	</usedLayers>
+	<defaultDataSource supplierCode="ФО" dataCode="0019" kindsOfParams="1" year="2011"/>
+	<usedFMObjects>
+		<fmObject name="dd69b4e1-f257-49ce-b553-442d094ae39a" synonym="KVSR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="c2c0fa0c-6ea5-4f19-ae04-2eb12ead32f7" synonym="KVR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="c651ca3c-5833-44fa-a34d-6228a8dda34a" synonym="KCSR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="8b0f5b42-2672-4648-9e1a-4ac0a5e5e3f8" synonym="FKR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="0c63afa9-b543-4c0c-98a9-9c290cd7ccb0" synonym="EKR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="1f34cc90-16fd-4fcf-b994-0c8a680d7e23" synonym="Region" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="f7b5f74d-66f7-487c-a00f-70e0e92d406d" synonym="Meropriatie" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+		<fmObject name="8f855460-2f2f-4490-9f13-da62b425ae44" synonym="FO26R" fmObjectType="factTable">
+			<processRules>
+				<processRule attributeName="RefBdgtLvls" attributeProcessRule="param" dataValue="uneBudgetLevels"/>
+				<processRule attributeName="RefVariant" attributeProcessRule="param" dataValue="uneVariants"/>
+				<processRule attributeName="RefR" attributeProcessRule="constant" dataValue="-1"/>
+			</processRules>
+			<dataSource supplierCode="ФО" dataCode="0029" kindsOfParams="1" year="2011"/>
+		</fmObject>
+	</usedFMObjects>
+	<steps>
+		<step layerSynonym="a" name="Закачка данных проекта бюджета">
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КВСР" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Code" destinationAttributeUseInSearch="true" refLayerSynonym="b" refLayerFieldName="Код"/>
+				<layerField name="КВСР" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Name" refLayerSynonym="b" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КФСР" processType="layerRef" destinationObjectSynonym="FKR" destinationAttribute="Code" destinationAttributeUseInSearch="true" refLayerSynonym="c" refLayerFieldName="Код"/>
+				<layerField name="КФСР" processType="layerRef" destinationObjectSynonym="FKR" destinationAttribute="Name" refLayerSynonym="c" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КЦСР" processType="layerRef" destinationObjectSynonym="KCSR" destinationAttribute="Code" destinationAttributeUseInSearch="true" refLayerSynonym="d" refLayerFieldName="Код"/>
+				<layerField name="КЦСР" processType="layerRef" destinationObjectSynonym="KCSR" destinationAttribute="Name" refLayerSynonym="d" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КВР" processType="layerRef" destinationObjectSynonym="KVR" destinationAttribute="Code" destinationAttributeUseInSearch="true" refLayerSynonym="e" refLayerFieldName="Код"/>
+				<layerField name="КВР" processType="layerRef" destinationObjectSynonym="KVR" destinationAttribute="Name" refLayerSynonym="e" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КЭСР" processType="layerRef" destinationObjectSynonym="EKR" destinationAttribute="Code" destinationAttributeUseInSearch="true" refLayerSynonym="f" refLayerFieldName="Код"/>
+				<layerField name="КЭСР" processType="layerRef" destinationObjectSynonym="EKR" destinationAttribute="Name" refLayerSynonym="f" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_Район" processType="directPump" destinationObjectSynonym="Region" destinationAttribute="Code" destinationAttributeUseInSearch="true"/>
+				<layerField name="Имя_Район" processType="directPump" destinationObjectSynonym="Region" destinationAttribute="Name"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Мероприятие" processType="layerRef" destinationObjectSynonym="Meropriatie" destinationAttribute="Code" destinationAttributeUseInSearch="true" refLayerSynonym="h" refLayerFieldName="Код"/>
+				<layerField name="Мероприятие" processType="layerRef" destinationObjectSynonym="Meropriatie" destinationAttribute="Name" refLayerSynonym="h" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Сумма" processType="directPump" destinationObjectSynonym="FO26R" destinationAttribute="Summa">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20110001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Сумма1" processType="directPump" destinationObjectSynonym="FO26R" destinationAttribute="Summa">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20120001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="Сумма2" processType="directPump" destinationObjectSynonym="FO26R" destinationAttribute="Summa">
+					<processRules>
+						<processRule attributeName="RefYearDayUNV" attributeProcessRule="constant" dataValue="20130001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+		</step>
+	</steps>
+</layerDataPump>

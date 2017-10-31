@@ -1,0 +1,53 @@
+﻿<RegionSettings>
+  <!--
+  // тип документа СКИФ для консолидированного бюджета субъекта
+  ConsolidateBudgetDocumentSKIFType,
+  // тип документа СКИФ для районов
+  RegionBudgetDocumentSKIFType,
+  // имя папки с картами региона
+  MapFolderName,  
+  // загрузка карты из бинарика
+  MapLoadFromBin,
+  // уровень бюджета СКИФ для уровня районов
+  RegionBudgetSKIFLevel,
+  // пропорция карты
+  MapSizeProportion,
+  // масштаб карты
+  MapZoomValue,
+  // сдвиг по вертикали текста городов-выносок карты
+  MapCalloutOffsetY,
+  // тип сравнения МО по среднедушевым доходам (МО или МР)
+  AVGIncomesCompareType
+  -->
+  <Region id="HMAO">
+    <ConsolidateBudgetDocumentSKIFType>[ТипДокумента].[СКИФ].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов]</ConsolidateBudgetDocumentSKIFType>
+    <RegionBudgetDocumentSKIFType>[ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов и районов (5+7+10)]</RegionBudgetDocumentSKIFType>
+    <MapFolderName>ХМАО</MapFolderName>
+    <MapLoadFromBin>false</MapLoadFromBin>
+    <RegionBudgetSKIFLevel>
+        Aggregate
+        (
+          {
+            [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет района],
+            [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения],
+            [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет гор.округа]
+          }
+        )
+    </RegionBudgetSKIFLevel>
+    <MapSizeProportion>0,7</MapSizeProportion>
+    <MapZoomValue>100</MapZoomValue>
+    <MapCalloutOffsetY>0,5</MapCalloutOffsetY>
+    <AVGIncomesCompareType>МО</AVGIncomesCompareType>
+  </Region>
+  <Region id="Yaroslavl">
+	  <ConsolidateBudgetDocumentSKIFType>[ТипДокумента].[СКИФ].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов]</ConsolidateBudgetDocumentSKIFType>
+	  <RegionBudgetDocumentSKIFType>[ТипДокумента].[СКИФ].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]</RegionBudgetDocumentSKIFType>
+	  <MapFolderName>Ярослобл</MapFolderName>
+	  <MapLoadFromBin>false</MapLoadFromBin>
+	  <RegionBudgetSKIFLevel> [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] </RegionBudgetSKIFLevel>
+	  <MapSizeProportion>0,7</MapSizeProportion>
+	  <MapZoomValue>100</MapZoomValue>
+	  <MapCalloutOffsetY>0,5</MapCalloutOffsetY>
+	  <AVGIncomesCompareType>МО</AVGIncomesCompareType>
+  </Region>
+</RegionSettings>

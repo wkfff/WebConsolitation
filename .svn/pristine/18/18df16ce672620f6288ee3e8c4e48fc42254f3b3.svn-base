@@ -1,0 +1,366 @@
+<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+
+<%@ Register Assembly="Infragistics35.WebUI.UltraWebGrid.v11.1, Version=11.1.20111.2036, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb"
+    Namespace="Infragistics.WebUI.UltraWebGrid" TagPrefix="igtbl" %>
+<%@ Register Assembly="Infragistics35.WebUI.UltraWebChart.v11.1, Version=11.1.20111.2036, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb"
+    Namespace="Infragistics.WebUI.UltraWebChart" TagPrefix="igchart" %>
+<%@ Register Assembly="Infragistics35.WebUI.UltraWebChart.v11.1, Version=11.1.20111.2036, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb"
+    Namespace="Infragistics.UltraChart.Resources.Appearance" TagPrefix="igchartprop" %>
+<%@ Register Assembly="Infragistics35.WebUI.UltraWebChart.v11.1, Version=11.1.20111.2036, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb"
+    Namespace="Infragistics.UltraChart.Data" TagPrefix="igchartdata" %>
+<%@ Register Assembly="Infragistics35.WebUI.UltraWebGauge.v11.1, Version=11.1.20111.2036, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb"
+    Namespace="Infragistics.WebUI.UltraWebGauge" TagPrefix="igGauge" %>
+<%@ Register Assembly="Infragistics35.WebUI.UltraWebGauge.v11.1, Version=11.1.20111.2036, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb"
+    Namespace="Infragistics.UltraGauge.Resources" TagPrefix="igGaugeProp" %>
+
+<asp:Label runat="server" SkinId="ServeText" Font-Names="Arial" ForeColor="#D1D1D1" Font-Size="14px"/>
+<asp:Label runat="server" SkinId="InformationText" Font-Names="Arial" ForeColor="#D1D1D1" Font-Size="16px"/>
+<asp:Label runat="server" SkinId="InformationTextLarge" Font-Names="Arial" ForeColor="#D1D1D1" Font-Size="18px"/>
+<asp:Label runat="server" SkinId="ImportantText" Font-Names="Arial" ForeColor="White" Font-Size="18px"/>
+<asp:Label runat="server" SkinId="DigitsValue" ForeColor="White" Font-Bold="True" Font-Names="Arial" Font-Size="18px" />
+<asp:Label runat="server" SkinId="DigitsValueSmall" ForeColor="White" Font-Bold="True" Font-Names="Arial" Font-Size="16px" />
+<asp:Label runat="server" SkinId="DigitsValueLarge" ForeColor="White" Font-Bold="True" Font-Names="Arial" Font-Size="20px" />
+<asp:Label runat="server" SkinID="Executed" Font-Bold="True" Font-Names="Arial" Font-Size="36px" ForeColor="#FFD400" />
+<asp:Label runat="server" SkinId="TableFont" Font-Names="Arial" ForeColor="White" Font-Size="16px"/>
+<asp:Label runat="server" SkinId="TableDigitsValue" ForeColor="White" Font-Names="Arial" Font-Size="16px" />
+<asp:Label runat="server" SkinId="ServeTextGreenYellow" Font-Names="Arial" ForeColor="GreenYellow" Font-Size="16px"/>
+
+<asp:HyperLink runat="server" SkinId="HyperLinkInformationTextLarge" ForeColor="White"/>
+
+<asp:TextBox runat="server" SkinId="TextBoxServeText" BackColor="Black" BorderStyle="None" Font-Names="Arial" Font-Size="14px" ForeColor="#D1D1D1"/>
+<asp:TextBox runat="server" SkinId="TextBoxTableFontGrey" BackColor="Black" BorderStyle="None" Font-Names="Arial" Font-Size="16px" ForeColor="#C0C0C0"/>
+<asp:TextBox runat="server" SkinId="TextBoxInformationText" BackColor="Black" BorderStyle="None" Font-Names="Arial" Font-Size="16px" ForeColor="#D1D1D1"/>
+<asp:TextBox runat="server" SkinId="TextBoxDigitsValue" BackColor="Black" BorderStyle="None" ForeColor="White" Font-Bold="True" Font-Names="Arial" Font-Size="18px"/>
+<asp:TextBox runat="server" SkinId="TextBoxDigitsValueSmall" BackColor="Black" BorderStyle="None" ForeColor="White" Font-Bold="True" Font-Names="Arial" Font-Size="16px"/>
+
+<igtbl:UltraWebGrid runat="server" SkinID="UltraWebGrid">
+    <Bands>
+        <igtbl:UltraGridBand>
+            <AddNewRow View="NotSet" Visible="NotSet">
+            </AddNewRow>
+        </igtbl:UltraGridBand>
+    </Bands>                   
+    <DisplayLayout AllowSortingDefault="OnClient" AllowColumnMovingDefault="None" AllowUpdateDefault="No" HeaderClickActionDefault="SortMulti"
+        RowHeightDefault="20px" RowSelectorsDefault="No" ScrollBar="Never" BorderCollapseDefault="Collapse"                        
+        TableLayout="Fixed" Version="4.00" ViewType="Flat" GridLinesDefault="Both">
+        <GroupByBox Hidden="True">                            
+        </GroupByBox>                                          
+        <RowStyleDefault BackColor="Black" BorderColor="#323232" BorderStyle="Solid" BorderWidth="1px"
+            Font-Names="Arial" Font-Size="16px" ForeColor="White"
+            HorizontalAlign="Right" Wrap="True">
+            <BorderDetails ColorBottom="#323232" ColorLeft="#323232" ColorRight="#323232" ColorTop="#323232"
+                WidthLeft="1px" WidthTop="1px" />
+            <Padding Bottom="3px" Left="3px" Right="3px" Top="3px" />
+        </RowStyleDefault>                        
+        <HeaderStyleDefault BackColor="#323232" BorderColor="#323232" BorderStyle="Solid"                           
+            BorderWidth="1px" Font-Bold="True" Font-Names="Arial" Font-Size="16px" ForeColor="White"
+            HorizontalAlign="Center" Wrap="True">
+            <BorderDetails ColorBottom="#323232" ColorLeft="#323232" ColorRight="#323232" ColorTop="#323232"
+                WidthLeft="1px" WidthTop="1px" />                      
+        </HeaderStyleDefault>                        
+        <FrameStyle BackColor="Black" BorderColor="Black" BorderStyle="Solid" BorderWidth="0px">
+            </FrameStyle>                        
+    </DisplayLayout>                
+ </igtbl:UltraWebGrid>
+
+<%-- new UltraGridBrick skin --%> 
+<igtbl:UltraWebGrid runat="server" SkinID="UltraGridBrick" EnableAppStyling="False">
+    <DisplayLayout RowSelectorsDefault="No" ScrollBar="Never" BorderCollapseDefault="Collapse" GridLinesDefault="Both">
+        
+		<RowStyleDefault BackColor="Black" BorderColor="#323232" BorderStyle="Solid" BorderWidth="1px"
+            Font-Names="Arial" Font-Size="16px" ForeColor="White" HorizontalAlign="Right" Wrap="True">
+            <BorderDetails ColorBottom="#323232" ColorLeft="#323232" ColorRight="#323232" ColorTop="#323232"
+                WidthLeft="1px" WidthTop="1px" />
+            <Padding Bottom="3px" Left="3px" Right="3px" Top="3px" />
+        </RowStyleDefault>
+		
+		<RowAlternateStyleDefault BackColor="Black">			
+		</RowAlternateStyleDefault>		
+		
+		<SelectedRowStyleDefault BackColor="Black">
+		</SelectedRowStyleDefault>   
+        
+		<HeaderStyleDefault BackColor="#323232" BorderColor="#323232" BorderStyle="Solid"                           
+            BorderWidth="1px" Font-Bold="True" Font-Names="Arial" Font-Size="16px" ForeColor="White"
+            HorizontalAlign="Center" Wrap="True">
+            <BorderDetails ColorBottom="#323232" ColorLeft="#323232" ColorRight="#323232" ColorTop="#323232"
+                WidthLeft="1px" WidthTop="1px" />
+        </HeaderStyleDefault>
+        
+		<FrameStyle BackColor="Black" BorderColor="Black" BorderStyle="Solid" BorderWidth="0px">
+        </FrameStyle>
+
+    </DisplayLayout>
+</igtbl:UltraWebGrid>
+
+ <igtbl:UltraWebGrid runat="server" SkinID="UltraWebGridChart">
+    <Bands>
+        <igtbl:UltraGridBand>
+            <AddNewRow View="NotSet" Visible="NotSet">
+            </AddNewRow>
+        </igtbl:UltraGridBand>
+    </Bands>                   
+    <DisplayLayout AllowSortingDefault="OnClient" AllowColumnMovingDefault="None" AllowUpdateDefault="No" HeaderClickActionDefault="SortMulti"
+        RowHeightDefault="20px" RowSelectorsDefault="No" ScrollBar="Never" BorderCollapseDefault="Collapse"                        
+        TableLayout="Fixed" Version="4.00" ViewType="Flat" GridLinesDefault="Both">
+        <GroupByBox Hidden="True">                            
+        </GroupByBox>                                          
+        <RowStyleDefault BackColor="Black" BorderColor="Black" BorderStyle="Solid" BorderWidth="1px"
+            Font-Names="Arial" Font-Size="16px" ForeColor="White"
+            HorizontalAlign="Right" Wrap="True">
+            <BorderDetails ColorBottom="Black" ColorLeft="Black" ColorRight="Black" ColorTop="Black"
+                WidthLeft="1px" WidthTop="1px" />
+            <Padding Bottom="3px" Left="3px" Right="3px" Top="3px" />
+        </RowStyleDefault>                        
+        <HeaderStyleDefault BackColor="Black" BorderColor="Black" BorderStyle="Solid"                           
+            BorderWidth="1px" Font-Bold="True" Font-Names="Arial" Font-Size="16px" ForeColor="White"
+            HorizontalAlign="Center" Wrap="True">
+            <BorderDetails ColorBottom="Black" ColorLeft="Black" ColorRight="Black" ColorTop="Black"
+                WidthLeft="1px" WidthTop="1px" />                      
+        </HeaderStyleDefault>                        
+        <FrameStyle BackColor="Black" BorderColor="Black" BorderStyle="Solid" BorderWidth="0px">
+            </FrameStyle>                        
+    </DisplayLayout>                
+ </igtbl:UltraWebGrid>
+ 
+ <igtbl:UltraWebGrid runat="server" SkinID="UltraWebGridPopup">
+    <Bands>
+        <igtbl:UltraGridBand>
+            <AddNewRow View="NotSet" Visible="NotSet">
+            </AddNewRow>
+        </igtbl:UltraGridBand>
+    </Bands>                   
+    <DisplayLayout AllowSortingDefault="OnClient" AllowColumnMovingDefault="None" AllowUpdateDefault="No" HeaderClickActionDefault="SortMulti"
+        RowHeightDefault="20px" RowSelectorsDefault="No" ScrollBar="Never" BorderCollapseDefault="Collapse"                        
+        TableLayout="Fixed" Version="4.00" ViewType="Flat" GridLinesDefault="Both">
+        <GroupByBox Hidden="True">                            
+        </GroupByBox>                                          
+        <RowStyleDefault BackColor="#a8a8a8" BorderColor="#6b6b6b" BorderStyle="Solid" BorderWidth="1px"
+            Font-Names="Arial" Font-Size="16px" ForeColor="Black"
+            HorizontalAlign="Right" Wrap="True">
+            <BorderDetails ColorBottom="#6b6b6b" ColorLeft="#6b6b6b" ColorRight="#6b6b6b" ColorTop="#6b6b6b"
+                WidthLeft="1px" WidthTop="1px" />
+            <Padding Bottom="3px" Left="3px" Right="3px" Top="3px" />
+        </RowStyleDefault>                        
+        <HeaderStyleDefault BackColor="#6b6b6b" BorderColor="#6b6b6b" BorderStyle="Solid"                           
+            BorderWidth="1px" Font-Bold="True" Font-Names="Arial" Font-Size="16px" ForeColor="Black"
+            HorizontalAlign="Center" Wrap="True">
+            <BorderDetails ColorBottom="#6b6b6b" ColorLeft="#6b6b6b" ColorRight="#6b6b6b" ColorTop="#6b6b6b"
+                WidthLeft="1px" WidthTop="1px" />                      
+        </HeaderStyleDefault>                        
+        <FrameStyle BackColor="#a8a8a8" BorderColor="#a8a8a8" BorderStyle="None" BorderWidth="0px">
+            </FrameStyle>                        
+    </DisplayLayout>                
+ </igtbl:UltraWebGrid>
+ 
+ <igtbl:UltraWebGrid runat="server" SkinID="UltraWebGridBlackHeader">
+    <Bands>
+        <igtbl:UltraGridBand>
+            <AddNewRow View="NotSet" Visible="NotSet">
+            </AddNewRow>
+        </igtbl:UltraGridBand>
+    </Bands>                   
+    <DisplayLayout AllowSortingDefault="OnClient" AllowColumnMovingDefault="None" AllowUpdateDefault="No" HeaderClickActionDefault="SortMulti"
+        RowHeightDefault="20px" RowSelectorsDefault="No" ScrollBar="Never" BorderCollapseDefault="Collapse"                        
+        TableLayout="Fixed" Version="4.00" ViewType="Flat" GridLinesDefault="Both">
+        <GroupByBox Hidden="True">                            
+        </GroupByBox>                                          
+        <RowStyleDefault BackColor="Black" BorderColor="#323232" BorderStyle="Solid" BorderWidth="1px"
+            Font-Names="Arial" Font-Size="16px" ForeColor="#D1D1D1"
+            HorizontalAlign="Right" Wrap="True">
+            <BorderDetails ColorBottom="#323232" ColorLeft="#323232" ColorRight="#323232" ColorTop="#323232"
+                WidthLeft="1px" WidthTop="1px" />
+            <Padding Bottom="3px" Left="3px" Right="3px" Top="3px" />
+        </RowStyleDefault>                        
+        <HeaderStyleDefault BackColor="Black" BorderColor="#323232" BorderStyle="Solid"                           
+            BorderWidth="1px" Font-Bold="False" Font-Names="Arial" Font-Size="14px" ForeColor="#D1D1D1"
+            HorizontalAlign="Center" Wrap="True">
+            <BorderDetails ColorBottom="Black" ColorLeft="#323232" ColorRight="#323232" ColorTop="#323232"
+                WidthLeft="1px" WidthTop="1px" />                      
+        </HeaderStyleDefault>                        
+        <FrameStyle BackColor="Black" BorderColor="Black" BorderStyle="Solid" BorderWidth="0px">
+            </FrameStyle>                        
+    </DisplayLayout>                
+ </igtbl:UltraWebGrid>
+                
+<igchart:ultrachart runat="server" skinid="UltraWebColumnChart" backgroundimagefilename=""
+    emptycharttext="Data Not Available. Please call UltraChart.Data.DataBind() after setting valid Data.DataSource"
+    version="8.2" backcolor="Black">
+    <Tooltips Font-Italic="False" Font-Strikeout="False" Font-Underline="False" Font-Overline="False" Font-Bold="False"></Tooltips>
+    <ColorModel ModelStyle="CustomLinear" ColorEnd="DarkRed" AlphaLevel="150" ColorBegin="Pink"></ColorModel>
+    <Effects>
+        <Effects>
+            <igchartprop:GradientEffect></igchartprop:GradientEffect>
+        </Effects>
+    </Effects>
+    <Axis>
+        <Z LineThickness="1" TickmarkInterval="0" Visible="False" TickmarkStyle="Smart">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="Gainsboro" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="" FontColor="DimGray" HorizontalAlign="Near" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="Horizontal" FontColor="DimGray" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </Z>
+        <Y2 LineThickness="1" TickmarkInterval="40" Visible="False" TickmarkStyle="Smart">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="Gainsboro" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="&lt;DATA_VALUE:00.##&gt;" FontColor="Gray" HorizontalAlign="Near" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="VerticalLeftFacing" FontColor="Gray" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </Y2>
+        <X LineThickness="1" TickmarkInterval="0" Visible="True" TickmarkStyle="Smart" Extent="27" LineColor="209, 209, 209">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="209, 209, 209" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="&lt;ITEM_LABEL&gt;" FontColor="209, 209, 209" HorizontalAlign="Near" Font="Verdana, 7pt" VerticalAlign="Center" OrientationAngle="45" Visible="False">
+                <Layout Behavior="Auto"></Layout>
+                    <SeriesLabels Orientation="Custom" FontColor="209, 209, 209" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center" OrientationAngle="45">
+                        <Layout Behavior="Auto"></Layout>
+                    </SeriesLabels>
+            </Labels>
+        </X>
+        <Y LineThickness="1" TickmarkInterval="40" Visible="True" TickmarkStyle="Smart" Extent="30" LineColor="209, 209, 209">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="209, 209, 209" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="&lt;DATA_VALUE:00.##&gt;" FontColor="209, 209, 209" HorizontalAlign="Far" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="VerticalLeftFacing" FontColor="209, 209, 209" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </Y>
+        <X2 LineThickness="1" TickmarkInterval="0" Visible="False" TickmarkStyle="Smart">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="Gainsboro" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="VerticalLeftFacing" ItemFormatString="&lt;ITEM_LABEL&gt;" FontColor="Gray" HorizontalAlign="Far" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="Horizontal" FontColor="Gray" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </X2>            
+        <Z2 LineThickness="1" TickmarkInterval="0" Visible="False" TickmarkStyle="Smart">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="Gainsboro" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="" FontColor="Gray" HorizontalAlign="Near" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="Horizontal" FontColor="Gray" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </Z2>
+    </Axis>
+    <Legend AlphaLevel="50" BackgroundColor="DimGray" BorderColor="Black" FontColor="white"
+                    Location="Top" SpanPercentage="15" Visible="True" Font="Verdana, 10px">
+    </Legend>
+     <PieChart>
+        <Labels FontColor="White" LeaderLineColor="White" Font="Verdana, 12px"/>
+    </PieChart>
+    <TitleTop Font="Verdana, 17px, style=Bold" FontColor="209, 209, 209" VerticalAlign="Far">
+        <Margins Bottom="-55" Left="0" />
+    </TitleTop>
+</igchart:ultrachart>
+
+
+<igchart:ultrachart runat="server" skinid="UltraChart" backgroundimagefilename=""
+    emptycharttext="Data Not Available. Please call UltraChart.Data.DataBind() after setting valid Data.DataSource"
+    version="8.2" backcolor="Black">
+    <Tooltips Font-Italic="False" Font-Strikeout="False" Font-Underline="False" Font-Overline="False" Font-Bold="False"></Tooltips>
+    <ColorModel ModelStyle="CustomLinear" ColorEnd="DarkRed" AlphaLevel="150" ColorBegin="Pink"></ColorModel>
+    <Effects>
+        <Effects>
+            <igchartprop:GradientEffect></igchartprop:GradientEffect>
+        </Effects>
+    </Effects>
+    <Axis>
+        <Z LineThickness="1" TickmarkInterval="0" Visible="False" TickmarkStyle="Smart">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="Gainsboro" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="" FontColor="DimGray" HorizontalAlign="Near" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="Horizontal" FontColor="DimGray" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </Z>
+        <Y2 LineThickness="1" TickmarkInterval="40" Visible="False" TickmarkStyle="Smart">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="Gainsboro" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="&lt;DATA_VALUE:00.##&gt;" FontColor="Gray" HorizontalAlign="Near" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="VerticalLeftFacing" FontColor="Gray" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </Y2>
+        <X LineThickness="1" TickmarkInterval="0" Visible="True" TickmarkStyle="Smart" Extent="27" LineColor="209, 209, 209">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="209, 209, 209" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="&lt;ITEM_LABEL&gt;" FontColor="209, 209, 209" HorizontalAlign="Near" Font="Verdana, 7pt" VerticalAlign="Center" OrientationAngle="45" Visible="False">
+                <Layout Behavior="Auto"></Layout>
+                    <SeriesLabels Orientation="Custom" FontColor="209, 209, 209" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center" OrientationAngle="45">
+                        <Layout Behavior="Auto"></Layout>
+                    </SeriesLabels>
+            </Labels>
+        </X>
+        <Y LineThickness="1" TickmarkInterval="40" Visible="True" TickmarkStyle="Smart" Extent="30" LineColor="209, 209, 209">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="209, 209, 209" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="&lt;DATA_VALUE:00.##&gt;" FontColor="209, 209, 209" HorizontalAlign="Far" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="VerticalLeftFacing" FontColor="209, 209, 209" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </Y>
+        <X2 LineThickness="1" TickmarkInterval="0" Visible="False" TickmarkStyle="Smart">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="Gainsboro" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="VerticalLeftFacing" ItemFormatString="&lt;ITEM_LABEL&gt;" FontColor="Gray" HorizontalAlign="Far" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="Horizontal" FontColor="Gray" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </X2>            
+        <Z2 LineThickness="1" TickmarkInterval="0" Visible="False" TickmarkStyle="Smart">
+            <MinorGridLines Color="LightGray" DrawStyle="Dot" Visible="False" Thickness="1" AlphaLevel="255"></MinorGridLines>
+            <MajorGridLines Color="Gainsboro" DrawStyle="Dot" Visible="True" Thickness="1" AlphaLevel="255"></MajorGridLines>
+            <Labels Orientation="Horizontal" ItemFormatString="" FontColor="Gray" HorizontalAlign="Near" Font="Verdana, 7pt" VerticalAlign="Center">
+                <Layout Behavior="Auto"></Layout>
+                <SeriesLabels Orientation="Horizontal" FontColor="Gray" HorizontalAlign="Center" Font="Verdana, 7pt" VerticalAlign="Center">
+                    <Layout Behavior="Auto"></Layout>
+                </SeriesLabels>
+            </Labels>
+        </Z2>
+    </Axis>
+    <Legend AlphaLevel="50" BackgroundColor="DimGray" BorderColor="Black" FontColor="white"
+                    Location="Top" SpanPercentage="15" Visible="True" Font="Verdana, 10px">
+    </Legend>
+     <PieChart>
+        <Labels FontColor="White" LeaderLineColor="White" Font="Verdana, 12px"/>
+    </PieChart>
+    <TitleTop Font="Verdana, 17px, style=Bold" FontColor="209, 209, 209" VerticalAlign="Far">
+        <Margins Bottom="-55" Left="0" />
+    </TitleTop>
+</igchart:ultrachart>
+

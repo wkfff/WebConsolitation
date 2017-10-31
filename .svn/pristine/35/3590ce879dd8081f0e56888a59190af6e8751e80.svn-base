@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_year">
+    <![CDATA[ -- name: last_year      
+      select
+          { [Measures].[Значение]  } on columns,
+          {
+              Tail 
+              (
+                  Filter 
+                  (
+                      [Период].[Год Квартал Месяц].[Год].Members,
+                      [Measures].[Значение] > 0 
+                  ) 
+              ).Item(0) 
+          } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows 
+      from  [МО_Паспорт МО] 
+      where  
+          (
+              <%current_region%>
+          )   
+    ]]>
+  </query>
+  <query id="grid">
+    <![CDATA[ -- name: grid
+      select
+          non empty Filter  
+          (
+              [Паспорт МО].[Показатели].[Труд и заработная плата].[Среднесписочная численность работающих на предприятиях и в организациях-всего].children,
+              [Measures].[Значение] > 0 and not  
+              (
+                  [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember  
+              )  
+          )  on rows,
+          {
+              [Measures].[Значение]              
+          } on columns 
+      from [МО_Паспорт МО]  
+      where  
+          (
+              <%current_region%>,              
+              <%last_year%>  
+          )                          
+	  ]]>
+  </query>
+  <query id="chart_avg_count">
+    <![CDATA[ -- name: chart_avg_count
+      select
+          { [Measures].[Значение] } on rows,
+          non empty 
+          {
+              <%last_year%>: <%last_year%>.Lag(9)
+          } on columns
+      from  [МО_Паспорт МО]                    
+      where                           
+          (
+              <%current_region%>,
+              [Паспорт МО].[Показатели].[Труд и заработная плата].[Среднесписочная численность работающих на предприятиях и в организациях-всего].[<%current_branch%>]
+          )    
+    ]]>
+  </query>
+  <query id="chart_avg_wage">
+    <![CDATA[ -- name: chart_avg_wage
+      select
+          {
+              [Паспорт МО].[Показатели].[Труд и заработная плата].[Среднемесячный доход рабочих и служащих по отраслям (на 1 работающего)].[<%current_branch%>],
+              [Паспорт МО].[Показатели].[Труд и заработная плата].[Среднемесячный доход рабочих и служащих по отраслям (на 1 работающего)].[По всем отраслям] 
+          } on rows,
+          non empty 
+          {
+              <%last_year%>: <%last_year%>.Lag(9) 
+          } on columns 
+      from  [МО_Паспорт МО] 
+      where 
+          (
+              [Measures].[Значение],
+              <%current_region%> 
+          )     
+    ]]>
+  </query>
+</root>

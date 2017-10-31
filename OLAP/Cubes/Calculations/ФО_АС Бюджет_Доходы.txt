@@ -1,0 +1,42 @@
+CALCULATE;
+
+CREATE MEMBER CURRENTCUBE.Measures.[Исполнено] AS [Measures].[Кредит] - [Measures].[Дебет], FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Исполнено нараст итог] AS CalculationPassValue(
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+(Measures.[Исполнено], [Период__Период].[Период__Период].CurrentMember),
+//IIF(([Период__Период].[Период__Период].CurrentMember, [Measures].[Исполнено]) = 0 and ([КД].[АС Бюджет].[Данные всех источников], [Measures].[Исполнено]) = 0, null, 
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, Measures.[Исполнено]))
+, 1), FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Исполнено к прошлому периоду] AS IIF(IsEmpty((Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember)), null,
+IIF(((Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember) > 0) and ((Measures.[Исполнено], [Период__Период].[Период__Период].CurrentMember) > 0),
+(Measures.[Исполнено], [Период__Период].[Период__Период].CurrentMember)/(Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember),
+IIF(((Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember) < 0) and ((Measures.[Исполнено], [Период__Период].[Период__Период].CurrentMember) > 0),
+((Measures.[Исполнено], [Период__Период].[Период__Период].CurrentMember) + ABS((Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember))) / ABS((Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember)),
+IIF(((Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember) > 0) and ((Measures.[Исполнено], [Период__Период].[Период__Период].CurrentMember) < 0),
+((Measures.[Исполнено], [Период__Период].[Период__Период].CurrentMember) - (Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember)) / (Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember),
+-(Measures.[Исполнено], [Период__Период].[Период__Период].CurrentMember)/(Measures.[Исполнено], [Период__Период].[Период__Период].PrevMember))))), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Исполнено за аналогичный период прошлого года] AS ([Measures].[Исполнено], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)), FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение исполнения от аналогичного периода прошлого года] AS Measures.[Исполнено] - [Measures].[Исполнено за аналогичный период прошлого года], FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста исполнения к прошлому году] AS IIF(IsEmpty(Measures.[Исполнено за аналогичный период прошлого года]), null,
+IIF((Measures.[Исполнено за аналогичный период прошлого года] > 0) and (Measures.[Исполнено] > 0),
+Measures.[Исполнено]/Measures.[Исполнено за аналогичный период прошлого года],
+IIF((Measures.[Исполнено за аналогичный период прошлого года] < 0) and (Measures.[Исполнено] > 0),
+(Measures.[Исполнено] + ABS(Measures.[Исполнено за аналогичный период прошлого года])) / ABS(Measures.[Исполнено за аналогичный период прошлого года]),
+IIF((Measures.[Исполнено за аналогичный период прошлого года] > 0) and (Measures.[Исполнено] < 0),
+(Measures.[Исполнено] - Measures.[Исполнено за аналогичный период прошлого года]) / Measures.[Исполнено за аналогичный период прошлого года],
+-Measures.[Исполнено]/Measures.[Исполнено за аналогичный период прошлого года])))), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от назначений] AS ValidMeasure(Measures.[План]) - [Measures].[Исполнено], FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения] AS IIF(IsEmpty(ValidMeasure(Measures.[План])), null, Measures.[Исполнено]/ValidMeasure(Measures.[План])), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Удельный вес План по КД за период] AS ValidMeasure(([Measures].[План], [КД__Сопоставимый].CurrentMember))/ValidMeasure(([Measures].[План], [КД__Сопоставимый].[Все коды доходов])), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Удельный вес исполнено по КД за период] AS ([Measures].[Исполнено], [КД__Сопоставимый].CurrentMember)/([Measures].[Исполнено], [КД__Сопоставимый].[Все коды доходов]), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Удельный вес исполнено по КД нарастающим итогом] AS ([Measures].[Исполнено нараст итог], [КД__Сопоставимый].CurrentMember)/([Measures].[Исполнено нараст итог], [КД__Сопоставимый].[Все коды доходов]), FORMAT_STRING = "Percent";

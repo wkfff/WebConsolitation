@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Вариант.ФО_План" ClassType="7" SubClassType="0" Description="Классификатор предназначен для ведения вариантов расчета плановых данных в разрезе районов, рассчитанных в финансовом органе." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."D_VARIANT_FOPLAN", "DV"."FX_VARIANT_TYPE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_VARIANT_FOPLAN"."TYPEVAR"="DV"."FX_VARIANT_TYPE"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Variant.FOPlan]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_VARIANT_FOPLAN}{DV.D_VARIANT_FOPLAN}{2400}{600}{2175}{2230}{1})({dv}{DV.FX_VARIANT_TYPE}{DV.FX_VARIANT_TYPE}{3015}{4320}{2955}{1675}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[f356768c-e0bf-45ca-8187-d62d211a03eb]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[0045a9ab-e1ec-4857-ab70-bcc2b6fa9e0e]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[63cf9243-fecc-40ba-8c4b-170ceae13599]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Год" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."REFYEAR"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."REFYEAR"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Вариант" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="true" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Комментарий" ClassType="31" SubClassType="0" Description="" Caption="Комментарий" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."VARIANTCOMMENT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Дата варианта" ClassType="31" SubClassType="0" Description="" Caption="Дата варианта" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."VARIANTDATE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Год" ClassType="31" SubClassType="0" Description="" Caption="Год" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_FOPLAN"."REFYEAR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип варианта" ClassType="31" SubClassType="0" Description="" Caption="Тип варианта" PropertyType="0" IsVisible="true" ColumnSize="25" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FX_VARIANT_TYPE"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="date">
+    <![CDATA[
+-- fo_0035_0003_date
+-- <#[ФО_Исполнение кассового плана]#>
+with 
+    member Measures.[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            NonEmptyCrossjoin({[Период].[Период].Members})
+        )
+    } on rows 
+from [ФО_Исполнение кассового плана]
+	]]>
+  </query>
+ 
+  <query id="ExecuteOutcome">
+    <![CDATA[
+-- fo_0035_0003_ExecuteOutcome
+-- <#[ФО_Исполнение кассового плана_Расходы]#>
+with   
+    member Measures.[КВСР]   
+    as '[Администратор].[ИспКасПланСопост].CurrentMember.Properties("Код")'       
+select
+    {
+        {
+            {
+                [Расходы].[ИспКасПлан].[Все].['Значение не указано']   
+            }   
+            *{Measures.[КВСР]}   
+        } +   
+        {
+            Except   
+            (
+                [Расходы].[ИспКасПлан].[Вид расходов].Members,
+                {
+                    [Расходы].[ИспКасПлан].[Все].['Значение не указано']   
+                }   
+            )   
+            *   
+            {
+                [Measures].[<%measure_plan%>],
+                [Measures].[<%measure_fact%>],
+                [Measures].[Процент исполнения]
+            }   
+        }   
+    } on columns,
+    Except   
+    (
+        [Администратор].[ИспКасПланСопост].[ГРБС].Members,
+        {
+            [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+        } 
+    ) on rows 
+from [ФО_Исполнение кассового плана_Расходы]
+where   
+    (
+        [Период].[Период].[Данные всех периодов]<%period_cur_date%>  
+    )
+
+	]]>
+</query>
+ 
+  <query id="Execute">
+    <![CDATA[
+-- fo_0035_0002_Execute
+-- <#[ФО_Исполнение кассового плана]#>
+with 
+    member Measures.[Код] 
+    as '[Показатели].[ИспКасПлан].CurrentMember.Properties("Код")' 
+    set [Показатели]
+    as 'Filter
+        (
+            [Показатели].[ИспКасПлан].[Показатель].Members,
+            [Показатели].[ИспКасПлан].CurrentMember.Properties("Код") <> "80" and
+            [Показатели].[ИспКасПлан].CurrentMember.Properties("Код") <> "17"
+        )'
+select
+    {
+        Measures.[Код],
+        [Measures].[<%measure_plan%>],
+        [Measures].[<%measure_fact%>],
+        [Measures].[Процент исполнения]
+    } on columns,
+    [Показатели] on rows 
+from [ФО_Исполнение кассового плана] 
+where   
+    (
+        [Период].[Период].[Данные всех периодов]<%period_cur_date%>  
+    )
+	]]>
+  </query>
+</root>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <PropertyGroup>
+    <RemoteMachine>fm5-9</RemoteMachine>
+    <RemoteUser>fm5-9\Administrator</RemoteUser>
+    <RemoteUserPassword>zaq1@WSX</RemoteUserPassword>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildExtensionsPath)\ExtensionPack\MSBuild.ExtensionPack.tasks"/>
+
+  <Target Name="BuildSolution">
+
+    <Exec Command="del ..\output\*.zip" IgnoreExitCode="True"/>
+    <Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\VersionInfo.cs"/>
+    <Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] &gt;&gt; ..\Projects\Config\VersionInfo.cs"/>
+    <Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] &gt;&gt; ..\Projects\Config\VersionInfo.cs"/>
+    <MSBuild Projects="$(SolutionDir)\$(SolutionName).sln" />
+
+  </Target>
+
+  <Target Name="PublishSite">
+
+    <!-- Останавливаем службу сервера приложений -->
+    <MSBuild.ExtensionPack.Computer.WindowsService TaskAction="Stop" ServiceName="FMServiceTest" RemoteUser="$(RemoteUser)" RemoteUserPassword="$(RemoteUserPassword)" MachineName="$(RemoteMachine)"/>
+
+    <!-- Восстанавливаем БД из снимка -->
+    <MSBuild.ExtensionPack.SqlServer.SqlCmd TaskAction="Execute" Server="FM5-9\SQL2008" Database="master" LogOn="RIAIntegrationTestsAdmin" Password="$(RemoteUserPassword)" InputFiles="$(WorkingDir)\Build\Scripts\RestoreFromSnapshot.sql" />
+
+    <!-- Для сайта настраиваем подключение к серверу приложений -->
+    <MSBuild.ExtensionPack.Xml.XmlFile TaskAction="UpdateAttribute"
+                                       File="$(WorkingDir)\Projects\Web.RIA\app\Krista.FM.RIA.Web\Web.Krista.FM.RIA.Release.config"
+                                       XPath="/configuration/appSettings/add[@key='SchemeServerName']"
+                                       Key="value"
+                                       Value="fm5-9:8001" />
+
+    <!-- Создаем пакет для публикации сайта -->
+    <MSBuild Projects="..\Projects\Web.RIA\app\Krista.FM.RIA.Web\Krista.FM.RIA.csproj" Targets="Package"/>
+
+    <!-- Публикуем сайт -->
+    <MSBuild.ExtensionPack.Framework.CommandLine Command="&quot;C:\Program Files\IIS\Microsoft Web Deploy\msdeploy.exe&quot; -source:package='$(WorkingDir)\output\Krista.FM.RIA.zip' -dest:auto,computerName='$(RemoteMachine)',userName='$(RemoteUser)',password='$(RemoteUserPassword)',includeAcls='False' -verb:sync -disableLink:AppPoolExtension -disableLink:ContentExtension -disableLink:CertificateExtension -skip:objectname='dirPath',absolutepath='obj\\Krista\.FM\.RIA\.Release\\Package\\PackageTmp\\App_Data$' -setParamFile:&quot;$(WorkingDir)\output\Krista.FM.RIA.SetParameters.xml&quot;" ContinueOnError="false" />
+
+    <!-- Делаем запрос к сайту, для проверки работовпособности -->
+    <MSBuild.ExtensionPack.Web.HttpWebRequest TaskAction="GetResponse" Url="http://fm5-9.krista.ru:8080/">
+      <Output TaskParameter="Response" ItemName="ResponseDetail"/>
+      <Output TaskParameter="Status" PropertyName="ResponseStatus"/>
+    </MSBuild.ExtensionPack.Web.HttpWebRequest>
+    <Message Text="Status: $(ResponseStatus)"/>
+    <Message Text="StatusDescription: %(ResponseDetail.StatusDescription)"/>
+    <Message Text="StatusCode: %(ResponseDetail.StatusCode)"/>
+    <Message Text="CharacterSet: %(ResponseDetail.CharacterSet)"/>
+    <Message Text="ProtocolVersion: %(ResponseDetail.ProtocolVersion)"/>
+    <Message Text="ResponseUri: %(ResponseDetail.ResponseUri)"/>
+    <Message Text="Server: %(ResponseDetail.Server)"/>
+
+    <Error Condition="%(ResponseDetail.StatusCode) != 200" Text="Сайт для автоматического тестирования вернул ответ StatusCode: %(ResponseDetail.StatusCode)"/>
+
+    <Exec Command="%windir%\system32\xcopy /EI ..\output\* $(SolutionName)-$(VersionString)" />
+    <Exec Command="del /F /Q ..\output\*" IgnoreExitCode="True" />
+    <Exec Command="zip -mr ..\output\$(SolutionName)-$(VersionString).zip $(SolutionName)-$(VersionString)" />
+    <Exec Command="rmdir /S /Q ..\output\$(SolutionName)" IgnoreExitCode="True" />
+
+    <!-- Запускаем службу сервера приложений -->
+    <MSBuild.ExtensionPack.Computer.WindowsService TaskAction="Start" ServiceName="FMServiceTest" RemoteUser="$(RemoteUser)" RemoteUserPassword="$(RemoteUserPassword)" MachineName="$(RemoteMachine)"/>
+
+  </Target>
+
+  <Target Name="BuildSolutionWrapper" DependsOnTargets="BuildSolution;PublishSite" />
+</Project>

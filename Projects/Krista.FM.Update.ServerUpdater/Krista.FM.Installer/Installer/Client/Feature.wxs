@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+  <Fragment>
+    <Feature Id="ProductFeature" Title="$(var.ProductName)" Level="1" AllowAdvertise="yes" Description="Набор клиентских приложений: Workplace, Дизайнер Схем, OlapAdmin">
+      <Feature Id="WPFeature" Title="Workplace" Level="1" Absent="disallow" ConfigurableDirectory="INSTALLLOCATIONWP" Description="Workplace – интерфейс, рабочее место пользователя системы Анализ и планирование">
+        <ComponentRef Id="ProductComponentWP" />
+        <ComponentRef Id="WPShortcut" />
+        <ComponentRef Id="DesktopWPShortcut" />
+        <Feature Id="ftr0A64A67D6D054792BFE5E5D5739E689B" Level="1" Display="hidden">
+          <ComponentRef Id="cmpB02CBD28091248DBBB730BEFF250E84E"/>
+          <Condition Level="0">FILEEXISTS</Condition>
+        </Feature>
+        <Feature Id="ftr70868C4279A9477DA731041014E9DE75" Level="1" Display="hidden">
+          <ComponentRef Id="cmpF93DBC659B7949F6B34B62CCC7B39B25"/>
+          <Condition Level="0">FILEEXISTS</Condition>
+        </Feature>
+      </Feature>
+      <Feature Id="SchemeDesignerFeature" Title="Дизайнер схем" Level="2" ConfigurableDirectory="INSTALLLOCATIONSD" Description="Дизайнер схем – CASE–система, для формирования семантических моделей проекта на языке UML.">
+        <ComponentRef Id="ProductComponentSD" />
+        <ComponentRef Id="ApplicationShortcutSchemeDisigner" />
+        <ComponentRef Id="DesctopApplicationShortcutSchemeDisigner" />
+        <Condition Level="0">INSTALLLEVEL=3</Condition>
+        <Feature Id="filC5D5E74DE9E642B98E4C7E734CB58FCB" Level="1" Display="hidden">
+          <ComponentRef Id="cmpF588B32914AB41DC925E9B42E622FDDB"/>
+          <Condition Level="0">FILEEXISTS</Condition>
+        </Feature>
+        <Feature Id="fil2D0967A66BA1487592DCEA842F308D0B" Level="1" Display="hidden">
+          <ComponentRef Id="cmpEF300FE099404328B12AE6CD50D59549"/>
+          <Condition Level="0">FILEEXISTS</Condition>
+        </Feature>
+      </Feature>
+      <Feature Id="OlapAdminFeature" Title="OLAPAdmin" Level="2" ConfigurableDirectory="INSTALLLOCATIONOA" Description="OLAPAdmin - интерфейс для администрирования многомерной базы данных под СУБД MS SQL 2005 (2008)">
+        <ComponentRef Id="ProductComponentOA" />
+        <ComponentRef Id="ApplicationShortcutOlapAdmin" />
+        <ComponentRef Id="DesctopApplicationShortcutOlapAdmin" />
+        <Condition Level="0">INSTALLLEVEL=3</Condition>
+        <Feature Id="fil84438BBBC84745DA86E68B1BB045EAB0" Level="1" Display="hidden">
+          <ComponentRef Id="cmp21EBEF217D74457D9413340328DADABB"/>
+          <Condition Level="0">FILEEXISTS</Condition>
+        </Feature> 
+        <Feature Id="fil08CCD0D22D894FD082B433BFBACA2E42" Level="1" Display="hidden">
+          <ComponentRef Id="cmpD6F4D96AE44442BE91B6541F8FB39306"/>
+          <Condition Level="0">FILEEXISTS</Condition>
+        </Feature>
+      </Feature>
+    </Feature>
+  </Fragment>
+</Wix>

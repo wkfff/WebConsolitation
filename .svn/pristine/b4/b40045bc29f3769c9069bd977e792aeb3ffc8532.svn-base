@@ -1,0 +1,57 @@
+CALCULATE;
+
+[Measures].[План] = //CalculationPassValue(
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember);//, 0);
+
+[Measures].[Ассигнования] = 
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember);
+
+CREATE MEMBER CURRENTCUBE.Measures.[Факт доходов] AS ValidMeasure([Measures].[Кредит]) - ValidMeasure([Measures].[Дебет]), FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Факт расходов] AS ValidMeasure([Measures].[Расход]) - ValidMeasure([Measures].[Возврат расхода]), FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от назначений (по доходам)] AS ValidMeasure([Measures].[План]) - 
+ValidMeasure([Measures].[Факт доходов]), FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от назначений (по расходам)] AS ValidMeasure([Measures].[Ассигнования]) -
+ ValidMeasure([Measures].[Факт расходов]), FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения доходов] AS IIF (IsEmpty([Measures].[План]), null, 
+[Measures].[Факт доходов]/[Measures].[План]), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения расходов] AS IIF (IsEmpty([Measures].[Ассигнования]), null, 
+[Measures].[Факт расходов]/[Measures].[Ассигнования]), FORMAT_STRING = "Percent";
+
+
+[Measures].[Отклонение от назначений (по доходам)] = 
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember);
+
+[Measures].[Отклонение от назначений (по расходам)] = 
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember);
+
+/*
+CREATE CELL CALCULATION CURRENTCUBE.[План_дох] FOR '({[Measures].[План]})' AS CalculationPassValue(
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember), 0);
+
+CREATE CELL CALCULATION CURRENTCUBE.[План_расх] FOR '({[Measures].[Ассигнования]})' AS CalculationPassValue(
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember), 0);
+CREATE CELL CALCULATION CURRENTCUBE.[Отклонение_дох] FOR '({[Measures].[Отклонение от назначений (по доходам)]})' AS CalculationPassValue(
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember), 0);
+CREATE CELL CALCULATION CURRENTCUBE.[Отклонение_расх] FOR '({[Measures].[Отклонение от назначений (по расходам)]})' AS CalculationPassValue(
+IIF(not isEmpty([Период__Период].[Период__Период].CurrentMember.FirstChild),
+    [Период__Период].[Период__Период].CurrentMember.FirstChild,
+[Период__Период].[Период__Период].CurrentMember), 0);*/

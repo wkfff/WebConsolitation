@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФО_МесОтч_Расходы_Показатели" ClassType="9" SubClassType="0" Description="Данные месячного отчета о расходах бюджета." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="18475" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="18475">
+  <property name="SourceTable"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES", "DV"."D_R_MONTHREP", "DV"."B_MARKS_PASSPORTMO"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."FV_F_MONTHREPOUTCOMES"."REFFKR"="DV"."D_R_MONTHREP"."ID") AND ("DV"."D_R_MONTHREP"."REFBRIDGEPASSR"="DV"."B_MARKS_PASSPORTMO"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.F.MonthRepOutcomes]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.FV_F_MONTHREPOUTCOMES}{DV.FV_F_MONTHREPOUTCOMES}{1740}{288}{2553}{6062}{1})({dv}{DV.D_R_MONTHREP}{DV.D_R_MONTHREP}{4800}{5325}{2145}{910}{1})({dv}{DV.B_MARKS_PASSPORTMO}{DV.B_MARKS_PASSPORTMO}{9210}{9975}{2580}{910}{1})]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."FV_F_MONTHREPOUTCOMES"."REFFKR"="DV"."D_R_MONTHREP"."ID") AND ("DV"."D_R_MONTHREP"."REFBRIDGEPASSR"="DV"."B_MARKS_PASSPORTMO"."ID")]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[ecd2edd2-030f-4b17-9fdf-0b61ea99de80]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[a5c3edf1-1246-429d-8ab6-0181068e9577]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[3e48553c-226e-4126-8c76-ee53860796fb]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Расходы.МесОтч" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="ФКР" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_R_MONTHREP"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Показатели.ФинпаспортМОСопост" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="false" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_MARKS_PASSPORTMO"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Годовые назначения" ClassType="10" SubClassType="0" Description="Плановые назначения на год." IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"."YEARPLAN"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Квартальные назначения" ClassType="10" SubClassType="0" Description="Плановые назначения на квартал." IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"."QUARTERPLAN"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Месячные назначения" ClassType="10" SubClassType="0" Description="Плановые назначения на месяц." IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"."MONTHPLAN"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Факт" ClassType="10" SubClassType="0" Description="Фактическое исполнение с начала года." IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"."FACT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Исключаемые суммы по назначениям" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"."EXCSUMP"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Исключаемые суммы по факту" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="6">
+      <property name="SourceColumn"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"."EXCSUMF"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="ФО_МесОтч_Расходы_Показатели" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_МесОтч_Расходы_ФО_МесОтч_Расходы_" EstimatedRows="18475" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."FV_F_MONTHREPOUTCOMES", "DV"."D_R_MONTHREP", "DV"."B_MARKS_PASSPORTMO"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."FV_F_MONTHREPOUTCOMES"."REFFKR"="DV"."D_R_MONTHREP"."ID") AND ("DV"."D_R_MONTHREP"."REFBRIDGEPASSR"="DV"."B_MARKS_PASSPORTMO"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ObjectKey" datatype="8"><![CDATA[ecd2edd2-030f-4b17-9fdf-0b61ea99de80]]></Property>
+        <Property name="ID" datatype="8"><![CDATA[89c4fbf8-7617-4ae0-9ed1-61416209199f]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

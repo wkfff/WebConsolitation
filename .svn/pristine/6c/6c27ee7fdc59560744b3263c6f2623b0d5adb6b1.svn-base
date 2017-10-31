@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="РЕГИОН_Данные опросов" ClassType="9" SubClassType="0" Description="Данные социологических опросов" DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_SOCPOOL_DATA"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_SOCPOOL_DATA"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_SOCPOOL_DATA", "DV"."DATASOURCES", "DV"."D_TERRITORY_RF", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_SOCPOOL_MARK", "DV"."D_SOCPOOL_ANSWERS", "DV"."D_SOCPOOL_PARTYS", "DV"."D_SOCPOOL_AUTHORITY", "DV"."D_SOCPOOL_POLITIC", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_SOCPOOL_PROBLEMS"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_SOCPOOL_DATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFDATE"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFMARK"="DV"."D_SOCPOOL_MARK"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFANSWER"="DV"."D_SOCPOOL_ANSWERS"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFPARTY"="DV"."D_SOCPOOL_PARTYS"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFAUTHORITY"="DV"."D_SOCPOOL_AUTHORITY"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFPOLITIC"="DV"."D_SOCPOOL_POLITIC"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFPROBLEM"="DV"."D_SOCPOOL_PROBLEMS"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_SOCPOOL_DATA"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.SocPool.Data]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{100}{3000}{2460}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2160}{5085}{2640}{985}{1})({dv}{DV.D_SOCPOOL_ANSWERS}{DV.D_SOCPOOL_ANSWERS}{4245}{5085}{2670}{925}{1})({dv}{DV.D_SOCPOOL_AUTHORITY}{DV.D_SOCPOOL_AUTHORITY}{6330}{5085}{2700}{910}{1})({dv}{DV.D_SOCPOOL_PARTYS}{DV.D_SOCPOOL_PARTYS}{5295}{5100}{2685}{940}{1})({dv}{DV.D_SOCPOOL_MARK}{DV.D_SOCPOOL_MARK}{3225}{5085}{2655}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{1125}{4335}{2190}{910}{1})({dv}{DV.F_SOCPOOL_DATA}{DV.F_SOCPOOL_DATA}{2535}{465}{2205}{3080}{1})({dv}{DV.D_SOCPOOL_POLITIC}{DV.D_SOCPOOL_POLITIC}{7320}{4545}{2400}{910}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{1050}{8190}{2655}{910}{1})({dv}{DV.D_SOCPOOL_PROBLEMS}{DV.D_SOCPOOL_PROBLEMS}{8355}{3195}{2445}{925}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[701cf152-7891-4da7-aeca-ef9b2b793ce4]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[a25104e2-3f40-4dd0-8691-1793d82c960e]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[57849ebc-998b-499b-aa17-8d4c2928f907]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СоцОпрос.Варианты ответов" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все варианты]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вариант" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_SOCPOOL_ANSWERS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СоцОпрос.Институты власти" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все институты власти]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Институт власти" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_SOCPOOL_AUTHORITY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СоцОпрос.Партии" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все партии]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Партия" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_SOCPOOL_PARTYS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СоцОпрос.Политики" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все политики]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Политик" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_SOCPOOL_POLITIC"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СоцОпрос.Показатели" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_SOCPOOL_MARK"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="СоцОпрос.Проблемы" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="9">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все проблемы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Проблема" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_SOCPOOL_PROBLEMS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="10">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_SOCPOOL_DATA"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="РЕГИОН_Данные опросов" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="РЕГИОН_Данныеопросов_РЕГИОН_Данныеопросов_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_SOCPOOL_DATA"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_SOCPOOL_DATA"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_SOCPOOL_DATA", "DV"."DATASOURCES", "DV"."D_TERRITORY_RF", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_SOCPOOL_MARK", "DV"."D_SOCPOOL_ANSWERS", "DV"."D_SOCPOOL_PARTYS", "DV"."D_SOCPOOL_AUTHORITY", "DV"."D_SOCPOOL_POLITIC", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_SOCPOOL_PROBLEMS"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_SOCPOOL_DATA"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFDATE"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFMARK"="DV"."D_SOCPOOL_MARK"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFANSWER"="DV"."D_SOCPOOL_ANSWERS"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFPARTY"="DV"."D_SOCPOOL_PARTYS"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFAUTHORITY"="DV"."D_SOCPOOL_AUTHORITY"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFPOLITIC"="DV"."D_SOCPOOL_POLITIC"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_SOCPOOL_DATA"."REFPROBLEM"="DV"."D_SOCPOOL_PROBLEMS"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[aa8d7bdd-abd2-4895-974e-62f89daf07cc]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[57849ebc-998b-499b-aa17-8d4c2928f907]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

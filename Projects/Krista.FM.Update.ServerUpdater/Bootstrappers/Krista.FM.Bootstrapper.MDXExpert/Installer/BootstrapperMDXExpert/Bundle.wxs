@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  
+  <?include Variables.wxi?>
+
+  <Bundle Version="$(var.ProductVersion)"          
+          Condition="NOT MDXInstalled"
+          UpgradeCode="$(var.UpgradeCode)">
+
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense"/>
+    <WixVariable Id="WixStdbaLicenseRtf" Value=".\Installer\BootstrapperMDXExpert\MyLicense.rtf" />
+    <WixVariable Id="WixStdbaLogo" Value=".\Installer\BootstrapperMDXExpert\logo.png" />
+    <WixVariable Id="WixStdbaThemeXml" Value=".\Installer\BootstrapperMDXExpert\MyTheme.xml"/>
+
+    <Chain DisableRollback="no">
+      <PackageGroupRef Id="MyPackage" />
+    </Chain>
+  </Bundle>
+</Wix>

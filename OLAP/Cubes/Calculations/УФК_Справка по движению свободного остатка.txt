@@ -1,0 +1,14 @@
+CALCULATE;
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма с начала года] AS
+CalculationPassValue(IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+([Measures].[Сумма за период], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, [Measures].[Сумма за период])), 1),
+FORMAT_STRING = "Currency";
+
+SCOPE [Measures].[Сумма с начала года];
+   this = IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов], Sum([Период__Период].[Период__Период].[Данные всех периодов].Children),
+IIF(not IsLeaf([Период__Период].[Период__Период].CurentMember), [Период__Период].[Период__Период].CurentMember.LastChild, [Период__Период].[Период__Период].CurentMember));
+END SCOPE;

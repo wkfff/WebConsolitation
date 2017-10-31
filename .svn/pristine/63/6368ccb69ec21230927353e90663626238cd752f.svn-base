@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include Variables.wxi?>
+
+  <Product Id="$(var.ProductCode)" Name="Криста MDX Эксперт" Language="1049" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes"/>
+
+    <!-- Обязательные свойства для каждого инсталлятора -->
+    <Property Id="ARPCOMMENTS" Value="MDXExpert3" />
+    <Property Id="ARPHELPLINK" Value="fmsupport@krista.ru" />
+    <Property Id="ARPHELPTELEPHONE" Value="8-(4855)-291-750,  8-(4855)-291-751" />
+     <Property Id="ARPURLUPDATEINFO" Value="http://www.krista.ru" />
+    <Property Id="ARPPRODUCTICON" Value="MDXExpert.ico" />
+    
+    <!-- Проверка версии установленного NET Framework -->
+    <Property Id="NETFRAMEWORK35_SP_LEVEL">
+      <RegistrySearch Id="NetFramework35SP" Root="HKLM" Key="Software\Microsoft\NET Framework Setup\NDP\v3.5" Name="SP" Type="raw" />
+    </Property>
+    <Condition Message="Приложение требует установленного .NET Framework 3.5 SP1. Пожалуйста установите .NET Framework и повторно запустите инсталлятор.">
+      Installed OR (NETFRAMEWORK35_SP_LEVEL and NOT NETFRAMEWORK35_SP_LEVEL = "#0")
+    </Condition>
+    
+    <Property Id="MACHINEINSTALLDIR">
+      <RegistrySearch Id="InstallDir" Root="HKLM" Key="Software\$(var.RegKey)" Name="$(var.InstallDir)" Type="directory" Win64="no" />
+    </Property>
+    <Property Id="USERINSTALLDIR">
+      <RegistrySearch Id="UserInstallDir" Root="HKCU" Key="Software\$(var.RegKey)" Name="$(var.InstallDir)" Type="directory" Win64="no" />
+    </Property>
+      
+    <Property Id="InstallScope" Value="User" />
+    <Property Id="ApplicationFolderName" Value="LocalAppDataFolder" />
+    <Property Id="UsersAccount" Value="S-1-5-32-545" />
+    
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+       
+    <Binary Id="CustomActionDll" SourceFile="..\..\Krista.FM.Update.CustomAction.CA.dll" />
+    <CustomAction Id='AddPermition'
+                  BinaryKey='CustomActionDll'
+                  DllEntry='SetFolderPermissionMDXExpert'
+                  Return='check' />
+
+    <CustomAction Id="SetUserInstallScope" Property="InstallScope" Value="User" Execute="firstSequence" />
+    <CustomAction Id="SetMachineInstallScope" Property="InstallScope" Value="Machine" Execute="firstSequence" />
+    <CustomAction Id="SetUserInstallDir" Property="INSTALLDIR" Value="[LocalAppDataFolder]\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)\$(var.ProductVersion)" Execute="firstSequence" />
+    <CustomAction Id="SetMachineInstallDir" Property="INSTALLDIR" Value="[$(var.ProgramFiles)]\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)\$(var.ProductVersion)" Execute="firstSequence" />
+    <CustomAction Id="SetInstallPath" Property="INSTALLDIR" Value="[INSTALLPATH]" Execute="firstSequence" />
+    <CustomAction Id="ResetALLUSERS" Property="ALLUSERS" Value="" Execute="firstSequence" />
+    <CustomAction Id="SetALLUSERS1" Property="ALLUSERS" Value="1" Execute="firstSequence" />
+    <CustomAction Id="SetALLUSERS2" Property="ALLUSERS" Value="2" Execute="firstSequence" />
+    <CustomAction Id="SetMSIINSTALLPERUSER" Property="MSIINSTALLPERUSER" Value="1" Execute="firstSequence" />
+    <CustomAction Id="TranslateUsers_SetProperty" Property="PROPERTY_TO_BE_TRANSLATED" Value="UsersAccount" />
+    <CustomAction Id="TranslateUsers" BinaryKey="CustomActionDll" DllEntry="TranslateSidToName" Impersonate="no" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="dirED887620A6F54E23A96BCE013CEB447F" Name="$(var.Manufacturer)">
+          <Directory Id="dir34D847160AA84E53AB624767760A2E4E" Name="$(var.Division)">
+            <Directory Id="INSTALLDIR" Name="$(var.ProductName)">
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder3" Name="Криста">
+          <Directory Id="ApplicationProgramsFolder2" Name="$(var.Division)">
+            <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)">
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop"/>
+
+    </Directory>
+
+    <Property Id="SHORTCUT_PROGRAMMENU">1</Property>
+    <Property Id="SHORTCUT_DESKTOP">1</Property>
+
+    <FeatureRef Id="ProductFeature"></FeatureRef>
+
+    <CustomAction Id="DeleteFolder" BinaryKey='CustomActionDll'
+                  DllEntry='RemoveInstallDirFolder'
+                  Return='ignore' />
+
+    <InstallExecuteSequence>
+      <Custom Action="SetUserInstallDir" Before="FindRelatedProducts">USERINSTALLDIR AND NOT INSTALLPATH</Custom>
+      <Custom Action="SetMachineInstallScope" Before="FindRelatedProducts"><![CDATA[ALLUSERS=1]]></Custom>
+      <Custom Action="SetMachineInstallDir" Before="FindRelatedProducts"><![CDATA[ALLUSERS=1]]></Custom>
+      <Custom Action="SetInstallPath" Before="FindRelatedProducts">INSTALLPATH</Custom>
+      <Custom Action="ResetALLUSERS" Before="FindRelatedProducts">USERINSTALLDIR</Custom>
+      <Custom Action="SetALLUSERS1" Before="FindRelatedProducts">MACHINEINSTALLDIR</Custom>
+      <Custom Action="DeleteFolder" After="RemoveFiles"><![CDATA[REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE]]></Custom>
+      <Custom Action="AddPermition" After="InstallFinalize">MACHINEINSTALLDIR AND NOT Installed</Custom>
+      <Custom Action='TranslateUsers_SetProperty' Before='TranslateUsers' />
+      <Custom Action='TranslateUsers' Before="FindRelatedProducts" />
+      <RemoveExistingProducts After="InstallFinalize" />
+    </InstallExecuteSequence>
+    <InstallUISequence>      
+      <Custom Action="SetUserInstallScope" After="LaunchConditions">NOT Privileged</Custom>
+      <Custom Action="SetUserInstallDir" Before="FindRelatedProducts">USERINSTALLDIR AND NOT INSTALLPATH</Custom>
+      <Custom Action="SetInstallPath" Before="FindRelatedProducts">INSTALLPATH</Custom>
+      <Custom Action="ResetALLUSERS" Before="FindRelatedProducts">USERINSTALLDIR</Custom>
+      <Custom Action="SetALLUSERS1" Before="FindRelatedProducts">MACHINEINSTALLDIR</Custom>
+      <FindRelatedProducts After="AppSearch" />
+      <Custom Action="SetMSIINSTALLPERUSER" Before="SetALLUSERS2"><![CDATA[NOT ALLUSERS AND VersionMsi >= "5.00"]]></Custom>
+      <Custom Action="SetALLUSERS2" Before="ExecuteAction"><![CDATA[NOT ALLUSERS AND VersionMsi >= "5.00"]]></Custom>
+    </InstallUISequence>
+
+    <UIRef Id="WixUI_Wizard"/>
+    <Icon Id="MDXExpert.ico" SourceFile="..\..\App\Icon\MDXExpert.ico" />
+
+  </Product>
+</Wix>

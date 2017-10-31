@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by TEAM (RENEGADE) -->
+<layerDataPump name="Закачка данных по показателям выполнения услуг" version="1.0">
+	<usedLayers>
+		<layer name="ГосЗадание.ГосЗадание.ЗаголовокГосЗадания" synonym="a"/>
+		<layer name="РеестрГосУслуг.СборРГУ.ПоказателиНепосРезультата" synonym="b"/>
+		<layer name="ГосЗадание.ГосЗадание.ПокНепРез" synonym="c"/>
+		<layer name="ПланированиеБА.ГРБСБА.СправочникБА" synonym="d"/>
+		<layer name="РРО.ГРБС.СправочникРО" synonym="e"/>
+		<layer name="Классификаторы.КВР" synonym="f"/>
+		<layer name="Классификаторы.КФСР" synonym="g"/>
+		<layer name="Классификаторы.КЭСР" synonym="h"/>
+		<layer name="Классификаторы.ЦСР" synonym="i"/>
+		<layer name="Классификаторы.ТипСредств" synonym="j"/>
+		<layer name="ГосЗадание.ГосЗадание.ОбъемФинансирования" synonym="k"/>
+		<layer name="Классификаторы.КВСР" synonym="l"/>
+	</usedLayers>
+	<defaultDataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+	<usedFMObjects>
+		<fmObject name="1dc50b24-9233-4398-b3b1-02357755b15d" synonym="FacialAcc" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="f62bf5e8-7b36-47ad-8668-be697f5d4eef" synonym="StateTask" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="dd69b4e1-f257-49ce-b553-442d094ae39a" synonym="KVSR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="a1608d49-78a7-40ad-99eb-8db240e56ef6" synonym="IDR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="d5b8c4ba-1ee8-40ba-86ed-f85f94114dec" synonym="MarkPassportBI" fmObjectType="factTable">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="9070aebb-860e-4e12-85e2-73a02f55f002" synonym="BA" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="b4690d80-e696-460c-ad7f-2980dde78d81" synonym="RRO" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="8b0f5b42-2672-4648-9e1a-4ac0a5e5e3f8" synonym="RZPR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="c651ca3c-5833-44fa-a34d-6228a8dda34a" synonym="KCSR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="c2c0fa0c-6ea5-4f19-ae04-2eb12ead32f7" synonym="KVR" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="4c3cf128-33cc-4275-a866-dd804f9bcdca" synonym="MeansType" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="0c63afa9-b543-4c0c-98a9-9c290cd7ccb0" synonym="KOSGU" fmObjectType="cls">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+		<fmObject name="216ffef2-6726-4bb3-9ecd-5f405037a938" synonym="FinancingPassportBI" fmObjectType="factTable">
+			<dataSource supplierCode="ФО" dataCode="0040" kindsOfParams="1" year="2010"/>
+		</fmObject>
+	</usedFMObjects>
+	<steps>
+		<step layerSynonym="c" name="Закачка ПНР">
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="ЛицевойСчет" processType="layerRef" destinationObjectSynonym="FacialAcc" destinationAttribute="Code" refLayerSynonym="a" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ПоставщикГУ"/>
+				<layerField name="ЛицевойСчет" processType="layerRef" destinationObjectSynonym="FacialAcc" destinationAttribute="Name" refLayerSynonym="a" refLayerFieldName="Имя_ПоставщикГУ"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ГосУслугГРБС" processType="layerRef" destinationObjectSynonym="StateTask" destinationAttribute="Code" refLayerSynonym="a" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ГосУслуг"/>
+				<layerField name="Код_ГосУслугГРБС" processType="layerRef" destinationObjectSynonym="StateTask" destinationAttribute="Name" refLayerSynonym="a" refLayerFieldName="Имя_ГосУслуг"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ПокНепосРез" processType="layerRef" destinationObjectSynonym="IDR" destinationAttribute="Code" refLayerSynonym="b" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ПокНепосРез"/>
+				<layerField name="Код_ПокНепосРез" processType="layerRef" destinationObjectSynonym="IDR" destinationAttribute="Name" refLayerSynonym="b" refLayerFieldName="Имя_ПокНепосРез"/>
+				<layerField name="Код_ПокНепосРез" processType="layerRef" destinationObjectSynonym="IDR" destinationAttribute="Unit" refLayerSynonym="b" refLayerFieldName="ЕдИзм"/>
+				<layerField name="Код_ПокНепосРез" processType="layerRef" destinationObjectSynonym="IDR" destinationAttribute="RefTypeIDR" refLayerSynonym="b" refLayerFieldName="ТипПоказателя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ГРБС" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Code" refLayerSynonym="l" destinationAttributeUseInSearch="true" refLayerFieldName="Код"/>
+				<layerField name="Код_ГРБС" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Name" refLayerSynonym="l" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ОтчетФинГод" processType="directPump" destinationObjectSynonym="MarkPassportBI" destinationAttribute="Fact">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20090001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ТекФинГод" processType="directPump" destinationObjectSynonym="MarkPassportBI" destinationAttribute="Estimate">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20100001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ОчередФинГод" processType="directPump" destinationObjectSynonym="MarkPassportBI" destinationAttribute="Planing">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20110001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ПланПер_1год" processType="directPump" destinationObjectSynonym="MarkPassportBI" destinationAttribute="Prognosis">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20120001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+		</step>
+		<step layerSynonym="k" name="Закачка финансирования">
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="ЛицевойСчет" processType="layerRef" destinationObjectSynonym="FacialAcc" destinationAttribute="Code" refLayerSynonym="a" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ПоставщикГУ"/>
+				<layerField name="ЛицевойСчет" processType="layerRef" destinationObjectSynonym="FacialAcc" destinationAttribute="Name" refLayerSynonym="a" refLayerFieldName="Имя_ПоставщикГУ"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ГосУслугГРБС" processType="layerRef" destinationObjectSynonym="StateTask" destinationAttribute="Code" refLayerSynonym="a" destinationAttributeUseInSearch="true" refLayerFieldName="Код_ГосУслуг"/>
+				<layerField name="Код_ГосУслугГРБС" processType="layerRef" destinationObjectSynonym="StateTask" destinationAttribute="Name" refLayerSynonym="a" refLayerFieldName="Имя_ГосУслуг"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_БА" processType="layerRef" destinationObjectSynonym="BA" destinationAttribute="Code" refLayerSynonym="d" destinationAttributeUseInSearch="true" refLayerFieldName="Код_БА"/>
+				<layerField name="Код_БА" processType="layerRef" destinationObjectSynonym="BA" destinationAttribute="Name" refLayerSynonym="d" refLayerFieldName="Имя_БА"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_РО" processType="layerRef" destinationObjectSynonym="RRO" destinationAttribute="Code" refLayerSynonym="e" destinationAttributeUseInSearch="true" refLayerFieldName="КодОбязательства"/>
+				<layerField name="Код_РО" processType="layerRef" destinationObjectSynonym="RRO" destinationAttribute="Name" refLayerSynonym="e" refLayerFieldName="НаименованиеОбязательства"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КФСР" processType="layerRef" destinationObjectSynonym="RZPR" destinationAttribute="Code" refLayerSynonym="g" destinationAttributeUseInSearch="true" refLayerFieldName="Код"/>
+				<layerField name="КФСР" processType="layerRef" destinationObjectSynonym="RZPR" destinationAttribute="Name" refLayerSynonym="g" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КВР" processType="layerRef" destinationObjectSynonym="KVR" destinationAttribute="Code" refLayerSynonym="f" destinationAttributeUseInSearch="true" refLayerFieldName="Код"/>
+				<layerField name="КВР" processType="layerRef" destinationObjectSynonym="KVR" destinationAttribute="Name" refLayerSynonym="f" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КЭСР" processType="layerRef" destinationObjectSynonym="KOSGU" destinationAttribute="Code" refLayerSynonym="h" destinationAttributeUseInSearch="true" refLayerFieldName="Код"/>
+				<layerField name="КЭСР" processType="layerRef" destinationObjectSynonym="KOSGU" destinationAttribute="Name" refLayerSynonym="h" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="КЦСР" processType="layerRef" destinationObjectSynonym="KCSR" destinationAttribute="Code" refLayerSynonym="i" destinationAttributeUseInSearch="true" refLayerFieldName="Код"/>
+				<layerField name="КЦСР" processType="layerRef" destinationObjectSynonym="KCSR" destinationAttribute="Name" refLayerSynonym="i" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ТипСредств" processType="layerRef" destinationObjectSynonym="MeansType" destinationAttribute="Code" refLayerSynonym="j" destinationAttributeUseInSearch="true" refLayerFieldName="Код"/>
+				<layerField name="Код_ТипСредств" processType="layerRef" destinationObjectSynonym="MeansType" destinationAttribute="Name" refLayerSynonym="j" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="clsRow">
+				<layerField name="Код_ГРБС" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Code" refLayerSynonym="l" destinationAttributeUseInSearch="true" refLayerFieldName="Код"/>
+				<layerField name="Код_ГРБС" processType="layerRef" destinationObjectSynonym="KVSR" destinationAttribute="Name" refLayerSynonym="l" refLayerFieldName="Имя"/>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ОтчетныйПериод" processType="directPump" destinationObjectSynonym="FinancingPassportBI" destinationAttribute="Fact">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20090001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ТекущийПериод" processType="directPump" destinationObjectSynonym="FinancingPassportBI" destinationAttribute="Estimate">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20100001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ОчередФинГод_план" processType="directPump" destinationObjectSynonym="FinancingPassportBI" destinationAttribute="Planing">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20110001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+			<fieldsGroup fieldsGroupType="factTableRow">
+				<layerField name="ПланПер_1год" processType="directPump" destinationObjectSynonym="FinancingPassportBI" destinationAttribute="Prognosis">
+					<processRules>
+						<processRule attributeName="RefPeriod" attributeProcessRule="constant" dataValue="20120001"/>
+					</processRules>
+				</layerField>
+			</fieldsGroup>
+		</step>
+	</steps>
+</layerDataPump>

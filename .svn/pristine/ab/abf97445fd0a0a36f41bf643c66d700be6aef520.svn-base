@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="UserRoleAIP" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.EO15ExcCostsAIP.ExcCostsAIPRolesProvider, Krista.FM.RIA.Extensions.EO15ExcCostsAIP"></ValueProvider>
+    </Param>
+  </Params>
+
+  <!-- Область навигации -->
+  <Navigation type="list" ID="acEO15ExcCostsAIP" icon="Vector" title="Сбор данных Строительство" order="200" group="Сбор данных" 
+              dashboardIcon="/Krista.FM.RIA.Extensions.Tasks/Presentation/Content/images/task-72.png/extention.axd" defaultItemId="nidbeEO15AIPMeausures">
+    <Items>
+      <Item ID="nidbeEO15AIPMeausures" title="Реестр объектов строительства" icon="ApplicationViewList">
+        <Params>
+          <Param name="url">'/View/EO15ExcCostsAIPRegister'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeEO15AIP" title="Объекты АИП" icon="ApplicationViewList" condition="($(UserRoleAIP) == 'ЭО15_Строительство Координаторы')">
+        <Params>
+          <Param name="url">'/View/EO15ExcCostsAIP'</Param>
+        </Params>
+      </Item>
+    </Items>
+    <Action>MdiTab.addTab({ title: menuItem.text, url: menuItem.url, icon: menuItem.iconCls, passParentSize: menuItem.passParentSize});</Action>
+    <ButtomBar></ButtomBar>
+  </Navigation>
+
+  <Views>
+    <View id="EO15ExcCostsAIPRegister" title="Реестр объектов строительства"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.EO15ExcCostsAIP.Presentation.Views.RegisterView, Krista.FM.RIA.Extensions.EO15ExcCostsAIP">
+    </View>
+    <View id="EO15ExcCostsAIP" title="Объекты АИП"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.EO15ExcCostsAIP.Presentation.Views.AIPView, Krista.FM.RIA.Extensions.EO15ExcCostsAIP">
+    </View>
+  </Views>
+</Extension>

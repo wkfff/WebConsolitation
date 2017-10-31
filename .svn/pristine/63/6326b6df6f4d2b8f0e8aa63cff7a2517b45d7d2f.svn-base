@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{80DC5B71-3F0E-4216-ADE0-4420F5DF8DCF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Krista.FM.Utils.DTSGenerator</RootNamespace>
+    <AssemblyName>Krista.FM.Utils.DTSGenerator</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Infragistics2.Shared.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.AppStylistSupport.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.Misc.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinGrid.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinTabControl.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinToolbars.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinTree.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.v10.3, Version=10.3.20103.1000, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.SQLServer.DTSRuntimeWrap, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.SQLServer.ManagedDTS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.SQLTask, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=x86" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Config\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="BatWriter.cs" />
+    <Compile Include="CreateDTSXPForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateDTSXPForm.Designer.cs">
+      <DependentUpon>CreateDTSXPForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DtsxPackage.cs" />
+    <Compile Include="enum.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="SSISGenerator.cs" />
+    <Compile Include="ModuleSuppressions.cs" />
+    <Compile Include="ObjectModel.cs" />
+    <Compile Include="SMOObjects\SSISSMO.cs" />
+    <Compile Include="SSISMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SSISMainForm.Designer.cs">
+      <DependentUpon>SSISMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CreateDTSXPForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CreateDTSXPForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SSISMainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SSISMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizards\PartialWizardForm.resx">
+      <DependentUpon>PartialWizardForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SSISStatusBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SSISStatusBar.Designer.cs">
+      <DependentUpon>SSISStatusBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TreeObjects\SSISAttributeNode.cs" />
+    <Compile Include="TreeObjects\SSISBaseTreeNode.cs" />
+    <Compile Include="TreeObjects\SSISEntitiesNode.cs" />
+    <Compile Include="TreeObjects\SSISMajorTreeBase.cs" />
+    <Compile Include="TreeObjects\SSISPackageNode.cs" />
+    <Compile Include="Wizards\PartialWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizards\PartialWizardForm.Designer.cs">
+      <DependentUpon>PartialWizardForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Class.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ClassBlue.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ClassGreen.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ClassViolet.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ClassYellow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Attribute.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Применить изменения_16х16_Вариант4.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Отменить изменения_16х16_Вариант4.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\disconnect.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Connect.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ErrorReport.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExportExcel1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Применить изменения_16х16_Вариант1.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RedPlanet.isl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Refresh.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dtsxpackage.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\createDTSX.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Сохранить_16х16_Вариант1.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\validationFailure.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\validationSucess.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dataflowtask.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\executepackagetask.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\executesqltask.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\finish.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sequensecontainer.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start.bmp" />
+    <None Include="SystemTables.dtsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common.Client\Krista.FM.Client.Common\Krista.FM.Client.Common.csproj">
+      <Project>{370EA6ED-17DB-49C0-83ED-C9150E3F239A}</Project>
+      <Name>Krista.FM.Client.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common.Client\Krista.FM.Client.Components\Krista.FM.Client.Components.csproj">
+      <Project>{D861333B-6305-4ACF-8CF8-6678200EC593}</Project>
+      <Name>Krista.FM.Client.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Krista.FM.Common\Krista.FM.Common.csproj">
+      <Project>{4FF19E83-61D5-4AF5-AAF7-737623059773}</Project>
+      <Name>Krista.FM.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Krista.FM.ServerLibrary\Krista.FM.ServerLibrary.csproj">
+      <Project>{24C607A3-2BA3-4D29-A6DB-F7F866302E76}</Project>
+      <Name>Krista.FM.ServerLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="4НМ и 5НДПИ\Script\Replace.sql" />
+    <None Include="DataSource.dtsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Удалить_16х16_Вариант3.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ExecutePackageTaskLib">
+      <Guid>{1126AB27-4B43-4273-92E4-4ADFBA1F9E9B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\ProjectOptions.xml" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\ProjectTargets.xml" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

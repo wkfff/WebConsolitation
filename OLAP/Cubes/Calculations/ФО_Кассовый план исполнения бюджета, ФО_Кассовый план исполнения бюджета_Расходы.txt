@@ -1,0 +1,64 @@
+CALCULATE;
+
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+   this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0);
+END SCOPE;
+
+/*
+CREATE CELL CALCULATION CURRENTCUBE.[Нараст итог] FOR 
+'(DESCENDANTS([Период__Период].[Период__Период].[Данные всех периодов]))' 
+AS IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов],
+ Sum([Период__Период].[Период__Период].[Данные всех периодов].Children), 
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, 
+not (IsEmpty(Measures.CurrentMember))), 1).Item(0)), 
+CONDITION = 'not isLeaf([Период__Период].[Период__Период].CurrentMember) and 
+([Measures].CurrentMEmber is [Measures].[Сводная бюждетная роспись] or 
+[Measures].CurrentMEmber is [Measures].[Исполнено с начала года] or 
+[Measures].CurrentMEmber is [Measures].[Годовой кассовый план])';
+
+SCOPE(DESCENDANTS([Период__Период].[Период__Период].[Данные всех периодов]));
+    this = IIF(not isLeaf([Период__Период].[Период__Период].CurrentMember) and 
+([Measures].CurrentMEmber is [Measures].[Сводная бюждетная роспись] or 
+[Measures].CurrentMEmber is [Measures].[Исполнено с начала года] or 
+[Measures].CurrentMEmber is [Measures].[Годовой кассовый план]),
+IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов],
+ Sum([Период__Период].[Период__Период].[Данные всех периодов].Children), 
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, 
+not (IsEmpty(Measures.CurrentMember))), 1).Item(0)),
+[Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+CREATE CELL CALCULATION CURRENTCUBE.[нараст итог_квартал] FOR 
+'(DESCENDANTS([Период__Период].[Период__Период].[Данные всех периодов]))' 
+AS IIF([Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Квартал],
+ Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, 
+not (IsEmpty(Measures.CurrentMember))), 1).Item(0),
+Sum([Период__Период].[Период__Период].CurrentMember.Children)), 
+CONDITION = 'not IsLeaf([Период__Период].[Период__Период].CurrentMember) and 
+([Measures].CurrentMEmber is [Measures].[Квартал 1] or 
+[Measures].CurrentMEmber is [Measures].[Квартал 2]or 
+[Measures].CurrentMEmber is [Measures].[Квартал 3] or 
+[Measures].CurrentMEmber is [Measures].[Квартал 4])';
+
+SCOPE(DESCENDANTS([Период__Период].[Период__Период].[Данные всех периодов]));
+    this = IIF(not IsLeaf([Период__Период].[Период__Период].CurrentMember) and 
+([Measures].CurrentMEmber is [Measures].[Квартал 1] or 
+[Measures].CurrentMEmber is [Measures].[Квартал 2]or 
+[Measures].CurrentMEmber is [Measures].[Квартал 3] or 
+[Measures].CurrentMEmber is [Measures].[Квартал 4]),
+IIF([Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Квартал],
+ Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, 
+not (IsEmpty(Measures.CurrentMember))), 1).Item(0),
+Sum([Период__Период].[Период__Период].CurrentMember.Children)),
+[Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+*/

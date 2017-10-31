@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="UserName" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.MarksOMSU.Params.UserNameValueProvider, Krista.FM.RIA.Extensions.MarksOMSU"></ValueProvider>
+    </Param>
+    <Param name="UserCanSeeIneffExpenses" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.MarksOMSU.Params.UserCanSeeIneffExpenses, Krista.FM.RIA.Extensions.MarksOMSU"></ValueProvider>
+    </Param>
+  </Params>
+
+  <!-- Register types -->
+  <Types>
+  </Types>
+
+  <!-- Область навигации -->
+  <Navigation type="tree" ID="acMarksOMSUExtension" icon="Vector" title="Оценка ОМСУ" order="200" group="Сбор данных" dashboardIcon="/Krista.FM.RIA.Extensions.Tasks/Presentation/Content/images/task-72.png/extention.axd" defaultItemId="">
+    <Items>
+      <Item ID="niomsuMarksOIV" title="Ввод данных ОМСУ" icon="Book" condition="$(UserName) != 'econom1'">
+        <Params>
+          <Param name="url">'/View/MarksOMSU'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuCapital" title="Ввод данных ОИВ" icon="Book" >
+        <Params>
+          <Param name="url">'/View/MarksOIV'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuMarksCompare" title="Сравнение показателей МО" icon="Book" condition="$(UserName) == 'econom1'">
+        <Params>
+          <Param name="url">'/View/MarksCompare'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuMarksOMSUReport" title="Утверждение доклада ОМСУ" icon="Book" condition="$(UserName) == 'econom1'">
+        <Params>
+          <Param name="url">'/View/MarksOMSUReport'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuOivUsers" title="Соответствие пользователей ОИВ" icon="Book" condition="$(UserName) == 'econom1'">
+        <Params>
+          <Param name="url">'/View/OivUsers'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuIneffExpensesGkh" title="Неэффективные расходы ЖКХ" icon="Book" condition="$(UserCanSeeIneffExpenses) == '1'">
+        <Params>
+          <Param name="url">'/View/MarksIneffExpencesGkhView'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuIneffExpensesOmu" title="Неэффективные расходы ОМУ" icon="Book" condition="$(UserCanSeeIneffExpenses) == '1'">
+        <Params>
+           <Param name="url">'/View/MarksIneffExpencesOmuView'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuIneffExpensesEducation" title="Неэффективные расходы Образование" icon="Book" condition="$(UserCanSeeIneffExpenses) == '1'">
+        <Params>
+          <Param name="url">'/View/MarksIneffExpencesEducationView'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuIneffExpensesMedicine" title="Неэффективные расходы Здравоохранение" icon="Book" condition="$(UserCanSeeIneffExpenses) == '1'">
+        <Params>
+          <Param name="url">'/View/MarksIneffExpencesMedicineView'</Param>
+        </Params>
+      </Item>
+      <Item ID="niomsuMarksOmsuEstimate" title="Расчет оценки ОМСУ" icon="Book" condition="$(UserCanSeeIneffExpenses) == '1'">
+        <Params>
+          <Param name="url">'/View/MarksOmsuEstimateView'</Param>
+        </Params>
+      </Item>
+    </Items>
+    <Action>MdiTab.addTab({ title: menuItem.text, url: menuItem.url, icon: menuItem.iconCls, passParentSize: menuItem.passParentSize});</Action>
+    <ButtomBar></ButtomBar>
+  </Navigation>
+
+  <Views>
+
+    <!-- Навигационные представления -->
+
+    <View id="MarksOMSU" title="Ввод данных ОМСУ"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksOmsuView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="MarksOIV" title="Ввод данных ОИВ"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksOivView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="MarksCompare" title="Сравнение показателей МО"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksCompareView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="MarksOMSUReport" title="Утверждение доклада ОМСУ"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksOmsuReportView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="OivUsers" title="Соответствие пользователей ОИВ"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.OivUsersView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="MarksIneffExpencesGkhView" title="Неэффективные расходы ЖКХ"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksIneffExpencesGkhView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="MarksIneffExpencesOmuView" title="Неэффективные расходы ОМУ"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksIneffExpencesOmuView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="MarksIneffExpencesEducationView" title="Неэффективные расходы образования"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksIneffExpencesEducationView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="MarksIneffExpencesMedicineView" title="Неэффективные расходы здравоохранения"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksIneffExpencesMedicineView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+
+    <View id="MarksOmsuEstimateView" title="Расчет оценки ОМСУ"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.MarksOMSU.Presentation.Views.MarksOmsuEstimateView, Krista.FM.RIA.Extensions.MarksOMSU">
+    </View>
+  </Views>
+</Extension>

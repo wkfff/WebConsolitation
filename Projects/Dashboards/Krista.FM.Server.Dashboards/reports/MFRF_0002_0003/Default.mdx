@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>  
+  <query id="MFRF_0002_0003_compare_Grid">
+    <![CDATA[
+-- MFRF_0002_0003_compare_Grid - Таблица 
+with           
+    member Measures.[ShortName]           
+    as '[Территории].[Сопоставимый].CurrentMember.Properties("Сокращенное наименование")'           
+    member Measures.[ParentShortName]           
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Properties("Сокращенное наименование")'           
+    member [МФ РФ].[Сопоставимый индикаторы БККУ].[ФО]       
+    as 'Measures.[ParentShortName]' 
+SELECT
+Filter 
+    (
+        [Территории].[Сопоставимый].[Субъект РФ].AllMembers,
+        (
+            not 
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and
+            (
+               not IsEmpty ([Measures].[Значение Факт])
+            )<%filter%>
+        ) 
+    ) on rows,
+    {
+        {
+            {
+               <%selected_indicator%>    
+            }  
+            *  
+            {
+                [Measures].[Значение Факт],
+                [Measures].[Нормативное значение],
+                [Measures].[Наличие нарушения Факт]  
+            }  
+        }  
+    }on columns           
+FROM [МФ РФ_Индикаторы БК и КУ]    
+WHERE   
+    (
+        [Вариант].[БККУ].[Все].[<%bkku_Variant%>],
+        <%selected_period%>
+    )   ]]>
+      </query>
+
+  <query id="MFRF_0002_0003_compare_comment">
+        <![CDATA[
+-- MFRF_0002_0003_compare_Grid  - комментарий к индикаторам
+with       
+    member Measures.[Код]       
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Код")'       
+    member Measures.[Единицы измерения]       
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Единицы измерения")'       
+    member Measures.[Условие]       
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Условие")'       
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[Условие],
+        [Measures].[Единицы измерения] 
+    } on rows,
+    {
+        <%selected_indicator%> 
+    }on columns       
+FROM [МФ РФ_Индикаторы БК и КУ]       
+WHERE       
+    (
+        [Вариант].[БККУ].[Все].[<%bkku_Variant%>],
+        <%selected_period%>
+    )    ]]>
+</query>
+
+  <query id="MFRF_0002_0003_map">
+    <![CDATA[   
+    --MFRF_0002_0003_map - карта
+SELECT
+     Filter  
+    (
+        Descendants  
+        (
+            [Территории].[Сопоставимый].CurrentMember,
+            [Территории].[Сопоставимый].[<%selectedItem%>],
+            SELF  
+        ),
+        (
+            not  
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember  
+            ) <%filter%> 
+        )  
+    ) on rows,
+    {
+        <%selected_indicator%>
+    }      on columns  
+FROM [МФ РФ_Индикаторы БК и КУ]   
+WHERE    
+    (
+        [Вариант].[БККУ].[Все].[<%bkku_Variant%>],
+        <%selected_period%>,
+        [Measures].[Наличие нарушения Факт]
+    ) 
+     ]]>
+  </query>
+
+  <query id="MFRF_0002_0003_map_hint">
+    <![CDATA[   
+    --MFRF_0002_0003_map_hint - хинты к карте
+with   
+    member Measures.[Код]   
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Name'   
+    member [Measures].[Супер список нарушений]  
+    as 'IIF  
+        (
+            [Территории].[Сопоставимый].CurrentMember.Parent is [Территории].[Сопоставимый].[Все территории].[Российская  Федерация],
+            [Measures].[Список субъектов],
+            [Measures].[Список нарушений]  
+        )' 
+    member [Measures].[Список субъектов]
+    as 'Generate 
+        (
+            Filter 
+            (
+                Descendants   
+                (
+                    [Территории].[Сопоставимый].CurrentMember,
+                    [Территории].[Сопоставимый].[Субъект РФ],
+                    SELF   
+                ),
+                (
+                    not   
+                    (
+                        [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember   
+                    ) and not 
+                    (
+                        [Measures].[Наличие нарушения Факт] = 0
+                    ) 
+                )   
+            ),
+            [Территории].[Сопоставимый].CurrentMember.Properties("Сокращенное наименование"),
+            ", " 
+        ) ' 
+    member [Measures].[Список нарушений]   
+    as 'Generate   
+        (
+            except   
+            (
+                Filter   
+                (
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикатор БК и КУ].members,
+                    not IsEmpty([Measures].[Значение Факт]) and
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") <> "КУ11_1(Ч1П5_1)" and
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") <> "КУ11_2(Ч1П5_2)" and
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") <> "КУ11_3(Ч1П5_3)" and
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") <> "КУ11_4(Ч1П5_4)" and
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") <> "КУ17_1(КУ11_4)" and
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") <> "КУ17_2(КУ11_2)" and
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") <> "КУ17_3(КУ11_1)" and
+                    [Measures].[Наличие нарушения Факт] = 1   
+                ),
+                {
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Несопоставленные данные],
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Количество нарушений требований БК РФ],
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Количество нарушений условий качества управления бюджетами],
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Группа, присвоенная субъекту РФ по доле МБТ]   
+                }   
+            ),
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код"),
+            ", "   
+        )'   
+SELECT
+non empty Filter  
+    (
+        Descendants  
+        (
+            [Территории].[Сопоставимый].CurrentMember,
+            [Территории].[Сопоставимый].[<%selectedItem%>],
+            SELF  
+        ),
+        (
+            not  
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember  
+            ) <%filter%> 
+        )  
+    ) 
+    on rows,
+    {
+        {
+            {
+                <%selected_indicator%> 
+            } 
+            * 
+            {
+                [Measures].[Значение Факт]
+          
+            } 
+        } 
+    }on columns 
+FROM [МФ РФ_Индикаторы БК и КУ]  
+WHERE  
+    (
+        [Вариант].[БККУ].[Все].[<%bkku_Variant%>],
+        <%selected_period%>
+    )  
+     ]]>
+      </query>
+
+  <query id="Chart_query">
+    <![CDATA[
+    -- MFRF_0002_0003 - диаграмма
+with 
+    member Measures.[ShortName] 
+    as '[Территории].[Сопоставимый].CurrentMember.Properties("Сокращенное наименование")' 
+    member Measures.[ParentShortName] 
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Properties("Сокращенное наименование")' 
+    member [МФ РФ].[Сопоставимый индикаторы БККУ].[ФО] 
+    as 'Measures.[ParentShortName]' 
+    member [Measures].[Без нарушения] 
+    as 'IIF 
+        (
+            [Measures].[Наличие нарушения Факт] = 0,
+            [Measures].[Значение Факт],
+            null
+        )' 
+    member [Measures].[С нарушением]
+    as 'IIF
+        (
+            [Measures].[Наличие нарушения Факт] = 1,
+            [Measures].[Значение Факт],
+            null
+        )'
+    
+SELECT
+    {
+    Filter 
+    (
+        [Территории].[Сопоставимый].[Субъект РФ].AllMembers,
+        (
+            not 
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                not IsEmpty ([Measures].[Значение Факт]) 
+            ) <%filter%> 
+        ) 
+    )
+    } on columns ,
+    {
+        {
+        [Measures].[Нормативное значение],
+            [Measures].[Без нарушения],
+            [Measures].[С нарушением]
+            
+           -- [Measures].[Наличие нарушения Факт] 
+        } 
+    }on  rows
+FROM [МФ РФ_Индикаторы БК и КУ] 
+WHERE 
+
+    (
+        [Вариант].[БККУ].[Все].[<%bkku_Variant%>],
+        <%selected_period%>,
+        <%selected_indicator%>    
+    )
+  
+  ]]>
+  </query>
+
+  <query id="MFRF_0002_0003_periodDigest">
+    <![CDATA[
+-- MFRF_0002_0003_periodDigest
+with  
+    set [Периоды]    
+    as 'Filter    
+        (
+            Generate    
+            (
+                [Период].[Период].[Год].AllMembers,
+                {
+                    [Период].[Период].CurrentMember   
+                } +  Descendants    
+                (
+                    [Период].[Период].CurrentMember,
+                    [Период].[Период].[Квартал],
+                    SELF    
+                )    
+            ),
+            not IsEmpty    
+            (
+                (
+                    [Measures].[Значение Факт],
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы]  
+                )    
+            ) and not   
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].CurrentMember.Parent.DataMember  
+            ) and StrToValue 
+            (
+                [Период].[Период].CurrentMember.Properties("PKID") 
+            ) > 0  
+        )   '    
+    member [Measures].[Имя]    
+    as 'IIF    
+        (
+            [Период].[Период].CurrentMember.Level is [Период].[Период].[Год],
+            [Период].[Период].CurrentMember.Name + " год",
+            Mid
+            (
+                [Период].[Период].CurrentMember.Name,
+                Len
+                (
+                    [Период].[Период].CurrentMember.Name
+                ) - 1,
+                Len
+                (
+                    [Период].[Период].CurrentMember.Name
+                )
+            ) + " квартал " + [Период].[Период].CurrentMember.Parent.Parent.Name + " года" 
+        )    ' 
+    member [Measures].[Уникальное имя]    
+    as '[Период].[Период].CurrentMember.UniqueName'   
+    member [Measures].[Уровень]    
+    as 'IIF    
+        (
+            [Период].[Период].CurrentMember.Level is [Период].[Период].[Год] or IsEmpty 
+            (
+                (
+                    [Measures].[Значение Факт],
+                    [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы],
+                    [Период].[Период].CurrentMember.Parent.Parent
+                ) 
+            ) ,
+            0,
+            1    
+        )'     
+    member [Вариант].[БККУ].[Фильтр по варианту]  
+    as 'IIF  
+        (
+            [Период].[Период].CurrentMember.Level is [Период].[Период].[Год],
+            [Вариант].[БККУ].[Все].[По данным годовой отчетности],
+            [Вариант].[БККУ].[Все].[По данным месячной отчетности]  
+        )'  
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень]    
+    } on columns,
+    { [Периоды]} on rows    
+from [МФ РФ_Индикаторы БК и КУ]    
+where  
+    (
+        [Вариант].[БККУ].[Фильтр по варианту] 
+    )  
+  ]]>
+  </query>
+  
+</root>
+

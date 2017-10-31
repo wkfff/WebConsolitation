@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+SELECT
+    { [Measures].[Значение]  } on columns,
+    {
+        Tail
+        (
+            Filter
+            (
+                [Период].[Год Квартал Месяц].[Год].Members,
+                [Measures].[Значение] > 0
+            )
+        ).Item(0)
+    } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>,
+        [Источники данных].[Все источники данных],
+        [Показатели].[ВедСтат_Свод].[Все показатели].[ПРОИЗВОДСТВЕННАЯ ДЕЯТЕЛЬНОСТЬ И СОЦИАЛЬНАЯ ИНФРАСТРУКТУРА]
+    )
+	  ]]>
+  </query>
+  <query id="grid">
+    <![CDATA[ -- name: grid
+
+select
+    {
+        <%gridMarks%>
+    } DIMENSION PROPERTIES [Показатели].[ВедСтат_Свод].[Единица измерения] on rows,
+    non empty 
+    {
+        <%last_year%>:<%last_year%>.Lag(9)  
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        <%baseRegion%>,
+        [Measures].[Значение] 
+    ) 
+    ]]>
+  </query>
+
+  <query id="grid1">
+    <![CDATA[ -- name: grid1
+select
+    non empty     
+    {
+        <%grid1Marks%>.children 
+    } on rows,
+    non empty  { [Measures].[Значение] } on columns  
+FROM [ВЕДСТАТ_Свод]  
+where  
+    (
+        <%baseRegion%>,
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>]
+    )  
+    ]]>
+  </query>
+
+  <query id="grid2">
+    <![CDATA[ -- name: grid2
+select
+    non empty     
+    {
+        <%grid2Marks%>.children 
+    } on rows,
+    non empty  { [Measures].[Значение] } on columns  
+FROM [ВЕДСТАТ_Свод]  
+where  
+    (
+        <%baseRegion%>,
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>]
+    )       
+  ]]>
+  </query>
+
+  <query id="grid3">
+    <![CDATA[ -- name: grid3
+select
+    non empty     
+    {
+        <%grid3Marks%>.children 
+    } on rows,
+    non empty  { [Measures].[Значение] } on columns  
+FROM [ВЕДСТАТ_Свод]  
+where  
+    (
+        <%baseRegion%>,
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>]
+    )       
+  ]]>
+  </query>
+
+  <query id="grid4">
+    <![CDATA[ -- name: grid4
+select
+    non empty     
+    {
+        <%grid4Marks%>.children 
+    } on rows,
+    non empty  { [Measures].[Значение] } on columns  
+FROM [ВЕДСТАТ_Свод]  
+where  
+    (
+       <%baseRegion%>,
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>]
+    )       
+  ]]>
+  </query>
+
+  <query id="grid5">
+  <![CDATA[ -- name: grid5
+select
+    non empty     
+    {
+        <%grid5Marks%>.children 
+    } on rows,
+    non empty  { [Measures].[Значение] } on columns  
+FROM [ВЕДСТАТ_Свод]  
+where  
+    (
+        <%baseRegion%>,
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>]
+    )       
+  ]]>
+</query>
+  <query id="GridSvod">
+    <![CDATA[ -- name: GridSvod
+with 
+    MEMBER [Период].[Год Квартал Месяц].[ЕдИзм] 
+    AS  '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")' 
+select
+    {
+        [Показатели].[ВедСтат_Свод].[Все показатели].[ПРОИЗВОДСТВЕННАЯ ДЕЯТЕЛЬНОСТЬ И СОЦИАЛЬНАЯ ИНФРАСТРУКТУРА].children  
+    } on rows,
+    non empty union 
+    (
+
+            {
+                [Период].[Год Квартал Месяц].[ЕдИзм] 
+            },
+            {
+                 <%last_year%>:<%last_year%>.Lag(9)
+            } 
+
+    ) on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+         <%baseRegion%>,
+        [Measures].[Значение] ,
+        [Источники данных].[Все источники данных].[ВЕДСТАТ МО - Муниципальная статистика]
+    )     
+  ]]>
+  </query>
+
+</root>

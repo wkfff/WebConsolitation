@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id = "G">
+    <![CDATA[with
+    member [Measures].[за перила]
+    as '
+        (
+            [Measures].[За период],
+<%LD%>
+        )'
+    member [Measures].[АППГ]
+    as '
+        (
+            [Measures].[За период],
+<%LD%>
+        )-
+        (
+            [Measures].[За период],
+ <%LD_L%>
+        )'
+    member [Measures].[АППГ_2]
+    as ' iif
+        (
+            (
+                [Measures].[За период],
+<%LD_L%>
+            )<>0,
+            100
+            *
+            (
+                [Measures].[За период],
+<%LD%>
+            )/
+            (
+                [Measures].[За период],
+<%LD_L%>
+            ),
+            null
+        )'
+    member [Measures].[pri]
+    as '[Территории].[СЭП].CurrentMember.Properties("Принадлежность")'
+    member [Measures].[pri2]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    member [Measures].[pri3]
+    as ' [Measures].[pri]'/**/
+    member [Measures].[pri6]
+    as '[Территории].[СЭП].CurrentMember.Properties("Краткое наименование")'
+        member [Measures].[pri7]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Единица измерения")'
+select
+    {
+
+   
+    filter(<%SEP%>, not IsEmpty( [Measures].[за перила]))
+
+    }on rows ,
+--    non empty
+    {
+                crossjoin
+        (
+            {
+                [Территории].[СЭП].[Территория].[<%REGION%>].datamember,                
+                [Территории].[СЭП].[Территория].[<%REGIONFO%>].datamember,
+                [Территории].[СЭП].[Территория].[Российская Федерация].datamember
+                
+            } ,
+            {
+
+
+                [Measures].[за перила],
+                [Measures].[АППГ],
+                [Measures].[АППГ_2],[Measures].[pri2],[Measures].[pri7]/**/
+            }
+        )--,        [Measures].[pri2]
+    }  on columns
+FROM  [СТАТ_СЭП_Годовой сборник]
+]]>
+  </query>
+  
+    <query id = "G_R1">
+    <![CDATA[with
+    member [Measures].[за перила]
+    as '
+        (
+            [Measures].[За период],
+[Период].[Год Квартал Месяц].[Данные всех периодов].[2010].[Полугодие 2].[Квартал 4].[Октябрь]
+        )'    
+    member [Measures].[pri]
+    as '[Территории].[СЭП].CurrentMember.Properties("Принадлежность")'
+    member [Measures].[pri2]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    member [Measures].[pri3]
+    as ' [Measures].[pri]'/**/
+    member [Measures].[pri6]
+    as '[Территории].[СЭП].CurrentMember.Properties("Краткое наименование")'
+    member [Measures].[pri7]
+    as 'null'
+select
+ non empty  {
+    
+
+                filter
+        (
+            [Территории].[СЭП].[Территория].members,
+
+            (
+                --[Территории].[СЭП].CurrentMember.Properties("Принадлежность") = "Центральный федеральный округ"
+                ([Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "РФ")
+                and
+                (([Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> ""))
+            )
+        )
+    }on rows ,
+    --non empty
+    {
+
+                crossjoin
+        (
+            {
+                /*[Территории].[СЭП].[Территория].[Российская Федерация].datamember,
+                [Территории].[СЭП].[Территория].[Центральный федеральный округ].datamember,
+                [Территории].[СЭП].[Территория].[Белгородская область].datamember*/
+                filter(<%SEP%>, not IsEmpty( [Measures].[за перила]))
+
+            } ,
+            {
+
+
+                [Measures].[за перила],[Measures].[pri7]
+            }
+        )
+    }  on columns
+FROM  [СТАТ_СЭП_Годовой сборник]]]>
+  </query>
+   <query id = "G_R2">
+    <![CDATA[with
+    member [Measures].[за перила]
+    as '
+        (
+            [Measures].[За период],
+[Период].[Год Квартал Месяц].[Данные всех периодов].[2010].[Полугодие 2].[Квартал 4].[Октябрь]
+        )'
+    member [Measures].[pri7]
+    as 'null'
+select
+ non empty  {
+                    filter
+        (
+            [Территории].[СЭП].[Территория].members,
+
+            (
+                --[Территории].[СЭП].CurrentMember.Properties("Принадлежность") = "Центральный федеральный округ"
+                [Территории].[СЭП].CurrentMember.Properties("Принадлежность") = "<%REGIONFO%>"
+                
+            )
+        ) 
+
+    }on rows ,
+    {
+
+                crossjoin 
+        (
+            {
+        filter(<%SEP%>, not IsEmpty( [Measures].[за перила]))
+            } ,
+            {
+
+
+                [Measures].[за перила],[Measures].[pri7]
+            }
+        )
+    }  on columns
+FROM  [СТАТ_СЭП_Годовой сборник]]]>
+  </query>
+   <query id = "C_">
+    <![CDATA[
+select
+    {
+
+                [Территории].[СЭП].[Территория].[<%REGION%>].datamember,                
+                [Территории].[СЭП].[Территория].[<%REGIONFO%>].datamember,
+                [Территории].[СЭП].[Территория].[Российская Федерация].datamember
+
+--    filter([СЭП].[Годовой сборник].[Уровень 1].members, not IsEmpty( [Measures].[за перила]))
+
+    } on columns,
+    non empty
+    {
+
+
+--[Период].[Год Квартал Месяц].[Год].[2010].Children
+--,[Период].[Год Квартал Месяц].[Год].[2010].[Полугодие 1].[Квартал 1].[Январь]:[Период].[Год Квартал Месяц].[Год].[2010].[Полугодие 1].[Квартал 1].[Январь].lag(300)
+<%LD%>
+ 
+ 
+    }  on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+where
+([СЭП].[Годовой сборник].[Уровень 1].[<%SEP_C%>]
+,
+                [Measures].[За период]
+)
+]]>
+  </query>
+   <query id = "LD">
+    <![CDATA[
+select
+    {
+                [Measures].[За период]
+
+--    filter([СЭП].[Годовой сборник].[Уровень 1].members, not IsEmpty( [Measures].[за перила]))
+
+    } on columns,
+    non empty
+    {
+
+[Период].[Год Квартал Месяц].[Месяц].members
+ 
+ 
+    }  on rows
+FROM  [СТАТ_СЭП_Годовой сборник]
+
+]]>
+  </query>
+  
+     <query id = "REGIONS">
+    <![CDATA[with
+
+    member [Measures].[pri]
+    as '[Территории].[СЭП].CurrentMember.Properties("Принадлежность")'
+    member [Measures].[pri2]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Обратный показатель")'
+    member [Measures].[pri3]
+    as ' [Measures].[pri]'/**/
+    member [Measures].[pri6]
+    as '[Территории].[СЭП].CurrentMember.Properties("Краткое наименование")'
+        member [Measures].[pri7]
+    as '[СЭП].[Годовой сборник].CurrentMember.Properties("Единица измерения")'
+select
+    {
+    filter(
+            [Территории].[СЭП].[Территория].members,
+
+            (   
+                ([Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> "РФ")
+                and
+                (([Территории].[СЭП].CurrentMember.Properties("Принадлежность") <> ""))
+            ))
+
+    }on rows ,
+    non empty
+    {
+        [Measures].[pri]
+    }  on columns
+FROM  [СТАТ_СЭП_Годовой сборник]
+]]>
+  </query>
+     <query id = "SEP">
+    <![CDATA[select
+    {
+
+
+    filter([СЭП].[Годовой сборник].[Раздел].members, not IsEmpty( [Measures].[За период]))
+
+    }on rows ,
+    non empty
+    {
+    [Measures].[За период]
+    }  on columns
+FROM  [СТАТ_СЭП_Годовой сборник]
+]]>
+  </query>
+</root>

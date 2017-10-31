@@ -1,0 +1,159 @@
+﻿//------------------------------------------------------------------------------
+// <автоматически создаваемое>
+//     Этот код создан программой.
+//
+//     Изменения в этом файле могут привести к неправильной работе и будут потеряны в случае
+//     повторной генерации кода. 
+// </автоматически создаваемое>
+//------------------------------------------------------------------------------
+
+namespace Krista.FM.Server.Dashboards.reports.ORG_0003_0018 {
+    
+    
+    public partial class Default {
+        
+        /// <summary>
+        /// PopupInformer1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Krista.FM.Server.Dashboards.Components.PopupInformer PopupInformer1;
+        
+        /// <summary>
+        /// PageTitle элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label PageTitle;
+        
+        /// <summary>
+        /// PageSubTitle элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label PageSubTitle;
+        
+        /// <summary>
+        /// ReportExcelExporter1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Krista.FM.Server.Dashboards.Components.ReportExcelExporter ReportExcelExporter1;
+        
+        /// <summary>
+        /// ReportPDFExporter1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Krista.FM.Server.Dashboards.Components.ReportPDFExporter ReportPDFExporter1;
+        
+        /// <summary>
+        /// ComboFood элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Krista.FM.Server.Dashboards.Components.CustomMultiCombo ComboFood;
+        
+        /// <summary>
+        /// ComboDate элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Krista.FM.Server.Dashboards.Components.CustomMultiCombo ComboDate;
+        
+        /// <summary>
+        /// RefreshButton1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Krista.FM.Server.Dashboards.Components.RefreshButton RefreshButton1;
+        
+        /// <summary>
+        /// GridLabel элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label GridLabel;
+        
+        /// <summary>
+        /// UltraWebGrid элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Infragistics.WebUI.UltraWebGrid.UltraWebGrid UltraWebGrid;
+        
+        /// <summary>
+        /// labelChart элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelChart;
+        
+        /// <summary>
+        /// UltraChart элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Infragistics.WebUI.UltraWebChart.UltraChart UltraChart;
+        
+        /// <summary>
+        /// labelChart0 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelChart0;
+        
+        /// <summary>
+        /// SpeedDeviationChart элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Infragistics.WebUI.UltraWebChart.UltraChart SpeedDeviationChart;
+        
+        /// <summary>
+        /// labelMap элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelMap;
+        
+        /// <summary>
+        /// DundasMap элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::Dundas.Maps.WebControl.MapControl DundasMap;
+    }
+}

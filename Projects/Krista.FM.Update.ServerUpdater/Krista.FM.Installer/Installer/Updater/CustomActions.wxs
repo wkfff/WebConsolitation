@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  
+	<Fragment>
+    <Binary Id="CheckPID" SourceFile="Krista.FM.Update.CustomAction.CA.dll" />
+    <!--для vista, 7, 2008-->
+    <CustomAction Id='RunBatFileAsAdmin' BinaryKey='CheckPID' DllEntry='RunBatAsAdmin' Return='check' />
+    
+    <Binary Id="CommandPrompt" SourceFile="C:\Windows\System32\cmd.exe" />
+    <!--Remove folders-->
+    <Binary Id="CustomActionDll" SourceFile="..\..\Krista.FM.Update.CustomAction.CA.dll" />
+    <CustomAction Id="DeleteFolder" BinaryKey='CustomActionDll'
+                  DllEntry='RemoveInstallDirFolder'
+                  Return='ignore' />
+
+    <CustomAction Id="DeleteFolderInstall" BinaryKey='CustomActionDll'
+    DllEntry='RemoveAfterInstall'
+    Return='ignore' />
+
+    <CustomAction Id="KillNotifyProcess" BinaryKey='CustomActionDll'
+    DllEntry='KillNotifyProcess'
+    Return='ignore' />
+    
+    <!--для xp, 2003-->
+    <CustomAction Id='RunBatFile' FileKey='bat.cmd' ExeCommand=''  />
+    <util:CloseApplication Id="CloseApp" CloseMessage="yes" Target="Krista.FM.Update.NotifyIconApp" RebootPrompt="no" />
+    
+	</Fragment>
+</Wix>

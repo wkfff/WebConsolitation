@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="FO_0039_0006_date">
+    <![CDATA[
+-- FO_0039_0006_date
+with    
+    member [Measures].[ДанныеНа]    
+    as '[Период].[Период].CurrentMember.UniqueName'    
+    set [NonEmptySet]    
+    as 'Tail    
+        (
+            Filter    
+            (
+                Descendants   
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[Квартал],
+                    SELF   
+                ),
+                not IsEmpty    
+                (
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Р2]    
+                    )    
+                ) and   
+                (
+                    [Период].[Период].CurrentMember.Name <> "Остатки на начало года"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные квартала" 
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные полугодия" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные месяца"
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+                ) 
+            ),
+            1    
+        )'    
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows    
+from [ФО_Оценка качества ОиОБП_Показатели]     
+]]>
+  </query>
+
+  <query id="FO_0039_0006_chart">
+    <![CDATA[
+-- FO_0039_0006_chart
+with
+    set [Список MО]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF
+            ),
+            not
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+
+-----------Кол-во МО
+    member [Measures].[Число [0,0:0,1)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0 and [Measures].[Оценка показателя] < 0.1
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,1:0,2)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.1 and [Measures].[Оценка показателя] < 0.2
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,2:0,3)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.2 and [Measures].[Оценка показателя] < 0.3
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,3:0,4)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.3 and [Measures].[Оценка показателя] < 0.4
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,4:0,5)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.4 and [Measures].[Оценка показателя] < 0.5
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,5:0,6)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.5 and [Measures].[Оценка показателя] < 0.6
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,6:0,7)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.6 and [Measures].[Оценка показателя] < 0.7
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,7:0,8)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.7 and [Measures].[Оценка показателя] < 0.8
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,8:0,9)]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.8 and [Measures].[Оценка показателя] < 0.9
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+    member [Measures].[Число [0,9:1,0_]
+    as 'Count
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.9 and [Measures].[Оценка показателя] <= 1.0
+                ) and not Measures.[Выводим пустоту]
+            )
+        )'
+----------- Хинты
+    member [Measures].[Хинт [0,0:0,1)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.0 and [Measures].[Оценка показателя] < 0.1
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,1:0,2)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.1 and [Measures].[Оценка показателя] < 0.2
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,2:0,3)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.2 and [Measures].[Оценка показателя] < 0.3
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,3:0,4)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.3 and [Measures].[Оценка показателя] < 0.4
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,4:0,5)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.4 and [Measures].[Оценка показателя] < 0.5
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,5:0,6)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.5 and [Measures].[Оценка показателя] < 0.6
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,6:0,7)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.6 and [Measures].[Оценка показателя] < 0.7
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,7:0,8)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.7 and [Measures].[Оценка показателя] < 0.8
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,8:0,9)]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.8 and [Measures].[Оценка показателя] < 0.9
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+    member [Measures].[Хинт [0,9:1,0_]
+    as 'Generate
+        (
+            Filter
+            (
+                [Список MО],
+                not IsEmpty([Measures].[Значение]) and
+                (
+                    [Measures].[Оценка показателя] >= 0.9 and [Measures].[Оценка показателя] <= 1.0
+                ) and not Measures.[Выводим пустоту]
+            ),
+            [Районы].[Сопоставимый].CurrentMember.Name,
+            ","
+        )'
+----------- Меры
+    member [Measures].[[0,0:0,1)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,0:0,1)],
+            [Measures].[Число [0,0:0,1)]
+        )'
+    member [Measures].[[0,1:0,2)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,1:0,2)],
+            [Measures].[Число [0,1:0,2)]
+        )'
+    member [Measures].[[0,2:0,3)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,2:0,3)],
+            [Measures].[Число [0,2:0,3)]
+        )'
+    member [Measures].[[0,3:0,4)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,3:0,4)],
+            [Measures].[Число [0,3:0,4)]
+        )'
+    member [Measures].[[0,4:0,5)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,4:0,5)],
+            [Measures].[Число [0,4:0,5)]
+        )'
+    member [Measures].[[0,5:0,6)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,5:0,6)],
+            [Measures].[Число [0,5:0,6)]
+        )'
+    member [Measures].[[0,6:0,7)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,6:0,7)],
+            [Measures].[Число [0,6:0,7)]
+        )'
+    member [Measures].[[0,7:0,8)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,7:0,8)],
+            [Measures].[Число [0,7:0,8)]
+        )'
+    member [Measures].[[0,8:0,9)]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,8:0,9)],
+            [Measures].[Число [0,8:0,9)]
+        )'
+    member [Measures].[[0,9:1,0_]
+    as 'IIF
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт],
+            [Measures].[Хинт [0,9:1,0_],
+            [Measures].[Число [0,9:1,0_]
+        )'
+---------------
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт]
+    as '<%selected_indicator%>'
+    
+    member [Measures].[Все нулевые]
+    as ' 
+        (
+            [Measures].[[0,0:0,1)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,1:0,2)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,2:0,3)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,3:0,4)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,4:0,5)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,5:0,6)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,6:0,7)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,7:0,8)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,8:0,9)],
+            <%selected_indicator%>
+        ) = 0 and  
+        (
+            [Measures].[[0,9:1,0_],
+            <%selected_indicator%>
+        ) = 0' 
+    member Measures.[Выводим пустоту]    
+    as '[Период].[Период].[Данные всех периодов].<%selected_period%>.Level is [Период].[Период].[Год] and 
+        IsEmpty
+        (
+            (
+                [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Р4],
+                [Период].[Период].[Данные всех периодов].<%selected_period%>.DataMember,
+                [Measures].[Значение]
+            )   
+        ) '           
+select
+    {
+        <%selected_indicator%>,
+        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Хинт]
+    } on columns,
+    Filter
+    (
+       { 
+        [Measures].[[0,0:0,1)],
+        [Measures].[[0,1:0,2)],
+        [Measures].[[0,2:0,3)],
+        [Measures].[[0,3:0,4)],
+        [Measures].[[0,4:0,5)],
+        [Measures].[[0,5:0,6)],
+        [Measures].[[0,6:0,7)],
+        [Measures].[[0,7:0,8)],
+        [Measures].[[0,8:0,9)],
+        [Measures].[[0,9:1,0_]
+       },
+       not
+       (
+          [Measures].[Все нулевые]
+       )
+    ) on rows
+from  [ФО_Оценка качества ОиОБП_Показатели]
+where
+    (
+        [Период].[Период].[Данные всех периодов].<%selected_period%>
+    )
+  ]]>
+  </query>
+
+  <query id="FO_0039_0006_indicator_detail">
+    <![CDATA[
+-- FO_0039_0006_indicator_detail
+with  
+    set [Список МО]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF  
+            ),
+            not  
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember  
+            ) and  
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"  
+            )  
+        )'  
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Средняя оценка уровня качества]  
+    as 'AVG  
+        (
+            [Список МО],
+            (
+                [Measures].CurrentMember,
+                <%selected_indicator%>
+            )  
+        )'  
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Максимальная оценка уровня качества организации и осуществления бюджетного процесса среди всех муниципальных образований Омской области, балл]  
+    as 'MAX  
+        (
+            [Список МО],
+            (
+                [Measures].CurrentMember,
+                <%selected_indicator%> 
+            )  
+        )'  
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Минимальная оценка уровня качества организации и осуществления бюджетного процесса среди всех муниципальных образований Омской области, балл]  
+    as 'MIN  
+        (
+            [Список МО],
+            (
+                [Measures].CurrentMember,
+                <%selected_indicator%> 
+            )  
+        )'  
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Коэффициент определения границ интервала степени качества]  
+    as '  
+        (
+            [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Максимальная оценка уровня качества организации и осуществления бюджетного процесса среди всех муниципальных образований Омской области, балл] - [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Минимальная оценка уровня качества организации и осуществления бюджетного процесса среди всех муниципальных образований Омской области, балл]  
+        ) / 3'  
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Начальная граница интервала]  
+    as ' [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Средняя оценка уровня качества] + [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Коэффициент определения границ интервала степени качества] '  
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Конечная граница интервала]  
+    as ' [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Средняя оценка уровня качества] - [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Коэффициент определения границ интервала степени качества] '  
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Наименование] 
+    as ' <%selected_indicator%>.Properties("Наименование")'
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Периодичность расчета показателя]
+    as '<%selected_indicator%>.Properties("Периодичность расчета показателя")'     
+select
+    {
+        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Наименование],
+        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Средняя оценка уровня качества],
+        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Периодичность расчета показателя]
+    } on columns  
+from [ФО_Оценка качества ОиОБП_Показатели]  
+where  
+    (
+        [Measures].[Оценка показателя],
+        [Период].[Период].[Данные всех периодов].<%selected_period%>
+    )   
+  ]]>
+  </query>
+
+</root>

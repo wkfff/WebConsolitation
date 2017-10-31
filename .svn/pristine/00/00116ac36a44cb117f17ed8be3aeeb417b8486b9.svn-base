@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="РКЦ_Тарифы ЖКХ" ClassType="9" SubClassType="0" Description="Мониторинг тарифов на услуги ЖКХ." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_RKC_TARIFFGKH"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_RKC_TARIFFGKH"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_RKC_TARIFFGKH", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."D_RKC_TYPES", "DV"."D_RKC_COMPANY", "DV"."D_RKC_APARTMENTS"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_RKC_TARIFFGKH"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFYEARUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFTYPES"="DV"."D_RKC_TYPES"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFCOMPANY"="DV"."D_RKC_COMPANY"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFAPARTMENTS"="DV"."D_RKC_APARTMENTS"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_RKC_TARIFFGKH"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.RKC.TariffGKH]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[9bfbf3af-71a4-4999-bfd0-8a87e3028701]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[9b690867-50b1-4cc0-aaec-a44682c08e0d]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[08c57958-1271-4256-84eb-42d74a60224f]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{390}{3855}{2280}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{5760}{3615}{2475}{940}{1})({dv}{DV.D_RKC_TYPES}{DV.D_RKC_TYPES}{3540}{5385}{2445}{910}{1})({dv}{DV.D_RKC_APARTMENTS}{DV.D_RKC_APARTMENTS}{1455}{4455}{2475}{940}{1})({dv}{DV.D_RKC_COMPANY}{DV.D_RKC_COMPANY}{2520}{5355}{2400}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{4665}{4590}{2220}{910}{1})({dv}{DV.F_RKC_TARIFFGKH}{DV.F_RKC_TARIFFGKH}{885}{510}{2430}{3815}{1})]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="РКЦ.Виды платежей" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все виды платежей]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Вид платежа" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_RKC_TYPES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="РКЦ.Квартиры" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все квартиры]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартира" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_RKC_APARTMENTS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="РКЦ.Управляющие компании" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все управляющие компании]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Управляющая компания" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_RKC_COMPANY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Норматив" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_RKC_TARIFFGKH"."NORMVALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Тариф" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_RKC_TARIFFGKH"."TARIFFVALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Размер платежа" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_RKC_TARIFFGKH"."AMOUNT"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="РКЦ_Тарифы ЖКХ" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="РКЦ_ТарифыЖКХ_РКЦ_ТарифыЖКХ_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_RKC_TARIFFGKH"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_RKC_TARIFFGKH"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_RKC_TARIFFGKH", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."D_RKC_TYPES", "DV"."D_RKC_COMPANY", "DV"."D_RKC_APARTMENTS"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_RKC_TARIFFGKH"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFYEARUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFTYPES"="DV"."D_RKC_TYPES"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFCOMPANY"="DV"."D_RKC_COMPANY"."ID") AND ("DV"."F_RKC_TARIFFGKH"."REFAPARTMENTS"="DV"."D_RKC_APARTMENTS"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[95597eac-5439-46ea-a18c-22f344f391ab]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[08c57958-1271-4256-84eb-42d74a60224f]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

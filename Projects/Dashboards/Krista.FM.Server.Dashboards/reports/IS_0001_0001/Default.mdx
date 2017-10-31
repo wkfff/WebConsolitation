@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="IS_0001_0001_hmao">
+    <![CDATA[ -- IS_0001_0001_hamo
+      select
+	      ID, Name
+      from
+	      d_Territory_RF
+      where
+	      Name = 'Ханты-Мансийский автономный округ - Югра'
+    ]]>
+  </query>
+
+  <query id="IS_0001_0001_sub_terr">
+    <![CDATA[ -- IS_0001_0001_sub_terr
+      select
+        t_rf.ID, t_rf.Name, COUNT(ia_r.ID) as Squares
+      from
+        d_Territory_RF t_rf left outer join d_InvArea_Reestr ia_r on ia_r.RefTerritory = t_rf.ID
+      where
+        t_rf.ParentID = <%parent_id%>
+      group by
+        t_rf.ID, t_rf.Name
+    ]]>
+  </query>
+
+  <query id="IS_0001_0001_grid">
+    <![CDATA[ -- IS_0001_0001_grid
+      select
+        ia_r.ID, ia_r.RegNumber, t_rf.Name as Terr, ia_r.Location, ia_r.Area, ia_r.PermittedUse
+      from
+        d_InvArea_Reestr ia_r, d_Territory_RF t_rf
+      where
+        ia_r.RefTerritory = t_rf.ID and t_rf.ID in (<%parent_id%>)
+    ]]>
+  </query>
+  
+</root>

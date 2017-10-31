@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+  <Target Name="BuildSolutionWrapper">
+	<Exec Command="del ..\output\*.zip" IgnoreExitCode="True"/>
+	<Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\MDXExpertVersionInfo.cs"/>
+	<Exec Command="copy /Y ..\Projects\Config\VersionInfoEmpty.cs ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\MDXExpertVersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\MDXExpertVersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>
+	<Exec Command="echo [assembly: AssemblyFileVersion(&quot;$(VersionString)&quot;)] >> ..\Projects\Config\VersionInfo.cs"/>
+    <MSBuild Projects="$(SolutionDir)\$(SolutionName).sln" />
+	<Exec Command="xcopy /EI ..\output\$(SolutionName) $(SolutionName)-$(VersionString)"/>
+	<Exec Command="unzip -o ..\FullVersion-3.0.8395.24.zip" />
+	<Exec Command="zip -mr ..\output\$(SolutionName)-$(VersionString).zip $(SolutionName)-$(VersionString)"/>
+	<Exec Command="rmdir /S /Q ..\output\$(SolutionName)" IgnoreExitCode="True"/>
+	<Exec Command="rmdir /S /Q ..\Build\FullVersion-3.0.8395.24" IgnoreExitCode="True"/>
+  </Target>
+
+</Project>

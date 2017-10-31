@@ -1,0 +1,1206 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  
+<query id="FO_0002_0013_01_Saratov_date">
+<![CDATA[
+-- FO_0002_0013_01_Saratov_date
+with
+    member [Measures].[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                <%period_dimension%>.Members,
+                not IsEmpty([Measures].[Факт])
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from  [ФО_МесОтч_Доходы]
+]]>
+</query>
+
+<query id="FO_0002_0013_01_Saratov_grid">
+    <![CDATA[
+-- FO_0002_0013_01_Saratov_grid
+With   
+    set [Города]   
+    as 'Filter   
+        (
+            Descendants   
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF   
+            ),
+            not   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember   
+            ) and   
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"   
+            )   
+        )'   
+    set [Районы]   
+    as 'Filter   
+        (
+            Descendants   
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF   
+            ),
+            not   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember   
+            ) and   
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"   
+            )   
+        )'   
+    member [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]   
+    as '(<%regions_consolidate_budget%>,  <%consolidate_budget_document_skif_type%>)'   
+    member [Районы].[Сопоставимый].[<%own_subject_budget_name%>]   
+    as '(<%regions_consolidate_budget%>,  <%consolidate_budget_document_skif_type%>)'   
+
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]   
+    as 'IIF   
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[<%own_subject_budget_name%>],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+                <%region_budget_skif_level%>  
+            )   
+        ) ' 
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'         
+    member [Районы].[Сопоставимый].[Городские округа ] 
+    as 'Sum 
+        (
+            [Города],
+            (
+                [Measures].CurrentMember,
+                <%period_dimension%>.CurrentMember
+            ) 
+        )' 
+    member [Районы].[Сопоставимый].[Муниципальные районы ] 
+    as 'Sum 
+        (
+            [Районы],
+            (
+                [Measures].CurrentMember,
+                <%period_dimension%>.CurrentMember
+            ) 
+        )' 
+    member <%fkr_dimension%>.[РАСХОДЫ ВСЕГО ] 
+    as ' 
+        (
+            <%outcomes_all%>
+        )' 
+    member <%ekr_dimension%>.[Оплата труда_]    
+    as '
+        
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Заработная плата] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Начисления на выплаты по оплате труда]
+              
+       '
+    member <%fkr_dimension%>.[Оплата труда ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Оплата труда_],
+            <%fkr_dimension%>.[FKRSlicer] 
+        )' 
+    member <%fkr_dimension%>.[Капитальные вложения ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости основных средств],
+            <%fkr_dimension%>.[FKRSlicer]
+        )' 
+    member <%ekr_dimension%>.[Материальные затраты_] 
+    as '
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Прочие выплаты] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата работ, услуг] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Обслуживание государственного (муниципального) долга] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Безвозмездные перечисления организациям] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Безвозмездные перечисления бюджетам] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Социальное обеспечение] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Прочие расходы] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости нематериальных активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости непроизведенных активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости материальных запасов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление финансовых активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Выбытие финансовых активов]
+           ' 
+    member <%fkr_dimension%>.[Материальные затраты ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Материальные затраты_],
+            <%fkr_dimension%>.[FKRSlicer] 
+        )' 
+    member <%fkr_dimension%>.[ДЕФИЦИТ/ПРОФИЦИТ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Дефицит Профицит]",
+            " 
+            (
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Доходы]",
+            " 
+            (
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>],
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[Безвозмездные поступления ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Доходы]",
+            " 
+            (
+                <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ],
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[ДОХОДЫ ВСЕГО ] 
+    as 'LookupCube    
+        (
+            "[ФО_МесОтч_Доходы]",
+            "    
+            (
+                <%incomes_all%>,
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr    
+                (
+                    [Районы].[Сопоставимый].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [Период].[Период].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember    
+                ) + "    
+            )"    
+        )'    
+    member <%fkr_dimension%>.[FKRSlicer] 
+    as '
+      Aggregate
+      (
+        {
+            Filter
+            (
+                <%fkr_all_level%>.Children,
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9700" and
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+            )
+        }
+     )' 
+    member Measures.[% выполнения годовых назначений ]  
+    as 'IIF  
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ] or 
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы ],
+            IIF
+            (
+                IsEmpty 
+                (
+                    (
+                        [Районы].[Сопоставимый].CurrentMember,
+                        [Measures].[Годовые назначения] 
+                    ) 
+                ) or  
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Годовые назначения] 
+                ) = 0,
+                null,
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Факт] 
+                ) /  
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Годовые назначения] 
+                )  
+            ),
+            Measures.[% выполнения годовых назначений]  
+        )'       
+    member [Measures].[Факт прошлый год ]  
+    as '  
+        (
+            [Measures].[Факт],
+            ParallelPeriod  
+            (
+                [Период__Период].[Период__Период].[Год],
+                1,
+                [Период__Период].[Период__Период].CurrentMember  
+            )  
+        )'   
+    member [Measures].[Темп роста ]  
+    as 'IIF    
+        (
+            IsEmpty  ( Measures.[Факт прошлый год ] ) or   Measures.[Факт прошлый год ]  = 0,
+            null,
+            (
+                [Measures].[Факт],
+                [Период__Период].[Период__Период].CurrentMember   
+            ) /   
+            (
+                Measures.[Факт прошлый год ] 
+            )   
+        )' 
+      member [Measures].[Численность населения]       
+    as 'IIF     
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ] or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ],
+            LookupCube     
+            (
+                "[ФО_Показатели для планирования]",
+                "     
+                (
+                    [Measures].[Факт],
+                    [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Бюджеты городов и районов]  
+                )"     
+            ),
+            IIF     
+            (
+                (
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта] or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Собственный бюджет субъекта]     
+                )           ,
+                LookupCube      
+                (
+                    "[ФО_Показатели для планирования]",
+                    "      
+                    (
+                        [Measures].[Факт],
+                        [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                        [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Бюджеты городов и районов]     
+                    )"      
+                ),
+                LookupCube      
+                (
+                    "[ФО_Показатели для планирования]",
+                    "      
+                    (
+                        [Measures].[Факт],
+                        [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                        " + MemberToStr      
+                        (
+                            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember      
+                        ) + "      
+                    )"      
+                )     
+            ) 
+        )'  
+    member [Measures].[Исполнено на душу населения]       
+    as 'IIF       
+        (
+            IsEmpty        
+            (
+                [Measures].[Численность населения]      
+            ),
+            null,
+            (
+                [Measures].[Факт],
+                [Период__Период].[Период__Период].CurrentMember       
+            ) /       
+            (
+                [Measures].[Численность населения]       
+            )       
+        )'     
+SELECT
+    {
+        {
+            {
+                <%fkr_dimension%>.[ДОХОДЫ ВСЕГО ],
+                <%fkr_dimension%>.[Налоговые и неналоговые доходы ],
+                <%fkr_dimension%>.[Безвозмездные поступления ],
+                <%fkr_dimension%>.[РАСХОДЫ ВСЕГО ],
+                <%fkr_dimension%>.[Оплата труда ],
+                <%fkr_dimension%>.[Капитальные вложения ],
+                <%fkr_dimension%>.[Материальные затраты ],
+                <%fkr_dimension%>.[ДЕФИЦИТ/ПРОФИЦИТ]
+            }    
+            *    
+            {
+                [Measures].[Годовые назначения],
+                [Measures].[Факт],
+                [Measures].[% выполнения годовых назначений ],
+                [Measures].[Темп роста ],
+                [Measures].[Исполнено на душу населения]
+            }    
+        }    
+    } on columns,
+    {
+        {
+            [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            [Районы].[Сопоставимый].[<%own_subject_budget_name%>]    
+        } +    
+        {
+            [Районы].[Сопоставимый].[Городские округа ]    
+        } + [Города] +    
+        {
+            [Районы].[Сопоставимый].[Муниципальные районы ]    
+        } + [Районы]    
+    } on rows    
+FROM [ФО_МесОтч_Расходы]    
+WHERE    
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        <%region_budget_document_skif_type%>,
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ]    
+    )     
+  ]]>
+      </query>
+  <query id="FO_0002_0013_01_Saratov_incomes">
+    <![CDATA[
+-- FO_0002_0013_01_Saratov_grid
+With   
+    set [Города]   
+    as 'Filter   
+        (
+            Descendants   
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF   
+            ),
+            not   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember   
+            ) and   
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"   
+            )   
+        )'   
+    set [Районы]   
+    as 'Filter   
+        (
+            Descendants   
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF   
+            ),
+            not   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember   
+            ) and   
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"   
+            )   
+        )'   
+    member [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]   
+    as '(<%regions_consolidate_budget%>,  <%consolidate_budget_document_skif_type%>)'   
+    member [Районы].[Сопоставимый].[<%own_subject_budget_name%>]   
+    as '(<%regions_consolidate_budget%>,  <%consolidate_budget_document_skif_type%>)'   
+
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]   
+    as 'IIF   
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[<%own_subject_budget_name%>],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+                <%region_budget_skif_level%>  
+            )   
+        ) ' 
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'         
+    member [Районы].[Сопоставимый].[Городские округа ] 
+    as 'Sum 
+        (
+            [Города],
+            (
+                [Measures].CurrentMember,
+                <%period_dimension%>.CurrentMember
+            ) 
+        )' 
+    member [Районы].[Сопоставимый].[Муниципальные районы ] 
+    as 'Sum 
+        (
+            [Районы],
+            (
+                [Measures].CurrentMember,
+                <%period_dimension%>.CurrentMember
+            ) 
+        )' 
+    member <%fkr_dimension%>.[РАСХОДЫ ВСЕГО ] 
+    as ' 
+        (
+            <%outcomes_all%>
+        )' 
+    member <%ekr_dimension%>.[Оплата труда_]    
+    as '
+        
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Заработная плата] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Начисления на выплаты по оплате труда]
+              
+       '
+    member <%fkr_dimension%>.[Оплата труда ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Оплата труда_],
+            <%fkr_dimension%>.[FKRSlicer] 
+        )' 
+    member <%fkr_dimension%>.[Капитальные вложения ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости основных средств],
+            <%fkr_dimension%>.[FKRSlicer]
+        )' 
+    member <%ekr_dimension%>.[Материальные затраты_] 
+    as '
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Прочие выплаты] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата работ, услуг] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Обслуживание государственного (муниципального) долга] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Безвозмездные перечисления организациям] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Безвозмездные перечисления бюджетам] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Социальное обеспечение] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Прочие расходы] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости нематериальных активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости непроизведенных активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости материальных запасов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление финансовых активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Выбытие финансовых активов]
+           ' 
+    member <%fkr_dimension%>.[Материальные затраты ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Материальные затраты_],
+            <%fkr_dimension%>.[FKRSlicer] 
+        )' 
+    member <%fkr_dimension%>.[ДЕФИЦИТ/ПРОФИЦИТ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Дефицит Профицит]",
+            " 
+            (
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Доходы]",
+            " 
+            (
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>],
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[Безвозмездные поступления ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Доходы]",
+            " 
+            (
+                <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ],
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[ДОХОДЫ ВСЕГО ] 
+    as 'LookupCube    
+        (
+            "[ФО_МесОтч_Доходы]",
+            "    
+            (
+                <%incomes_all%>,
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr    
+                (
+                    [Районы].[Сопоставимый].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [Период].[Период].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember    
+                ) + "    
+            )"    
+        )'    
+    member <%fkr_dimension%>.[FKRSlicer] 
+    as '
+      Aggregate
+      (
+        {
+            Filter
+            (
+                <%fkr_all_level%>.Children,
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9700" and
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+            )
+        }
+     )' 
+    member Measures.[исполнено доходы всего ]  
+    as 'IIF  
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ] or 
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы ],
+            IIF
+            (
+                IsEmpty 
+                (
+                    (
+                        [Районы].[Сопоставимый].CurrentMember,
+                        [Measures].[Годовые назначения] 
+                    ) 
+                ) or  
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Годовые назначения] 
+                ) = 0,
+                null,
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Факт] 
+                ) /  
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Годовые назначения] 
+                )  
+            ),
+            Measures.[% выполнения годовых назначений]  
+        ) * 100'       
+    member [Measures].[Факт прошлый год ]  
+    as '  
+        (
+            [Measures].[Факт],
+            ParallelPeriod  
+            (
+                [Период__Период].[Период__Период].[Год],
+                1,
+                [Период__Период].[Период__Период].CurrentMember  
+            )  
+        )'   
+    member [Measures].[Темп роста ]  
+    as 'IIF    
+        (
+            IsEmpty  ( Measures.[Факт прошлый год ] ) or   Measures.[Факт прошлый год ]  = 0,
+            null,
+            (
+                [Measures].[Факт],
+                [Период__Период].[Период__Период].CurrentMember   
+            ) /   
+            (
+                Measures.[Факт прошлый год ] 
+            )   
+        )' 
+      member [Measures].[Численность населения]       
+    as 'IIF     
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ] or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ],
+            LookupCube     
+            (
+                "[ФО_Показатели для планирования]",
+                "     
+                (
+                    [Measures].[Факт],
+                    [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Бюджеты городов и районов]  
+                )"     
+            ),
+            IIF     
+            (
+                (
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта] or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Собственный бюджет субъекта]     
+                )           ,
+                LookupCube      
+                (
+                    "[ФО_Показатели для планирования]",
+                    "      
+                    (
+                        [Measures].[Факт],
+                        [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                        [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Бюджеты городов и районов]     
+                    )"      
+                ),
+                LookupCube      
+                (
+                    "[ФО_Показатели для планирования]",
+                    "      
+                    (
+                        [Measures].[Факт],
+                        [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                        " + MemberToStr      
+                        (
+                            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember      
+                        ) + "      
+                    )"      
+                )     
+            ) 
+        )'  
+    member [Measures].[Исполнено на душу населения]       
+    as 'IIF       
+        (
+            IsEmpty        
+            (
+                [Measures].[Численность населения]      
+            ),
+            null,
+            (
+                [Measures].[Факт],
+                [Период__Период].[Период__Период].CurrentMember       
+            ) /       
+            (
+                [Measures].[Численность населения]       
+            )       
+        )' 
+          set [Города и районы]
+    as '[Города] + [Районы]'
+SELECT
+    {
+        {
+     
+            {
+                [Measures].[исполнено доходы всего ]
+            }    
+        }    
+    } on rows,
+    {
+       Order 
+        (
+            [Города и районы],
+            (
+                [РзПр__Сопоставимый].[РзПр__Сопоставимый].[ДОХОДЫ ВСЕГО ]  ,
+                [Measures].[исполнено доходы всего ]
+            ) ,
+            BDESC 
+        )
+    } on columns    
+FROM [ФО_МесОтч_Расходы]    
+WHERE    
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        <%region_budget_document_skif_type%>,
+        <%fkr_dimension%>.[ДОХОДЫ ВСЕГО ],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ]    
+    )     
+  ]]>
+  </query>
+  <query id="FO_0002_0013_01_Saratov_chart_outcomes">
+    <![CDATA[
+-- FO_0002_0013_01_Saratov_grid
+With   
+    set [Города]   
+    as 'Filter   
+        (
+            Descendants   
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF   
+            ),
+            not   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember   
+            ) and   
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"   
+            )   
+        )'   
+    set [Районы]   
+    as 'Filter   
+        (
+            Descendants   
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF   
+            ),
+            not   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember   
+            ) and   
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"   
+            )   
+        )'   
+    member [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]   
+    as '(<%regions_consolidate_budget%>,  <%consolidate_budget_document_skif_type%>)'   
+    member [Районы].[Сопоставимый].[<%own_subject_budget_name%>]   
+    as '(<%regions_consolidate_budget%>,  <%consolidate_budget_document_skif_type%>)'   
+
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]   
+    as 'IIF   
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[<%own_subject_budget_name%>],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+                <%region_budget_skif_level%>  
+            )   
+        ) ' 
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'         
+    member [Районы].[Сопоставимый].[Городские округа ] 
+    as 'Sum 
+        (
+            [Города],
+            (
+                [Measures].CurrentMember,
+                <%period_dimension%>.CurrentMember
+            ) 
+        )' 
+    member [Районы].[Сопоставимый].[Муниципальные районы ] 
+    as 'Sum 
+        (
+            [Районы],
+            (
+                [Measures].CurrentMember,
+                <%period_dimension%>.CurrentMember
+            ) 
+        )' 
+    member <%fkr_dimension%>.[РАСХОДЫ ВСЕГО ] 
+    as ' 
+        (
+            <%outcomes_all%>
+        )' 
+    member <%ekr_dimension%>.[Оплата труда_]    
+    as '
+        
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Заработная плата] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Начисления на выплаты по оплате труда]
+              
+       '
+    member <%fkr_dimension%>.[Оплата труда ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Оплата труда_],
+            <%fkr_dimension%>.[FKRSlicer] 
+        )' 
+    member <%fkr_dimension%>.[Капитальные вложения ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости основных средств],
+            <%fkr_dimension%>.[FKRSlicer]
+        )' 
+    member <%ekr_dimension%>.[Материальные затраты_] 
+    as '
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата труда и начисления на выплаты по оплате труда].[Прочие выплаты] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Оплата работ, услуг] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Обслуживание государственного (муниципального) долга] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Безвозмездные перечисления организациям] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Безвозмездные перечисления бюджетам] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Социальное обеспечение] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Расходы].[Прочие расходы] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости нематериальных активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости непроизведенных активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление нефинансовых активов].[Увеличение стоимости материальных запасов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Поступление финансовых активов] +
+                <%ekr_dimension%>.[Все коды ЭКР].[Выбытие финансовых активов]
+           ' 
+    member <%fkr_dimension%>.[Материальные затраты ] 
+    as ' 
+        (
+            <%ekr_dimension%>.[Материальные затраты_],
+            <%fkr_dimension%>.[FKRSlicer] 
+        )' 
+    member <%fkr_dimension%>.[ДЕФИЦИТ/ПРОФИЦИТ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Дефицит Профицит]",
+            " 
+            (
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Доходы]",
+            " 
+            (
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>],
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[Безвозмездные поступления ] 
+    as 'LookupCube 
+        (
+            "[ФО_МесОтч_Доходы]",
+            " 
+            (
+                <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ],
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr 
+                (
+                    [Районы].[Сопоставимый].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Период].[Период].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember 
+                ) + ",
+                " + MemberToStr 
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember 
+                ) + " 
+            )" 
+        )' 
+    member <%fkr_dimension%>.[ДОХОДЫ ВСЕГО ] 
+    as 'LookupCube    
+        (
+            "[ФО_МесОтч_Доходы]",
+            "    
+            (
+                <%incomes_all%>,
+                " + MemberToStr ( [Measures].CurrentMember ) + ",
+                " + MemberToStr    
+                (
+                    [Районы].[Сопоставимый].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [Период].[Период].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [ТипДокумента].[СКИФ].CurrentMember    
+                ) + ",
+                " + MemberToStr    
+                (
+                    [Уровни бюджета].[СКИФ].CurrentMember    
+                ) + "    
+            )"    
+        )'    
+    member <%fkr_dimension%>.[FKRSlicer] 
+    as '
+      Aggregate
+      (
+        {
+            Filter
+            (
+                <%fkr_all_level%>.Children,
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9700" and
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+            )
+        }
+     )' 
+    member Measures.[исполнено расходы всего ]  
+    as 'IIF  
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ] or 
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы ],
+            IIF
+            (
+                IsEmpty 
+                (
+                    (
+                        [Районы].[Сопоставимый].CurrentMember,
+                        [Measures].[Годовые назначения] 
+                    ) 
+                ) or  
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Годовые назначения] 
+                ) = 0,
+                null,
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Факт] 
+                ) /  
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Measures].[Годовые назначения] 
+                )  
+            ),
+            Measures.[% выполнения годовых назначений]  
+        ) * 100'       
+    member [Measures].[Факт прошлый год ]  
+    as '  
+        (
+            [Measures].[Факт],
+            ParallelPeriod  
+            (
+                [Период__Период].[Период__Период].[Год],
+                1,
+                [Период__Период].[Период__Период].CurrentMember  
+            )  
+        )'   
+    member [Measures].[Темп роста ]  
+    as 'IIF    
+        (
+            IsEmpty  ( Measures.[Факт прошлый год ] ) or   Measures.[Факт прошлый год ]  = 0,
+            null,
+            (
+                [Measures].[Факт],
+                [Период__Период].[Период__Период].CurrentMember   
+            ) /   
+            (
+                Measures.[Факт прошлый год ] 
+            )   
+        )' 
+      member [Measures].[Численность населения]       
+    as 'IIF     
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ] or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ],
+            LookupCube     
+            (
+                "[ФО_Показатели для планирования]",
+                "     
+                (
+                    [Measures].[Факт],
+                    [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Бюджеты городов и районов]  
+                )"     
+            ),
+            IIF     
+            (
+                (
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта] or [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Собственный бюджет субъекта]     
+                )           ,
+                LookupCube      
+                (
+                    "[ФО_Показатели для планирования]",
+                    "      
+                    (
+                        [Measures].[Факт],
+                        [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                        [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Бюджеты городов и районов]     
+                    )"      
+                ),
+                LookupCube      
+                (
+                    "[ФО_Показатели для планирования]",
+                    "      
+                    (
+                        [Measures].[Факт],
+                        [Показатели__Показатели для планирования Сопост].[Показатели__Показатели для планирования Сопост].[Все показатели].[Данные по численности населения].[Численность постоянного населения],
+                        " + MemberToStr      
+                        (
+                            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember      
+                        ) + "      
+                    )"      
+                )     
+            ) 
+        )'  
+    member [Measures].[Исполнено на душу населения]       
+    as 'IIF       
+        (
+            IsEmpty        
+            (
+                [Measures].[Численность населения]      
+            ),
+            null,
+            (
+                [Measures].[Факт],
+                [Период__Период].[Период__Период].CurrentMember       
+            ) /       
+            (
+                [Measures].[Численность населения]       
+            )       
+        )'     
+        set [Города и районы]
+    as '[Города] + [Районы]'
+SELECT
+    {
+        {
+     
+            {
+                [Measures].[исполнено расходы всего ]
+            }    
+        }    
+    } on rows,
+    {
+       Order 
+        (
+            [Города и районы],
+            (
+                <%fkr_dimension%>.[РАСХОДЫ ВСЕГО ],
+                [Measures].[исполнено расходы всего ]
+            ) ,
+            BDESC 
+        )
+    } on columns    
+FROM [ФО_МесОтч_Расходы]    
+WHERE    
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        <%region_budget_document_skif_type%>,
+        <%fkr_dimension%>.[РАСХОДЫ ВСЕГО ],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ]    
+    )     
+  ]]>
+  </query>
+    </root>

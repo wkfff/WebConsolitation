@@ -1,0 +1,64 @@
+CALCULATE;
+
+//Вычислимые меры
+
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма за период] AS
+([Уровни бюджетов].[Уровни бюджетов].CurrentMember, [Measures].[За период_подлежащие перечислению]) + ([Уровни бюджетов].[Уровни бюджетов].CurrentMember, [Measures].[За период_кассовые поступления]) + ([Уровни бюджетов].[Уровни бюджетов].CurrentMember, 
+[Measures].[За период_результаты регулировки] ),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[С начала года] AS
+CalculationPassValue(
+IIF(
+[Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[(All)] or
+[Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Год] or
+([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+([Measures].[Сумма за период], [Период__Период].[Период__Период].CurrentMember),
+
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, Measures.[Сумма за период]))
+, 1),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма за период прошлый год] AS
+(ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember),[Measures].[Сумма за период]),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[С начала года прошлый год] AS
+(ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember), [Measures].[С начала года]),
+FORMAT_STRING = "Currency";
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение от аналогичного периода предыдущего года С начала года] AS
+([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[С начала года прошлый год], [Период__Период].[Период__Период].CurrentMember),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к аналогичному периоду предыдущего года С начала года] AS
+IIF(Not IsEmpty(([Measures].[С начала года прошлый год], [Период__Период].[Период__Период].CurrentMember)) and ([Measures].[С начала года прошлый год], [Период__Период].[Период__Период].CurrentMember) <> 0, ([Measures].[С начала года], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[С начала года прошлый год], [Период__Период].[Период__Период].CurrentMember), null),
+FORMAT_STRING = "Percent";
+
+SCOPE([Уровни бюджетов].[Уровни бюджетов].&[15]);
+    this = IIF(([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[20100001] or [Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[20110001] or [Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[20120001] or [Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[20130001] or [Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[20140001] or [Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[20150001] or [Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[20160001]) and
+ ([Measures].CurrentMember is [Measures].[Сумма за период] or[Measures].CurrentMember is  [Measures].[С начала года] or [Measures].CurrentMember is [Measures].[Сумма за период прошлый год] or [Measures].CurrentMember is [Measures].[С начала года прошлый год] or [Measures].CurrentMember is [Measures].[Отклонение от аналогичного периода предыдущего года С начала года] or [Measures].CurrentMember is [Measures].[Темп роста к аналогичному периоду предыдущего года С начала года])
+ and ([Типы территорий].[Типы территорий].CurrentMember is [Типы территорий].[Тип территории].&[7])/* and [Типы территорий].[Типы территорий]CurrentMember is [Типы территорий].[Тип территории].&[5] and [Типы территорий].[Типы территорий]CurrentMember is [Типы территорий].[Тип территории].&[6])
+*/,   [Уровни бюджетов].[Уровни бюджетов].&[14],
+   [Уровни бюджетов].[Уровни бюджетов].CurrentMember);
+END SCOPE;
+
+SCOPE([Уровни бюджетов].[Уровни бюджетов].&[5], descendants([Период__Период].[Период__Период].[Год].&[20100001]));
+    this =   IIF(([Measures].CurrentMember is [Measures].[Сумма за период] or[Measures].CurrentMember is  [Measures].[С начала года] or [Measures].CurrentMember is [Measures].[Сумма за период прошлый год] or [Measures].CurrentMember is [Measures].[С начала года прошлый год] or [Measures].CurrentMember is [Measures].[Отклонение от аналогичного периода предыдущего года С начала года] or [Measures].CurrentMember is [Measures].[Темп роста к аналогичному периоду предыдущего года С начала года]),
+([Уровни бюджетов].[Уровни бюджетов].&[14], [Measures].[Сумма за период]) - ([Уровни бюджетов].[Уровни бюджетов].&[16], [Measures].[Сумма за период]) - ([Уровни бюджетов].[Уровни бюджетов].&[17], [Measures].[Сумма за период]) - ([Уровни бюджетов].[Уровни бюджетов].&[15], [Measures].[Сумма за период]),
+     [Уровни бюджетов].[Уровни бюджетов].CurrentMember);
+END SCOPE;
+
+//Уровни бюджетов 
+SCOPE(Descendants([Уровни бюджетов].[Уровни бюджетов].[Все]));
+    this = IIF(not IsLeaf([Уровни бюджетов].[Уровни бюджетов].CurrentMember) and ([Measures].CurrentMember.Name ="Сумма за период" or [Measures].CurrentMember.Name = "С начала года" or [Measures].CurrentMember is [Measures].[Сумма за период прошлый год] or [Measures].CurrentMember is [Measures].[С начала года прошлый год] or [Measures].CurrentMember is [Measures].[Отклонение от аналогичного периода предыдущего года С начала года] or [Measures].CurrentMember is [Measures].[Темп роста к аналогичному периоду предыдущего года С начала года]),
+IIF([Уровни бюджетов].[Уровни бюджетов].CurrentMember is [Уровни бюджетов].[Уровни бюджетов].[Все], Sum([Уровни бюджетов].[Уровни бюджетов].CurrentMember.children, ([Уровни бюджетов].CurrentMember, [Measures].CurrentMember)),
+/*IIF(IsEmpty((CalculationPassValue([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember, [Measures].CurrentMember),0)),  [Уровни бюджетов].CurrentMember,
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember)*/
+IIF(isEmpty([Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember),
+    Sum([Уровни бюджетов].[Уровни бюджетов].CurrentMember.children, ([Уровни бюджетов].[Уровни бюджетов].CurrentMember, [Measures].CurrentMember)),
+    [Уровни бюджетов].[Уровни бюджетов].CurrentMember.DataMember)),
+     [Уровни бюджетов].[Уровни бюджетов].CurrentMember);
+END SCOPE;

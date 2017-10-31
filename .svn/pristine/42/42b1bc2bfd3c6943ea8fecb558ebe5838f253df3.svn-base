@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_pp_common">
+        <![CDATA[
+-- skk_017_count_pp_common
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%where%>
+        )'
+    member [Measures].[Активность]
+    as 'filter
+        (
+            [Показатели].[Показатель].members,
+            not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )
+        ).count'
+    member [Measures].[Количество] 
+    as 'filter  
+        (
+            (
+                [Пункты пропуска].[Пункт пропуска].[Все].children,
+                [Пункты пропуска].[Вид сообщения].currentMember  
+            ),
+            [Measures].[Активность] > 0
+        ).count' 
+    
+    set [Строки]
+    as 'order
+        (
+            filter
+            (   
+                [Пункты пропуска].[Вид сообщения].members,
+                [Measures].[Количество] > 0
+            ),      
+            [Measures].[Количество],
+            DESC
+        )'
+select
+    {
+        [Measures].[Количество]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from 
+    [СКК]
+  ]]>
+    </query>
+    
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_pp_simple">
+        <![CDATA[
+-- skk_017_count_pp_simple
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'
+    member [Measures].[Количество] 
+    as 'filter  
+        (
+            (
+                [Пункты пропуска].[Пункт пропуска].[Все].children,
+                [Пункты пропуска].[Вид сообщения].currentMember  
+            ),
+            not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )
+        ).count' 
+    
+    set [Строки]
+    as 'order
+        (
+            filter
+            (   
+                [Пункты пропуска].[Вид сообщения].members,
+                [Measures].[Количество] > 0
+            ),      
+            [Measures].[Количество],
+            DESC
+        )'
+select
+    {
+        [Measures].[Количество]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from 
+    [СКК]
+where
+    (
+        <%where%>
+    )
+  ]]>
+    </query>
+    
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_mark">
+        <![CDATA[
+-- skk_017_count_mark
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'    
+        
+select
+    {
+        [Measures].[Показатель]
+    } on columns
+from 
+    [СКК]
+where
+    (
+        <%where%>
+    )
+  ]]>
+    </query>    
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_rpn">
+        <![CDATA[
+-- skk_017_count_rpn
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'
+    member [Measures].[Количество РПН]
+    as 'filter
+        (
+            [Пункты пропуска].[Управление РПН].[Все].children,
+            not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )
+        ).count'
+select
+    {
+        [Measures].[Количество РПН]      
+    } on columns
+from 
+    [СКК]
+where
+    (
+        <%where%>
+    )   
+  ]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_subjects">
+        <![CDATA[
+-- skk_017_count_subjects
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'
+    set [Строки]
+    as 'order
+        (
+            filter
+            (   
+                [Пункты пропуска].[Субъект].members,
+                not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )
+            ),      
+            [Measures].[Показатель],
+            DESC
+        )'
+select
+    {
+        [Measures].[Показатель]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from 
+    [СКК]
+where
+    (
+        <%where%>
+    )
+]]>
+    </query>
+    
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_districts">
+        <![CDATA[
+-- skk_017_count_districts
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'
+    member [Measures].[Максимум]
+    as 'max
+        (
+            [Строки],
+            [Measures].[Показатель]
+        )'
+    member [Measures].[Процент]
+    as 'IIF
+        (
+            ( [Measures].[Максимум] > 0 ) AND ( [Measures].[Показатель] > 0 ),
+            [Measures].[Показатель] / [Measures].[Максимум],
+            null
+        )'
+    
+    set [Строки]
+    as 'order
+        (
+            filter
+            (   
+                [Пункты пропуска].[ФО].members,
+                not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )
+            ),      
+            [Measures].[Показатель],
+            DESC
+        )'
+select
+    {
+        [Measures].[Показатель],
+        [Measures].[Процент]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from 
+    [СКК]
+where
+    (
+        <%where%>
+    )   
+  ]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_transport">
+        <![CDATA[
+-- skk_017_count_transport
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'
+    member [Measures].[Максимум]
+    as 'max
+        (
+            [Строки],
+            [Measures].[Показатель]
+        )'
+    member [Measures].[Процент]
+    as 'IIF
+        (
+            ( [Measures].[Максимум] > 0 ) AND ( [Measures].[Показатель] > 0 ),
+            [Measures].[Показатель] / [Measures].[Максимум],
+            null
+        )'
+    
+    set [Строки]
+    as 'order
+        (
+            filter
+            (   
+                [Пункты пропуска].[Вид сообщения].members,
+                not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )
+            ),      
+            [Measures].[Показатель],
+            DESC
+        )'
+select
+    {
+        [Measures].[Показатель],
+        [Measures].[Процент]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from 
+    [СКК]
+where
+    (
+        <%where%>
+    )   
+  ]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_borders">
+        <![CDATA[
+-- skk_017_count_borders
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'
+    member [Measures].[Максимум]
+    as 'max
+        (
+            [Строки],
+            [Measures].[Показатель]
+        )'
+    member [Measures].[Процент]
+    as 'IIF
+        (
+            ( [Measures].[Максимум] > 0 ) AND ( [Measures].[Показатель] > 0 ),
+            [Measures].[Показатель] / [Measures].[Максимум],
+            null
+        )'
+    
+    member [Пункты пропуска].[Участок границы].[Всего]
+    as 'sum
+        ( 
+            [Участки]
+        )'
+    set [Строки]
+    as 'iif(
+            count( [Участки] ) > 0,
+            [Пункты пропуска].[Участок границы].[Всего],
+            null
+        )
+        +
+        order
+        (
+            [Участки],
+            [Measures].[Показатель],
+            DESC
+        )'
+    set [Участки]
+    as 'filter
+        (
+            [Пункты пропуска].[Участок границы].[Все].children,
+            not [Пункты пропуска].[Участок границы].currentMember is [Пункты пропуска].[Участок границы].[Все].[Не указан участок границы] 
+            AND not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )
+        )'
+select
+    {
+        [Measures].[Показатель],
+        [Measures].[Процент]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from 
+    [СКК]
+where
+    (
+        <%where%>
+    )   
+  ]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_017_count_groups">
+        <![CDATA[
+-- skk_017_count_groups
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+    
+    member [Measures].[Количество_]         
+    as '         
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'         
+    member [Measures].[Количество]         
+    as 'iif         
+        (
+            not isEmpty( [Measures].[Количество_] ),
+            [Measures].[Количество_],
+            0
+        )'         
+    member [Measures].[Объем_] 
+    as ' 
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark2%>            
+        )' 
+    member [Measures].[Объем] 
+    as 'iif 
+        (
+            not isEmpty( [Measures].[Объем_] ),
+            [Measures].[Объем_],
+            0   
+        )'  
+    member [Measures].[Описание]    
+    as '[Группы товаров].[Группа].currentMember.Properties("Описание")'
+    
+    member [Группы товаров].[Группа].[Всего]
+    as 'sum( [Группы] )'
+    set [Группы]  
+    as 'order
+        (
+            filter 
+            (
+                [Группы товаров].[Группа].[Все группы].children,
+                not [Группы товаров].[Группа].currentMember is [Группы товаров].[Группа].[Все группы].[Не указана группа товаров]  
+            ),
+            [Measures].[Количество],
+            DESC
+        )'        
+select
+    {
+        [Measures].[Количество],
+        [Measures].[Объем],
+        [Measures].[Описание]
+    } on columns,
+    {
+        [Группы товаров].[Группа].[Всего]
+        + [Группы]
+    } on rows
+from
+    [СКК]
+where
+    (
+        <%where%>   
+    )
+  ]]>
+    </query>
+    
+    <!-- ========================================================================================= -->
+    <query id="skk_017_mark_subjects">
+        <![CDATA[
+-- skk_017_mark_subjects
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Досмотрено]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],            
+            <%mark%>
+        )'
+    member [Measures].[Приостановлено_]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],            
+            <%mark2%>
+        )'
+    member [Measures].[Приостановлено]
+    as 'IIF
+        (
+            [Measures].[Приостановлено_] = 0,
+            null,
+            [Measures].[Приостановлено_]
+        )'
+    
+    member [Measures].[Номер]
+    as 'null'
+    member [Measures].[Уровень]
+    as 'IIF
+        (
+            [Пункты пропуска].[Субъект].currentMember is [Пункты пропуска].[Субъект].[Всего],
+            0,
+            1
+        )'  
+        
+    member [Пункты пропуска].[Субъект].[Всего]
+    as '[Пункты пропуска].[Субъект].[Все]'
+    set [Строки]
+    as '
+        iif(
+            count( [ПунктыПропуска] ) > 0,
+            [Пункты пропуска].[Субъект].[Всего],
+            null
+        )        
+        + order
+        (
+            [ПунктыПропуска],      
+            [Measures].[Досмотрено],
+            DESC
+        )'
+    set [ПунктыПропуска] 
+    as 'filter
+        (   
+            [Пункты пропуска].[Субъект].[Все].children,
+            not isEmpty( [Measures].[Досмотрено] ) AND ( [Measures].[Досмотрено] > 0 )
+        )'
+select
+    {
+        [Measures].[Номер],
+        [Measures].[Досмотрено],
+        [Measures].[Приостановлено],
+        [Measures].[Уровень]
+    } on columns,
+    {
+        [Строки]
+    } on rows
+from
+    [СКК]
+where
+    (
+        <%where%>   
+    )
+  ]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_017_mark_borders">
+        <![CDATA[
+-- skk_017_mark_borders
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Показатель]
+    as '
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            <%mark%>
+        )'
+    member [Measures].[Название]
+    as 'IIF
+        (
+            [Пункты пропуска].[Пункт пропуска].currentMember is [Пункты пропуска].[Пункт пропуска].[Все],
+            IIF
+            (
+                [Пункты пропуска].[Субъект].currentMember is [Пункты пропуска].[Субъект].[Все],
+                "Всего",
+                [Пункты пропуска].[Субъект].currentMember.name
+            ),
+            [Пункты пропуска].[Пункт пропуска].currentMember.name
+        )'  
+    member [Measures].[Уровень]
+    as 'IIF
+        (
+            [Пункты пропуска].[Пункт пропуска].currentMember is [Пункты пропуска].[Пункт пропуска].[Все],
+            0,
+            1
+        )'
+        
+    set [Участки]     
+    as 'order
+        (
+            filter 
+            (
+                [Пункты пропуска].[Участок границы].[Все].children,
+                not [Пункты пропуска].[Участок границы].currentMember is [Пункты пропуска].[Участок границы].[Все].[Не указан участок границы] 
+                AND not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )     
+            ),
+            [Measures].[Показатель],
+            DESC 
+        )' 
+    set [Строки]     
+    as '     
+        {
+            {
+                {
+                    [Пункты пропуска].[Субъект].[Все]    
+                }     
+                *     
+                {
+                    iif 
+                    (
+                        ( [Пункты пропуска].[Пункт пропуска].[Все], [Measures].[Показатель] ) > 0,
+                        [Пункты пропуска].[Пункт пропуска].[Все],
+                        null
+                    )
+                }     
+            } +     
+            {
+                order 
+                (
+                    filter  
+                    (
+                        [Пункты пропуска].[Субъект].[Все].children,
+                        not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )       
+                    ),
+                    [Measures].[Показатель],
+                    DESC 
+                )  
+                * order 
+                (
+                    filter  
+                    (
+                        [Пункты пропуска].[Пункт пропуска].members,
+                        not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )       
+                    ),
+                    [Measures].[Показатель],
+                    DESC 
+                )      
+            }     
+        }'     
+select
+    {
+        {
+            {
+                [Пункты пропуска].[Вид сообщения].[Все]   
+            }   
+            * 
+            { [Measures].[Название] }     
+            *     
+            {
+                [Пункты пропуска].[Участок границы].[Все]     
+            }       
+        } +     
+        {
+            {
+                [Пункты пропуска].[Вид сообщения].[Все]   
+            }   
+            * { [Measures].[Показатель] }     
+            * { [Участки] }       
+        } +     
+        {
+            order 
+            (
+                filter 
+                (
+                    {
+                        [Пункты пропуска].[Вид сообщения].[Все].[Воздушный],
+                        [Пункты пропуска].[Вид сообщения].[Все].[Морской],
+                        [Пункты пропуска].[Вид сообщения].[Все].[Речной]   
+                    },
+                    not isEmpty( [Measures].[Показатель] ) AND ( [Measures].[Показатель] > 0 )   
+                ),
+                [Measures].[Показатель],
+                DESC 
+            ) 
+            * { [Measures].[Показатель] }     
+            *     
+            {
+                [Пункты пропуска].[Участок границы].[Все]    
+            }     
+        } +     
+        {
+            {
+                [Пункты пропуска].[Вид сообщения].[Все]   
+            }   
+            * { [Measures].[Уровень] }     
+            *     
+            {
+                [Пункты пропуска].[Участок границы].[Все]     
+            }    
+        }     
+    } on columns,
+    { [Строки] } on rows 
+from 
+    [СКК]
+where
+    (
+        <%where%>
+    )   
+  ]]>
+    </query>
+
+    <!-- ========================================================================================= -->
+    <query id="skk_017_groups_grid">
+        <![CDATA[
+-- skk_017_groups_grid
+with
+    member [Периоды].[Год_Месяц].[отчетный период]
+    as 'aggregate ({ <%selected_period%> })'
+
+    member [Measures].[Досмотрено_] 
+    as '           
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            [Показатели].[Показатель].[Количество партий грузов, подлежащих СКК]   
+        )'
+    member [Measures].[Досмотрено] 
+    as 'iif
+        (
+            [Measures].[Досмотрено_] = 0,
+            null,
+            [Measures].[Досмотрено_]
+        )'
+    member [Measures].[Досмотрено2_] 
+    as '   
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            [Показатели].[Показатель].[Объем партий грузов, подлежащих СКК]   
+        )' 
+    member [Measures].[Досмотрено2] 
+    as 'iif
+        (
+            [Measures].[Досмотрено2_] = 0,
+            null,
+            [Measures].[Досмотрено2_]
+        )'
+    member [Measures].[Выявлено_] 
+    as ' 
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            [Показатели].[Показатель].[Количество приостановленных партий грузов] 
+        )' 
+    member [Measures].[Выявлено] 
+    as 'iif
+        (
+            [Measures].[Выявлено_] = 0,
+            null,
+            [Measures].[Выявлено_]
+        )'
+    member [Measures].[Выявлено2_] 
+    as ' 
+        (
+            [Measures].[Значение],
+            [Периоды].[Год_Месяц].[отчетный период],
+            [Показатели].[Показатель].[Объем приостановленных партий грузов] 
+        )' 
+    member [Measures].[Выявлено2] 
+    as 'iif
+        (
+            [Measures].[Выявлено2_] = 0,
+            null,
+            [Measures].[Выявлено2_]
+        )'
+    member [Measures].[Выявлено%] 
+    as 'iif
+        (
+            not isEmpty( [Measures].[Досмотрено] ) AND ( [Measures].[Досмотрено] > 0 ) and not isEmpty( [Measures].[Выявлено] ),
+            [Measures].[Выявлено] / [Measures].[Досмотрено],
+            null 
+        )'  
+    member [Measures].[Выявлено2%]
+    as 'iif
+        (
+            not isEmpty( [Measures].[Досмотрено2] ) AND ( [Measures].[Досмотрено2] > 0 ) and not isEmpty( [Measures].[Выявлено2] ),
+            [Measures].[Выявлено2] / [Measures].[Досмотрено2],
+            null
+        )'
+    member [Measures].[Название]
+    as 'iif
+        (
+            [Группы товаров].[Группа].currentMember is [Группы товаров].[Группа].[Всего],
+            "Всего",
+            [Группы товаров].[Группа].currentMember.Properties("Описание")
+        )'
+    member [Measures].[Уровень]
+    as 'IIF
+        (
+            [Группы товаров].[Группа].currentMember is [Группы товаров].[Группа].[Всего],
+            0,
+            1
+        )'  
+        
+    <#skk_pattern_rank#>
+    <#skk_pattern_rank2#>
+    
+    member [Группы товаров].[Группа].[Всего]
+    as 'sum( [Группы] )'
+    set [Группы]  
+    as 'filter 
+        (
+            [Группы товаров].[Группа].[Все группы].children,
+            not [Группы товаров].[Группа].currentMember is [Группы товаров].[Группа].[Все группы].[Не указана группа товаров]  
+        )'  
+select
+    {
+        [Measures].[Название],
+        [Measures].[Досмотрено],
+        [Measures].[Досмотрено2],
+        [Measures].[Выявлено],
+        [Measures].[Выявлено%],
+        [Measures].[Выявлено2],
+        [Measures].[Выявлено2%],
+        [Measures].[Выявлено%ранг],
+        [Measures].[Выявлено%ранг2],
+        [Measures].[Уровень]
+    } on columns,
+    { 
+        [Группы товаров].[Группа].[Всего]
+        + [Группы] 
+    } on rows 
+from
+    [СКК]
+where
+    (
+        <%where%>   
+    )
+  ]]>
+    </query>
+
+</root>

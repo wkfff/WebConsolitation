@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="date">
+    <![CDATA[
+-- FO_0035_0002_HMAO_date
+ 
+with 
+    member Measures.[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            NonEmptyCrossjoin({[Период].[Период].Members})
+        )
+    } on rows 
+from [ФО_Исполнение кассового плана] 
+]]>
+</query>
+
+<query id="Execute">
+<![CDATA[
+-- FO_0035_0002_HMAO_Execute
+ 
+with 
+    member Measures.[Код] 
+    as '[Показатели].[ИспКасПлан].CurrentMember.Properties("Код")' 
+    member [Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Доходы бюджета]
+    as '[Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Все].[Доходы областного бюджета]'    
+select
+    {
+        Measures.[Код]
+    } on columns,
+    {
+        [Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Доходы бюджета],
+        [Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Все].[Расходы - всего]
+    }  on rows 
+from [ФО_Исполнение кассового плана]
+	]]>
+  </query>
+  
+  <query id="ChartIncomes">
+    <![CDATA[
+-- FO_0035_0002_HMAO_ChartIncomes
+ 
+with
+    member [Measures].[Дата]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+    member Measures.[<%selectedItem%>]
+    as '[Measures].[Исполнено за период] / 1000'
+select
+    {
+        [Measures].[Дата],
+        [Measures].[<%selectedItem%>]
+    } on columns,
+    Filter
+     (
+        Generate    
+        (
+            Descendants    
+            (
+                [Период__Период].[Период__Период].[Данные всех периодов]<%period_quater%>,
+                [Период__Период].[Период__Период].[Месяц],
+                SELF    
+            ),
+            Descendants   
+            (
+                [Период__Период].[Период__Период].CurrentMember,
+                [Период__Период].[Период__Период].[День],
+                SELF   
+            )   
+        ),
+        [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+        [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+        [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+        [Период].[Период].CurrentMember.Name <> "Данные года" and 
+        not IsEmpty
+        (
+           [Measures].[<%selectedItem%>]
+        )
+     )  on rows
+from [ФО_Исполнение кассового плана]
+where
+    (
+        <%organization%>
+    )
+	]]>
+  </query>
+
+  <query id="GridIncomes">
+    <![CDATA[
+-- FO_0035_0002_HMAO_GridIncomes
+ 
+with
+    member Measures.[План, тыс.руб.]
+    as '[Measures].[План_Нарастающий итог] / 1000'
+    member Measures.[Факт, тыс.руб.]
+    as '[Measures].[Факт_Нарастающий итог] / 1000'
+    member Measures.[Факт за день, тыс.руб.]
+    as '[Measures].[Исполнено за период] / 1000'
+    member [Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Доходы бюджета]
+    as '[Показатели__ИспКасПлан].[Показатели__ИспКасПлан].[Все].[Доходы областного бюджета]'      
+select
+    {
+        {
+            {
+                [Measures].[План, тыс.руб.],
+                [Measures].[Факт, тыс.руб.],
+                [Measures].[Процент исполнения],
+                [Measures].[Факт за день, тыс.руб.]
+            }
+        }
+    } on columns,
+      Filter
+     (
+         Generate    
+        (
+            Descendants    
+            (
+                [Период__Период].[Период__Период].[Данные всех периодов]<%period_quater%>,
+                [Период__Период].[Период__Период].[Месяц],
+                SELF    
+            ),
+            {
+                [Период__Период].[Период__Период].CurrentMember  
+            } + Descendants   
+            (
+                [Период__Период].[Период__Период].CurrentMember,
+                [Период__Период].[Период__Период].[День],
+                SELF   
+            )   
+        ),
+        [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+        [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+        [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+        [Период].[Период].CurrentMember.Name <> "Данные года"  and
+        [Период].[Период].CurrentMember.Name <> "Заключительные обороты" and 
+        not IsEmpty
+        (
+           [Measures].[План, тыс.руб.]
+        )
+     )  on rows
+from  [ФО_Исполнение кассового плана]
+where
+    (
+        <%organization%>
+    )
+	]]>
+  </query>
+
+</root>
+

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+	<!-- Register types -->
+	<Types>
+		<!-- Repositoryes -->
+				
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastScenarioParamsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastScenarioParamsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastScenarioVarsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastScenarioVarsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastScenarioAdjsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastScenarioAdjsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastScenarioUnRegsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastScenarioUnRegsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastScenarioIndsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastScenarioIndsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastScenarioStaticRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastScenarioStaticRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastIdicPlanRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastIdicPlanRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastIdicAdjsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastIdicAdjsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<Register from="Krista.FM.RIA.Extensions.Forecast.MSERD.IForecastIdicIndsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  to="Krista.FM.RIA.Extensions.Forecast.MSERD.ForecastIdicIndsRepository, Krista.FM.RIA.Extensions.Forecast.MSERD"
+				  lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+		<!-- Services -->
+		
+	</Types>
+
+	<!-- Область навигации -->
+	<Navigation type="list" ID="acForecastMSERDExtension" icon="Vector" title="Сценарное прогнозирование" order="200" group="Прогнозирование" dashboardIcon="/Krista.FM.RIA.Extensions.Tasks/Presentation/Content/images/task-72.png/extention.axd" defaultItemId="">
+		<Items>
+			<Item ID="nidbeScenario" title="Сценарное прогнозирование" icon="Book">
+				<Params>
+					<Param name="url">'/View/Scenario'</Param>
+				</Params>
+			</Item>
+			<Item ID="nidbeValuation" title="Вариант расчета" icon="Book">
+				<Params>
+					<Param name="url">'/View/Valuation'</Param>
+				</Params>
+			</Item>
+			<Item ID="nidbeIdicPlanning" title="Индикативное планирование" icon="Book">
+				<Params>
+					<Param name="url">'/View/IdicPlanning'</Param>
+				</Params>
+			</Item>
+
+		</Items>
+		<Action>MdiTab.addTab({ title: menuItem.text, url: menuItem.url, icon: menuItem.iconCls, passParentSize: menuItem.passParentSize});</Action>
+		<ButtomBar></ButtomBar>
+	</Navigation>
+
+	<Views>
+
+		<!-- Навигационные представления-->
+
+		<View id="Scenario" title="Сценарное прогнозирование"
+			type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+			controlType="Krista.FM.RIA.Extensions.Forecast.MSERD.ScenarioView, Krista.FM.RIA.Extensions.Forecast.MSERD">
+		</View>
+
+		<View id="Valuation" title="Вариант расчета"
+			type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+			controlType="Krista.FM.RIA.Extensions.Forecast.MSERD.ValuationView, Krista.FM.RIA.Extensions.Forecast.MSERD">
+		</View>
+
+		<View id="IdicPlanning" title="Идикативное планирование"
+			type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+			controlType="Krista.FM.RIA.Extensions.Forecast.MSERD.IdicPlanningView, Krista.FM.RIA.Extensions.Forecast.MSERD">
+		</View>
+
+	</Views>
+</Extension>

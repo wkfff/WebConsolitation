@@ -1,0 +1,35 @@
+CALCULATE;
+
+//Период__Период
+SCOPE([Measures].[Недоимка нарастающим итогом]);
+    this = IIF(IsEmpty(CalculationPassValue([Measures].[Недоимка нарастающим итогом], 0)),
+IIF(not IsEmpty(CalculationPassValue([Measures].[Недоимка за период], 0)),
+CalculationPassValue(
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+([Measures].[Недоимка за период], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, Measures.[Недоимка за период]))
+, 1),
+CalculationPassValue([Measures].[Недоимка нарастающим итогом], 0)),
+CalculationPassValue([Measures].[Недоимка нарастающим итогом], 0));
+END SCOPE;
+
+SCOPE([Measures].[Недоимка за период]);
+    this = IIF(IsEmpty(CalculationPassValue([Measures].[Недоимка за период], 0)),
+IIF(not IsEmpty(CalculationPassValue([Measures].[Недоимка нарастающим итогом], 0)),
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год",
+([Measures].[Недоимка нарастающим итогом], [Период__Период].[Период__Период].CurrentMember),
+([Measures].[Недоимка нарастающим итогом], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[Недоимка нарастающим итогом], [Период__Период].[Период__Период].CurrentMember.PrevMember)),
+CalculationPassValue([Measures].[Недоимка за период], 0)),
+CalculationPassValue([Measures].[Недоимка за период], 0));
+END SCOPE;
+
+//Вычисляемые меры
+CREATE MEMBER CURRENTCUBE.Measures.[На начало года_расчет] AS 
+([Measures].[Недоимка нарастающим итогом],
+Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])/*.PrevMember.[Полугодие 2].[Квартал 4].[Декабрь]*/),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Прирост недоимки] AS 
+[Measures].[Недоимка нарастающим итогом] - [Measures].[На начало года_расчет],
+FORMAT_STRING = "Currency";

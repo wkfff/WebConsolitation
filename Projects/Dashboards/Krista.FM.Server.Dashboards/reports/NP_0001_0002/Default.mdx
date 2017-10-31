@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="NP_0001_0002_date">
+    <![CDATA[ -- NP_0001_0002_date
+	    select Code
+	    from DV_NatProject_AgSG
+    union
+	    select Code
+	    from DV_NatProject_EdSG
+    union
+	    select Code
+	    from DV_NatProject_HlSG
+    union
+	    select Code
+	    from DV_NatProject_HSG
+    ]]>
+  </query>
+
+  <query id="NP_0001_0002_grid">
+    <![CDATA[ -- NP_0001_0002_grid
+      select
+	      NumStr, Name, PlanDate, FactDate, Information, Cause, Note
+      from
+	      <%selected_project%>
+      where
+	      Code = <%selected_date%>
+    ]]>
+  </query>
+
+</root>

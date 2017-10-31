@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Расходы.КПЭ" ClassType="7" SubClassType="2" Description="Классификатор, включающий в себя раздел-подраздел расходной бюджетной классификации, классификатор целевых статей и видов расходов." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_R_KPI"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.R.KPI]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[0530d9c5-d2f4-437d-9dca-f601246c7ee0]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[ab23efe4-c7d3-4617-8972-44422cf46872]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[9d5e4ab3-7eea-4a7a-a22d-e8f84d4aa6e3]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Расходы" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Раздел;Подраздел;Уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_R_KPI"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_R_KPI"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_R_KPI"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_KPI"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Краткое наименование" ClassType="31" SubClassType="0" Description="" Caption="Краткое наименование" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_KPI"."SHORTTITL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_KPI"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Уровень иерархии" ClassType="31" SubClassType="0" Description="" Caption="Уровень иерархии" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_KPI"."HIERARCHYLEVEL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="РзПр" ClassType="31" SubClassType="0" Description="" Caption="РзПр" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_KPI"."RZPR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="КЦСР" ClassType="31" SubClassType="0" Description="" Caption="КЦСР" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_KPI"."KCSR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="КВР" ClassType="31" SubClassType="0" Description="" Caption="КВР" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_KPI"."KVR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_R_KPI"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

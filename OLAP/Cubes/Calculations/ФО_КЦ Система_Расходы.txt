@@ -1,0 +1,11 @@
+CALCULATE;
+
+//Период
+SCOPE([Период__Период].[Период__Период].[Данные всех периодов]);
+    this = IIF(not IsLeaf([Период__Период].[Период__Период]) and [Measures].CurrentMember.name <> "План за период", 
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty([Measures].CurrentMember)), 1).Item(0), ([Период__Период].[Период__Период].CurrentMember, [Measures].CurrentMember));
+END SCOPE;
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Остаток средств на ЛС ПБС] AS 
+[Measures].[План на дату с учетом поправок] - [Measures].[Исполнено на дату];

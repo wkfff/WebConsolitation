@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Организации.Планирование" ClassType="7" SubClassType="2" Description="Классификатор организаций, используемый при планировании доходов в разрезе налогообложения." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_ORGANIZATIONS_PLAN", "DV"."DV_REGIONS_PLAN_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_ORGANIZATIONS_PLAN"."REFREGIONSPLAN"="DV"."DV_REGIONS_PLAN_BRIDGE"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Organizations.Plan]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_ORGANIZATIONS_PLAN}{DV.D_ORGANIZATIONS_PLAN}{2400}{600}{2715}{2920}{1})({dv}{DV.DV_REGIONS_PLAN_BRIDGE}{DV.DV_REGIONS_PLAN_BRIDGE}{2925}{3975}{2160}{1525}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[b0b26df8-9243-415e-ac57-21fe800589f4]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[aeabb871-e583-439b-a329-b1f6ce78f212]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[445c2431-cfde-4525-b4a9-c03ec40bb6b4]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Организации" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Организации уровень 1;Организации уровень 2;Организации уровень 3;Организации уровень 4" Ordering="0" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_ORGANIZATIONS_PLAN"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_ORGANIZATIONS_PLAN"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_ORGANIZATIONS_PLAN"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ИНН" ClassType="31" SubClassType="0" Description="" Caption="ИНН" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_PLAN"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORGANIZATIONS_PLAN"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Район" ClassType="31" SubClassType="0" Description="" Caption="Район" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_PLAN_BRIDGE"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

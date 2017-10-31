@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+    <query id="OOS_0001_0001_calendar">
+        <![CDATA[
+-- OOS_0001_0001_calendar
+with cte_Territory (ID, Name, RefTerritorialPartType, ParentID, Level)
+as
+(
+	-- Anchor member definition
+	select ID, Name, RefTerritorialPartType, ParentID, 0 as Level
+    from [DV].[DV].[d_Territory_RF] t
+    where t.ID = <%param_territory%>
+    union all
+	-- Recursive member definition    
+    select t.ID, t.Name, t.RefTerritorialPartType, t.ParentID, terra.Level + 1
+    from 
+		[DV].[DV].[d_Territory_RF] t
+		inner join cte_Territory terra
+			ON t.ParentId = terra.ID    
+)
+select 
+	dt.DateDayID as Date, count(*) as Count, sum(oos_v.PMP) as Price
+from 
+	cte_Territory terra
+	inner join [DV].[DV].[f_OOS_Value] oos_v 
+		ON terra.ID = oos_v.RefTerritory 
+	inner join [DV].[DV].[d_OOS_Purchase] oos_p
+		ON oos_v.RefPurchase = oos_p.ID
+	inner join [DV].[DV].[fx_Date_YearDayUNV] dt
+		ON dt.ID = oos_p.RefPublicDate
+			OR dt.ID = oos_p.RefGiveDate
+			OR dt.ID = oos_p.RefConsiderDate
+			OR dt.ID = oos_p.RefMatchDate
+			OR dt.ID = oos_p.RefResultDate
+where 
+	terra.Level > 0	
+	AND	(oos_v.RefLevelOrder = 2 OR oos_v.RefLevelOrder = 3)
+    AND	(dt.ID > <%param_date_start%> AND dt.ID < <%param_date_end%>)
+group by
+	dt.DateDayID
+order by 
+	dt.DateDayID ASC
+    ]]>
+    </query>
+    
+    <query id="OOS_0001_0001_declared_purchases">
+        <![CDATA[
+-- OOS_0001_0001_declared_purchases
+with cte_Territory (ID, Name, RefTerritorialPartType, ParentID, Level)
+as
+(
+	-- Anchor member definition
+	select ID, Name, RefTerritorialPartType, ParentID, 0 as Level
+    from [DV].[DV].[d_Territory_RF] t
+    where t.ID = <%param_territory%>
+    union ALL
+	-- Recursive member definition    
+    select t.ID, t.Name, t.RefTerritorialPartType, t.ParentID, terra.Level + 1
+    from 
+		[DV].[DV].[d_Territory_RF] t
+		inner join cte_Territory terra
+			ON t.ParentId = terra.ID    
+)
+select
+	oos_pt.Name as TypePurch, oos_p.RefTypePurch as TypePurchID, count(*) as Count, sum(oos_v.PMP) as Price
+from 
+	cte_Territory terra
+	inner join [DV].[DV].[f_OOS_Value] oos_v 
+		ON terra.ID = oos_v.RefTerritory 
+	inner join [DV].[DV].[d_OOS_Purchase] oos_p
+		ON oos_p.ID = oos_v.RefPurchase
+	inner join [DV].[DV].[fx_OOS_TypePurch] oos_pt
+		ON oos_pt.ID = oos_p.RefTypePurch	
+where 	
+	terra.Level > 0	
+	AND	(oos_v.RefLevelOrder = 2 OR oos_v.RefLevelOrder = 3)
+	AND (oos_p.RefPublicDate <= <%param_date%>)
+    AND (
+			(
+			select max(value)
+			from (
+				select oos_p.RefGiveDate as value union all
+				select oos_p.RefConsiderDate union all
+				select oos_p.RefMatchDate union all
+				select oos_p.RefResultDate
+				) as tmp		
+			) >= <%param_date%>
+		)
+group by
+	oos_pt.Name, oos_p.RefTypePurch
+order by 
+	Price DESC
+    ]]>
+    </query>
+    
+    <query id="OOS_0001_0001_top_purchases">
+        <![CDATA[
+-- OOS_0001_0001_top_purchases
+with cte_Territory (ID, Name, RefTerritorialPartType, ParentID, Level)
+as
+(
+	-- Anchor member definition
+	select ID, Name, RefTerritorialPartType, ParentID, 0 as Level
+    from [DV].[DV].[d_Territory_RF] t
+    where t.ID = <%param_territory%>
+    union ALL
+	-- Recursive member definition    
+    select t.ID, t.Name, t.RefTerritorialPartType, t.ParentID, terra.Level + 1
+    from 
+		[DV].[DV].[d_Territory_RF] t
+		inner join cte_Territory terra
+			ON t.ParentId = terra.ID    
+)
+select top 10
+	oos_p.RefTypePurch as TypePurchID, oos_lo.Name as BudgetLevel, terra.Name as Terra, 
+	oos_org.FullName as Customer, oos_p.Name as Purchase, oos_v.PMP as Price, oos_p.Link as Link,
+	oos_p.RefPublicDate, oos_p.RefGiveDate, oos_p.RefConsiderDate, oos_p.RefMatchDate, oos_p.RefResultDate
+from 
+	cte_Territory terra
+	inner join [DV].[DV].[f_OOS_Value] oos_v 
+		ON terra.ID = oos_v.RefTerritory 
+	inner join [DV].[DV].[d_OOS_Purchase] oos_p
+		ON oos_p.ID = oos_v.RefPurchase	
+	inner join [DV].[DV].[fx_OOS_LevelOrder] oos_lo
+		ON oos_lo.ID = oos_v.RefLevelOrder
+	inner join [DV].[DV].[d_OOS_Org] oos_org
+		ON oos_org.ID = oos_v.RefOrg	
+where 
+	terra.Level > 0	
+    AND	(oos_v.RefLevelOrder = 2 OR oos_v.RefLevelOrder = 3)
+	AND (oos_p.RefPublicDate <= <%param_date%>)
+	AND (
+			(
+			select max(value)
+			from (
+				select oos_p.RefGiveDate as value union all
+				select oos_p.RefConsiderDate union all
+				select oos_p.RefMatchDate union all
+				select oos_p.RefResultDate
+				) as tmp		
+			) >= <%param_date%>
+		)
+order by 
+	oos_v.PMP DESC
+    ]]>
+    </query>  
+    
+</root>

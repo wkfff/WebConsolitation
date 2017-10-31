@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+  <?include Variables.wxi?>
+
+  <Fragment>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="MDXShortcut" Guid="{10D5078E-F606-4176-9EFA-F5DBF247C091}">
+        <Shortcut Id="ShortcuMDXExpert"
+        Name="$(var.Manufacturer).$(var.Division).$(var.MDXExpert)"
+        Description="$(var.ProductName)"
+        Target="[INSTALLDIR]MDXExpert.exe"
+        WorkingDirectory="INSTALLDIR" />
+
+        <Shortcut Id="ShortcuMDXExpertConnect"
+        Name="Соединение"
+        Description="$(var.ProductName) Соединение"
+        Target="[INSTALLDIR]Connection.exe"
+        WorkingDirectory="INSTALLDIR"/>
+
+       <Shortcut Id="ShortcuMDXExpertManual"
+       Name="Руководство пользователя MDX Эксперт 3"
+       Description="$(var.ProductName) Руководство пользователя MDX Эксперт 3"
+       Target="[INSTALLDIR]Руководство пользователя MDX Эксперт 3.doc"
+       WorkingDirectory="INSTALLDIR"/>
+        
+      <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+      <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+      <Condition>SHORTCUT_PROGRAMMENU</Condition>
+
+      </Component>
+     </DirectoryRef>
+
+    <!-- Рабочии стол -->
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopWPShortcut" Guid="{2056138D-2675-4386-8B33-A2DF58EC17EB}">
+        <Shortcut Id="DesctopShortcutMDXExpert"
+        Name="$(var.Manufacturer).$(var.Division).$(var.MDXExpert)"
+        Description="$(var.ProductName)"
+        Target="[INSTALLDIR]MDXExpert.exe"
+        WorkingDirectory="INSTALLDIR"/>
+
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+        <Condition>SHORTCUT_DESKTOP</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder3">
+      <Component Id="CompanyMenuFolder"
+        Guid="{538E16CA-A0D1-48b6-8F68-5AEA0091BFEF}" Feature="ProductFeature">
+        <RemoveFolder Id="ApplicationProgramsFolder3" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="ApplicationProgramsFolder2">
+      <Component Id="CompanyMenuFolder2"
+        Guid="{AC5CA100-B9AB-490d-ACA5-6E581EF09764}" Feature="ProductFeature">
+        <RemoveFolder Id="ApplicationProgramsFolder2" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="installed" Type="integer" Value="1"  />
+      </Component>
+    </DirectoryRef>
+    
+  </Fragment>
+</Wix>

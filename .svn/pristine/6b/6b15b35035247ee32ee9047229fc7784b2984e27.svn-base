@@ -1,0 +1,27 @@
+CALCULATE;
+
+SCOPE({[Measures].[С начала года]});
+this = IIF([Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Месяц], [Период__Период].[Период__Период].CurrentMember,
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0));
+END SCOPE;
+
+CREATE MEMBER CURRENTCUBE.Measures.[За аналогичный период прошлого года] AS ([Measures].[За период], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к прошлому году] AS IIF(IsEmpty([Measures].[За аналогичный период прошлого года]),
+null,
+Measures.[За период]/Measures.[За аналогичный период прошлого года]
+), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[За аналогичный период прошлого года нараст итог] AS ([Measures].[С начала года], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)), FORMAT_STRING = "Currency";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к прошлому году нараст итог] AS IIF(IsEmpty([Measures].[За аналогичный период прошлого года]),
+null,
+Measures.[За период]/Measures.[За аналогичный период прошлого года]
+), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к прошлому периоду] AS IIF([Период__Период].[Период__Период].CurrentMember.Name = "Июль", IIF(IsEmpty(([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Lag(3))) or
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Lag(3)) = 0, null,
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember)/([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Lag(3))),
+IIF([Период__Период].[Период__Период].CurrentMember.Name = "Апрель" or [Период__Период].[Период__Период].CurrentMember.Name = "Октябрь", IIF(IsEmpty(([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Lag(2))) or
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Lag(2)) = 0, null,
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember)/([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.Lag(2))),
+IIF(IsEmpty(([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.PrevMember)) or
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.PrevMember) = 0,
+null,
+([Measures].[За период], [Период__Период].[Период__Период].CurrentMember)/([Measures].[За период], [Период__Период].[Период__Период].CurrentMember.PrevMember)))), FORMAT_STRING = "Percent";

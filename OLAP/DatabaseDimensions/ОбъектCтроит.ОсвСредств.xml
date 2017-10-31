@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="ОбъектCтроит.ОсвСредств" ClassType="7" SubClassType="2" Description="Классификатор, сформированный по данным, поступающим от ГРБС,  вместе с отчетом об освоении средств" DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."D_BUILDOBJ_USAGEMEANS"]]></property>
+  <property name="JoinClause"><![CDATA[]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.BuildObj.UsageMeans]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_BUILDOBJ_USAGEMEANS}{DV.D_BUILDOBJ_USAGEMEANS}{2400}{600}{2538}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[f1597e28-cf05-4c2d-b223-1b0267274995]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[6d4a98f4-5ccb-4f68-9805-d0a63467e581]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[a49f35b8-2891-4aad-9286-13d5e8289b73]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Объекты строительства" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Уровень *" Ordering="0" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_BUILDOBJ_USAGEMEANS"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_BUILDOBJ_USAGEMEANS"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_BUILDOBJ_USAGEMEANS"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Стоимость" ClassType="31" SubClassType="0" Description="" Caption="Стоимость" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="5" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_BUILDOBJ_USAGEMEANS"."COST"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Подрядчик" ClassType="31" SubClassType="0" Description="" Caption="Подрядчик" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_BUILDOBJ_USAGEMEANS"."CONTRACTOR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Местоположение" ClassType="31" SubClassType="0" Description="" Caption="Местоположение" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_BUILDOBJ_USAGEMEANS"."LOCATION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_BUILDOBJ_USAGEMEANS"."ID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

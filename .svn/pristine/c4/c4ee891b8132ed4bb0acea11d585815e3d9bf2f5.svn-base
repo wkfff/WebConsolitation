@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="IP_0001_0002_project">
+    <![CDATA[ -- IP_0001_0002_project
+      select ipr.ID, ipr.Code, ipr.Name
+      from d_InvProject_Reestr ipr
+      where ipr.RefStatus = 2 and ipr.RefPart = 1
+    ]]>
+  </query>
+
+  <query id="IP_0001_0002_grid1">
+    <![CDATA[ -- IP_0001_0002_grid1
+      select
+      i_pr.Code, i_pr.Name, t_rf.Name as Terr, i_pr.InvestorName, i_pr.LegalAddress, i_pr.MailingAddress, i_pr.Email, i_pr.Phone, i_pr.Contact,
+      i_pr.Goal, d_begin_ydu.DateYear as BeginYear, d_end_ydu.DateYear as EndYear, ' ' as TEP, i_pr.ExpectedOutput, i_pr.Production, i_pr.PaybackPeriod,
+      i_pr.DocBase, i_pr.InvestAgreement, i_pr.AddMech, i_pr.ExpertOpinion, o_o.Name as OKVED, i_pr.RosterDate
+      from
+      d_InvProject_Reestr i_pr, d_Territory_RF t_rf, fx_Date_YearDayUNV d_begin_ydu, fx_Date_YearDayUNV d_end_ydu, d_OK_OKVED o_o
+      where
+      i_pr.RefTerritory = t_rf.ID and i_pr.RefBeginDate = d_begin_ydu.ID and i_pr.RefEndDate = d_end_ydu.ID and i_pr.RefOKVED = o_o.ID and i_pr.ID = <%project_id%>
+    ]]>
+  </query>
+
+  <query id="IP_0001_0002_grid2">
+    <![CDATA[ -- IP_0001_0002_grid2
+      select
+      ip_i.Name, d_ydu.DateYear, ip_d.Value as Value
+      from
+      f_InvProject_Data ip_d, d_InvProject_Indic ip_i, fx_Date_YearDayUNV d_ydu
+      where
+      ip_i.ID = ip_d.RefIndicator and ip_i.RefTypeI = 1 and d_ydu.ID = ip_d.RefDate and ip_d.RefReestr = <%project_id%>
+    ]]>
+  </query>
+
+  <query id="IP_0001_0002_grid3">
+    <![CDATA[ -- IP_0001_0002_grid3
+      select
+      ip_i.Name, d_ydu.DateYear, ip_d.Value as Value
+      from
+      f_InvProject_Data ip_d, d_InvProject_Indic ip_i, fx_Date_YearDayUNV d_ydu
+      where
+      ip_i.ID = ip_d.RefIndicator and ip_i.RefTypeI = 2 and d_ydu.ID = ip_d.RefDate and ip_d.RefReestr = <%project_id%>
+    ]]>
+  </query>
+
+  <query id="IP_0001_0002_chart1_plan">
+    <![CDATA[ -- IP_0001_0002_chart1_plan
+      select
+      sum(ip_d.Value)
+      from
+      f_InvProject_Data ip_d, d_InvProject_Indic ip_i, fx_Date_YearDayUNV d_ydu
+      where
+      ip_i.ID = ip_d.RefIndicator and d_ydu.ID = ip_d.RefDate and ip_d.RefReestr = <%project_id%> and d_ydu.DateYear = <%year%> and ip_i.RefTypeI = <%ref_type_i%>
+    ]]>
+  </query>
+
+  <query id="IP_0001_0002_chart1_fact">
+    <![CDATA[ -- IP_0001_0002_chart1_fact
+      select
+      sum(ip_d.Value)
+      from
+      f_InvProject_Data ip_d, d_InvProject_Indic ip_i, fx_Date_YearDayUNV d_ydu
+      where
+      ip_i.ID = ip_d.RefIndicator and d_ydu.ID = ip_d.RefDate and ip_d.RefReestr = <%project_id%> and d_ydu.DateYear = <%year%> and ip_i.Code = <%code%>
+      and d_ydu.Name like 'Квартал%'
+  ]]>
+  </query>
+
+  <query id="IP_0001_0002_years">
+    <![CDATA[
+      select
+      distinct d_ydu.DateYear
+      from
+      f_InvProject_Data ip_d, d_InvProject_Indic ip_i, fx_Date_YearDayUNV d_ydu
+      where
+      ip_i.ID = ip_d.RefIndicator and d_ydu.ID = ip_d.RefDate and ip_d.RefReestr = <%project_id%> and d_ydu.Name like 'Квартал%'
+    ]]>
+  </query>
+
+  <query id="IP_0001_0002_grid4_list">
+    <![CDATA[ -- IP_0001_0002_grid4_list
+      select
+      distinct ip_i.ID, ip_i.Name, u_o.Symbol
+      from
+      d_InvProject_Indic ip_i, f_InvProject_Data ip_d, d_Units_OKEI u_o
+      where
+      u_o.ID = ip_i.RefOKEI and ip_d.RefIndicator = ip_i.ID and ip_i.RefTypeI = 3 and ip_d.RefReestr = <%project_id%> 
+    ]]>
+  </query>
+
+  <query id="IP_0001_0002_grid4_prev_year">
+    <![CDATA[ -- IP_0001_0002_grid4_prev_year
+      select
+      ip_d.Value
+      from
+      f_InvProject_Data ip_d, d_InvProject_Indic ip_i, fx_Date_YearDayUNV d_ydu
+      where
+      ip_i.ID = ip_d.RefIndicator and d_ydu.ID = ip_d.RefDate and ip_d.RefReestr = <%project_id%> and d_ydu.DateYear = <%year%> and ip_i.ID = <%code%>
+    ]]>
+  </query>
+
+  <query id="IP_0001_0002_grid4_quarter_sum">
+    <![CDATA[ -- IP_0001_0002_grid4_total_sum
+      select
+      sum(ip_d.Value)
+      from
+      f_InvProject_Data ip_d, d_InvProject_Indic ip_i, fx_Date_YearDayUNV d_ydu
+      where
+      ip_i.ID = ip_d.RefIndicator and d_ydu.ID = ip_d.RefDate and ip_d.RefReestr = <%project_id%> and ip_i.ID = <%code%> and d_ydu.Name like 'Квартал <%quarter%>' and d_ydu.DateYear = <%year%>
+    ]]>
+  </query>
+
+</root>

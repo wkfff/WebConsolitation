@@ -1,0 +1,23 @@
+CALCULATE;
+
+SCOPE(Descendants([Период__Период].[Период__Период].[Данные всех периодов]));
+this = IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов],
+Sum(([Период__Период].[Период__Период].CurrentMember.Children, [Measures].CurrentMember)),
+IIF(not ISLeaf([Период__Период].[Период__Период].CurrentMember), 
+([Период__Период].[Период__Период].CurrentMember.firstChild, [Measures].CurrentMember),
+([Период__Период].[Период__Период].CurrentMember, [Measures].CurrentMember)));
+END SCOPE;
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение факта от оценки] AS [Measures].[Факт] - [Measures].[Оценка];
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение предыдущего факта от факта] AS [Measures].[Предшествующий факт] - [Measures].[Факт];
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение оценки от прогноза] AS [Measures].[Оценка] - [Measures].[Прогноз];
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста к аналогичному периоду прошлого года_факт] AS IIF(IsEmpty(([Measures].[Факт], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember))) or ([Measures].[Факт], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)) = 0, null, 
+[Measures].[Факт] / ([Measures].[Факт], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember))
+), FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста к аналогичному периоду прошлого года_факт] AS IIF(IsEmpty(([Measures].[Факт], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember))) or ([Measures].[Факт], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)) = 0, null, 
+[Measures].[Факт] / (([Measures].[Факт], ParallelPeriod([Период__Период].[Период__Период].[Год], 1, [Период__Период].[Период__Период].CurrentMember)) - 1)
+), FORMAT_STRING = "Percent";

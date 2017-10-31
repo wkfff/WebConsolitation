@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="UserRoleFO51" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.FO51PassportMO.UserRoleFO51Provider, Krista.FM.RIA.Extensions.FO51PassportMO"></ValueProvider>
+    </Param>
+  </Params>
+
+  <!-- Register types -->
+  <Types>
+    <Register from="Krista.FM.RIA.Extensions.FO51PassportMO.Services.IFactsPassportMOService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              to="Krista.FM.RIA.Extensions.FO51PassportMO.Services.FactsPassportMOService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO51PassportMO.Services.IFactsCheckDefectsService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              to="Krista.FM.RIA.Extensions.FO51PassportMO.Services.FactsCheckDefectsService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO51PassportMO.Services.IFactsPassportMOSaveService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              to="Krista.FM.RIA.Extensions.FO51PassportMO.Services.FactsPassportMOSaveService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO51PassportMO.Services.IFactsByMesOtchService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              to="Krista.FM.RIA.Extensions.FO51PassportMO.Services.FactsByMesOtchService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.FO51PassportMO.Services.IControlService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              to="Krista.FM.RIA.Extensions.FO51PassportMO.Services.ControlService, Krista.FM.RIA.Extensions.FO51PassportMO"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+  </Types>
+  
+    <!-- Область навигации -->
+  <Navigation type="list" ID="acFO51" icon="Vector" title="Антикризисный паспорт МО" order="200" group="Сбор данных" dashboardIcon="/Krista.FM.RIA.Extensions.Tasks/Presentation/Content/images/task-72.png/extention.axd" defaultItemId="">
+    <Items>
+      <Item ID="nidbeEditPassport" title="Сбор данных с МО по антикризисному паспорту" icon="ApplicationViewList" condition="$(UserRoleFO51) == 'МО'">
+        <Params>
+          <Param name="url">'/View/EditPassportMO'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeCheckPassport" title="Сверка собранных с МО данных по антикризисному паспорту" icon="ApplicationViewList" condition="$(UserRoleFO51) == 'OGV'">
+        <Params>
+          <Param name="url">'/View/CheckPassportMO'</Param>
+        </Params>
+      </Item>
+
+    </Items>
+    <Action>MdiTab.addTab({ title: menuItem.text, url: menuItem.url, icon: menuItem.iconCls, passParentSize: menuItem.passParentSize});</Action>
+    <ButtomBar></ButtomBar>
+  </Navigation>
+
+  <Views>
+
+    <View id="EditPassportMO" title="Сбор данных с МО по антикризисному паспорту"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.FO51PassportMO.Presentation.Views.EditPassportMOView, Krista.FM.RIA.Extensions.FO51PassportMO">
+    </View>
+
+    <View id="CheckPassportMO" title="Сверка данных"
+        type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+        controlType="Krista.FM.RIA.Extensions.FO51PassportMO.Presentation.Views.CheckPassportMOView, Krista.FM.RIA.Extensions.FO51PassportMO" >
+    </View>
+
+  </Views>
+</Extension>

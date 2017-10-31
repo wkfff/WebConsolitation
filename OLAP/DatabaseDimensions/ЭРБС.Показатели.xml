@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="ЭРБС.Показатели" ClassType="7" SubClassType="0" Description="" DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_ERBS_MARKS", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_ERBS_MARKS"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.ERBS.Marks]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_ERBS_MARKS}{DV.DV_ERBS_MARKS}{2400}{600}{1995}{2665}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2385}{3090}{1950}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[5e4da7a5-b330-4da1-84ff-01a28a62fd42]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[d85a31fa-c603-417b-9bdc-e7c63952a7aa]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[e49653a6-247b-475d-9055-80a9df84e8f1]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="true" IsUnique="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Направление" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код направления">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ERBS_MARKS"."REFTREND"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_ERBS_MARKS"."TRENDNAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код направления" ClassType="31" SubClassType="0" Description="" Caption="Код направления" PropertyType="0" IsVisible="false" ColumnSize="20" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ERBS_MARKS"."TRENDCODESTR"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Группа" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="6" IsVisible="true" Ordering="2" OrderingMemberProperty="Код группы">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ERBS_MARKS"."REFGROUP"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_ERBS_MARKS"."GROUPNAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код группы" ClassType="31" SubClassType="0" Description="" Caption="Код группы" PropertyType="0" IsVisible="false" ColumnSize="20" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ERBS_MARKS"."GROUPCODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Вес" ClassType="31" SubClassType="0" Description="" Caption="Вес" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ERBS_MARKS"."GROUPCOEFF"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатель" ClassType="8" SubClassType="0" Description="" Num="4" LevelType="0" Grouping="0" AreMemberKeysUnique="true" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="16" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_ERBS_MARKS"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_ERBS_MARKS"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ERBS_MARKS"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="20" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ERBS_MARKS"."CODESTR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обратное значение" ClassType="31" SubClassType="0" Description="" Caption="Обратное значение" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_ERBS_MARKS"."REVVALUE"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

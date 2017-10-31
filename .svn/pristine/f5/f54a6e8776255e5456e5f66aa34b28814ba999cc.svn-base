@@ -1,0 +1,969 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0002_0006_date">
+    <![CDATA[
+-- FO_0002_0006_compare_date
+with
+    member [Measures].[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                <%period_dimension%>.Members,
+                not IsEmpty([Measures].[Факт])
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФО_МесОтч_Расходы]
+  ]]>
+  </query>
+
+  <query id="FO_0002_0006_compare_grid">
+    <![CDATA[
+-- FO_0002_0006_compare_grid  
+with    
+    member Measures.[isMRGO] 
+    as 'not( <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидированный бюджет субъекта] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[Муниципальные районы ] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[Городские округа ]) '
+    member Measures.[Исполнено млн]       
+    as ' [Measures].[Факт] / <%rub_multiplier%> '     
+    member Measures.[Доля]       
+    as 'IIF(
+        IsEmpty((
+            [Measures].[Факт],
+            <%fkr_dimension%>.[Всего расходов ]  
+        )) or (
+            [Measures].[Факт],
+            <%fkr_dimension%>.[Всего расходов ]  
+        ) = 0, null,
+        (
+            [Measures].[Факт],
+            <%fkr_dimension%>.CurrentMember       
+        )/       
+        (
+            [Measures].[Факт],
+            <%fkr_dimension%>.[Всего расходов ]  
+        ))'     
+    member Measures.[Ранг МО]    
+    as 'IIF       
+        (
+            IsEmpty ( [Measures].[Доля] ) or [Measures].[Доля] = 0 or Measures.[<%ranking_condition%>],
+            null,
+            Rank       
+            (
+                <%region_dimension%>.CurrentMember,
+                Order       
+                (
+                    Filter       
+                    (
+                        [<%ranking_set%>],
+                        not (IsEmpty ( [Measures].[Доля] ) or [Measures].[Доля] = 0) and Measures.[isMRGO]
+                    ),
+                    [Measures].[Доля],
+                    BDESC       
+                ),
+                [Measures].[Доля]       
+            )       
+        )'        
+    member Measures.[Худший ранг МО]    
+    as 'IIF       
+        (
+            IsEmpty ( [Measures].[Доля] ) or [Measures].[Доля] = 0,
+            null,
+            max       
+            (
+                [<%ranking_set%>],
+                Measures.[Ранг МО]    
+            )       
+        ) '     
+
+    member<%region_dimension%>.[Консолидированный бюджет субъекта]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_consolidate_level%>,
+                    <%consolidate_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_consolidate_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_consolidate_level%>,
+                <%consolidate_document_skif_type%>
+            )
+        )'
+    
+    member<%region_dimension%>.[<%own_subject_budget_name%>]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_consolidate_level%>,
+                    <%consolidate_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_consolidate_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_consolidate_level%>,
+                <%consolidate_document_skif_type%>
+            )
+        )'
+    
+    member<%region_dimension%>.[Местные бюджеты]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_local_budget_level%>,
+                    <%local_budget_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_local_budget_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_local_budget_level%>,
+                <%local_budget_document_skif_type%>
+            )
+        )'   
+   
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]    
+    as 'IIF    
+        (
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидированный бюджет субъекта],
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF    
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+                IIF    
+                (
+                    <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+                    <%local_budget_skif_level%>,
+                    <%region_budget_skif_level%>    
+                )    
+            )    
+        ) '    
+    member <%fkr_dimension%>.[Всего расходов ]    
+    as '<%fkr_dimension%>.[<%outcomes_total_item%>]' 
+    member <%fkr_dimension%>.[Всего расходов без внутренних оборотов ]   
+    as 'IIF
+        (
+            <%region_dimension%>.CurrentMember is <%regions_local_budget_level%>,
+            <%fkr_dimension%>.[Аггрегированные расходы итого],
+            IIF
+            (
+                <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР" and 
+                <%period_dimension%>.CurrentMember.Properties("PKID") < [Период].[Период].[Данные всех периодов].[2010].[Полугодие 1].[Квартал 2].[Май].Properties("PKID"),
+                IIF
+                (
+                    IsEmpty(<%fkr_dimension%>.[Аггрегированные расходы итого]),
+                    null,
+                    (
+                        <%fkr_dimension%>.[Аггрегированные расходы итого]
+                    ) -   
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Дотации бюджетам субъектов Российской Федерации и муниципальных образований] 
+                    ) -  
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Субсидии бюджетам субъектов Российской Федерации и муниципальных образований (межбюджетные субсидии)] 
+                    ) -  
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Субвенции бюджетам субъектов Российской Федерации и муниципальных образований] 
+                    ) -  
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Иные межбюджетные трансферты] 
+                    )
+                ),
+                <%fkr_dimension%>.[Аггрегированные расходы итого]
+            )
+       )     '  
+    member <%fkr_dimension%>.[Всего расходов c внутренними оборотами ]   
+    as ' <%outcomes_total%> '     
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'     
+    member Measures.[UniqName]     
+    as '<%region_dimension%>.CurrentMember.UniqueName'  
+    
+    set [Разделы ФКР]  
+    as 'Filter
+        (
+            Descendants 
+            (
+                <%fkr_dimension%>.[Все коды ФКР],
+                <%fkr_dimension%>.[Раздел],
+                SELF 
+            ) -
+            {
+                <%outcomes_total%>
+            },
+            (
+                <%fkr_dimension%>.CurrentMember.Name <> "Несопоставленные данные"
+            ) and 
+            (
+                <%fkr_dimension%>.CurrentMember.Name <> "Итого внутренних оборотов"
+            ) and 
+            (
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+            )
+        ) ' 
+        
+   member <%fkr_dimension%>.[Аггрегированные расходы итого]   
+   as 'Aggregate
+        (
+          {
+            [Разделы ФКР]  
+          }
+        )'
+    member [КОСГУ].[Сопоставимый].[Фильтр по КОСГУ]
+    as 'Aggregate
+        (
+            Filter
+            (
+                [КОСГУ].[Сопоставимый].[Все коды ЭКР].Children,
+                [КОСГУ].[Сопоставимый].CurrentMember.Properties("Код") <> "960"
+            )
+        )'    
+
+     member [ТипДокумента].[СКИФ].[Тип документа ]
+     as '
+        IIF
+        (
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидированный бюджет субъекта] or
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>] or
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+            <%consolidate_document_skif_type%>,
+            <%region_document_skif_type%>
+        )'  
+        
+    set [Города] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                <%region_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF 
+            ),
+            not 
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                <%region_dimension%>.CurrentMember.Properties("Тип территории") = "ГО"
+            ) 
+        )' 
+    set [Районы] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                <%region_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF 
+            ),
+            not 
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР"
+            ) 
+        )'         
+    
+    member <%region_dimension%>.[Муниципальные районы ]    
+    as 'Aggregate({[Районы]})'   
+    
+    member <%region_dimension%>.[Городские округа ]    
+    as 'Aggregate({[Города]})'    
+    
+    set [Города и районы]
+    as '[Города] + [Районы]'         
+    
+    member Measures.[isNotRankingMO] 
+    as ' <%region_dimension%>.CurrentMember is <%regions_consolidate_level%> or 
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидированный бюджет субъекта] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[Муниципальные районы ] or
+         <%region_dimension%>.CurrentMember is <%region_dimension%>.[Городские округа ]'
+         
+    member Measures.[isNotRankingMR] 
+    as ' Measures.[isNotRankingMO] or <%region_dimension%>.CurrentMember.Properties("Тип территории") = "ГО"'    
+    
+    member <%fkr_dimension%>.[Расходы итого ]
+    as 'Aggregate 
+        (
+            {
+                Filter 
+                (
+                    Descendants 
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР],
+                        <%fkr_dimension%>.[Раздел],
+                        SELF 
+                    ),
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "0"
+                    ) and
+                    (
+                       <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+                    ) and
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9700"
+                    ) and
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9800"
+                    ) 
+                ) 
+            } 
+        )'   
+    member [ТипДокумента].[СКИФ].[Собственные отчеты МР и ГО] 
+    as '   
+      Aggregate
+      (
+        {
+          [ТипДокумента].[СКИФ].[Все].[Собственный отчет городского округа],
+          [ТипДокумента].[СКИФ].[Все].[Собственный отчет района]
+        }
+      )'          
+select
+    {   
+        {
+          {
+            Filter
+            (
+                [Разделы ФКР],
+                not IsEmpty(Measures.[Исполнено млн])
+            )
+          }
+          * 
+          {
+              Measures.[Исполнено млн],
+              Measures.[Доля],
+              Measures.[Ранг МО],
+              Measures.[Худший ранг МО]
+          }
+        }
+        +
+        {
+           { <%fkr_dimension%>.[Всего расходов ] } *
+           {  
+              Measures.[Исполнено млн], Measures.[UniqName]
+           }
+        }
+    } on columns,
+    Non Empty
+    {
+        {
+            <%region_dimension%>.[Консолидированный бюджет субъекта],
+            <%region_dimension%>.[<%own_subject_budget_name%>],
+            <%region_dimension%>.[Местные бюджеты]    
+        } + {<%region_dimension%>.[Городские округа ]} + [Города] +
+        {<%region_dimension%>.[Муниципальные районы ]} + [Районы]
+    } on rows    
+from [ФО_МесОтч_Расходы]    
+where       
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        [ТипДокумента].[СКИФ].[Тип документа ],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ],
+        <%kosgu_filter%>
+    )   
+  ]]>
+  </query>
+
+  <query id="FO_0002_0006_compare_chart1">
+    <![CDATA[
+-- FO_0002_0006_compare_chart1
+with   
+      
+    set [Разделы ФКР]  
+    as 'Filter
+        (
+            Descendants 
+            (
+                <%fkr_dimension%>.[Все коды ФКР],
+                <%fkr_dimension%>.[Раздел],
+                SELF 
+            ) -
+            {
+                <%outcomes_total%>
+            },
+            (
+                <%fkr_dimension%>.CurrentMember.Name <> "Несопоставленные данные"
+            ) and 
+            (
+                <%fkr_dimension%>.CurrentMember.Name <> "Итого внутренних оборотов"
+            ) and 
+            (
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+            )
+        ) ' 
+        
+   member <%fkr_dimension%>.[Аггрегированные расходы итого]   
+   as 'Aggregate
+        (
+          {
+            [Разделы ФКР]  
+          }
+        )'      
+    member Measures.[Доля]   
+    as 'IIF   
+        (
+            IsEmpty([Measures].[Факт]) or [Measures].[Факт] <= 0,
+            null,
+            (
+                [Measures].[Факт],
+                <%fkr_dimension%>.CurrentMember   
+            )/Sum   
+            (
+                [Разделы ФКР],
+                IIF  
+                (
+                    [Measures].[Факт] < 0,
+                    0,
+                    [Measures].[Факт]
+                )   
+            )  
+        )'    
+    
+    member <%fkr_dimension%>.[Всего расходов без внутренних оборотов ]   
+    as 'IIF
+        (
+            <%region_dimension%>.CurrentMember is <%regions_local_budget_level%>,
+            <%fkr_dimension%>.[Аггрегированные расходы итого],
+            IIF
+            (
+                <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР" and 
+                <%period_dimension%>.CurrentMember.Properties("PKID") < [Период].[Период].[Данные всех периодов].[2010].[Полугодие 1].[Квартал 2].[Май].Properties("PKID"),
+                IIF
+                (
+                    IsEmpty(<%fkr_dimension%>.[Аггрегированные расходы итого]),
+                    null,
+                    (
+                        <%fkr_dimension%>.[Аггрегированные расходы итого]
+                    ) -   
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Дотации бюджетам субъектов Российской Федерации и муниципальных образований] 
+                    ) -  
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Субсидии бюджетам субъектов Российской Федерации и муниципальных образований (межбюджетные субсидии)] 
+                    ) -  
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Субвенции бюджетам субъектов Российской Федерации и муниципальных образований] 
+                    ) -  
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР].[МЕЖБЮДЖЕТНЫЕ ТРАНСФЕРТЫ].[Иные межбюджетные трансферты] 
+                    )
+                ),
+                <%fkr_dimension%>.[Аггрегированные расходы итого]
+            )
+       )     '     
+    member <%fkr_dimension%>.[Всего расходов c внутренними оборотами ]   
+    as ' <%outcomes_total%> '    
+    
+    member <%region_dimension%>.[Консолидир. бюджет]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_consolidate_level%>,
+                    <%consolidate_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_consolidate_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_consolidate_level%>,
+                <%consolidate_document_skif_type%>
+            )
+        )'
+    
+    member<%region_dimension%>.[<%own_subject_budget_name%>]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_consolidate_level%>,
+                    <%consolidate_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_consolidate_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_consolidate_level%>,
+                <%consolidate_document_skif_type%>
+            )
+        )'
+    
+    member<%region_dimension%>.[Местные бюджеты]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_local_budget_level%>,
+                    <%local_budget_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_local_budget_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_local_budget_level%>,
+                <%local_budget_document_skif_type%>
+            )
+        )'   
+   
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]    
+    as 'IIF    
+        (
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидир. бюджет],
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF    
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+                IIF    
+                (
+                    <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+                    <%local_budget_skif_level%>,
+                    <%region_budget_skif_level%>    
+                )    
+            )    
+        ) ' 
+        
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'         
+    set [Города и районы]   
+    as 'Head 
+        (
+            Order  
+            (
+                Filter   
+                (
+                    Descendants   
+                    (
+                        <%region_dimension%>.[Все районы],
+                        <%regions_level%>,
+                        SELF   
+                    ),
+                    not   
+                    (
+                        <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember   
+                    ) and   
+                    (
+                        <%region_dimension%>.CurrentMember.Properties("Тип территории") = "ГО" or 
+                        <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР"   
+                    )   
+                ),
+                (Measures.[Доля], <%fkr_dimension%>.[<%outcomes_total_item%>]),
+                BDESC  
+            ),
+            6 
+        )'  
+    member <%region_dimension%>.[Городские округа ]
+    as '
+          Sum
+          (
+                Filter   
+                (
+                    Descendants   
+                    (
+                        <%region_dimension%>.[Все районы],
+                        <%regions_level%>,
+                        SELF   
+                    ),
+                    not   
+                    (
+                        <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember   
+                    ) and   
+                    (
+                        <%region_dimension%>.CurrentMember.Properties("Тип территории") = "ГО"   
+                    )   
+                ),
+                Measures.[Доля]
+          )
+       '
+    member <%region_dimension%>.[Муниципальные районы ]
+    as '
+          Sum
+          (
+                Filter   
+                (
+                    Descendants   
+                    (
+                        <%region_dimension%>.[Все районы],
+                        <%regions_level%>,
+                        SELF   
+                    ),
+                    not   
+                    (
+                        <%region_dimension%>.CurrentMember is <%region_dimension%>.CurrentMember.Parent.DataMember   
+                    ) and   
+                    (
+                        <%region_dimension%>.CurrentMember.Properties("Тип территории") = "МР"   
+                    )   
+                ),
+                Measures.[Доля]
+          )
+       '
+    member [КОСГУ].[Сопоставимый].[Фильтр по КОСГУ]
+    as 'Aggregate
+        (
+            Filter
+            (
+                [КОСГУ].[Сопоставимый].[Все коды ЭКР].Children,
+                [КОСГУ].[Сопоставимый].CurrentMember.Properties("Код") <> "960"
+            )
+        )'    
+     
+     member [ТипДокумента].[СКИФ].[Тип документа ]
+     as '
+        IIF
+        (
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидир. бюджет] or
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>] or
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+            <%consolidate_document_skif_type%>,
+            <%region_document_skif_type%>
+        )'     
+        
+    member <%fkr_dimension%>.[Расходы итого ]
+    as 'Aggregate 
+        (
+            {
+                Filter 
+                (
+                    Descendants 
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР],
+                        <%fkr_dimension%>.[Раздел],
+                        SELF 
+                    ),
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "0"
+                    ) and
+                    (
+                       <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+                    ) and
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9700"
+                    ) and
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9800"
+                    ) 
+                ) 
+            } 
+        )'    
+    member [ТипДокумента].[СКИФ].[Собственные отчеты МР и ГО] 
+    as '   
+      Aggregate
+      (
+        {
+          [ТипДокумента].[СКИФ].[Все].[Собственный отчет городского округа],
+          [ТипДокумента].[СКИФ].[Все].[Собственный отчет района]
+        }
+      )'          
+select
+    Non Empty
+    {
+        [Разделы ФКР]
+    } on columns,
+    Non Empty
+    {
+        {
+            <%region_dimension%>.[Консолидир. бюджет],
+            <%region_dimension%>.[<%own_subject_budget_name%>],
+            <%region_dimension%>.[Местные бюджеты],
+            <%region_dimension%>.[Городские округа ],
+            <%region_dimension%>.[Муниципальные районы ]
+        }
+    } on rows 
+from [ФО_МесОтч_Расходы]
+where   
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        Measures.[Доля],
+        [ТипДокумента].[СКИФ].[Тип документа ],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ],
+        <%kosgu_filter%>
+    )
+ ]]>
+  </query>
+
+  <query id="FO_0002_0006_compare_chart2">
+    <![CDATA[
+-- FO_0002_0006_compare_chart2
+with
+
+    set [Разделы ФКР]  
+    as 'Filter
+        (
+            Descendants 
+            (
+                <%fkr_dimension%>.[Все коды ФКР],
+                <%fkr_dimension%>.[Раздел],
+                SELF 
+            ) -
+            {
+                <%outcomes_total%>
+            },
+            (
+                <%fkr_dimension%>.CurrentMember.Name <> "Несопоставленные данные"
+            ) and 
+            (
+                <%fkr_dimension%>.CurrentMember.Name <> "Итого внутренних оборотов"
+            ) and 
+            (
+                <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+            )
+        ) ' 
+        
+    member Measures.[Доля_]
+    as 'IIF
+        (
+            IsEmpty([Measures].[Факт]) or [Measures].[Факт] <= 0,
+            null,
+            (
+                [Measures].[Факт],
+                <%fkr_dimension%>.CurrentMember
+            )/Sum
+            (
+                [Разделы ФКР],
+                IIF
+                (
+                    [Measures].[Факт] < 0,
+                    0,
+                    [Measures].[Факт]
+                )
+            )
+        )'
+        
+    member Measures.[Факт ]
+    as ' Measures.[Доля_]'
+        
+    member Measures.[Доля план_]
+    as 'IIF
+        (
+            IsEmpty([Measures].[Годовые назначения]) or [Measures].[Годовые назначения] = 0,
+            null,
+            (
+                [Measures].[Годовые назначения],
+                <%fkr_dimension%>.CurrentMember
+            )/Sum
+            (
+                [Разделы ФКР],
+                [Measures].[Годовые назначения]
+            )
+        )'
+        
+    member Measures.[План ]
+    as 'Measures.[Доля план_]'
+        
+    member<%region_dimension%>.[Консолидированный бюджет субъекта]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_consolidate_level%>,
+                    <%consolidate_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_consolidate_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_consolidate_level%>,
+                <%consolidate_document_skif_type%>
+            )
+        )'
+    
+    member<%region_dimension%>.[<%own_subject_budget_name%>]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_consolidate_level%>,
+                    <%consolidate_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_consolidate_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_consolidate_level%>,
+                <%consolidate_document_skif_type%>
+            )
+        )'
+    
+    member <%region_dimension%>.[Местные бюджеты]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                (
+                    <%regions_local_budget_level%>,
+                    <%consolidate_document_skif_type%>
+                )
+            ),
+            (
+                <%regions_local_budget_level%>,
+                [ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]
+            ),
+            (
+                <%regions_local_budget_level%>,
+                <%consolidate_document_skif_type%>
+            )
+        )'   
+   
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]    
+    as 'IIF    
+        (
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидированный бюджет субъекта],
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF    
+            (
+                <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+                IIF    
+                (
+                    <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+                    <%local_budget_skif_level%>,
+                    <%region_budget_skif_level%>    
+                )    
+            )    
+        ) ' 
+        
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )' 
+    member [КОСГУ].[Сопоставимый].[Фильтр по КОСГУ]
+    as 'Aggregate
+        (
+            Filter
+            (
+                [КОСГУ].[Сопоставимый].[Все коды ЭКР].Children,
+                [КОСГУ].[Сопоставимый].CurrentMember.Properties("Код") <> "960"
+            )
+        )'    
+    
+     member [ТипДокумента].[СКИФ].[Тип документа ]
+     as '
+        IIF
+        (
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Консолидированный бюджет субъекта] or
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[<%own_subject_budget_name%>] or
+            <%region_dimension%>.CurrentMember is <%region_dimension%>.[Местные бюджеты],
+            <%consolidate_document_skif_type%>,
+            <%region_document_skif_type%>
+        )'  
+        
+    member <%fkr_dimension%>.[Расходы итого ]
+    as 'Aggregate 
+        (
+            {
+                Filter 
+                (
+                    Descendants 
+                    (
+                        <%fkr_dimension%>.[Все коды ФКР],
+                        <%fkr_dimension%>.[Раздел],
+                        SELF 
+                    ),
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "0"
+                    ) and
+                    (
+                       <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9600"
+                    ) and
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9700"
+                    ) and
+                    (
+                        <%fkr_dimension%>.CurrentMember.Properties("Код") <> "9800"
+                    ) 
+                ) 
+            } 
+        )'   
+    member [ТипДокумента].[СКИФ].[Собственные отчеты МР и ГО] 
+    as '   
+      Aggregate
+      (
+        {
+          [ТипДокумента].[СКИФ].[Все].[Собственный отчет городского округа],
+          [ТипДокумента].[СКИФ].[Все].[Собственный отчет района]
+        }
+      )'          
+select
+    Non Empty
+    {
+        [Разделы ФКР]
+    }  on columns,
+    {
+       Measures.[Факт ],
+       Measures.[План ]
+    } on rows
+from [ФО_МесОтч_Расходы]
+where
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        [ТипДокумента].[СКИФ].[Тип документа ],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ],
+        <%selected_region%>,
+        <%kosgu_filter%>
+    )
+  ]]>
+  </query>
+
+</root>

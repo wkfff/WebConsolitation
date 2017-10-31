@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.Оценка качества ОиОБП" ClassType="7" SubClassType="0" Description="Классификатор показателей оценки качества ОиОБП." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_MARKS_QUALITYOOBP", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_MARKS_QUALITYOOBP"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Marks.QualityOOBP]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_MARKS_QUALITYOOBP}{DV.DV_MARKS_QUALITYOOBP}{2400}{600}{2625}{3250}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{3885}{4140}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[92f65887-f40a-4210-9431-31978fd16b88]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[e6e279d0-221f-4338-b6c2-3c073f8bd8e9]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[42634373-98b3-48dd-ba61-e25eb8ee1112]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ID источника" ClassType="31" SubClassType="0" Description="" Caption="ID источника" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."SOURCEID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатели" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="false" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."SYMBOL"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Структурное подразделение" ClassType="31" SubClassType="0" Description="" Caption="Структурное подразделение" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."DEPARTMENT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Формула расчета показателя" ClassType="31" SubClassType="0" Description="" Caption="Формула расчета показателя" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."CALCULATION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Формула оценки показателя" ClassType="31" SubClassType="0" Description="" Caption="Формула оценки показателя" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."RATING"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Периодичность расчета показателя" ClassType="31" SubClassType="0" Description="" Caption="Периодичность расчета показателя" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."PERIODICITY"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Направление оценки качества ОиОБП" ClassType="31" SubClassType="0" Description="" Caption="Направление оценки качества ОиОБП" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."AREARATING"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."SYMBOL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование" ClassType="31" SubClassType="0" Description="" Caption="Наименование" PropertyType="0" IsVisible="true" ColumnSize="500" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_QUALITYOOBP"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

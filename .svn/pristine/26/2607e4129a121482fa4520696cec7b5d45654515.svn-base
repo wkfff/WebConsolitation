@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  
+<query id="FO_0002_0010_02_date">
+<![CDATA[
+-- FO_0002_0010_02_date
+-- [ФО_МесОтч_СпрЗадолженность]#>
+with
+    member Measures.[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        Filter
+        (
+            OpeningPeriod
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2012]
+            ),
+            not IsEmpty(([Measures].[Факт], [Показатели].[СопМесОСпЗадо].[Все показатели].[ПРОСРОЧЕННАЯ КРЕДИТОРСКАЯ  ЗАДОЛЖЕННОСТЬ, всего]))
+        )
+    ) on rows
+from [ФО_МесОтч_СпрЗадолженность]
+]]>
+</query>
+
+<query id="FO_0002_0010_02_grid">
+<![CDATA[
+-- FO_0002_0010_02_grid
+-- <#[ФО_МесОтч_СпрЗадолженность]#>
+with   
+
+    set [Города]      
+    as 'Filter      
+        (
+            Descendants      
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF      
+            ),
+            not      
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember      
+            ) and      
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"     
+            )      
+        )'   
+    set [Районы]      
+    as 'Filter      
+        (
+            Descendants      
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF      
+            ),
+            not      
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember      
+            ) and      
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"      
+            )      
+        )'         
+    set [Список месяцев]   
+    as 'Filter   
+        (
+            <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь] : <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+            <%period_dimension%>.CurrentMember.Name <> "Остатки на начало года" and 
+            <%period_dimension%>.CurrentMember.Name <> "Данные квартала" and 
+            <%period_dimension%>.CurrentMember.Name <> "Данные полугодия" and
+            <%period_dimension%>.CurrentMember.Name <> "Данные года"  
+        )'   
+    member [Measures].[Темп роста к началу года]  
+    as 'IIF  
+        (
+            (
+                [Measures].[Факт],
+                <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь] 
+            ) = 0,
+            null,
+            (
+                [Measures].[Факт],
+                <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+            ) /  
+            (
+                [Measures].[Факт],
+                <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь] 
+            ) 
+        )'   
+    member [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]  
+    as '<%regions_consolidate_budget%>'  
+    member [Районы].[Сопоставимый].[<%own_subject_budget_name%>]  
+    as '<%regions_own_budget%>'  
+    member [ТипДокумента].[СКИФ].[Тип документа ]  
+    as 'IIF  
+        (
+            [Районы].[Сопоставимый].CurrentMember is <%regions_consolidate_budget%>,
+            <%consolidate_budget_document_skif_type%>,
+            IIF
+            (
+               [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[<%own_subject_budget_name%>],
+               <%own_budget_document_skif_type%>,
+               <%region_budget_document_skif_type%> 
+            )
+        ) '  
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ]  
+    as 'IIF  
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF  
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[<%own_subject_budget_name%>],
+                [Уровни бюджета].[СКИФ].[Все].[Бюджет субъекта],
+                <%region_budget_skif_level%>
+            )  
+        ) ' 
+    member [Районы].[Сопоставимый].[Городские округа ]  
+    as 'Sum
+        (
+          [Города],
+          ([Measures].CurrentMember, <%period_dimension%>.CurrentMember)
+        )'   
+    member [Районы].[Сопоставимый].[Муниципальные районы ]  
+    as 'Sum
+        (
+          [Районы],
+          ([Measures].CurrentMember, <%period_dimension%>.CurrentMember)
+        )'  
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'         
+select
+    {
+        {
+            {[Measures].[Факт]} 
+            * { [Список месяцев]  }
+        } + 
+        {
+            {
+                [Measures].[Темп роста к началу года]
+            }
+            *
+            {
+                <%period_dimension%>.[Данные всех периодов]
+            }
+        } 
+    } on columns,
+    {
+        {
+            [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            [Районы].[Сопоставимый].[<%own_subject_budget_name%>]
+        } + 
+        {
+            [Районы].[Сопоставимый].[Городские округа ]
+        } +
+        [Города] + 
+        {
+            [Районы].[Сопоставимый].[Муниципальные районы ]
+        } +
+        [Районы]
+    } on rows  
+from [ФО_МесОтч_СпрЗадолженность]         
+where       
+    (
+        [Показатели].[СопМесОСпЗадо].[Все показатели].[ПРОСРОЧЕННАЯ КРЕДИТОРСКАЯ  ЗАДОЛЖЕННОСТЬ, всего],
+        [ТипДокумента].[СКИФ].[Тип документа ],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ]
+    ) 
+  ]]>
+  </query>
+
+  <query id="FO_0002_0010_02_chart">
+    <![CDATA[
+-- FO_0002_0010_02_chart
+-- <#[ФО_МесОтч_СпрЗадолженность]#>
+with   
+
+    set [Города и районы]       
+    as 'Filter       
+        (
+            Descendants       
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF       
+            ),
+            not       
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember       
+            ) and       
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"       
+            )       
+        )'     
+select
+    {
+        <%period_dimension%>.[Данные всех периодов].[<%period_last_year%>].[Полугодие 2].[Квартал 4].[Декабрь],
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+    } on columns,
+    [Города и районы] on rows     
+from [ФО_МесОтч_СпрЗадолженность]          
+where        
+    (
+        [Measures].[Факт],
+        [Показатели].[СопМесОСпЗадо].[Все показатели].[ПРОСРОЧЕННАЯ КРЕДИТОРСКАЯ  ЗАДОЛЖЕННОСТЬ, всего],
+        [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта],
+        <%region_budget_document_skif_type%> 
+    )
+  ]]>
+</query>
+
+</root>

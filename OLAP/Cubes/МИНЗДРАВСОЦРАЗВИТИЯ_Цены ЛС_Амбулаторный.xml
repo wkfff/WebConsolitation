@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="МИНЗДРАВСОЦРАЗВИТИЯ_Цены ЛС_Амбулаторный" ClassType="9" SubClassType="0" Description="Значения цен на лекарственные средства амбулаторного сегмента." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_ORG_TYPEPRICE", "DV"."D_PRICEMR_TERRITORY", "DV"."B_TERRITORY_RFBRIDGE", "DV"."DV_PRICEMR_MANUFACTURERAMB", "DV"."DV_PRICEMR_MRAMBULATOR", "DV"."B_PRODUCER_BRIDGE", "DV"."B_PRODUCTION_MRBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_PRICEMR_MHPRICEMRAMB"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFTYPEPRICE"="DV"."D_ORG_TYPEPRICE"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFTERRITORY"="DV"."D_PRICEMR_TERRITORY"."ID") AND ("DV"."D_PRICEMR_TERRITORY"."REFRFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFMANUFACTURER"="DV"."DV_PRICEMR_MANUFACTURERAMB"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFMRAMB"="DV"."DV_PRICEMR_MRAMBULATOR"."ID") AND ("DV"."DV_PRICEMR_MANUFACTURERAMB"."REFPRODUCERBRIDGE"="DV"."B_PRODUCER_BRIDGE"."ID") AND ("DV"."DV_PRICEMR_MRAMBULATOR"."REFMRBRIDGE"="DV"."B_PRODUCTION_MRBRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{165}{4320}{3330}{910}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{1140}{4305}{3390}{940}{1})({dv}{DV.D_ORG_TYPEPRICE}{DV.D_ORG_TYPEPRICE}{2162}{4324}{3420}{910}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3120}{8280}{2745}{910}{1})({dv}{DV.B_PRODUCER_BRIDGE}{DV.B_PRODUCER_BRIDGE}{4170}{8280}{2715}{910}{1})({dv}{DV.D_PRICEMR_TERRITORY}{DV.D_PRICEMR_TERRITORY}{3150}{4380}{3375}{910}{1})({dv}{DV.DV_PRICEMR_MANUFACTURERAMB}{DV.DV_PRICEMR_MANUFACTURERAMB}{4185}{4440}{3345}{910}{1})({dv}{DV.DV_PRICEMR_MRAMBULATOR}{DV.DV_PRICEMR_MRAMBULATOR}{5220}{4440}{3330}{910}{1})({dv}{DV.B_PRODUCTION_MRBRIDGE}{DV.B_PRODUCTION_MRBRIDGE}{5235}{8295}{2685}{925}{1})({dv}{DV.F_PRICEMR_MHPRICEMRAMB}{DV.F_PRICEMR_MHPRICEMRAMB}{1215}{570}{2925}{4400}{1})]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.PriceMR.MHPriceMRAmb]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[b708b6cb-c3ce-4211-a7fc-72a5386643ab]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[3be5ff61-11f6-4c5e-b50c-418e5b6c9cb1]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[9586ccc3-1c84-4b33-a459-c1dfe8c6e7eb]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Организации.Тип цены" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все типы цен]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Тип цены" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_ORG_TYPEPRICE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Производители.Сопоставимый" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все производители]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Производитель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_PRODUCER_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Продукция.Лекарственные средства Сопоставимый" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все средства]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Средство" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_PRODUCTION_MRBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Цены ЛС.Производители ЛС Амбулаторный" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все производители]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_PRICEMR_MANUFACTURERAMB"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Производитель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_PRICEMR_MANUFACTURERAMB"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Цены ЛС.Территории" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PRICEMR_TERRITORY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Цены ЛС.Лекарственные средства Амбулаторный" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="9">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все средства]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_PRICEMR_MRAMBULATOR"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Средство" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_PRICEMR_MRAMBULATOR"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Цена" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB"."PRICE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Надбавка" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB"."MARKUP"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="МИНЗДРАВСОЦРАЗВИТИЯ_Цены ЛС_Амбулаторный" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="МИНЗДРАВ_МИНЗДРАВСОЦРАЗВИТИЯ_ЦеныЛС_Амбулаторный_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_PRICEMR_MHPRICEMRAMB", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_ORG_TYPEPRICE", "DV"."D_PRICEMR_TERRITORY", "DV"."B_TERRITORY_RFBRIDGE", "DV"."DV_PRICEMR_MANUFACTURERAMB", "DV"."DV_PRICEMR_MRAMBULATOR", "DV"."B_PRODUCER_BRIDGE", "DV"."B_PRODUCTION_MRBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_PRICEMR_MHPRICEMRAMB"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFTYPEPRICE"="DV"."D_ORG_TYPEPRICE"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFTERRITORY"="DV"."D_PRICEMR_TERRITORY"."ID") AND ("DV"."D_PRICEMR_TERRITORY"."REFRFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFMANUFACTURER"="DV"."DV_PRICEMR_MANUFACTURERAMB"."ID") AND ("DV"."F_PRICEMR_MHPRICEMRAMB"."REFMRAMB"="DV"."DV_PRICEMR_MRAMBULATOR"."ID") AND ("DV"."DV_PRICEMR_MANUFACTURERAMB"."REFPRODUCERBRIDGE"="DV"."B_PRODUCER_BRIDGE"."ID") AND ("DV"."DV_PRICEMR_MRAMBULATOR"."REFMRBRIDGE"="DV"."B_PRODUCTION_MRBRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[9d5fb5b2-1cbe-44fa-8ce0-a9d7dd31ed63]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[9586ccc3-1c84-4b33-a459-c1dfe8c6e7eb]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

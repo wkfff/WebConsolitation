@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="FO_0002_0005_Omsk_date">
+    <![CDATA[
+-- FO_0002_0005_Omsk_allocation_date
+with
+    member [Measures].[ДанныеНа]
+    as '<%period_dimension%>.CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                <%period_dimension%>.Members,
+                not IsEmpty([Measures].[Факт])
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from  [ФО_МесОтч_Доходы]
+  ]]>
+</query>
+
+<query id="FO_0002_0005_Omsk_chart">
+<![CDATA[
+-- FO_0002_0005_Omsk_allocation_chart
+with
+    member Measures.[Численность постоянного населения]
+    as '0'      
+    member Measures.[Доходы]
+    as '
+        (
+            [Measures].[Факт],
+            <%incomes_total%>
+        )'
+    member Measures.[Среднедушевые доходы]
+    as '
+            Measures.[Доходы] / 1000'
+        
+    member Measures.[Дотации]
+    as '
+        (
+            [Measures].[Факт],
+            <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[Безвозмездные поступления от других бюджетов бюджетной системы Российской Федерации].[Дотации бюджетам субъектов Российской Федерации и муниципальных образований].[Дотации на выравнивание бюджетной обеспеченности]
+        ) / 1000'
+        
+    member Measures.[Среднедушевые доходы без дотаций]
+    as '
+            (
+               Measures.[Среднедушевые доходы] - Measures.[Дотации]
+            )'
+    member [ТипДокумента].[СКИФ].[Тип документа] 
+    as '<%region_document_skif_type%>'  
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ] 
+    as '<%region_budget_skif_level%>'     
+    set [Города и районы]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF
+            ),
+            not
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" or
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )
+        )'
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'         
+select
+    {
+        Measures.[Численность постоянного населения],
+        Measures.[Среднедушевые доходы],
+        Measures.[Среднедушевые доходы без дотаций]
+    } on columns,
+    [Города и районы] on rows
+from [ФО_МесОтч_Доходы]
+where
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        [ТипДокумента].[СКИФ].[Тип документа],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ]
+    )
+  ]]>
+  </query>
+
+  <query id="FO_0002_0005_Omsk_avg">
+    <![CDATA[
+-- FO_0002_0005_Omsk_allocation_avg
+with  
+    member Measures.[Численность постоянного населения]
+    as '<%population_total%>'      
+    member Measures.[Доходы]
+    as '
+        (
+            [Measures].[Факт],
+            <%incomes_total%>
+        ) / 1000'
+        
+    member Measures.[Дотации]    
+    as '    
+        (
+            [Measures].[Факт],
+            <%incomes_kd_all_level%>.[БЕЗВОЗМЕЗДНЫЕ ПОСТУПЛЕНИЯ].[Безвозмездные поступления от других бюджетов бюджетной системы Российской Федерации].[Дотации бюджетам субъектов Российской Федерации и муниципальных образований].[Дотации на выравнивание бюджетной обеспеченности]    
+        ) / 1000'  
+        
+    member Measures.[Доходы всего]    
+    as 'Sum    
+        (
+            [Города и районы],
+            Measures.[Доходы]    
+        )'    
+        
+    member Measures.[Доходы без дотаций всего]    
+    as 'Sum    
+        (
+            [Города и районы],
+            Measures.[Доходы] - Measures.[Дотации]  
+        )'    
+ 
+    member Measures.[Доходы среднее]    
+    as '  
+        (
+            Measures.[Доходы всего] / Measures.[Численность постоянного населения]    
+        )'    
+        
+    member Measures.[Доходы без дотаций среднее]    
+    as '    
+        (
+            Measures.[Доходы без дотаций всего] / Measures.[Численность постоянного населения]    
+        )'  
+        
+    member [ТипДокумента].[СКИФ].[Тип документа] 
+    as '<%region_document_skif_type%>'  
+    member [Уровни бюджета].[СКИФ].[Уровень бюджета ] 
+    as '<%region_budget_skif_level%>'         
+    
+    set [Города и районы]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF
+            ),
+            not
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" or
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )
+        )' 
+    member [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] 
+    as 'Aggregate
+        (
+          {
+            [Уровни бюджета].[СКИФ].[Бюджет поселения],
+            [Уровни бюджета].[СКИФ].[Бюджет гор.округа],
+            [Уровни бюджета].[СКИФ].[Бюджет района]
+          }
+        )'         
+select
+    {
+        Measures.[Доходы среднее],
+        Measures.[Доходы без дотаций среднее]    
+    } on columns
+from [ФО_МесОтч_Доходы]    
+where        
+    (
+        <%period_dimension%>.[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        [ТипДокумента].[СКИФ].[Тип документа],
+        [Уровни бюджета].[СКИФ].[Уровень бюджета ]
+    )     
+  ]]>
+  </query>
+
+  <query id="FO_0002_0005_Omsk_allcation_population">
+    <![CDATA[
+-- FO_0002_0005_Omsk_allcation_population 
+with
+    member Measures.[Численность постоянного населения по МО]
+    as 'IIF
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Все МО],
+            Sum
+            (
+                [Города и районы],
+                Measures.[Численность постоянного населения по МО]
+            ),
+            [Measures].[Факт] / 1000
+        )  '
+    member Measures.[Численность постоянного населения]
+    as 'IIF
+        (
+            not IsEmpty
+            (
+                (
+                    Measures.[Численность постоянного населения по МО],
+                    [Период].[Период].CurrentMember
+                )
+            ),
+            (
+                Measures.[Численность постоянного населения по МО],
+                [Период].[Период].CurrentMember
+            ),
+            (
+                Tail
+                (
+                    Filter
+                    (
+                        {
+                            [Период].[Период].[Данные всех периодов].[2000] : [Период].[Период].CurrentMember.PrevMember
+                        },
+                        not IsEmpty
+                        (
+                            Measures.[Численность постоянного населения по МО]
+                        )
+                    )
+                ).Item(0),
+                Measures.[Численность постоянного населения по МО]
+            )
+        )'
+
+    set [Города]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы].[Сопоставимый].[Все районы].[Омская область],
+                [Районы].[Сопоставимый].[Уровень 03],
+                SELF
+            ),
+            not
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+    set [Районы]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы].[Сопоставимый].[Все районы].[Омская область],
+                [Районы].[Сопоставимый].[Уровень 03],
+                SELF
+            ),
+            not
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )
+        )'
+    set [Города и районы]
+    as '[Города] + [Районы]'
+
+    member [Районы].[Сопоставимый].[Все МО]
+    as '[Районы].[Сопоставимый].[Все районы].[Омская область]'
+
+select
+    {
+        Measures.[Численность постоянного населения]
+    } on columns,
+    {
+        { [Районы].[Сопоставимый].[Все МО] } + [Города и районы]
+    } on rows
+from [ФСГС_Численность населения]
+where
+    (
+        [ФСГС].[Численность населения].[Все].[Все население],
+        [Вариант].[ФСГС Население].[Все].[Численность населения на 1 января],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>]
+    )
+  ]]>
+  </query>
+
+ 
+</root>

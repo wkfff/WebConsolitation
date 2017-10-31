@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ЭО_Программы_Оценка ОЦП" ClassType="9" SubClassType="0" Description="Значения показателей методики оценки ОЦП." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_PROGRAMS_ESTIMATE"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_PROGRAMS_ESTIMATE"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_PROGRAMS_ESTIMATE", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."D_PROGRAMS_GRADATION", "DV"."D_PROGRAMS_PROGSEGP", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_PROGRAMS_ESTIMATE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFPROGRAMSGRADATION"="DV"."D_PROGRAMS_GRADATION"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFPROG"="DV"."D_PROGRAMS_PROGSEGP"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_PROGRAMS_ESTIMATE"]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[f.Programs.Estimate]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{100}{3180}{2520}{940}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2130}{3900}{2760}{910}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{3105}{3915}{2760}{940}{1})({dv}{DV.D_PROGRAMS_GRADATION}{DV.D_PROGRAMS_GRADATION}{1140}{3855}{2745}{910}{1})({dv}{DV.F_PROGRAMS_ESTIMATE}{DV.F_PROGRAMS_ESTIMATE}{1275}{270}{2520}{2090}{1})({dv}{DV.D_PROGRAMS_PROGSEGP}{DV.D_PROGRAMS_PROGSEGP}{4185}{3285}{2640}{910}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3180}{7335}{2535}{910}{1})]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[a38648c6-36a5-48c4-960b-3221bfae4ec8]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[20c24eca-0f32-43ac-a44d-100a86b3911a]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[352b3843-4e29-4b37-9654-bcf5699d0d93]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_PROGRAMS_ESTIMATE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFPROGRAMSGRADATION"="DV"."D_PROGRAMS_GRADATION"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFPROG"="DV"."D_PROGRAMS_PROGSEGP"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Программы.ОЦП" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все программы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Программа" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PROGRAMS_PROGSEGP"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Программы.Критерии оценки" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Характеристика]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Критерий оценки" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_PROGRAMS_GRADATION"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_PROGRAMS_ESTIMATE"."VALUE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Оценка" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_PROGRAMS_ESTIMATE"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Оценка_программы" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Оценка_программы] FOR '({[Measures].[Оценка]},{[Программы].[ОЦП].[Все программы]})' AS 'null']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Оценка_территории" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Оценка_территории] FOR '({[Measures].[Оценка]}, {DESCENDANTS([Территории].[РФ].[Все территории],[Территории].[РФ].[Субъект РФ], BEFORE)})' AS 'null']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Оценка_характеристика" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Оценка_характеристика] FOR '({[Measures].[Оценка]}, {[Программы].[Критерии оценки].[Характеристика]})' AS 'IIF(([Программы].[Критерии оценки].[R],[Measures].[Оценка])<5,
+  "Неэффективная",
+  IIF(([Программы].[Критерии оценки].[R],[Measures].[Оценка])<6.5,
+    "Адекватная",
+    IIF(([Программы].[Критерии оценки].[R],[Measures].[Оценка])<8,
+      "Умеренно эффективная",
+      "Эффективная")))', CONDITION = 'not IsEmpty(([Программы].[Критерии оценки].[R],[Measures].[Оценка]))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Оценка_R" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Оценка_R] FOR '({[Measures].[Оценка]}, {[Программы].[Критерии оценки].[R]})' AS '[Программы].[Критерии оценки].[К1] * CDbl([Программы].[Критерии оценки].[К1].Properties("Коэффициент"))
++ [Программы].[Критерии оценки].[К2] * CDbl([Программы].[Критерии оценки].[К2].Properties("Коэффициент"))
++ [Программы].[Критерии оценки].[К3] * CDbl([Программы].[Критерии оценки].[К3].Properties("Коэффициент"))
++ [Программы].[Критерии оценки].[К4] * CDbl([Программы].[Критерии оценки].[К4].Properties("Коэффициент"))
++ [Программы].[Критерии оценки].[К5] * CDbl([Программы].[Критерии оценки].[К5].Properties("Коэффициент"))
++ [Программы].[Критерии оценки].[К6] * CDbl([Программы].[Критерии оценки].[К6].Properties("Коэффициент"))']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Оценка_градация" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Оценка_градация] FOR '({[Measures].[Оценка]}, {[Программы].[Критерии оценки].[Градация].MEMBERS})' AS 'CDbl([Программы].[Критерии оценки].CurrentMember.Parent.Properties("Коэффициент")) * [Measures].[Значение]']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ЭО_Программы_Оценка ОЦП" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ЭО_Программы_ОценкаОЦП_ЭО_Программы_ОценкаОЦП_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_PROGRAMS_ESTIMATE"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_PROGRAMS_ESTIMATE"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_PROGRAMS_ESTIMATE", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_TERRITORY_RF", "DV"."D_PROGRAMS_GRADATION", "DV"."D_PROGRAMS_PROGSEGP", "DV"."B_TERRITORY_RFBRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_PROGRAMS_ESTIMATE"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFPROGRAMSGRADATION"="DV"."D_PROGRAMS_GRADATION"."ID") AND ("DV"."F_PROGRAMS_ESTIMATE"."REFPROG"="DV"."D_PROGRAMS_PROGSEGP"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[f0d9326d-4e4a-43a9-a583-ac99e13b3ec8]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[352b3843-4e29-4b37-9654-bcf5699d0d93]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

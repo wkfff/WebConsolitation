@@ -1,0 +1,19 @@
+CALCULATE;
+
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+//Вычисляемые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Значение за период] AS
+ IIF(IsEmpty(([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение с начала года])) , null,
+IIF([Период__Период].[Период__Период].CurrentMember.Name = "Июнь", ([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение с начала года]),
+IIF([Период__Период].[Период__Период].CurrentMember.Name = "Декабрь", ([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение с начала года]) - ([Период__Период].[Период__Период].CurrentMember.Lag(9), [Measures].[Значение с начала года]),
+IIF([Период__Период].[Период__Период].CurrentMember.Name = "Квартал 4", ([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение с начала года]) - ([Период__Период].[Период__Период].CurrentMember.Lag(3), [Measures].[Значение с начала года]),
+IIF([Период__Период].[Период__Период].CurrentMember.Name = "Полугодие 2", ([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение с начала года]) - ([Период__Период].[Период__Период].CurrentMember.Lag(1), [Measures].[Значение с начала года]),
+
+([Период__Период].[Период__Период].CurrentMember, [Measures].[Значение с начала года])))))
+),
+FORMAT_STRING = "Currency",
+VISIBLE = 1 ;

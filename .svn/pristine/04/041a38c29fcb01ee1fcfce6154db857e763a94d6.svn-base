@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="date">
+    <![CDATA[
+-- fo_0035_0001_date
+-- <#[ФО_Исполнение кассового плана]#>
+with 
+    member Measures.[ДанныеНа] 
+    as '[Период].[Период].CurrentMember.UniqueName' 
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            NonEmptyCrossjoin({[Период].[Период].Members})
+        )
+    } on rows 
+from [ФО_Исполнение кассового плана] 
+
+	]]>
+  </query>
+  
+  <query id="Execute">
+    <![CDATA[
+-- fo_0035_0001_Execute
+with   
+    member Measures.[Код]   
+    as '[Показатели].[ИспКасПлан].CurrentMember.Properties("Код")'   
+select
+    {
+        Measures.[Код],
+        [Measures].[<%measure_plan%>],
+        [Measures].[<%measure_fact%>]   
+    } on columns,
+    Except   
+    (
+        Filter   
+        (
+            [Показатели].[ИспКасПлан].[Показатель].Members,
+                not IsEmpty 
+                (
+                    [Measures].[<%measure_plan%>] 
+                ) 
+        ),
+        {
+            [Показатели].[ИспКасПлан].[Все].['Значение не указано']   
+        }   
+    ) on rows  
+from [ФО_Исполнение кассового плана]
+where   
+    (
+        [Период].[Период].[Данные всех периодов]<%period_cur_date%>  
+    )
+	]]>
+  </query>
+
+  <query id="ExecuteOutcome">
+    <![CDATA[
+-- fo_0035_0001_ExecuteOutcome
+with 
+    member Measures.[КВСР] 
+    as '[Администратор].[ИспКасПланСопост].CurrentMember.Properties("Код")' 
+    member [Администратор].[ИспКасПланСопост].[Расходы - всего ] 
+    as 'Aggregate({[Администраторы]})' 
+    set [Администраторы] 
+    as '[Администратор].[ИспКасПланСопост].[ГРБС].Members - 
+        {
+            [Администратор].[ИспКасПланСопост].[Все].[Несопоставленные данные]
+            --,[Администратор].[ИспКасПланСопост].[Все].[Расходы- всего]
+        }' 
+select
+    {
+        {
+            {
+                [Расходы].[ИспКасПлан].[Все].['Значение не указано'] 
+            } 
+            *{Measures.[КВСР]} 
+        } + 
+        
+            {
+              Filter
+              (
+                Except 
+                (
+                    [Расходы].[ИспКасПлан].[Вид расходов].Members,
+                    {
+                        [Расходы].[ИспКасПлан].[Все].['Значение не указано'] 
+                    } 
+                ) 
+                * 
+                {
+                    [Measures].[<%measure_plan%>],
+                    [Measures].[<%measure_fact%>]   
+                },
+                not (IsEmpty([Measures].[<%measure_plan%>]) and IsEmpty([Measures].[<%measure_fact%>] ))
+             )
+           }
+    } on columns,
+    Filter
+    (
+      {
+        {
+            [Администратор].[ИспКасПланСопост].[Расходы - всего ]
+        } + 
+        Order
+        (
+           [Администраторы],
+           StrToValue([Администратор].[ИспКасПланСопост].CurrentMember.Properties("Код")),
+           BASC
+        )  
+      },
+      not IsEmpty(([Расходы].[ИспКасПлан].[Все], [Measures].[<%measure_fact%>]))
+    ) on rows 
+from [ФО_Исполнение кассового плана_Расходы]
+where   
+    (
+        [Период].[Период].[Данные всех периодов]<%period_cur_date%>  
+    )
+
+	]]>
+  </query>
+</root>

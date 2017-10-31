@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B985F3A3-2AC1-47CD-A590-98B4BBA70449}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Krista.FM.Domain.Reporitory.NHibernate</RootNamespace>
+    <AssemblyName>Krista.FM.Domain.Reporitory.NHibernate</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\..\..\FixedBin\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception">
+      <HintPath>..\..\..\FixedBin\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\..\..\FixedBin\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Caches.SysCache, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=6876f2ea66c9f443, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\NHibernate.Caches.SysCache.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Config\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="AbortTransactionException.cs" />
+    <Compile Include="Automapping\AnsiStringConvention.cs" />
+    <Compile Include="Automapping\AutomappingConfiguration.cs" />
+    <Compile Include="Automapping\BlobColumnLazyLoadConvention.cs" />
+    <Compile Include="Automapping\BlobColumnLengthConvention.cs" />
+    <Compile Include="Automapping\CascadeConvention.cs" />
+    <Compile Include="Automapping\ClassConvention.cs" />
+    <Compile Include="Automapping\EnumConvention.cs" />
+    <Compile Include="Automapping\JoinedSubclassConvention.cs" />
+    <Compile Include="Automapping\MsSqlIdConvention.cs" />
+    <Compile Include="Automapping\OracleIdConvention.cs" />
+    <Compile Include="Automapping\ReferenceForeignKeyConvention.cs" />
+    <Compile Include="DbContext.cs" />
+    <Compile Include="ConfigurationCache\IDynamicAssemblyDomainStorage.cs" />
+    <Compile Include="ConfigurationCache\IConfigurationCache.cs" />
+    <Compile Include="FluentMappings\System\HashObjectsNamesMap.cs" />
+    <Compile Include="IoC\ComponentRegistrar.cs" />
+    <Compile Include="IoC\TransactionAttribute.cs" />
+    <Compile Include="IoC\TransactionInterceptor.cs" />
+    <Compile Include="IoC\UnitOfWorkAttribute.cs" />
+    <Compile Include="IoC\UnitOfWorkInterceptor.cs" />
+    <Compile Include="IoC\UnitOfWorkMatchingRule.cs" />
+    <Compile Include="ISessionStorage.cs" />
+    <Compile Include="ITransactionAttributeSettings.cs" />
+    <Compile Include="ITransactionManager.cs" />
+    <Compile Include="IUnitOfWorkSessionStorage.cs" />
+    <Compile Include="MsSql\MsSqlIdGenerator.cs" />
+    <Compile Include="NHibernateInitializer.cs" />
+    <Compile Include="NHibernateRepository.cs" />
+    <Compile Include="NHibernateSession.cs" />
+    <Compile Include="NHibernateSessionExtensions.cs" />
+    <Compile Include="NHibernateTransactionManager.cs" />
+    <Compile Include="ConfigurationCache\NullConfigurationCache.cs" />
+    <Compile Include="ConfigurationCache\DefaultDynamicAssemblyDomainStorage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleSessionStorage.cs" />
+    <Compile Include="NHibernateLinqRepository.cs" />
+    <Compile Include="ThreadSessionStorage.cs" />
+    <Compile Include="Trace.cs" />
+    <Compile Include="TransactionAttributeSettings.cs" />
+    <Compile Include="TransactionManagerBase.cs" />
+    <Compile Include="UnitOfWorkAttributeSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Krista.Diagnostics\Krista.Diagnostics.csproj">
+      <Project>{771564CF-3F02-4A9A-91CC-F710104EC4B3}</Project>
+      <Name>Krista.Diagnostics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Krista.FM.Common\Krista.FM.Common.csproj">
+      <Project>{4FF19E83-61D5-4AF5-AAF7-737623059773}</Project>
+      <Name>Krista.FM.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Krista.FM.Extentions\Krista.FM.Extensions.csproj">
+      <Project>{AF342789-6944-45D9-A774-65EF22F7D828}</Project>
+      <Name>Krista.FM.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Domain.Reporitory\Krista.FM.Domain.Reporitory.csproj">
+      <Project>{03941DD6-F597-433B-BB5A-B9B577BDCAFB}</Project>
+      <Name>Krista.FM.Domain.Reporitory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Domain\Krista.FM.Domain.csproj">
+      <Project>{2736BCD9-E4D9-4E35-BECC-5EDA32FA5D87}</Project>
+      <Name>Krista.FM.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(SolutionDir)\ProjectOptions.xml" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\ProjectTargets.xml" />
+</Project>

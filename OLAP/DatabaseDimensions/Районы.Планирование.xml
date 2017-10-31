@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Районы.Планирование" ClassType="7" SubClassType="2" Description="Справочник районов для планирования доходов." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="true" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."DV_REGIONS_PLAN", "DV"."DV_FX_FX_TERRITORIALPART_BR"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_REGIONS_PLAN"."REFTERR"="DV"."DV_FX_FX_TERRITORIALPART_BR"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Regions.Plan]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_REGIONS_PLAN}{DV.DV_REGIONS_PLAN}{2400}{600}{2280}{2560}{1})({dv}{DV.DV_FX_FX_TERRITORIALPART_BR}{DV.DV_FX_FX_TERRITORIALPART_BR}{4035}{3990}{3465}{1300}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[9aeed51f-4eef-4dc5-886a-f602e1c3dcb5]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[1f34cc90-16fd-4fcf-b994-0c8a680d7e23]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[282b3b7b-88b2-4aab-a0f2-3d1d13b24486]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Район" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="55" IsVisible="true" LevelNamingTemplate="Источник;Районы;Поселения;Районы уровень *" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_REGIONS_PLAN"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_REGIONS_PLAN"."SHORT_NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."DV_REGIONS_PLAN"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_PLAN"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_PLAN"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Порядковый номер" ClassType="31" SubClassType="0" Description="" Caption="Порядковый номер" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_REGIONS_PLAN"."CODELINE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип территорий" ClassType="31" SubClassType="0" Description="" Caption="Тип территорий" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_FX_FX_TERRITORIALPART_BR"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

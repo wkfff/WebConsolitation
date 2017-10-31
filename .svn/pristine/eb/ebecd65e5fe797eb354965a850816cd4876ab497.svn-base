@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+	 xmlns:iis="http://schemas.microsoft.com/wix/IIsExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension" xml:lang ="en-us">
+
+  <?include Variables.wxi?>
+
+  <Fragment>
+    <?include ConfigurationInitialize.wxi ?>
+
+    <DirectoryRef Id="WebApplicationFolder" FileSource=".">
+
+      <Directory Id="dir258BE7F90B06708EC78DB7D571C3B0B4" Name="Software">
+        <Directory Id="dir22C929B3483930D6C7AE100ED1C01E0A" Name="Providers">
+          <Directory Id="dir17EF12B1433A0E9447C2E7554EAA130B" Name="x32">
+            <Component Id="cmp77B60232157A8ADDF783E323DAB2F027" Guid="{F9687C54-A389-4964-B910-29E681ECB8EE}" Feature="ProductFeature">
+              <File Id="fil83D53CF53B18F8C835BB37A4030F6E0D" Source="..\..\Software\Providers\x32\SQLSERVER2008_ASADOMD10.msi" />
+              <File Id="filAE1989B795534034B82A31A8D2ABA8AF" Source="..\..\Software\Providers\x32\SQLSERVER2008_ASOLEDB10.msi" />
+            </Component>
+          </Directory>
+          <Directory Id="dirD1276E3788A94E642DCFE6106A6CDDA7" Name="x64">
+            <Component Id="cmp970AF2B076B4DCA6F60113C3579EDCB8" Guid="{81FD7C9C-C62B-4109-8E41-8873CF964F58}" Feature="ProductFeature">
+              <CreateFolder/>
+              <File Id="fil1A1CFA40F18F825D31462E099E4C563B" Source="..\..\Software\Providers\x64\SQLSERVER2008_ASADOMD10.msi" />
+              <File Id="filCE3E6F522AAA44019E6748DE27A7556C" Source="..\..\Software\Providers\x64\SQLSERVER2008_ASOLEDB10.msi" />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="dirD989E07333F2BF0AA5CD7742CB6C6D2E" Name="css">
+        <Component Id="cmp13224D6A1667ADA44F3912113186467B" Guid="{877AEFA0-BF24-41B9-A055-D39D5C50DDD3}" Feature="ProductFeature">
+          <File Id="filDC98A9D73D632FBC38EFB7BB0628C240" Source="..\..\css\IndexPage.css" />
+        </Component>
+      </Directory>
+      
+      <Component Id="SiteFiles" Guid="{93B9322B-4DF0-4EB9-8B58-4FC067F0CF2A}" DiskId="1">
+        <File Id="Default888" Source="..\..\default.htm"/>
+        
+        <!-- Сохраняем в реестр порт сайт, чтобы удалить наш сайт, а не Default Web Site-->
+        <RegistryValue Root="HKLM" KeyPath="yes" Key="Software\$(var.Manufacturer)\$(var.Division)\$(var.ProductName)" Name="IIS_Port" Type="string" Value="[VIRTUAL_PORT_VAL]"/>
+        
+        <RemoveFile Id="PurgeWebApplicationFolder" Name="*.*" On="uninstall" />
+        <RemoveFolder Id="RemWebApplicationFolder" On="uninstall" Directory="WebApplicationFolder" />
+      </Component>
+      
+      <Component Id="CreateVirtualDirectory" Guid="e11556a2-e066-4393-af5c-9c9210187eb9" DiskId='1'>
+          <Condition><![CDATA[ VIRTUAL_PORT_VAL = 80 ]]></Condition>
+          <CreateFolder/>
+          <iis:WebVirtualDir Id='VirtualDirectory' Alias='FMLocalAppStore' Directory='WebApplicationFolder' WebSite='DefaultWebSite'>
+            <iis:WebApplication Id='WebApplication' Name='FMLocalAppStore'>
+            </iis:WebApplication>
+          </iis:WebVirtualDir>
+      </Component>
+
+      <Component Id='CreateVirtualDirectoryOnNewWebsite' Guid='{70D92501-C051-48AE-9B76-8AEC3AB7BE29}'>
+          <Condition><![CDATA[ VIRTUAL_PORT_VAL <> 80 ]]></Condition>
+          <CreateFolder/>
+            <iis:WebSite Id='MyWebSite' Description='FMLocalAppStore' Directory='WebApplicationFolder'>
+              <iis:WebAddress Id="AllUnassigned" Port="[VIRTUAL_PORT_VAL]" />
+            </iis:WebSite>
+      </Component>
+    </DirectoryRef>
+
+    <iis:WebSite Id='DefaultWebSite' Description='Default Web Site'>
+      <iis:WebAddress Id='DefaultWebSite' Port='80' IP='*' />
+    </iis:WebSite>
+
+    <!-- Install to default web site -->
+    
+  </Fragment>
+</Wix>

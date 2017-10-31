@@ -1,0 +1,1880 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="UserRegionType" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.DebtBook.Params.UserRegionTypeValueProvider, Krista.FM.RIA.Extensions.DebtBook"></ValueProvider>
+    </Param>
+    <Param name="UserRegionId" type="integer">
+      <ValueProvider type="Krista.FM.RIA.Extensions.DebtBook.Params.UserRegionIdValueProvider, Krista.FM.RIA.Extensions.DebtBook"></ValueProvider>
+    </Param>
+    <Param name="OKTMO" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.DebtBook.Params.OKTMOValueProvider, Krista.FM.RIA.Extensions.DebtBook"></ValueProvider>
+    </Param>
+  </Params>
+
+  <!-- Register types -->
+  <Types>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.ReportsDataService, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.ReportsDataService, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.OrganizationCreditsVologdaReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.OrganizationCreditsVologdaReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.IVariantProtocolService, Krista.FM.Domain.Services.FinSourceDebtorBook"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.VariantProtocolService, Krista.FM.Domain.Services.FinSourceDebtorBook"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.DebtBook.Params.OKTMOValueProvider, Krista.FM.RIA.Extensions.DebtBook"
+              to="Krista.FM.RIA.Extensions.DebtBook.Params.OKTMOValueProvider, Krista.FM.RIA.Extensions.DebtBook"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.DebtBook.Params.UserRegionTypeValueProvider, Krista.FM.RIA.Extensions.DebtBook"
+              to="Krista.FM.RIA.Extensions.DebtBook.Params.UserRegionTypeValueProvider, Krista.FM.RIA.Extensions.DebtBook"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.DebtBook.Params.UserRegionIdValueProvider, Krista.FM.RIA.Extensions.DebtBook"
+              to="Krista.FM.RIA.Extensions.DebtBook.Params.UserRegionIdValueProvider, Krista.FM.RIA.Extensions.DebtBook"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.RIA.Extensions.DebtBook.IChangesCalcService, Krista.FM.RIA.Extensions.DebtBook"
+              to="Krista.FM.RIA.Extensions.DebtBook.ChangesCalcService, Krista.FM.RIA.Extensions.DebtBook"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.IDebtBookExportServiceMoscow, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookExportServiceMoscow, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookMoscowReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookMoscowReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.IDebtBookExportServiceStavropol, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookExportServiceStavropol, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookStavropolReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookStavropolReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.IDebtBookExportServiceKalmykia, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookExportServiceKalmykia, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookKalmykiaReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookKalmykiaReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+  </Types>
+
+  <!-- Глобальные скрипты инициализации для главной страницы.
+    Секция выполняется в методе OnLoad главной страницы. -->
+  <ClientExtension>
+    <!-- Задавать класс, который формирует скрипт (если скрипт формируется динамически) -->
+    <!-- либо прописывать скрипт прямо здесь -->
+  </ClientExtension>
+
+  <!-- Область навигации -->
+  <Navigation type="tree" ID="acDebtBookExtension" icon="Vector" title="Долговая книга МО" order="200" group="Сбор данных" dashboardIcon="/Krista.FM.RIA.Extensions.DebtBook/Presentation/Content/debtbook.png/extention.axd" defaultItemId="">
+    <Commands>
+      <Command id="cmddbeTransfert" title="Перенос данных из источников финансирования" icon="TableLightning" condition="$(UserRegionType) == 'Subject' and ($(OKTMO) == '19 000 000')">
+        <Handler>
+function() { 
+  alert('Данная функция находится в стадии реализации...'); 
+}
+        </Handler>
+      </Command>
+      <Command id="cmddbeMinfinExport" title="Выгрузка данных в Минфин" icon="DiskDownload" condition="$(UserRegionType) == 'Subject' and ($(OKTMO) == '19 000 000')">
+        <Handler>
+function() { 
+  DebtBookMinfinExportParamsWindow.show(); 
+}
+        </Handler>
+      </Command>
+      <Command id="DebtBookConsolidatedReport" title="Консолидированный отчет по долговой книге" icon="Report" condition="$(UserRegionType) == 'Subject' and ($(OKTMO) == '_19 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookConsolidatedReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+      <Command id="SubjectConsolidatedReport" title="Отчет по долговой книге субъекта" icon="Report" condition="$(UserRegionType) == 'Subject' and ($(OKTMO) == '_19 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.SubjectConsolidatedVologdaReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+      <Command id="DebtorBookYarReport" title="Долговая книга МО" icon="Report" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '78 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtorBookYarReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+      
+      <Command id="DebtorBookOrenburgReport" title="Долговая книга МО" icon="Report" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '53 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtorBookOrenburgReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+      
+      <Command id="DebtorBookOrenburgRegionReport" title="Долговая книга МО (МР, ГО)" icon="Report" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '53 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtorBookOrenburgRegionReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+      
+      <Command id="DebtorBookOrenburgSettleReport" title="Долговая книга МО (поселения)" icon="Report" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '53 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtorBookOrenburgSettleReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+      
+      <Command id="DebtorBookSaratovReport" title="Долговая книга МО" icon="Report" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '63 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookSaratovReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+
+      <Command id="DebtorBookMoscowReport" title="Долговая книга МО" icon="Report" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '46 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookMoscowReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>    
+
+      <Command id="DebtBookStavropolReport" title="Долговая книга Ставрополь" icon="Report" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '07 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookStavropolReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+
+      <Command id="DebtBookKalmykiaReport" title="Долговая книга Калмыкия" icon="Report" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '85 000 000')">
+        <Handler>
+          function() {
+          DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookKalmykiaReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+          DebtBookReportParamsWindow.show();
+          }
+        </Handler>
+      </Command>
+
+      <Command id="CopyVariantVologda" title="Копировать данные с предыдущего варианта" icon="PageCopy" condition="$(UserRegionType) != 'Settlement' and ($(OKTMO) == '19 000 000')">
+        <Handler>
+function() {
+	var params=arguments;
+	Ext.net.DirectEvent.confirmRequest({
+		cleanRequest: true,
+		url: "/BebtBookVariant/CopyVologda/",
+		formProxyArg: "form2",
+		extraParams: {variantId:Workbench.extensions.DebtBook.selectedVariantId},
+		eventMask: {showMask: true, msg: "Копирование варианта..."},
+		userFailure: function(response, result, el, type, action, extraParams){
+			if (result.result){
+				alert('Ошибка: ' + result.result);
+			} else {
+				Ext.Msg.show({
+					title:'Ошибка',
+					msg: result.errorMessage,
+					buttons: Ext.Msg.OK,
+					icon: Ext.MessageBox.ERROR,
+					maxWidth: 1000
+				});
+			}
+		},
+		control:this
+	});
+}
+        </Handler>
+      </Command>
+    </Commands>
+    <Items>
+      <Item ID="nidbeLimits" title="Предельные объемы" icon="Book" condition="$(OKTMO) == '53 000 000'">
+        <Params>
+          <Param name="url">'/View/Limits'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeCapital" title="Ценные бумаги" icon="Book" >
+        <Params>
+          <Param name="url">'/View/Capital'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeOrganizationCredit" title="Кредиты от кредитных организаций" icon="Book" >
+        <Params>
+          <Param name="url">'/View/OrganizationCredit'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeBudgetCredit" title="Кредиты от других бюджетов" icon="Book" >
+        <Params>
+          <Param name="url">'/View/BudgetCredit'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeGuarantee" title="Гарантии" icon="Book" >
+        <Params>
+          <Param name="url">'/View/Guarantee'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeBudgetParameters" title="Параметры в законе о бюджете" icon="Book" condition="$(OKTMO) == '07 000 000'">
+        <Params>
+          <Param name="url">'/View/BudgetParameters'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeOtherCredit" title="Иные долговые обязательства" icon="Book" condition="$(OKTMO) == '53 000 000' or $(OKTMO) == '63 000 000' or $(OKTMO) == '46 000 000'">
+        <Params>
+          <Param name="url">'/View/OtherCredit'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeStructureDebt" title="Структура муниципального долга" icon="Book" condition="$(OKTMO) == '63 000 000'">
+        <Params>
+          <Param name="url">'/View/StructureDebt'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeServiceDebt" title="Обслуживание муниципального долга" icon="Book" condition="$(OKTMO) == '63 000 000'">
+        <Params>
+          <Param name="url">'/View/ServiceDebt'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeContrDebt" title="Контроль соблюдения требований по долгу" icon="Book" condition="$(OKTMO) == '63 000 000'">
+        <Params>
+          <Param name="url">'/View/ContrDebt'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeNoteDebt" title="Пояснительная записка" icon="Book" condition="$(OKTMO) == '53 000 000'">
+        <Params>
+          <Param name="url">'/View/NoteDebt'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeBooks" title="Справочники" icon="BookRed" condition="$(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Town'">
+        <Items>
+          <Item ID="nidbeBookVarDb" title="Вариант.Долговая книга" icon="BookGo" condition="$(UserRegionType) == 'Subject'">
+            <Params>
+              <Param name="url">'/View/VariantSchuldbuch'</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbeBookTrnsfProtocol" title="Протокол передачи данных" icon="BookGo" condition="$(UserRegionType) == 'Subject'">
+            <Params>
+              <Param name="url">'/View/ProtocolTransfer'</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbeBookRegionMatch" title="Соответствие районов" icon="BookGo" condition="$(UserRegionType) == 'None'">
+            <Params>
+              <Param name="url">'/Entity/Show?objectKey=65e95012-39d2-4d96-90ed-ed91775205d4'</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbeBookTitleReport" title="Должности для отчетов" icon="BookGo" condition="$(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Town'">
+            <Params>
+              <Param name="url">'/View/d_S_TitleReport'</Param>
+            </Params>
+          </Item>
+        </Items>
+      </Item>
+    </Items>
+    <Action>MdiTab.addTab({ title: node.text, url: node.attributes.url, icon: node.attributes.iconCls, passParentSize: false});</Action>
+    <ButtomBar></ButtomBar>
+  </Navigation>
+
+  <!-- Глобальные окна -->
+  <Windows>
+    <Window type="SelectVariantWindow"></Window>
+    <Window condition="$(UserRegionType) == 'Subject'" type="ReportParamsWindow"></Window>
+    <Window condition="$(UserRegionType) == 'Subject'" type="MinfinExportParamsWindow"></Window>
+  </Windows>
+
+  <Views>
+
+    <!-- Навигационные представления -->
+
+    <View id="Limits" title="Предельные объемы" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelSubject" title="Данные по районам, городским округам"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+        <Presentation objectKey="'80142117-0b7d-4d9b-9bca-a312570bd516'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionLimitsViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="LimitsFormSubject"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+  lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}gridPanelSubjectDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="gridPanelRegion" title="Данные по районам, городским округам"
+           tabRegionType="2"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookLimitsRegionFormView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'">
+        <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+        <Presentation objectKey="'80142117-0b7d-4d9b-9bca-a312570bd516'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionLimitsViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <Fields>
+          <Field name="ConsMunDebt1" calc="MunDebt1 + PosDebt1"/>
+          <Field name="ConsMunGrnt1" calc="MunGrnt1 + PosGrnt1"/>
+          <Field name="ConsMunService1" calc="MunService1 + PosService1"/>
+          <Field name="ConsMunDebt2" calc="MunDebt2 + PosDebt2"/>
+          <Field name="ConsMunGrnt2" calc="MunGrnt2 + PosGrnt2"/>
+          <Field name="ConsMunService2" calc="MunService2 + PosService2"/>
+          <Field name="ConsMunDebt3" calc="MunDebt3 + PosDebt3"/>
+          <Field name="ConsMunGrnt3" calc="MunGrnt3 + PosGrnt3"/>
+          <Field name="ConsMunService3" calc="MunService3 + PosService3"/>
+        </Fields>
+      </Tab>
+    </View>
+
+    <View id="LimitsFormSubject" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+      <Presentation objectKey="'80142117-0b7d-4d9b-9bca-a312570bd516'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionLimitsViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field name="ConsMunDebt1" calc="MunDebt1 + PosDebt1"/>
+        <Field name="ConsMunGrnt1" calc="MunGrnt1 + PosGrnt1"/>
+        <Field name="ConsMunService1" calc="MunService1 + PosService1"/>
+        <Field name="ConsMunDebt2" calc="MunDebt2 + PosDebt2"/>
+        <Field name="ConsMunGrnt2" calc="MunGrnt2 + PosGrnt2"/>
+        <Field name="ConsMunService2" calc="MunService2 + PosService2"/>
+        <Field name="ConsMunDebt3" calc="MunDebt3 + PosDebt3"/>
+        <Field name="ConsMunGrnt3" calc="MunGrnt3 + PosGrnt3"/>
+        <Field name="ConsMunService3" calc="MunService3 + PosService3"/>
+      </Fields>
+    </View>
+
+
+    <View id="Capital" title="ДК Ценные бумаги" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelRF" title="Данные по субъекту РФ" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           readonly="true"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="$(UserRegionType) == 'Subject' and $(OKTMO) != '78 000 000' and $(OKTMO) != '53 000 000' and $(OKTMO) != '63 000 000' and $(OKTMO) != '46 000 000' and $(OKTMO) != '85 000 000'">
+        <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', 'bc56b559-9ea1-4f3b-8c70-96aba93d6a7f', if($(OKTMO) == '78 000 000', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b', if($(OKTMO) == '53 000 000', '816ec8d8-2b38-4099-895d-b20166b30e6f', if($(OKTMO) == '19 000 000', 'c56e52f7-e092-4fa4-af36-0eaa3b069f9f', if($(OKTMO) == '01 000 000', '40dd269f-ca0b-4495-8a85-0b05c023df8d', if($(OKTMO) == '07 000 000', '4889e499-c62e-4bbc-bb8c-e832ec11ca7a', if($(OKTMO) == '85 000 000', '01de2b21-137c-49c7-8eb9-c5f24f0e2d0b', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b')))))))"/>
+        <RegionType>Subject</RegionType>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="CapitalFormSubject"/>
+        <Params>
+          <Parameter name="UserRegionType" value="0"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if(FactServiceSum!=PREV(FactServiceSum),TotalSum!=PREV(TotalSum),true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При изменении суммы выплаченного купонного дохода по отношению к предыдущему отчету должна измениться общая сумма расходов на обслуживание облигационного займа"/>
+          <Relationship expression="StaleDebt &lt;= Attract"
+                        errorMessage="Не соблюдено контрольное соотношение: Сумма просроченной задолженности по погашению номинальной стоимости не должна быть больше номинальной суммы долга по муниципальным ценным бумагам"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelRegion" title="Данные по районам, городским округам" 
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="$(UserRegionType) == 'Subject' || $(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'">
+        <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', 'bc56b559-9ea1-4f3b-8c70-96aba93d6a7f', if($(OKTMO) == '78 000 000', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b', if($(OKTMO) == '53 000 000', '816ec8d8-2b38-4099-895d-b20166b30e6f', if($(OKTMO) == '19 000 000', 'c56e52f7-e092-4fa4-af36-0eaa3b069f9f', if($(OKTMO) == '63 000 000', '991f2bc0-5bf2-4dcb-99ef-6ec5672c8368', if($(OKTMO) == '46 000 000', '885c2e55-5a74-42cd-96ea-38c6cce96a9c', if($(OKTMO) == '01 000 000', '40dd269f-ca0b-4495-8a85-0b05c023df8d', if($(OKTMO) == '07 000 000', '4889e499-c62e-4bbc-bb8c-e832ec11ca7a', if($(OKTMO) == '85 000 000', '01de2b21-137c-49c7-8eb9-c5f24f0e2d0b', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b')))))))))"/>
+        <RegionType>Subject</RegionType>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="CapitalFormRegion"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if(FactServiceSum!=PREV(FactServiceSum),TotalSum!=PREV(TotalSum),true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При изменении суммы выплаченного купонного дохода по отношению к предыдущему отчету должна измениться общая сумма расходов на обслуживание облигационного займа"/>
+          <Relationship expression="StaleDebt &lt;= Attract"
+                        errorMessage="Не соблюдено контрольное соотношение: Сумма просроченной задолженности по погашению номинальной стоимости не должна быть больше номинальной суммы долга по муниципальным ценным бумагам"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelSetl" title="Данные по поселениям" 
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="($(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Settlement') and ($(OKTMO) != '36 000 000') and ($(OKTMO) != '46 000 000' || $(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region')">
+        <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', 'bc56b559-9ea1-4f3b-8c70-96aba93d6a7f', if($(OKTMO) == '78 000 000', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b', if($(OKTMO) == '53 000 000', '816ec8d8-2b38-4099-895d-b20166b30e6f', if($(OKTMO) == '19 000 000', '98a46c12-cdb2-474b-9c10-b5c7f8918f05', if($(OKTMO) == '63 000 000', '991f2bc0-5bf2-4dcb-99ef-6ec5672c8368', if($(OKTMO) == '46 000 000', '885c2e55-5a74-42cd-96ea-38c6cce96a9c', if($(OKTMO) == '01 000 000', '40dd269f-ca0b-4495-8a85-0b05c023df8d', if($(OKTMO) == '07 000 000', '4889e499-c62e-4bbc-bb8c-e832ec11ca7a', if($(OKTMO) == '85 000 000', '01de2b21-137c-49c7-8eb9-c5f24f0e2d0b', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b')))))))))"/>
+        <RegionType>Subject</RegionType>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="CapitalFormSetl"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if(FactServiceSum!=PREV(FactServiceSum),TotalSum!=PREV(TotalSum),true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При изменении суммы выплаченного купонного дохода по отношению к предыдущему отчету должна измениться общая сумма расходов на обслуживание облигационного займа"/>
+          <Relationship expression="StaleDebt &lt;= Attract"
+                        errorMessage="Не соблюдено контрольное соотношение: Сумма просроченной задолженности по погашению номинальной стоимости не должна быть больше номинальной суммы долга по муниципальным ценным бумагам"/>
+        </ControlRelationships>
+      </Tab>
+    </View>
+
+    <View id="CapitalFormSubject" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.Capital.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="0">
+      <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', 'bc56b559-9ea1-4f3b-8c70-96aba93d6a7f', if($(OKTMO) == '78 000 000', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b', if($(OKTMO) == '53 000 000', '816ec8d8-2b38-4099-895d-b20166b30e6f', if($(OKTMO) == '19 000 000', 'c56e52f7-e092-4fa4-af36-0eaa3b069f9f', if($(OKTMO) == '01 000 000', '40dd269f-ca0b-4495-8a85-0b05c023df8d', if($(OKTMO) == '07 000 000', '4889e499-c62e-4bbc-bb8c-e832ec11ca7a', if($(OKTMO) == '85 000 000', '01de2b21-137c-49c7-8eb9-c5f24f0e2d0b', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b')))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if(FactServiceSum!=PREV(FactServiceSum),TotalSum!=PREV(TotalSum),true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При изменении суммы выплаченного купонного дохода по отношению к предыдущему отчету должна измениться общая сумма расходов на обслуживание облигационного займа"/>
+        <Relationship expression="StaleDebt &lt;= Attract"
+                      errorMessage="Не соблюдено контрольное соотношение: Сумма просроченной задолженности по погашению номинальной стоимости не должна быть больше номинальной суммы долга по муниципальным ценным бумагам"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="CapitalFormRegion" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.Capital.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', 'bc56b559-9ea1-4f3b-8c70-96aba93d6a7f', if($(OKTMO) == '78 000 000', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b', if($(OKTMO) == '53 000 000', '816ec8d8-2b38-4099-895d-b20166b30e6f', if($(OKTMO) == '19 000 000', 'c56e52f7-e092-4fa4-af36-0eaa3b069f9f', if($(OKTMO) == '63 000 000', '991f2bc0-5bf2-4dcb-99ef-6ec5672c8368', if($(OKTMO) == '46 000 000', '885c2e55-5a74-42cd-96ea-38c6cce96a9c', if($(OKTMO) == '01 000 000', '40dd269f-ca0b-4495-8a85-0b05c023df8d', if($(OKTMO) == '07 000 000', '4889e499-c62e-4bbc-bb8c-e832ec11ca7a', if($(OKTMO) == '85 000 000', '01de2b21-137c-49c7-8eb9-c5f24f0e2d0b', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b')))))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if(FactServiceSum!=PREV(FactServiceSum),TotalSum!=PREV(TotalSum),true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При изменении суммы выплаченного купонного дохода по отношению к предыдущему отчету должна измениться общая сумма расходов на обслуживание облигационного займа"/>
+        <Relationship expression="StaleDebt &lt;= Attract"
+                      errorMessage="Не соблюдено контрольное соотношение: Сумма просроченной задолженности по погашению номинальной стоимости не должна быть больше номинальной суммы долга по муниципальным ценным бумагам"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="CapitalFormSetl" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.Capital.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="3">
+      <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', 'bc56b559-9ea1-4f3b-8c70-96aba93d6a7f', if($(OKTMO) == '78 000 000', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b', if($(OKTMO) == '53 000 000', '816ec8d8-2b38-4099-895d-b20166b30e6f', if($(OKTMO) == '19 000 000', 'c56e52f7-e092-4fa4-af36-0eaa3b069f9f', if($(OKTMO) == '63 000 000', '991f2bc0-5bf2-4dcb-99ef-6ec5672c8368', if($(OKTMO) == '46 000 000', '885c2e55-5a74-42cd-96ea-38c6cce96a9c', if($(OKTMO) == '01 000 000', '40dd269f-ca0b-4495-8a85-0b05c023df8d', if($(OKTMO) == '07 000 000', '4889e499-c62e-4bbc-bb8c-e832ec11ca7a', if($(OKTMO) == '85 000 000', '01de2b21-137c-49c7-8eb9-c5f24f0e2d0b', 'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b')))))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if(FactServiceSum!=PREV(FactServiceSum),TotalSum!=PREV(TotalSum),true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При изменении суммы выплаченного купонного дохода по отношению к предыдущему отчету должна измениться общая сумма расходов на обслуживание облигационного займа"/>
+        <Relationship expression="StaleDebt &lt;= Attract"
+                      errorMessage="Не соблюдено контрольное соотношение: Сумма просроченной задолженности по погашению номинальной стоимости не должна быть больше номинальной суммы долга по муниципальным ценным бумагам"/>
+      </ControlRelationships>
+    </View>
+
+
+    <View id="OrganizationCredit" title="ДК Кредиты от кредитных организаций" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelRF" title="Данные по субъекту РФ" 
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="$(UserRegionType) == 'Subject' and $(OKTMO) != '78 000 000' and $(OKTMO) != '53 000 000' and $(OKTMO) != '63 000 000' and $(OKTMO) != '46 000 000' and $(OKTMO) != '85 000 000'">
+        <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', '4d42fb2a-e282-46e2-bccc-f858bf04fc3a', if($(OKTMO) == '78 000 000', '447f2657-3bd1-45c9-9365-d5462c213b0a', if($(OKTMO) == '53 000 000', '25b79332-1271-427a-983d-1762a2ca3660', if($(OKTMO) == '19 000 000', 'e938032b-e193-4d4f-af4f-c3b5e2697520', if($(OKTMO) == '01 000 000', '96e76365-fd6f-4558-88db-fbe48413ecd5', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', '2ca88444-4feb-4764-8a51-59fdc6d80401', '447f2657-3bd1-45c9-9365-d5462c213b0a')))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="OrganizationCreditFormSubject"/>
+        <Params>
+          <Parameter name="UserRegionType" value="0"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([Attract] != 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] &gt; 0, true)"
+                        errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по кредиту больше нуля"/>
+          <Relationship expression="[StaleDebt] &lt;= [Sum]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности не должен быть больше объема обязательства по договору (соглашению)"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelRegion" title="Данные по районам, городским округам"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="$(UserRegionType) == 'Subject' || $(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'">
+        <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', '4d42fb2a-e282-46e2-bccc-f858bf04fc3a', if($(OKTMO) == '78 000 000', '447f2657-3bd1-45c9-9365-d5462c213b0a', if($(OKTMO) == '53 000 000', '25b79332-1271-427a-983d-1762a2ca3660', if($(OKTMO) == '19 000 000', 'e938032b-e193-4d4f-af4f-c3b5e2697520', if($(OKTMO) == '46 000 000', '1b316e34-6495-4b01-a9fa-e86358cd27fd', if($(OKTMO) == '63 000 000', '4546a42d-05c1-4fd7-9a62-d6842c2e124b', if($(OKTMO) == '01 000 000', '96e76365-fd6f-4558-88db-fbe48413ecd5', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', '2ca88444-4feb-4764-8a51-59fdc6d80401', '447f2657-3bd1-45c9-9365-d5462c213b0a')))))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="OrganizationCreditFormRegion"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([Attract] != 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] &gt; 0, true)"
+                        errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по кредиту больше нуля"/>
+          <Relationship expression="[StaleDebt] &lt;= [Sum]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности не должен быть больше объема обязательства по договору (соглашению)"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelSetl" title="Данные по поселениям"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="($(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Settlement') and ($(OKTMO) != '36 000 000') and ($(OKTMO) != '46 000 000' || $(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region')">
+        <Entity objectKey="if($(OKTMO) == '78 000 000' || $(OKTMO) == '19 000 000', '6822bed9-eaa1-464b-b3e7-03468e4c201d', '43c55c92-c819-4e0b-95a1-3b941bc2789f')"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', '4d42fb2a-e282-46e2-bccc-f858bf04fc3a', if($(OKTMO) == '78 000 000', '94a92d73-a803-4ace-959e-8cf67747aa32', if($(OKTMO) == '53 000 000', '25b79332-1271-427a-983d-1762a2ca3660', if($(OKTMO) == '19 000 000', '33a3d327-9cc0-4a7b-ba70-5a3fab9bbe8f', if($(OKTMO) == '46 000 000', '1b316e34-6495-4b01-a9fa-e86358cd27fd', if($(OKTMO) == '63 000 000', '4546a42d-05c1-4fd7-9a62-d6842c2e124b', if($(OKTMO) == '01 000 000', '96e76365-fd6f-4558-88db-fbe48413ecd5', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', '2ca88444-4feb-4764-8a51-59fdc6d80401', '94a92d73-a803-4ace-959e-8cf67747aa32')))))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="OrganizationCreditFormSetl"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([Attract] != 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] &gt; 0, true)"
+                        errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по кредиту больше нуля"/>
+          <Relationship expression="[StaleDebt] &lt;= [Sum]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности не должен быть больше объема обязательства по договору (соглашению)"/>
+        </ControlRelationships>
+      </Tab>
+    </View>
+
+    <View id="OrganizationCreditFormSubject" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.OrganizationCredit.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="0">
+      <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', '4d42fb2a-e282-46e2-bccc-f858bf04fc3a', if($(OKTMO) == '78 000 000', '447f2657-3bd1-45c9-9365-d5462c213b0a', if($(OKTMO) == '53 000 000', '25b79332-1271-427a-983d-1762a2ca3660', if($(OKTMO) == '19 000 000', 'e938032b-e193-4d4f-af4f-c3b5e2697520', if($(OKTMO) == '01 000 000', '96e76365-fd6f-4558-88db-fbe48413ecd5', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', '2ca88444-4feb-4764-8a51-59fdc6d80401', '447f2657-3bd1-45c9-9365-d5462c213b0a')))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge + DiffrncRatesDbt"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService + DiffrncRatesInterest"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt + DiffrncRatesPenlt"/>
+
+        <Field condition="$(OKTMO) == '07 000 000'" name="CapitalDebt" calc="Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="ServiceDebt" calc="PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+        
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([Attract] != 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] &gt; 0, true)"
+                      errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по кредиту больше нуля"/>
+        <Relationship expression="[StaleDebt] &lt;= [Sum]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности не должен быть больше объема обязательства по договору (соглашению)"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="OrganizationCreditFormRegion" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.OrganizationCredit.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', '4d42fb2a-e282-46e2-bccc-f858bf04fc3a', if($(OKTMO) == '78 000 000', '447f2657-3bd1-45c9-9365-d5462c213b0a', if($(OKTMO) == '53 000 000', '25b79332-1271-427a-983d-1762a2ca3660', if($(OKTMO) == '19 000 000', 'e938032b-e193-4d4f-af4f-c3b5e2697520', if($(OKTMO) == '63 000 000', '4546a42d-05c1-4fd7-9a62-d6842c2e124b', if($(OKTMO) == '46 000 000', '1b316e34-6495-4b01-a9fa-e86358cd27fd', if($(OKTMO) == '01 000 000', '96e76365-fd6f-4558-88db-fbe48413ecd5', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', '2ca88444-4feb-4764-8a51-59fdc6d80401', '447f2657-3bd1-45c9-9365-d5462c213b0a')))))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge + DiffrncRatesDbt"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService + DiffrncRatesInterest"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt + DiffrncRatesPenlt"/>
+
+        <Field condition="$(OKTMO) == '07 000 000'" name="CapitalDebt" calc="Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="ServiceDebt" calc="PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([Attract] != 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] &gt; 0, true)"
+                      errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по кредиту больше нуля"/>
+        <Relationship expression="[StaleDebt] &lt;= [Sum]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности не должен быть больше объема обязательства по договору (соглашению)"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="OrganizationCreditFormSetl" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.OrganizationCredit.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="3">
+      <Entity objectKey="if($(OKTMO) == '78 000 000' || $(OKTMO) == '19 000 000', '6822bed9-eaa1-464b-b3e7-03468e4c201d', '43c55c92-c819-4e0b-95a1-3b941bc2789f')"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', '4d42fb2a-e282-46e2-bccc-f858bf04fc3a', if($(OKTMO) == '78 000 000', '94a92d73-a803-4ace-959e-8cf67747aa32', if($(OKTMO) == '53 000 000', '25b79332-1271-427a-983d-1762a2ca3660', if($(OKTMO) == '19 000 000', '33a3d327-9cc0-4a7b-ba70-5a3fab9bbe8f', if($(OKTMO) == '63 000 000', '4546a42d-05c1-4fd7-9a62-d6842c2e124b', if($(OKTMO) == '46 000 000', '1b316e34-6495-4b01-a9fa-e86358cd27fd', if($(OKTMO) == '01 000 000', '96e76365-fd6f-4558-88db-fbe48413ecd5', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', '2ca88444-4feb-4764-8a51-59fdc6d80401', '94a92d73-a803-4ace-959e-8cf67747aa32')))))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge + DiffrncRatesDbt"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService + DiffrncRatesInterest"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt + DiffrncRatesPenlt"/>
+
+        <Field condition="$(OKTMO) == '07 000 000'" name="CapitalDebt" calc="Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="ServiceDebt" calc="PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([Attract] != 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] &gt; 0, true)"
+                      errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по кредиту больше нуля"/>
+        <Relationship expression="[StaleDebt] &lt;= [Sum]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности не должен быть больше объема обязательства по договору (соглашению)"/>
+      </ControlRelationships>
+    </View>
+
+    
+    <View id="BudgetCredit" title="ДК Кредиты от других бюджетов" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelRF" title="Данные по субъекту РФ" 
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="$(UserRegionType) == 'Subject' and $(OKTMO) != '78 000 000' and $(OKTMO) != '53 000 000' and $(OKTMO) != '63 000 000' and $(OKTMO) != '46 000 000' and $(OKTMO) != '85 000 000'">
+        <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', '2d196c86-d6ae-4c95-93d2-1628c3679ce7', if($(OKTMO) == '78 000 000', '447f2657-3bd1-45c9-9365-d5462c213b0a', if($(OKTMO) == '53 000 000', 'd16b83fe-3f26-4870-9ab0-2adfdb9529ae', if($(OKTMO) == '19 000 000', 'dcd7fcdf-afb3-4934-8f38-05fa0c55bc7d', if($(OKTMO) == '01 000 000', '5588fe17-799d-40f0-a9d3-513dbe696fec', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', 'eb7ab112-2c64-44f0-babf-53dce5f639d4', '447f2657-3bd1-45c9-9365-d5462c213b0a')))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="BudgetCreditFormSubject"/>
+        <Params>
+          <Parameter name="UserRegionType" value="0"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([Attract] &gt; 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] > 0, true)"
+                        errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по бюджетному кредиту больше нуля"/>
+          <Relationship expression="[StaleDebt] &lt;= [Attract]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности по бюджетному кредиту не должен быть больше объема по бюджетному кредиту"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelRegion" title="Данные по районам, городским округам"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="$(UserRegionType) == 'Subject' || $(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'">
+        <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', '2d196c86-d6ae-4c95-93d2-1628c3679ce7', if($(OKTMO) == '78 000 000', '447f2657-3bd1-45c9-9365-d5462c213b0a', if($(OKTMO) == '53 000 000', 'd16b83fe-3f26-4870-9ab0-2adfdb9529ae', if($(OKTMO) == '19 000 000', 'dcd7fcdf-afb3-4934-8f38-05fa0c55bc7d', if($(OKTMO) == '46 000 000', 'dcc3a099-13e9-4f64-ba87-02babc7e7ba5', if($(OKTMO) == '63 000 000', 'd8c6de2e-90bb-44bc-9cf6-9d5acc02d9ac', if($(OKTMO) == '01 000 000', '5588fe17-799d-40f0-a9d3-513dbe696fec', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', 'eb7ab112-2c64-44f0-babf-53dce5f639d4', '447f2657-3bd1-45c9-9365-d5462c213b0a')))))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="BudgetCreditFormRegion"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([Attract] &gt; 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] > 0, true)"
+                        errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по бюджетному кредиту больше нуля"/>
+          <Relationship expression="[StaleDebt] &lt;= [Attract]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности по бюджетному кредиту не должен быть больше объема по бюджетному кредиту"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelSetl" title="Данные по поселениям"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="($(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Settlement') and ($(OKTMO) != '36 000 000') and ($(OKTMO) != '46 000 000' || $(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region')">
+        <Entity objectKey="if($(OKTMO) == '78 000 000' || $(OKTMO) == '19 000 000', '6822bed9-eaa1-464b-b3e7-03468e4c201d', '43c55c92-c819-4e0b-95a1-3b941bc2789f')"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', '2d196c86-d6ae-4c95-93d2-1628c3679ce7', if($(OKTMO) == '78 000 000', '94a92d73-a803-4ace-959e-8cf67747aa32', if($(OKTMO) == '53 000 000', 'd16b83fe-3f26-4870-9ab0-2adfdb9529ae', if($(OKTMO) == '19 000 000', '8dbc1d01-9235-4adf-8d39-d9450285bfe6', if($(OKTMO) == '46 000 000', 'dcc3a099-13e9-4f64-ba87-02babc7e7ba5', if($(OKTMO) == '63 000 000', 'd8c6de2e-90bb-44bc-9cf6-9d5acc02d9ac', if($(OKTMO) == '01 000 000', '5588fe17-799d-40f0-a9d3-513dbe696fec', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', 'eb7ab112-2c64-44f0-babf-53dce5f639d4', '94a92d73-a803-4ace-959e-8cf67747aa32')))))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="BudgetCreditFormSetl"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([Attract] &gt; 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] > 0, true)"
+                        errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по бюджетному кредиту больше нуля"/>
+          <Relationship expression="[StaleDebt] &lt;= [Attract]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности по бюджетному кредиту не должен быть больше объема по бюджетному кредиту"/>
+        </ControlRelationships>
+      </Tab>
+    </View>
+
+    <View id="BudgetCreditFormSubject" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BudgetCredit.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="0">
+      <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', '2d196c86-d6ae-4c95-93d2-1628c3679ce7', if($(OKTMO) == '78 000 000', '447f2657-3bd1-45c9-9365-d5462c213b0a', if($(OKTMO) == '53 000 000', 'd16b83fe-3f26-4870-9ab0-2adfdb9529ae', if($(OKTMO) == '19 000 000', 'dcd7fcdf-afb3-4934-8f38-05fa0c55bc7d', if($(OKTMO) == '01 000 000', '5588fe17-799d-40f0-a9d3-513dbe696fec', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', 'eb7ab112-2c64-44f0-babf-53dce5f639d4', '447f2657-3bd1-45c9-9365-d5462c213b0a')))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge + DiffrncRatesDbt"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService + DiffrncRatesInterest"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt + DiffrncRatesPenlt"/>
+        
+        <Field condition="$(OKTMO) == '07 000 000'" name="CapitalDebt" calc="Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="ServiceDebt" calc="PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService - StaleInterest"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt - StalePenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([Attract] &gt; 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] > 0, true)"
+                      errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по бюджетному кредиту больше нуля"/>
+        <Relationship expression="[StaleDebt] &lt;= [Attract]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности по бюджетному кредиту не должен быть больше объема по бюджетному кредиту"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="BudgetCreditFormRegion" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BudgetCredit.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', '2d196c86-d6ae-4c95-93d2-1628c3679ce7', if($(OKTMO) == '78 000 000', '447f2657-3bd1-45c9-9365-d5462c213b0a', if($(OKTMO) == '53 000 000', 'd16b83fe-3f26-4870-9ab0-2adfdb9529ae', if($(OKTMO) == '19 000 000', 'dcd7fcdf-afb3-4934-8f38-05fa0c55bc7d', if($(OKTMO) == '63 000 000', 'd8c6de2e-90bb-44bc-9cf6-9d5acc02d9ac', if($(OKTMO) == '46 000 000', 'dcc3a099-13e9-4f64-ba87-02babc7e7ba5', if($(OKTMO) == '01 000 000', '5588fe17-799d-40f0-a9d3-513dbe696fec', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', 'eb7ab112-2c64-44f0-babf-53dce5f639d4', '447f2657-3bd1-45c9-9365-d5462c213b0a')))))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge + DiffrncRatesDbt"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService + DiffrncRatesInterest"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt + DiffrncRatesPenlt"/>
+
+        <Field condition="$(OKTMO) == '07 000 000'" name="CapitalDebt" calc="Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="ServiceDebt" calc="PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService - StaleInterest"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt - StalePenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([Attract] &gt; 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] > 0, true)"
+                      errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по бюджетному кредиту больше нуля"/>
+        <Relationship expression="[StaleDebt] &lt;= [Attract]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности по бюджетному кредиту не должен быть больше объема по бюджетному кредиту"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="BudgetCreditFormSetl" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BudgetCredit.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="3">
+      <Entity objectKey="if($(OKTMO) == '78 000 000' || $(OKTMO) == '19 000 000', '6822bed9-eaa1-464b-b3e7-03468e4c201d', '43c55c92-c819-4e0b-95a1-3b941bc2789f')"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', '2d196c86-d6ae-4c95-93d2-1628c3679ce7', if($(OKTMO) == '78 000 000', '94a92d73-a803-4ace-959e-8cf67747aa32', if($(OKTMO) == '53 000 000', 'd16b83fe-3f26-4870-9ab0-2adfdb9529ae', if($(OKTMO) == '19 000 000', '8dbc1d01-9235-4adf-8d39-d9450285bfe6', if($(OKTMO) == '63 000 000', 'd8c6de2e-90bb-44bc-9cf6-9d5acc02d9ac', if($(OKTMO) == '46 000 000', 'dcc3a099-13e9-4f64-ba87-02babc7e7ba5', if($(OKTMO) == '01 000 000', '5588fe17-799d-40f0-a9d3-513dbe696fec', if($(OKTMO) == '07 000 000', '5090f880-305e-4b59-a21b-8c4db659b4a6', if($(OKTMO) == '85 000 000', 'eb7ab112-2c64-44f0-babf-53dce5f639d4', '94a92d73-a803-4ace-959e-8cf67747aa32')))))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDbt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthInterest" calc="prev(RemnsEndMnthInterest, BgnYearInterest)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthPenlt" calc="prev(RemnsEndMnthPenlt, BgnYearPenlt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + Attract - Discharge + DiffrncRatesDbt"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthInterest" calc="RemnsBgnMnthInterest + PlanService - FactService + DiffrncRatesInterest"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthPenlt" calc="RemnsBgnMnthPenlt + ChargePenlt - FactPenlt + DiffrncRatesPenlt"/>
+
+        <Field condition="$(OKTMO) == '07 000 000'" name="CapitalDebt" calc="Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="ServiceDebt" calc="PlanService - FactService"/>
+        <Field condition="$(OKTMO) == '07 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDbt + Attract - Discharge"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthInterest" calc="BgnYearInterest + PlanService - FactService - StaleInterest"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthPenlt" calc="ChargePenlt - FactPenlt - StalePenlt"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([Attract] &gt; 0 and DATE([PaymentDate]) &lt; DATE([RefVariant.ReportDate]), [StaleDebt] > 0, true)"
+                      errorMessage="Необходимо заполнить объем просроченной задолженности, так как дата погашения кредита меньше отчетной даты и  объем основного долга по бюджетному кредиту больше нуля"/>
+        <Relationship expression="[StaleDebt] &lt;= [Attract]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер)  просроченной задолженности по бюджетному кредиту не должен быть больше объема по бюджетному кредиту"/>
+      </ControlRelationships>
+    </View>
+
+    
+    <View id="OtherCredit" title="Иные долговые обязательства" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelRF" title="Данные по субъекту РФ"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject' and $(OKTMO) != '78 000 000' and $(OKTMO) != '53 000 000' and $(OKTMO) != '63 000 000' and $(OKTMO) != '46 000 000'">
+        <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <Presentation objectKey="'d92d0718-f5ab-47cc-b36b-f1dcfa34fb38'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="OtherCreditFormSubject"/>
+        <Params>
+          <Parameter name="UserRegionType" value="0"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="[StaleDebt] &lt;= [CapitalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности не должен быть больше объема долга по долговому обязательству"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelRegion" title="Данные по районам, городским округам"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject' || $(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'">
+        <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <Presentation objectKey="if($(OKTMO) == '46 000 000', '59edd0d5-d662-42c1-bd91-18640d7ccc59', if($(OKTMO) == '63 000 000', 'e5bd51ec-4b18-471f-9d3f-f6899e76ace4', 'd92d0718-f5ab-47cc-b36b-f1dcfa34fb38'))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="OtherCreditFormRegion"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="[StaleDebt] &lt;= [CapitalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности не должен быть больше объема долга по долговому обязательству"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelSetl" title="Данные по поселениям"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="($(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Settlement') and ($(OKTMO) != '36 000 000') and ($(OKTMO) != '46 000 000' || $(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region')">
+        <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <Presentation objectKey="if($(OKTMO) == '46 000 000', '59edd0d5-d662-42c1-bd91-18640d7ccc59', if($(OKTMO) == '63 000 000', 'e5bd51ec-4b18-471f-9d3f-f6899e76ace4', 'd92d0718-f5ab-47cc-b36b-f1dcfa34fb38'))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="OtherCreditFormSetl"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="[StaleDebt] &lt;= [CapitalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности не должен быть больше объема долга по долговому обязательству"/>
+        </ControlRelationships>
+      </Tab>
+    </View>
+
+    <View id="OtherCreditFormSubject" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="0">
+      <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+      <Presentation objectKey="'d92d0718-f5ab-47cc-b36b-f1dcfa34fb38'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="[StaleDebt] &lt;= [CapitalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности не должен быть больше объема долга по долговому обязательству"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="OtherCreditFormRegion" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+      <Presentation objectKey="if($(OKTMO) == '63 000 000', 'e5bd51ec-4b18-471f-9d3f-f6899e76ace4', if($(OKTMO) == '46 000 000', '59edd0d5-d662-42c1-bd91-18640d7ccc59', 'd92d0718-f5ab-47cc-b36b-f1dcfa34fb38'))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="[StaleDebt] &lt;= [CapitalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности не должен быть больше объема долга по долговому обязательству"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="OtherCreditFormSetl" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="3">
+      <Entity objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+      <Presentation objectKey="if($(OKTMO) == '63 000 000', 'e5bd51ec-4b18-471f-9d3f-f6899e76ace4', if($(OKTMO) == '46 000 000', '59edd0d5-d662-42c1-bd91-18640d7ccc59', 'd92d0718-f5ab-47cc-b36b-f1dcfa34fb38'))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="[StaleDebt] &lt;= [CapitalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности не должен быть больше объема долга по долговому обязательству"/>
+      </ControlRelationships>
+    </View>
+
+    
+    <View id="Guarantee" title="ДК Гарантии" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelRF" title="Данные по субъекту РФ" 
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="$(UserRegionType) == 'Subject' and $(OKTMO) != '78 000 000' and $(OKTMO) != '53 000 000' and $(OKTMO) != '63 000 000' and $(OKTMO) != '46 000 000' and $(OKTMO) != '85 000 000'">
+        <Entity objectKey="'6930d45e-89a3-4f28-b1c4-b28502593750'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', 'eeed6ffb-86ed-4314-a2da-19e474faff63', if($(OKTMO) == '78 000 000', '109fec0e-45db-4561-91aa-dea48a366df4', if($(OKTMO) == '53 000 000', '6a6fcddd-5fb4-4e11-9d69-06ffea253143', if($(OKTMO) == '19 000 000', '223e138f-3254-4657-aee4-22235006a498', if($(OKTMO) == '01 000 000', 'e1b0e00a-dfe3-4786-a612-d20a5eb64aab', if($(OKTMO) == '07 000 000', 'a8ca1067-d2ec-4af7-baa1-03bdef52cf57', if($(OKTMO) == '85 000 000', '4cfa5ae8-7e5d-47d5-8a5b-dabbd0949765', '109fec0e-45db-4561-91aa-dea48a366df4')))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="GuaranteeFormSubject"/>
+        <Params>
+          <Parameter name="UserRegionType" value="0"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([RemnsEndMnthDbt] != 0 and DATE([PrincipalEndDate]) &lt; DATE([RefVariant.ReportDate]), [StalePrincipalDebt] &gt; 0, true)"
+                        errorMessage="Необходимо заполнить сумму просроченной задолженности для гарантии, так как по ней наступил срок исполнения"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), [DownDebt] &gt; PREV([DownDebt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При уменьшении Объема обязательств по гарантии/всего  должен увеличиться объем обязательств по исполненным в текущем финансовом году гарантиям\всего"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownDebt] &gt; PREV([DownDebt]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При увеличении объема обязательства по исполненным в текущем финансовом году гарантиям\всего по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownGarant] &gt; PREV([DownGarant]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При увеличении  объема обязательств по исполненным в текущем финансовом году гарантиям\в т.ч. без права регрессного требования по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+          <Relationship expression="[StalePrincipalDebt] &lt;= [TotalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности по гарантии не должен быть больше объема обязательств по договору о предоставлении гарантии"/>
+          <Relationship expression="[CapitalDebt] &lt;= [TotalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по договору о предоставлении гарантии, в том числе без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по договору о предоставлении гарантии всего"/>
+          <Relationship expression="[DownGarant] &lt;= [DownDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по исполненным в текущем финансовом году гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по исполненным в текущем финансовом году гарантии всего"/>
+          <Relationship expression="[BgnYearDebt] &lt;= [RemnsEndMnthDbt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема по гарантии всего"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelRegion" title="Данные по районам, городским округам"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="$(UserRegionType) == 'Subject' || $(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'">
+        <Entity objectKey="'6930d45e-89a3-4f28-b1c4-b28502593750'"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', 'eeed6ffb-86ed-4314-a2da-19e474faff63', if($(OKTMO) == '78 000 000', '109fec0e-45db-4561-91aa-dea48a366df4', if($(OKTMO) == '53 000 000', '6a6fcddd-5fb4-4e11-9d69-06ffea253143', if($(OKTMO) == '19 000 000', '223e138f-3254-4657-aee4-22235006a498', if($(OKTMO) == '46 000 000', '826b36ce-9c6a-41c1-b14f-20b49c38564e', if($(OKTMO) == '63 000 000', 'fa43680d-0675-4307-b5c5-6ad112653f3a', if($(OKTMO) == '01 000 000', 'e1b0e00a-dfe3-4786-a612-d20a5eb64aab', if($(OKTMO) == '07 000 000', 'a8ca1067-d2ec-4af7-baa1-03bdef52cf57', if($(OKTMO) == '85 000 000', '4cfa5ae8-7e5d-47d5-8a5b-dabbd0949765', '109fec0e-45db-4561-91aa-dea48a366df4')))))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="GuaranteeFormRegion"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([RemnsEndMnthDbt] != 0 and DATE([PrincipalEndDate]) &lt; DATE([RefVariant.ReportDate]), [StalePrincipalDebt] &gt; 0, true)"
+                        errorMessage="Необходимо заполнить сумму просроченной задолженности для гарантии, так как по ней наступил срок исполнения"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), [DownDebt] &gt; PREV([DownDebt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При уменьшении Объема обязательств по гарантии/всего  должен увеличиться объем обязательств по исполненным в текущем финансовом году гарантиям\всего"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownDebt] &gt; PREV([DownDebt]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При увеличении объема обязательства по исполненным в текущем финансовом году гарантиям\всего по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownGarant] &gt; PREV([DownGarant]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При увеличении  объема обязательств по исполненным в текущем финансовом году гарантиям\в т.ч. без права регрессного требования по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+          <Relationship expression="[StalePrincipalDebt] &lt;= [TotalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности по гарантии не должен быть больше объема обязательств по договору о предоставлении гарантии"/>
+          <Relationship expression="[CapitalDebt] &lt;= [TotalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по договору о предоставлении гарантии, в том числе без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по договору о предоставлении гарантии всего"/>
+          <Relationship expression="[DownGarant] &lt;= [DownDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по исполненным в текущем финансовом году гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по исполненным в текущем финансовом году гарантии всего"/>
+          <Relationship expression="[BgnYearDebt] &lt;= [RemnsEndMnthDbt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема по гарантии всего"/>
+        </ControlRelationships>
+      </Tab>
+      <Tab id="gridPanelSetl" title="Данные по поселениям"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook" 
+           condition="($(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Settlement') and ($(OKTMO) != '36 000 000') and ($(OKTMO) != '46 000 000' || $(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region')">
+        <Entity objectKey="if($(OKTMO) == '19 000 000' || $(OKTMO) == '78 000 000', '6192bf13-cdee-4e29-a12c-45a7c4622512', '6930d45e-89a3-4f28-b1c4-b28502593750')"/>
+        <Presentation objectKey="if($(OKTMO) == '36 000 000', 'eeed6ffb-86ed-4314-a2da-19e474faff63', if($(OKTMO) == '78 000 000', 'a92a72d8-b95a-4400-884b-d0a8c36f66dd', if($(OKTMO) == '53 000 000', '6a6fcddd-5fb4-4e11-9d69-06ffea253143', if($(OKTMO) == '19 000 000', 'd15638c1-67bb-4d51-9c02-4201f41da56e', if($(OKTMO) == '46 000 000', '826b36ce-9c6a-41c1-b14f-20b49c38564e', if($(OKTMO) == '63 000 000', 'fa43680d-0675-4307-b5c5-6ad112653f3a', if($(OKTMO) == '01 000 000', 'e1b0e00a-dfe3-4786-a612-d20a5eb64aab', if($(OKTMO) == '07 000 000', 'a8ca1067-d2ec-4af7-baa1-03bdef52cf57', if($(OKTMO) == '85 000 000', '4cfa5ae8-7e5d-47d5-8a5b-dabbd0949765', 'a92a72d8-b95a-4400-884b-d0a8c36f66dd')))))))))"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="GuaranteeFormSetl"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">var lockDelete = false;
+for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+    lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+}if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);          
+          </Listener>
+        </GridListeners>
+        <!--Контрольные соотношения-->
+        <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+          <Relationship expression="if([RemnsEndMnthDbt] != 0 and DATE([PrincipalEndDate]) &lt; DATE([RefVariant.ReportDate]), [StalePrincipalDebt] &gt; 0, true)"
+                        errorMessage="Необходимо заполнить сумму просроченной задолженности для гарантии, так как по ней наступил срок исполнения"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), [DownDebt] &gt; PREV([DownDebt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При уменьшении Объема обязательств по гарантии/всего  должен увеличиться объем обязательств по исполненным в текущем финансовом году гарантиям\всего"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownDebt] &gt; PREV([DownDebt]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При увеличении объема обязательства по исполненным в текущем финансовом году гарантиям\всего по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+          <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownGarant] &gt; PREV([DownGarant]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                        errorMessage="Не соблюдено контрольное соотношение: При увеличении  объема обязательств по исполненным в текущем финансовом году гарантиям\в т.ч. без права регрессного требования по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+          <Relationship expression="[StalePrincipalDebt] &lt;= [TotalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности по гарантии не должен быть больше объема обязательств по договору о предоставлении гарантии"/>
+          <Relationship expression="[CapitalDebt] &lt;= [TotalDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по договору о предоставлении гарантии, в том числе без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по договору о предоставлении гарантии всего"/>
+          <Relationship expression="[DownGarant] &lt;= [DownDebt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по исполненным в текущем финансовом году гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по исполненным в текущем финансовом году гарантии всего"/>
+          <Relationship expression="[BgnYearDebt] &lt;= [RemnsEndMnthDbt]"
+                        errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема по гарантии всего"/>
+        </ControlRelationships>
+      </Tab>
+    </View>
+
+    <View id="GuaranteeFormSubject" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.Guarantee.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="0">
+      <Entity objectKey="'6930d45e-89a3-4f28-b1c4-b28502593750'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', 'eeed6ffb-86ed-4314-a2da-19e474faff63', if($(OKTMO) == '78 000 000', '109fec0e-45db-4561-91aa-dea48a366df4', if($(OKTMO) == '53 000 000', '6a6fcddd-5fb4-4e11-9d69-06ffea253143', if($(OKTMO) == '19 000 000', '223e138f-3254-4657-aee4-22235006a498', if($(OKTMO) == '01 000 000', 'e1b0e00a-dfe3-4786-a612-d20a5eb64aab', if($(OKTMO) == '07 000 000', 'a8ca1067-d2ec-4af7-baa1-03bdef52cf57', if($(OKTMO) == '85 000 000', '4cfa5ae8-7e5d-47d5-8a5b-dabbd0949765', '109fec0e-45db-4561-91aa-dea48a366df4')))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDebt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + UpDebt - DownDebt"/>
+        
+        <Field condition="$(OKTMO) == '53 000 000'" name="StaleGarantDebt" calc="StalePrincipalDebt + StaleInterest"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDebt + TotalDebt - DownPrincipal - DownGarant"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="EndInterest" calc="BgnInterest - DownService - DownServiceGarant"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="EndPenalty" calc="UpPenalty - DownPenalty - DownPenaltyGarant"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([RemnsEndMnthDbt] != 0 and DATE([PrincipalEndDate]) &lt; DATE([RefVariant.ReportDate]), [StalePrincipalDebt] &gt; 0, true)"
+                      errorMessage="Необходимо заполнить сумму просроченной задолженности для гарантии, так как по ней наступил срок исполнения"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), [DownDebt] &gt; PREV([DownDebt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При уменьшении Объема обязательств по гарантии/всего  должен увеличиться объем обязательств по исполненным в текущем финансовом году гарантиям\всего"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownDebt] &gt; PREV([DownDebt]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При увеличении объема обязательства по исполненным в текущем финансовом году гарантиям\всего по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownGarant] &gt; PREV([DownGarant]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При увеличении  объема обязательств по исполненным в текущем финансовом году гарантиям\в т.ч. без права регрессного требования по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+        <Relationship expression="[StalePrincipalDebt] &lt;= [TotalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности по гарантии не должен быть больше объема обязательств по договору о предоставлении гарантии"/>
+        <Relationship expression="[CapitalDebt] &lt;= [TotalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по договору о предоставлении гарантии, в том числе без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по договору о предоставлении гарантии всего"/>
+        <Relationship expression="[DownGarant] &lt;= [DownDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по исполненным в текущем финансовом году гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по исполненным в текущем финансовом году гарантии всего"/>
+        <Relationship expression="[BgnYearDebt] &lt;= [RemnsEndMnthDbt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема по гарантии всего"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="GuaranteeFormRegion" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.Guarantee.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'6930d45e-89a3-4f28-b1c4-b28502593750'"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', 'eeed6ffb-86ed-4314-a2da-19e474faff63', if($(OKTMO) == '78 000 000', '109fec0e-45db-4561-91aa-dea48a366df4', if($(OKTMO) == '53 000 000', '6a6fcddd-5fb4-4e11-9d69-06ffea253143', if($(OKTMO) == '19 000 000', '223e138f-3254-4657-aee4-22235006a498', if($(OKTMO) == '63 000 000', 'fa43680d-0675-4307-b5c5-6ad112653f3a', if($(OKTMO) == '46 000 000', '826b36ce-9c6a-41c1-b14f-20b49c38564e', if($(OKTMO) == '01 000 000', 'e1b0e00a-dfe3-4786-a612-d20a5eb64aab', if($(OKTMO) == '07 000 000', 'a8ca1067-d2ec-4af7-baa1-03bdef52cf57', if($(OKTMO) == '85 000 000', '4cfa5ae8-7e5d-47d5-8a5b-dabbd0949765', '109fec0e-45db-4561-91aa-dea48a366df4')))))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDebt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + UpDebt - DownDebt"/>
+        
+        <Field condition="$(OKTMO) == '53 000 000'" name="StaleGarantDebt" calc="StalePrincipalDebt + StaleInterest"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDebt + TotalDebt - DownPrincipal - DownGarant"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="EndInterest" calc="BgnInterest - DownService - DownServiceGarant"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="EndPenalty" calc="UpPenalty - DownPenalty - DownPenaltyGarant"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([RemnsEndMnthDbt] != 0 and DATE([PrincipalEndDate]) &lt; DATE([RefVariant.ReportDate]), [StalePrincipalDebt] &gt; 0, true)"
+                      errorMessage="Необходимо заполнить сумму просроченной задолженности для гарантии, так как по ней наступил срок исполнения"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), [DownDebt] &gt; PREV([DownDebt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При уменьшении Объема обязательств по гарантии/всего  должен увеличиться объем обязательств по исполненным в текущем финансовом году гарантиям\всего"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownDebt] &gt; PREV([DownDebt]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При увеличении объема обязательства по исполненным в текущем финансовом году гарантиям\всего по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownGarant] &gt; PREV([DownGarant]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При увеличении  объема обязательств по исполненным в текущем финансовом году гарантиям\в т.ч. без права регрессного требования по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+        <Relationship expression="[StalePrincipalDebt] &lt;= [TotalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности по гарантии не должен быть больше объема обязательств по договору о предоставлении гарантии"/>
+        <Relationship expression="[CapitalDebt] &lt;= [TotalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по договору о предоставлении гарантии, в том числе без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по договору о предоставлении гарантии всего"/>
+        <Relationship expression="[DownGarant] &lt;= [DownDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по исполненным в текущем финансовом году гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по исполненным в текущем финансовом году гарантии всего"/>
+        <Relationship expression="[BgnYearDebt] &lt;= [RemnsEndMnthDbt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема по гарантии всего"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="GuaranteeFormSetl" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType ="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.Guarantee.FormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="3">
+      <Entity objectKey="if($(OKTMO) == '19 000 000' || $(OKTMO) == '78 000 000', '6192bf13-cdee-4e29-a12c-45a7c4622512', '6930d45e-89a3-4f28-b1c4-b28502593750')"/>
+      <Presentation objectKey="if($(OKTMO) == '36 000 000', 'eeed6ffb-86ed-4314-a2da-19e474faff63', if($(OKTMO) == '78 000 000', 'a92a72d8-b95a-4400-884b-d0a8c36f66dd', if($(OKTMO) == '53 000 000', '6a6fcddd-5fb4-4e11-9d69-06ffea253143', if($(OKTMO) == '19 000 000', 'd15638c1-67bb-4d51-9c02-4201f41da56e', if($(OKTMO) == '63 000 000', 'fa43680d-0675-4307-b5c5-6ad112653f3a', if($(OKTMO) == '46 000 000', '826b36ce-9c6a-41c1-b14f-20b49c38564e', if($(OKTMO) == '01 000 000', 'e1b0e00a-dfe3-4786-a612-d20a5eb64aab', if($(OKTMO) == '07 000 000', 'a8ca1067-d2ec-4af7-baa1-03bdef52cf57', if($(OKTMO) == '85 000 000', '4cfa5ae8-7e5d-47d5-8a5b-dabbd0949765', 'a92a72d8-b95a-4400-884b-d0a8c36f66dd')))))))))"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      <Fields>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsBgnMnthDbt" calc="prev(RemnsEndMnthDbt, BgnYearDebt)"/>
+        <Field condition="$(OKTMO) == '78 000 000'" name="RemnsEndMnthDbt" calc="RemnsBgnMnthDbt + UpDebt - DownDebt"/>
+        
+        <Field condition="$(OKTMO) == '53 000 000'" name="StaleGarantDebt" calc="StalePrincipalDebt + StaleInterest"/>
+
+        <Field condition="$(OKTMO) == '85 000 000'" name="RemnsEndMnthDbt" calc="BgnYearDebt + TotalDebt - DownPrincipal - DownGarant"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="EndInterest" calc="BgnInterest - DownService - DownServiceGarant"/>
+        <Field condition="$(OKTMO) == '85 000 000'" name="EndPenalty" calc="UpPenalty - DownPenalty - DownPenaltyGarant"/>
+      </Fields>
+      <!--Контрольные соотношения-->
+      <ControlRelationships condition="$(OKTMO) == '46 000 000'">
+        <Relationship expression="if([RemnsEndMnthDbt] != 0 and DATE([PrincipalEndDate]) &lt; DATE([RefVariant.ReportDate]), [StalePrincipalDebt] &gt; 0, true)"
+                      errorMessage="Необходимо заполнить сумму просроченной задолженности для гарантии, так как по ней наступил срок исполнения"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), [DownDebt] &gt; PREV([DownDebt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При уменьшении Объема обязательств по гарантии/всего  должен увеличиться объем обязательств по исполненным в текущем финансовом году гарантиям\всего"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownDebt] &gt; PREV([DownDebt]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При увеличении объема обязательства по исполненным в текущем финансовом году гарантиям\всего по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+        <Relationship expression="if(DAY(DATE([RefVariant.ReportDate]))!=1 or MONTH(DATE([RefVariant.ReportDate]))!=2, if([DownGarant] &gt; PREV([DownGarant]), [RemnsEndMnthDbt] &lt; PREV([RemnsEndMnthDbt]), true), true)"
+                      errorMessage="Не соблюдено контрольное соотношение: При увеличении  объема обязательств по исполненным в текущем финансовом году гарантиям\в т.ч. без права регрессного требования по сравнению с предыдущим отчетом должен уменьшиться объем обязательств по гарантии\всего"/>
+        <Relationship expression="[StalePrincipalDebt] &lt;= [TotalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем (размер) просроченной задолженности по гарантии не должен быть больше объема обязательств по договору о предоставлении гарантии"/>
+        <Relationship expression="[CapitalDebt] &lt;= [TotalDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по договору о предоставлении гарантии, в том числе без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по договору о предоставлении гарантии всего"/>
+        <Relationship expression="[DownGarant] &lt;= [DownDebt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по исполненным в текущем финансовом году гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема обязательств по исполненным в текущем финансовом году гарантии всего"/>
+        <Relationship expression="[BgnYearDebt] &lt;= [RemnsEndMnthDbt]"
+                      errorMessage="Не соблюдено контрольное соотношение: Объем обязательств по гарантиям без права регрессного требования гаранта к принципалу не может быть больше объема по гарантии всего"/>
+      </ControlRelationships>
+    </View>
+
+    <View id="BudgetParameters" title="Параметры в законе о бюджете" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelRF" title="Данные по субъекту РФ"
+           tabRegionType="0"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookLimitsRegionFormView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject' and $(OKTMO) == '07 000 000'">
+        <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+        <Presentation objectKey="'4189bcfd-b947-464f-a884-0e59ebc41e44'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectBudgetParametersViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      </Tab>
+      <Tab id="gridPanelRegionForSubject" title="Данные по районам, городским округам"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject' and $(OKTMO) == '07 000 000'">
+        <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+        <Presentation objectKey="'4189bcfd-b947-464f-a884-0e59ebc41e44'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionBudgetParametersViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="BudgetParametersFormRegion"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>        
+      </Tab>
+      <Tab id="gridPanelRegionForMO" title="Данные по районам, городским округам"
+           tabRegionType="2"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookLimitsRegionFormView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="($(UserRegionType) == 'Town' || $(UserRegionType) == 'Region') and $(OKTMO) == '07 000 000'">
+        <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+        <Presentation objectKey="'4189bcfd-b947-464f-a884-0e59ebc41e44'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionBudgetParametersViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+      </Tab>
+      <Tab id="gridPanelSetl" title="Данные по поселениям"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="($(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Settlement') and $(OKTMO) == '07 000 000'">
+        <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+        <Presentation objectKey="'4189bcfd-b947-464f-a884-0e59ebc41e44'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementBudgetParametersViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="BudgetParametersFormSetl"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+    </View>
+
+    <View id="BudgetParametersFormRegion" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+      <Presentation objectKey="'4189bcfd-b947-464f-a884-0e59ebc41e44'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionBudgetParametersViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="BudgetParametersFormSetl" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="3">
+      <Entity objectKey="'8ae51f5d-32a8-402e-a0c2-9d292dee76d6'"/>
+      <Presentation objectKey="'4189bcfd-b947-464f-a884-0e59ebc41e44'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementBudgetParametersViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="StructureDebt" title="Структура муниципального долга" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="StructureDebtCapitalRegion" title="Ценные бумаги" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/StructureDebtCapitalForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="StructureDebtBudgetCreditRegion" title="Кредиты от других бюджетов" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/StructureDebtBudgetCreditForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="StructureDebtOrganizationCreditRegion" title="Кредиты от кредитных организаций" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/StructureDebtOrganizationCreditForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="StructureDebtGuaranteeRegion" title="Гарантии" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/StructureDebtGuaranteeForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="StructureDebtOtherCreditRegion" title="Иные долговые обязательства" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/StructureDebtOtherCreditForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="StructureDebtCapitalSubject" title="Ценные бумаги"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+        <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="StructureDebtCapitalForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="1"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="StructureDebtBudgetCreditSubject" title="Кредиты от других бюджетов"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+        <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="StructureDebtBudgetCreditForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="StructureDebtOrganizationCreditSubject" title="Кредиты от кредитных организаций"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+        <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="StructureDebtOrganizationCreditForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="StructureDebtGuaranteeSubject" title="Гарантии"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+        <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="StructureDebtGuaranteeForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="4"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="StructureDebtOtherCreditSubject" title="Иные долговые обязательства"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+        <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="StructureDebtOtherCreditForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="5"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+    </View>
+
+    <View id="StructureDebtCapitalForm" title="Ценные бумаги" tabRegionType="1"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+      <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+    
+    <View id="StructureDebtBudgetCreditForm" title="Кредиты от других бюджетов" tabRegionType="2"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+      <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="StructureDebtOrganizationCreditForm" title="Кредиты от кредитных организаций" tabRegionType="3"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+      <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="StructureDebtGuaranteeForm" title="Гарантии" tabRegionType="4"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+      <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="StructureDebtOtherCreditForm" title="Иные долговые обязательства" tabRegionType="5"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'8739941e-a0d6-49fb-bece-ce276351e804'"/>
+      <Presentation objectKey="'ae662e5a-f9d9-4b16-a659-26a31450763a'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+
+    <View id="ServiceDebt" title="Обслуживание муниципального долга" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="ServiceDebtCapitalRegion" title="Ценные бумаги" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/ServiceDebtCapitalForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="ServiceDebtBudgetCreditRegion" title="Кредиты от других бюджетов" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/ServiceDebtBudgetCreditForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="ServiceDebtOrganizationCreditRegion" title="Кредиты от кредитных организаций" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/ServiceDebtOrganizationCreditForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="ServiceDebtGuaranteeRegion" title="Гарантии" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/ServiceDebtGuaranteeForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="ServiceDebtOtherCreditRegion" title="Иные долговые обязательства" type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+           url="/View/ServiceDebtOtherCreditForm" condition="$(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'"/>
+      <Tab id="ServiceDebtCapitalSubject" title="Ценные бумаги"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+        <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="ServiceDebtCapitalForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="1"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="ServiceDebtBudgetCreditSubject" title="Кредиты от других бюджетов"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+        <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="ServiceDebtBudgetCreditForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="ServiceDebtOrganizationCreditSubject" title="Кредиты от кредитных организаций"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+        <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="ServiceDebtOrganizationCreditForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="ServiceDebtGuaranteeSubject" title="Гарантии"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+        <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="ServiceDebtGuaranteeForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="4"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="ServiceDebtOtherCreditSubject" title="Иные долговые обязательства"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookStructureServiceGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject'">
+        <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+        <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="ServiceDebtOtherCreditForm"/>
+        <Params>
+          <Parameter name="UserRegionType" value="5"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+    </View>
+
+    <View id="ServiceDebtCapitalForm" title="Ценные бумаги" tabRegionType="1"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookServiceRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+      <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureCapitalViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="ServiceDebtBudgetCreditForm" title="Кредиты от других бюджетов" tabRegionType="2"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookServiceRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+      <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureBudgetCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="ServiceDebtOrganizationCreditForm" title="Кредиты от кредитных организаций" tabRegionType="3"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookServiceRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+      <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureOrganizationCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="ServiceDebtGuaranteeForm" title="Гарантии" tabRegionType="4"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookServiceRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+      <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureGuaranteeViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="ServiceDebtOtherCreditForm" title="Иные долговые обязательства" tabRegionType="5"
+         type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+         controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookServiceRegionFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'493806c9-9043-4714-83e4-4131a97dcfec'"/>
+      <Presentation objectKey="'b7cc78a3-ce11-44f7-9b36-45f3762fd645'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.StructureOtherCreditViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    
+    <View id="ContrDebt" title="Контроль соблюдения требований по долгу" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelRegion" title="Данные по районам, городским округам"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="$(UserRegionType) == 'Subject' || $(UserRegionType) == 'Town' || $(UserRegionType) == 'Region'">
+        <Entity objectKey="'e53099e0-dcf6-4feb-8e3b-2f8b060a4fc9'"/>
+        <Presentation objectKey="'bf12d8ed-3858-4c75-820e-2cd4c821d868'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionContrDebtViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="ContrDebtFormRegion"/>
+        <Params>
+          <Parameter name="UserRegionType" value="2"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+      <Tab id="gridPanelSetl" title="Данные по поселениям"
+           readonly="true"
+           type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.BebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+           condition="($(UserRegionType) == 'Subject' || $(UserRegionType) == 'Region' || $(UserRegionType) == 'Settlement') and ($(OKTMO) != '36 000 000')">
+        <Entity objectKey="'e53099e0-dcf6-4feb-8e3b-2f8b060a4fc9'"/>
+        <Presentation objectKey="'bf12d8ed-3858-4c75-820e-2cd4c821d868'"/>
+        <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementContrDebtViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+        <RowEditorFormView viewId="ContrDebtFormSetl"/>
+        <Params>
+          <Parameter name="UserRegionType" value="3"/>
+        </Params>
+        <StoreListeners>
+          <Listener name="BeforeLoad">
+            options.params.systemGridFilters = '{"f_100_field":"REFVARIANT","f_100_data_type":"numeric","f_100_data_comparison":"eq","f_100_data_value":"' + parent.Workbench.extensions.DebtBook.selectedVariantId + '","f_101_field":"SOURCEID","f_101_data_type":"numeric","f_101_data_comparison":"eq","f_101_data_value":"' + parent.Workbench.extensions.DebtBook.currentSourceId + '"}';
+          </Listener>
+        </StoreListeners>
+        <GridListeners>
+          <Listener name="RowClick">
+            var lockDelete = false;
+            for(var i = 0; i &lt; item.getSelectionModel().getSelections().length; i++){
+            lockDelete = item.getSelectionModel().getSelections()[i].get('ISBLOCKED');
+            }if(this.items.contains('gridPanelRegionDeleteRowButton'))gridPanelRegionDeleteRowButton.setDisabled(lockDelete || Extension.View.getWorkbench().extensions.DebtBook.statusSchbId != 1);
+          </Listener>
+        </GridListeners>
+      </Tab>
+    </View>
+
+    <View id="ContrDebtFormRegion" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="2">
+      <Entity objectKey="'e53099e0-dcf6-4feb-8e3b-2f8b060a4fc9'"/>
+      <Presentation objectKey="'bf12d8ed-3858-4c75-820e-2cd4c821d868'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.RegionContrDebtViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="ContrDebtFormSetl" title="Договор" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookFormView, Krista.FM.RIA.Extensions.DebtBook"
+          tabRegionType="3">
+      <Entity objectKey="'e53099e0-dcf6-4feb-8e3b-2f8b060a4fc9'"/>
+      <Presentation objectKey="'bf12d8ed-3858-4c75-820e-2cd4c821d868'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SettlementContrDebtViewService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+
+    <View id="NoteDebt" title="Пояснительная записка"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.Note.DebtBookNoteView, Krista.FM.RIA.Extensions.DebtBook">
+    </View>
+
+    <!-- Вариант.Долговая книга -->
+    
+    <View id="d_S_TitleReport" title="Вариант.Долговая книга"
+          type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.D_S_TitleReportGridView, Krista.FM.RIA.Extensions.DebtBook" >
+      <Entity objectKey="'4d192956-aced-4718-a87c-b2e5519c022a'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.D_S_TitleReportServive, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="VariantSchuldbuch" title="Вариант.Долговая книга"
+          type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.VariantSchuldbuchGridView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'f37827df-c22a-4569-9512-c0c48791d46c'"/>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.VariantSchuldbuchStoreService, Krista.FM.RIA.Extensions.DebtBook"></StoreService>
+    </View>
+
+    <View id="ProtocolTransfer" title="Протокол передачи данных"
+          readonly="true"
+          type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.ProtocolTransferView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'f47fee26-165f-42cb-9d3c-4e8d58d58f97'"/>
+    </View>
+    
+    <!--Прочие представления-->
+    <View id="DebtBookVariantSelect" title="Выбор варианта"
+          readonly="true"
+          type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.XBebtBookGridView, Krista.FM.RIA.Extensions.DebtBook"
+          controlType="Krista.FM.RIA.Core.Gui.GridModelControl, Krista.FM.RIA.Core">
+      <Entity objectKey="'f37827df-c22a-4569-9512-c0c48791d46c'"/>
+      <Presentation objectKey="'f537193a-78ee-4b37-a751-b3c9df6ac888'"/>
+      <GridListeners>
+        <Listener name="RowClick">
+          var r = DebtBookVariantSelect.getStore().getAt(rowIndex);
+          Extension.entityBook.selectedRecord = r;
+          Extension.entityBook.onRowSelect(r);          
+        </Listener>
+      </GridListeners>
+    </View>
+
+  </Views>
+</Extension>

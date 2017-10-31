@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="MFRF_0004_0003_date">
+    <![CDATA[
+-- MFRF_0004_0003_date
+  with
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                [Период].[Период].Members,
+                not IsEmpty([Measures].[Факт]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+                [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+  from [МФ РФ_Расходы ФБ] 
+  ]]>
+  </query>
+  <query id="MFRF_0004_0003">
+    <![CDATA[
+WITH
+    member [Measures].[План прошлый год] 
+    as '
+        (
+            [Measures].[План],
+            [Период].[Период].[Данные всех периодов].[<%period_last_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]
+        )'  
+    member [Measures].[Темп роста план] 
+    as 'IIF 
+        (
+            IsEmpty([Measures].[План прошлый год]) or [Measures].[План прошлый год] = 0,
+            null,
+            [Measures].[План] / [Measures].[План прошлый год]
+        )'
+       
+    set [Список ГРБС]
+    as 'Filter     
+        (
+            [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].Children -     
+            {
+                [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].[Несопоставленные данные]     
+            },
+            not(            
+                IsEmpty([Measures].[Процент исполнения])
+               ) 
+        )'    
+   member [Measures].[Минимальный процент исполнения]
+    as 'MIN
+        (
+            [Список ГРБС],
+            [Measures].[Процент исполнения]
+        )'
+    member [Measures].[ГРБС с минимальным процентом исполнения]
+    as 'Generate
+        (
+            HEAD
+            (
+                Order
+                (
+                    [Список ГРБС],
+                    [Measures].[Процент исполнения],
+                    BASC
+                ),
+                1
+            ),
+            [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Name,
+            " "
+        )'
+   member [Measures].[Максимальный процент исполнения]
+    as 'MAX
+        (
+            [Список ГРБС],
+            [Measures].[Процент исполнения]
+        )'
+    member [Measures].[ГРБС с максимальным процентом исполнения]
+    as 'Generate
+        (
+            TAIL
+            (
+                Order
+                (
+                    [Список ГРБС],
+                    [Measures].[Процент исполнения],
+                    BASC
+                ),
+                1
+            ),
+            [МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Name,
+            " "
+        )'        
+SELECT
+    {
+        [Measures].[План],
+        [Measures].[Факт за период],
+        [Measures].[Процент исполнения],
+        [Measures].[Темп роста к аналогичному периоду прошлого года_Факт],
+        [Measures].[Темп роста план],
+        [Measures].[Минимальный процент исполнения],
+        [Measures].[ГРБС с минимальным процентом исполнения],
+        [Measures].[Максимальный процент исполнения],
+        [Measures].[ГРБС с максимальным процентом исполнения]
+    } on columns 
+FROM [МФ РФ_Расходы ФБ]          
+WHERE                                           
+    (
+        [МФ РФ].[КОСГУ].[Все],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]                                    
+    )  
+]]>
+  </query>
+
+  <query id="MFRF_0004_0003_V">
+    <![CDATA[
+WITH
+    Member [Measures].[Код]
+    as '[МФ РФ].[ГРБС ФБ Сопост Краткий].CurrentMember.Properties("Код")'
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[Процент исполнения] 
+    } on columns,
+    Filter  
+    (
+        {
+            [МФ РФ].[ГРБС ФБ Сопост Краткий].[Все].Children -  
+            {
+                [МФ РФ].[ГРБС ФБ Сопост Краткий].[Все].[]  
+            }  
+        },
+        not 
+        (
+            IsEmpty 
+            (
+                [Measures].[Факт за период]
+            )  
+        ) 
+    )   on rows  
+FROM [МФ РФ_Расходы ФБ]            
+WHERE                                             
+    (
+        [МФ РФ].[КОСГУ].[Все],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]                                              
+    )   
+]]>
+  </query>
+
+  <query id="MFRF_0004_0003_H">
+    <![CDATA[
+WITH 
+    Member [Measures].[Код] 
+    as '[МФ РФ].[ГРБС ФБ Сопост Краткий].CurrentMember.Properties("Код")' 
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[План],
+        [Measures].[Факт за период],
+        [Measures].[Процент исполнения],
+        [Measures].[Темп роста к аналогичному периоду прошлого года_Факт] 
+    } on columns,
+    Filter   
+    (
+        {
+            [МФ РФ].[ГРБС ФБ Сопост Краткий].[Все].Children -   
+            {
+                [МФ РФ].[ГРБС ФБ Сопост Краткий].[Все].[]   
+            }   
+        },
+        not  
+        (
+            IsEmpty  ( [Measures].[Факт за период] )   
+        )  
+    )   on rows   
+FROM [МФ РФ_Расходы ФБ]             
+WHERE                                              
+    (
+        [МФ РФ].[КОСГУ].[Все],
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>]                                         
+    ) 
+]]>
+  </query>
+</root>

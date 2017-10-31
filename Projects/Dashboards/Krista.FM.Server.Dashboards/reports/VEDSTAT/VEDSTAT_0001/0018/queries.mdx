@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+SELECT
+    { [Measures].[Значение]  } on columns,
+    {
+        Tail
+        (
+            Filter
+            (
+                [Период].[Год Квартал Месяц].[Год].Members,
+                [Measures].[Значение] > 0
+            )
+        ).Item(0)
+    } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows
+FROM [ВЕДСТАТ_Свод]
+where
+    (
+        <%baseRegion%>,
+        [Источники данных].[Все источники данных],
+        [Показатели].[ВедСтат_Свод].[Все показатели].[<%way_last_year%>]
+    )  
+	  ]]>
+  </query>
+
+  <query id="grid1">
+    <![CDATA[ -- name: grid1
+WITH 
+    MEMBER [Период].[Год Квартал Месяц].[ЕдИзм] 
+    AS  '[Показатели].[ВедСтат_Свод].CurrentMember.Properties("Единица измерения")' 
+select
+    non empty   filter 
+    (
+        {
+            <%grid1Marks%> 
+        },
+        [Measures].[Значение]>0 
+    )  DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows,
+    non empty  UNION 
+    (
+        {
+            [Период].[Год Квартал Месяц].[ЕдИзм] 
+        },
+        {
+            <%last_year%>.Lag(1):<%last_year%>
+        } 
+    ) on columns
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение] 
+    )     
+    ]]>
+  </query>
+
+
+  <query id="chart1">
+    <![CDATA[ -- name: chart1
+select
+    non empty 
+    {
+        <%current_way1%>
+    } on rows,
+    non empty 
+    {
+        <%last_year%>.Lag(9):<%last_year%>
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение] 
+    )   
+    ]]>
+  </query>
+
+  <query id="chart2">
+    <![CDATA[ -- name: chart2
+select
+    non empty 
+    {
+        <%current_way1%>
+    } on rows,
+    non empty 
+    {
+        <%last_year%>.Lag(9):<%last_year%>
+    } on columns 
+FROM [ВЕДСТАТ_Свод] 
+where 
+    (
+        [Источники данных].[Все источники данных],
+        <%baseRegion%>,
+        [Measures].[Значение] 
+    )      
+    ]]>
+  </query>
+ </root>

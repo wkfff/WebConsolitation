@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<Validations>
+  <!--ИФ.Кредиты полученные-->
+  <MasterCompositeValidator key="d3a9668b-0a65-4a6a-bca6-090768c822d0">
+
+    <MasterValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDateValidator">
+      <ErrorMessage>Договор № {0}. Некорректная дата. Дата должна быть больше даты заключения договора</ErrorMessage>
+    </MasterValidator>
+    
+    <MasterValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterCurrencyValidation">
+      <ErrorMessage>Договор № {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+    </MasterValidator>
+
+    <!--ИФ.План привлечения -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="93714e83-fa03-4c02-9c44-c09780ed8705">
+      <!--проверка на соответствие суммы-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>План привлечения. Сумма привлечения должна быть равна сумме договора</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailStartDateValidator">
+        <ErrorMessage>План привлечения. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты конца периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailEndDateValidator">
+        <ErrorMessage>План привлечения. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка начала и конца периода на соответствие между собой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailStartEndDateValidator">
+      </DetailValidator>
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>План привлечения. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.План погашения основного долга -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="eee6593d-4cb6-40ec-ac7e-58bf26a46664">
+      <!--проверка общей суммы всех планируемых платежей к сумме договора-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>План погашения основного долга. Сумма погашения должна быть равна сумме договора.</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailStartDateValidator">
+        <ErrorMessage>План погашения основного долга. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты конца периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailEndDateValidator">
+        <ErrorMessage>План погашения основного долга. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка начала и конца периода на соответствие между собой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailStartEndDateValidator">
+      </DetailValidator>
+      <!--проверка номера платежа-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrentNumberValidator">
+        <ErrorMessage>План погашения основного долга. Запись с ID = {0}. Номер платежа введен некорректно по отношению к дате платежа</ErrorMessage>
+      </DetailValidator>
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>План погашения основного долга. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.План обслуживания долга -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="b31a609f-56ce-47a1-88e2-09e0dc1ca991">
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailStartDateValidator">
+        <ErrorMessage>План обслуживания долга. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка на вхождение даты начала периода в интервал между датой заключения и датой закрытия-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailEndDateValidator">
+        <ErrorMessage>План обслуживания долга. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка начала и конца периода на соответствие между собой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailStartEndDateValidator">
+      </DetailValidator>
+      <!--проверка номера платежа-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrentNumberValidator">
+        <ErrorMessage>План обслуживания долга. Запись с ID = {0}.  Номер платежа введен некорректно по отношению к дате платежа</ErrorMessage>
+      </DetailValidator>
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>План обслуживания долга. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт привлечения -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="16dcd75b-6fca-4a12-aad7-e942a35defa2">
+      <!--проверка cуммы привлечения к планируемой сумме-->
+      <MasterDetailDetailValidator associationKey="93714e83-fa03-4c02-9c44-c09780ed8705" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailTotalSumValidator">
+        <ErrorMessage>Факт привлечения. Сумма привлечения не соответствует запланированной сумме привлечения</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка поля "дата привлечения" на вхождение в интервал между началом периода и концом периода-->
+      <MasterDetailDetailValidator associationKey="93714e83-fa03-4c02-9c44-c09780ed8705" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailFactDateValidator">
+        <ErrorMessage>Факт привлечения. Дата привлечения не соответствует запланированной дате привлечения обязательства</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>Факт привлечения. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт погашения основного долга -> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="ac92f6b5-3fb3-47ff-82f5-a31f0d0dd672">
+      <!--проверка общей суммы погашения к сумме договора-->
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailSumValidator">
+        <ErrorMessage>Факт погашения основного долга. Договор не погашен</ErrorMessage>
+      </MasterDetailValidator>
+      <!--проверка фактической суммы погашения по платежам к соответствующим запланированным платежам-->
+      <MasterDetailDetailValidator associationKey="eee6593d-4cb6-40ec-ac7e-58bf26a46664" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailSumValidator">
+        <ErrorMessage>Факт погашения основного долга. Запись с ID = {0}. Погашенная сумма меньше суммы платежа по графику погашения основного долга</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка фактической даты погашения к планируемой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailFactDateValidator" secondAssociationKey="e9b76869-64fb-459e-ae27-341c24f7838c">
+        <ErrorMessage>Факт погашения основного долга. Запись с ID = {0}. Платеж просрочен, необходимо начислить пени по основному долгу</ErrorMessage>
+      </DetailValidator>
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>Факт погашения основного долга. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт погашения процентов-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="df0d25f8-0f60-48bc-b020-4d9e23719208">
+      <!--проверка общей суммы процентов к запланированной-->
+      <MasterDetailDetailValidator associationKey="b31a609f-56ce-47a1-88e2-09e0dc1ca991" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailTotalSumValidator">
+        <ErrorMessage>Факт погашения процентов. Задолженность по процентам погашена не полностью</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка суммы процентов к запланированной по отдельным платежам-->
+      <MasterDetailDetailValidator associationKey="b31a609f-56ce-47a1-88e2-09e0dc1ca991" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailSumValidator">
+        <ErrorMessage>Факт погашения процентов. Запись с ID = {0}. Погашенная сумма меньше суммы платежа по графику погашения основного долга</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка даты фактической к дате плановой-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailFactDateValidator" secondAssociationKey="9b624ded-db01-4dcf-8b03-1f19e8e4380c">
+        <ErrorMessage>Факт погашения процентов. Запись с ID = {0}. Платеж просрочен, необходимо начислить пени по процентам</ErrorMessage>
+      </DetailValidator>
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>Факт погашения процентов. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Начисление пени по осноному долгу-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="e9b76869-64fb-459e-ae27-341c24f7838c">
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>Начисление пени по осноному долгу. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Начисление пени по процентам-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="9b624ded-db01-4dcf-8b03-1f19e8e4380c">
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>Начисление пени по процентам. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт погашения пени по основному долгу-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="038a56ca-7bf6-463d-80ed-dfa5ea52a29d">
+      <!--проверка суммы процентов к запланированной по отдельным платежам-->
+      <MasterDetailDetailValidator associationKey="e9b76869-64fb-459e-ae27-341c24f7838c" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailSumValidator">
+        <ErrorMessage>Факт погашения пени по основному долгу. Запись с ID = {0}. Платеж по пени просрочен</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>Факт погашения пени по основному долгу. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Факт погашения пени по процентам-> ИФ.Кредиты полученные-->
+    <MasterDetailCompositeValidator associationKey="39a3273f-d6e1-4ff9-b407-b2c88c934b22">
+      <!--проверка суммы процентов к запланированной по отдельным платежам-->
+      <MasterDetailDetailValidator associationKey="9b624ded-db01-4dcf-8b03-1f19e8e4380c" class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailDetailSumValidator">
+        <ErrorMessage>Факт погашения пени по процентам. Запись с ID = {0}. Платеж по пени просрочен</ErrorMessage>
+      </MasterDetailDetailValidator>
+      <!--проверка валюты-->
+      <DetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.DetailCurrencyValidation">
+        <ErrorMessage>Факт погашения пени по процентам. Запись с ID = {0}. Поле заполняется, если договор заключен в иностранной валюте</ErrorMessage>
+      </DetailValidator>
+    </MasterDetailCompositeValidator>
+
+    <!--ИФ.Журнал ставок процентов-> ИФ.Кредиты полученные-->
+    <!--
+    <MasterDetailCompositeValidator associationKey="f9b2db9b-9ba8-4294-bdff-a0aa156addd5">
+      <MasterDetailValidator class="Krista.FM.Client.ViewObjects.FinSourcePlanningUI.Validations.MasterDetailChargeDateValidator">
+        <ErrorMessage>Журнал ставок процентов. Запись с ID = {0}. Дата введена неверно</ErrorMessage>
+      </MasterDetailValidator>
+    </MasterDetailCompositeValidator>
+    -->
+  </MasterCompositeValidator>
+</Validations>

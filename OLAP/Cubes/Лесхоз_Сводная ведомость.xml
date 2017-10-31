@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="Лесхоз_Сводная ведомость" ClassType="9" SubClassType="0" Description="Данные сводной ведомости." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="21" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="21">
+  <property name="SourceTable"><![CDATA["DV"."F_FOREST_CONSOLIDAT"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_FOREST_CONSOLIDAT"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_FOREST_CONSOLIDAT", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FOREST_DTFORESTRY", "DV"."D_FOREST_FORESTRY", "DV"."D_REGIONS_ANALYSIS"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_FOREST_CONSOLIDAT"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_FOREST_CONSOLIDAT"."REFUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_FOREST_DTFORESTRY"."REFFORESTRY"="DV"."D_FOREST_FORESTRY"."ID") AND ("DV"."F_FOREST_CONSOLIDAT"."REFDTFORESTRY"="DV"."D_FOREST_DTFORESTRY"."ID") AND ("DV"."D_FOREST_FORESTRY"."REFREGION"="DV"."D_REGIONS_ANALYSIS"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_FOREST_CONSOLIDAT"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{180}{3105}{2250}{925}{1})({dv}{DV.F_FOREST_CONSOLIDAT}{DV.F_FOREST_CONSOLIDAT}{2387}{1414}{2640}{7925}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{7530}{6750}{2655}{910}{1})({dv}{DV.D_REGIONS_ANALYSIS}{DV.D_REGIONS_ANALYSIS}{5940}{6630}{2400}{910}{1})({dv}{DV.D_FOREST_DTFORESTRY}{DV.D_FOREST_DTFORESTRY}{2700}{4755}{1800}{2200}{1})({dv}{DV.D_FOREST_FORESTRY}{DV.D_FOREST_FORESTRY}{2775}{9045}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[399e4069-5d4b-4430-a077-a73e28b9abe7]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[c5882616-08b4-4674-a8fa-ead38bc95e9e]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.Forest.Consolidat]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[5b8bf598-1ce0-43bb-8842-ffac249b6649]]></Property>
+    <Property name="SchemaJoins" datatype="0"><![CDATA[("DV"."F_FOREST_CONSOLIDAT"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_FOREST_CONSOLIDAT"."REFUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_FOREST_DTFORESTRY"."REFFORESTRY"="DV"."D_FOREST_FORESTRY"."ID") AND ("DV"."F_FOREST_CONSOLIDAT"."REFDTFORESTRY"="DV"."D_FOREST_DTFORESTRY"."ID") AND ("DV"."D_FOREST_FORESTRY"."REFREGION"="DV"."D_REGIONS_ANALYSIS"."ID")]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.Анализ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Районы" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_REGIONS_ANALYSIS"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Лесхоз.Лесничество" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все лесничества]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Лесничество" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FOREST_FORESTRY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Лесхоз.Участковое лесничество" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все участковые лесничества]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Участковое лесничество" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FOREST_DTFORESTRY"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Количество пожаров с начала года" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."YEARNUMBER"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Охваченная лесная площадь пожаров" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."COVEREDFOREST"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Охваченная нелесная площадь пожаров" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."COVEREDNONFOREST"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Действует пожаров" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."ACTSNUMBER"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Лесная площадь действующих пожаров" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."ACTSFOREST"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Локализовано пожаров" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="6">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."LOCALIZEDNUMBER"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Лесная площадь локализованных пожаров" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="7">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."LOCALIZEDFOREST"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Ликвидировано пожаров" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="8">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."ELIMINATEDNUMBER"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Лесная площадь ликвидированных пожаров" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="9">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."ELIMINATEDFOREST"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="работает ВС" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="10">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."WORKVS"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="работает ПХС" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="11">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."WORKPHS"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="работает АПС" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="12">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."WORKAPS"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="работает Б" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="13">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."WORKB"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="работает Т" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="14">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."WORKT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="работает А" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="15">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."WORKA"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина лесозаготовки" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="16">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSELZ"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина схпал" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="17">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSEPAL"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина гроза" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="18">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSEGR"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина мн" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="19">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSEMN"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина поруб" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="20">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSEPOR"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина эксп" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="21">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSEEX"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина МПС" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="22">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSEMPS"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина невыявл" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="23">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSENO"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="причина ЛЭП" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="24">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."CAUSEPL"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="авиа количество" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="25">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."AVIANUMBER"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="авиа площадь" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="26">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."AVIAFOREST"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="назем количество" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="27">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."GROUNDNUMBER"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="назем площадь" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="28">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."GROUNDFOREST"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="косм количество" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="29">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."SPACENUMBER"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="косм площадь" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="0.00##" Num="30">
+      <property name="SourceColumn"><![CDATA["DV"."F_FOREST_CONSOLIDAT"."SPACEFOREST"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands />
+  <Partitions>
+    <Partition method="Add" name="Лесхоз_Сводная ведомость" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="Лесхоз_Своднаяведомость_Лесхоз_Своднаяведомость_" EstimatedRows="21" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_FOREST_CONSOLIDAT"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_FOREST_CONSOLIDAT"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_FOREST_CONSOLIDAT", "DV"."DATASOURCES", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FOREST_DTFORESTRY", "DV"."D_FOREST_FORESTRY", "DV"."D_REGIONS_ANALYSIS"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_FOREST_CONSOLIDAT"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_FOREST_CONSOLIDAT"."REFUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."D_FOREST_DTFORESTRY"."REFFORESTRY"="DV"."D_FOREST_FORESTRY"."ID") AND ("DV"."F_FOREST_CONSOLIDAT"."REFDTFORESTRY"="DV"."D_FOREST_DTFORESTRY"."ID") AND ("DV"."D_FOREST_FORESTRY"."REFREGION"="DV"."D_REGIONS_ANALYSIS"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[1ab41ceb-e14e-4dc2-b2f0-16ad3859740d]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[5b8bf598-1ce0-43bb-8842-ffac249b6649]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

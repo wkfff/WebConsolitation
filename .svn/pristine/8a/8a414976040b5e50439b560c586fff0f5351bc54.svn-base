@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="MFRF_0002_0002">
+    <![CDATA[
+with  
+    member Measures.[Код]  
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Код")'  
+    member Measures.[Единицы измерения]  
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Единицы измерения")'  
+    member Measures.[Условие]  
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Условие")'  
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[Значение Факт],
+        [Measures].[Условие],
+        [Measures].[Нормативное значение],
+        Measures.[Единицы измерения]
+    } on columns,
+    Filter 
+    (
+        [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикатор БК и КУ].members,
+        not IsEmpty([Measures].[Значение Факт]) and 
+        (
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ01" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ02(КУ01)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ03" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ04" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ05(КУ03)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ06(КУ04)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ07" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ08" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ09(КУ05)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ10(КУ06)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ11(КУ10)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ12" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ13" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ14" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ15" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ16" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17(КУ11)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_1(КУ11_4)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_2(КУ11_2)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_3(КУ11_1)"
+        ) and [Measures].[Наличие нарушения Факт] = 1
+    ) on rows 
+FROM [МФ РФ_Индикаторы БК и КУ]
+WHERE
+    (
+        [Вариант].[БККУ].[Все].[<%filter%>],
+        <%period_year_quater%>,
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>]
+    )
+]]>
+          </query>
+
+          <query id="MFRF_0002_0002_V">
+            <![CDATA[
+with  
+    member Measures.[Код]  
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Код")'  
+    member Measures.[Единицы измерения]  
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Единицы измерения")'  
+    member Measures.[Условие]  
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Условие")'  
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[Значение Факт],
+        [Measures].[Условие],
+        [Measures].[Нормативное значение],
+        Measures.[Единицы измерения],
+        [Measures].[Наличие нарушения Факт]
+    } on columns,
+    Filter 
+    (
+        [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикатор БК и КУ].members,
+        not IsEmpty([Measures].[Значение Факт]) and 
+        (
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ01" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ02(КУ01)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ03" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ04" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ05(КУ03)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ06(КУ04)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ07" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ08" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ09(КУ05)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ10(КУ06)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ11(КУ10)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ12" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ13" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ14" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ15" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ16" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17(КУ11)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_1(КУ11_4)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_2(КУ11_2)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_3(КУ11_1)"
+        )
+    ) on rows 
+FROM [МФ РФ_Индикаторы БК и КУ]
+WHERE
+    (
+        [Вариант].[БККУ].[Все].[<%filter%>],
+        <%period_year_quater%>,
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>]
+    )
+]]>
+  </query>
+
+  <query id="MFRF_0002_0002_H">
+    <![CDATA[with 
+    member Measures.[Код] 
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Код")' 
+    member Measures.[Единицы измерения] 
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Единицы измерения")' 
+    member Measures.[Условие] 
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Условие")' 
+    member Measures.[Субъект] 
+    as '[Территории].[Сопоставимый].CurrentMember.Properties("Сокращенное наименование")' 
+    member Measures.[ФО]
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Properties("Сокращенное наименование")'
+    set [Субъекты ФО]
+    as 'Filter
+        (
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>].Siblings,
+            [Территории].[Сопоставимый].CurrentMember <> [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+        )'
+    set [Субъекты РФ]
+    as 'Filter
+        (
+            [Территории].[Сопоставимый].[Субъект РФ].Members,
+            [Территории].[Сопоставимый].CurrentMember <> [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+        )'
+    member Measures.[Среднее по ФО]
+    as 'Sum
+        (
+            [Субъекты ФО],
+            CoalesceEmpty
+            (
+                [Measures].[Значение Факт],
+                0
+            )
+        ) / Count
+        (
+            Filter
+            (
+                [Субъекты ФО],
+                not IsEmpty([Measures].[Значение Факт])
+            )
+        )'
+    member Measures.[Среднее по РФ]
+    as 'Sum
+        (
+            [Субъекты РФ],
+            CoalesceEmpty
+            (
+                [Measures].[Значение Факт],
+                0
+            )
+        ) / Count
+        (
+            Filter
+            (
+                [Субъекты РФ],
+                not IsEmpty([Measures].[Значение Факт])
+            )
+        )'
+SELECT
+    {
+        [Measures].[Код],
+        [Measures].[Значение Факт],
+        [Measures].[Условие],
+        [Measures].[Нормативное значение],
+        Measures.[Единицы измерения],
+       [Measures].[Наличие нарушения Факт],
+        Measures.[Субъект],
+        Measures.[ФО],
+        Measures.[Среднее по ФО],
+        Measures.[Среднее по РФ] 
+    } on columns,
+      Filter 
+    (
+        [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикатор БК и КУ].members,
+        not IsEmpty([Measures].[Значение Факт]) and 
+        (
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ01" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ02(КУ01)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ03" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ04" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ05(КУ03)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ06(КУ04)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ07" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ08" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ09(КУ05)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ10(КУ06)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ11(КУ10)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ12" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ13" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ14" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ15" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ16" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17(КУ11)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_1(КУ11_4)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_2(КУ11_2)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_3(КУ11_1)"
+        )
+    ) on rows
+
+FROM [МФ РФ_Индикаторы БК и КУ]  
+WHERE  
+    (
+        [Вариант].[БККУ].[Все].[<%filter%>],
+        <%period_year_quater%>,
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>]  
+    )
+]]>
+          </query>
+
+          <query id="MFRF_0002_0002_date">
+            <![CDATA[
+  with
+  member Measures.[ДанныеНа] as '[Период].[Месяц].CurrentMember.UniqueName'
+  select
+  {Measures.[ДанныеНа]} on columns,
+  {Tail(NonEmptyCrossjoin({[Период].[Месяц].Members}))} on rows
+  from [МФ РФ_Индикаторы БК и КУ]
+  where
+  [Вариант].[БККУ].[Все].[По данным месячной отчетности]
+  ]]>
+          </query>
+
+          <query id="MFRF_0002_0002_date_months">
+            <![CDATA[
+   with  member [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикаторы]
+    as 'Aggregate
+        (
+            Filter 
+    (
+        [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикатор БК и КУ].members,
+        not IsEmpty([Measures].[Значение Факт]) and 
+        (
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ01" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ02(КУ01)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ03" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ04" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ05(КУ03)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ06(КУ04)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ07" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ08" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ09(КУ05)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ10(КУ06)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ11(КУ10)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ12" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ13" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ14" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ15" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ16" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17(КУ11)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_1(КУ11_4)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_2(КУ11_2)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_3(КУ11_1)"
+        )
+    )
+        )'
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            Filter
+            (
+                [Период].[Период].[Месяц].Members,
+                not IsEmpty
+                (
+                    (
+                        [Measures].[Значение Факт],
+                        [Вариант].[БККУ].[Все].[По данным месячной отчетности],
+                        [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикаторы]
+                    )
+                )
+            )
+        )
+    } on rows
+from [МФ РФ_Индикаторы БК и КУ]
+  ]]>
+</query>
+
+  <query id="MFRF_0002_0002_date_year">
+    <![CDATA[
+with
+    member [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикаторы]
+    as 'Aggregate
+        (
+            Filter 
+    (
+        [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикатор БК и КУ].members,
+        not IsEmpty([Measures].[Значение Факт]) and 
+        (
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ01" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ02(КУ01)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ03" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ04" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ05(КУ03)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ06(КУ04)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ07" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ08" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ09(КУ05)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ10(КУ06)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ11(КУ10)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ12" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ13" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ14" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ15" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ16" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17(КУ11)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_1(КУ11_4)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_2(КУ11_2)" or
+            [МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.Properties("Код") = "КУ17_3(КУ11_1)"
+        )
+    )
+        )'
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            Filter
+            (
+                [Период].[Период].[Год].Members,
+                not IsEmpty
+                (
+                    (
+                        [Measures].[Значение Факт],
+                        [Вариант].[БККУ].[Все].[По данным годовой отчетности],
+                        [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикаторы]
+                    )
+                )
+            )
+        )
+    } on rows
+from [МФ РФ_Индикаторы БК и КУ]
+  ]]>
+  </query>
+  
+<query id="MFRF_0002_0002_crimes">
+    <![CDATA[with
+    member Measures.[Нарушений БК]
+    as '
+        (
+            [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Количество нарушений требований БК РФ],
+            [Measures].[Значение Факт]
+        )'
+    member Measures.[Нарушений КУ]
+    as '
+        (
+            [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Количество нарушений условий качества управления бюджетами],
+            [Measures].[Значение Факт]
+        )'
+    set [Субъекты ФО]
+    as 'Filter
+        (
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>].Siblings,
+            [Территории].[Сопоставимый].CurrentMember <> [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+        )'
+    set [Субъекты РФ]
+    as 'Filter
+        (
+            [Территории].[Сопоставимый].[Субъект РФ].Members,
+            [Территории].[Сопоставимый].CurrentMember <> [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+        )'
+    member [Территории].[Сопоставимый].[Среднее по ФО]
+    as 'Sum
+        (
+            [Субъекты ФО],
+            CoalesceEmpty
+            (
+                Measures.CurrentMember,
+                0
+            )
+        ) / Count
+        (
+            Filter
+            (
+                [Субъекты ФО],
+                not IsEmpty(Measures.CurrentMember)
+            )
+        )'
+    member [Территории].[Сопоставимый].[Среднее по РФ]
+    as 'Sum
+        (
+            [Субъекты РФ],
+            CoalesceEmpty
+            (
+                Measures.CurrentMember,
+                0
+            )
+        ) / Count
+        (
+            Filter
+            (
+                [Субъекты РФ],
+                not IsEmpty(Measures.CurrentMember)
+            )
+        )'
+    member Measures.[Субъект]
+    as '[Территории].[Сопоставимый].CurrentMember.Properties("Сокращенное наименование")'
+    member Measures.[ФО]
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Properties("Сокращенное наименование")'
+
+SELECT
+    {
+        Measures.[Нарушений БК],
+        Measures.[Нарушений КУ],
+        Measures.[Субъект],
+        Measures.[ФО]        
+    } on columns,
+    {
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>],
+        [Территории].[Сопоставимый].[Среднее по ФО],
+        [Территории].[Сопоставимый].[Среднее по РФ]
+    } on rows
+FROM [МФ РФ_Индикаторы БК и КУ]
+WHERE
+    (
+        [Вариант].[БККУ].[Все].[<%filter%>],
+        <%period_year_quater%>
+    )]]>
+</query>
+
+  <query id="MFRF_0002_0002_mbtGroup">
+    <![CDATA[
+   SELECT
+    {  [Measures].[Значение Факт] } on columns,
+    {
+        [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Группа, присвоенная субъекту РФ по доле МБТ]
+    } on rows 
+FROM [МФ РФ_Индикаторы БК и КУ]   
+WHERE   
+    (
+        [Вариант].[БККУ].[Все].[<%filter%>],
+        <%period_year_quater%>,
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>]
+    )
+    ]]>
+  </query>
+
+</root>
+

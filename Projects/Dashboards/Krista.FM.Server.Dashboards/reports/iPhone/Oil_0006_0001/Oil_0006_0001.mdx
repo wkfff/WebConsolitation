@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="oil_0006_0001_lastDate">
+    <![CDATA[
+    --Oil_0006_0001_lastDate
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[День].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        Filter
+        (
+            OpeningPeriod
+            (
+                [Период].[День].[День],
+                [Период].[День].[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+                [Период].[День].[День],
+                [Период].[День].[Данные всех периодов].[2012]
+            ),
+            not IsEmpty([Measures].[Цена])
+        )
+    ) on rows
+from [ОРГАНИЗАЦИИ_Цены и тарифы]
+
+  ]]>
+  </query>
+
+  <query id="oil_0006_0001_chart">
+    <![CDATA[
+    --Oil_0006_0001_chart
+with       
+    set [Территории]            
+    as 'Filter      
+        (
+            Generate       
+            (
+                Descendants            
+                (
+                    [Территории].[РФ].[<%fullRegionName%>],
+                    [Территории].[РФ].[Субъект РФ],
+                    SELF            
+                ),
+                {
+                    [Территории].[РФ].CurrentMember,
+                    [Территории].[РФ].CurrentMember.DataMember        
+                }  + Filter  
+                  (
+                      Descendants 
+                      (
+                          [Территории].[РФ].CurrentMember,
+                          [Территории].[РФ].[МР ГО],
+                          SELF 
+                      ),
+                      not ([Территории].[РФ].CurrentMember is [Территории].[РФ].CurrentMember.Parent.DataMember)
+                  )       
+            ) ,
+            IIF      
+            (
+                [Территории].[РФ].CurrentMember is [Территории].[РФ].CurrentMember.Parent.DataMember,
+                [Территории].[РФ].CurrentMember is [Территории].[РФ].[Все территории].[Российская Федерация].[Южный федеральный округ].[Краснодарский край].DATAMEMBER,
+                true      
+            )      
+        ) -     
+        {
+            [Территории].[РФ].[Все территории].[Российская Федерация].[Южный федеральный округ].[Краснодарский край]   
+        }'  
+        
+        
+    set [Организации]     
+    as 'Descendants     
+        (
+            [Организации].[Предприятия торговли].[Все организации],
+            [Организации].[Предприятия торговли].[Организация],
+            SELF     
+        )'      
+     member [Measures].[На начало года]    
+    as 'IIF
+        (
+            IsEmpty
+            (
+               (
+                 [Measures].[Цена],
+                 <%period_last_date%>
+               )
+            ),
+            [Measures].[На текущую дату],
+            (
+              [Measures].[Цена],
+              <%period_last_date%>
+            ) - [Measures].[Снижение]
+        )'      
+    member [Measures].[На текущую дату]   
+    as '   
+        (
+            [Measures].[Цена],
+            <%period_cur_date%>
+        )'  
+        
+    member [Measures].[Отклонение]  
+    as 'IIF
+        (
+            IsEmpty
+            (
+              (
+                [Measures].[Цена],
+                <%period_last_date%>
+              )
+            ),
+            null,
+            [Measures].[На текущую дату] -
+            (
+               [Measures].[Цена],
+               <%period_last_date%>
+            )
+        )' 
+  
+    member [Measures].[Прирост]  
+    as 'IIF
+        (
+            [Measures].[Отклонение] > 0,
+            [Measures].[Отклонение],
+            0
+        )' 
+    
+    member [Measures].[Снижение]  
+    as 'IIF
+        (
+            [Measures].[Отклонение] < 0,
+            -[Measures].[Отклонение],
+            0
+        )' 
+
+    member [Measures].[Наименование] 
+    as 'IIF
+        (
+            (InStr([Организации].[Предприятия торговли].CurrentMember.Name,"среднее") > 0 or InStr([Организации].[Предприятия торговли].CurrentMember.Name,"Среднее") > 0) and
+            InStr([Организации].[Предприятия торговли].CurrentMember.Name,"значение") > 0,
+            [Территории].[РФ].CurrentMember.Name + "
+(независимые покупатели)",
+            [Территории].[РФ].CurrentMember.Name + "
+(" +[Организации].[Предприятия торговли].CurrentMember.Name + ")"
+        )'
+        
+    member [Measures].[Предел] 
+    as ' 
+        (
+            [Measures].[Значение],
+            [Организации].[Предприятия торговли].DefaultMember,
+            [Период].[День].DefaultMember,
+            [Организации].[Тип цены].DefaultMember
+        )'       
+        
+    member [Организации].[Реестр продукции сопоставимый].[Продукция ]  
+    as 'Filter( [Организации].[Реестр продукции сопоставимый].[Вся продукуция].Children,  [Организации].[Реестр продукции сопоставимый].CurrentMember.Properties("Краткое наименование") = "<%oil_shortName%>").Item(0)'
+select
+    {
+        [Measures].[Наименование],
+        [Measures].[На начало года],
+        [Measures].[Прирост], 
+        [Measures].[Снижение]   
+    } on columns,
+    Filter 
+    (
+        {[Территории] 
+        * [Организации]},
+        not IsEmpty([Measures].[На текущую дату]) and ([Measures].[Прирост] > 0 or ([Measures].[На текущую дату] > [Measures].[Предел] and [Measures].[Предел] <> 0) )
+    ) on rows 
+from [ОРГАНИЗАЦИИ_Цены и тарифы]       
+where        
+    (
+        [Организации].[Тип цены].[Все типы цен].[Розничная цена],
+        [Организации].[Реестр продукции сопоставимый].[Продукция ]  
+    )        
+  ]]>
+  </query>
+
+  <query id="oil_0006_0001_avg">
+    <![CDATA[
+    --Oil_0006_0001_avg
+with 
+    set [Территории]            
+    as 'Filter      
+        (
+            Generate       
+            (
+                Descendants            
+                (
+                    [Территории].[РФ].[<%fullRegionName%>],
+                    [Территории].[РФ].[Субъект РФ],
+                    SELF            
+                ),
+                {
+                    [Территории].[РФ].CurrentMember,
+                    [Территории].[РФ].CurrentMember.DataMember        
+                }  + Filter  
+                  (
+                      Descendants 
+                      (
+                          [Территории].[РФ].CurrentMember,
+                          [Территории].[РФ].[МР ГО],
+                          SELF 
+                      ),
+                      not ([Территории].[РФ].CurrentMember is [Территории].[РФ].CurrentMember.Parent.DataMember)
+                  )       
+            ) ,
+            IIF      
+            (
+                [Территории].[РФ].CurrentMember is [Территории].[РФ].CurrentMember.Parent.DataMember,
+                [Территории].[РФ].CurrentMember is [Территории].[РФ].[Все территории].[Российская Федерация].[Южный федеральный округ].[Краснодарский край].DATAMEMBER,
+                true      
+            )      
+        ) -     
+        {
+            [Территории].[РФ].[Все территории].[Российская Федерация].[Южный федеральный округ].[Краснодарский край]   
+        }'   
+        
+    set [Организации] 
+    as 'Descendants 
+        (
+            [Организации].[Предприятия торговли].[Все организации],
+            [Организации].[Предприятия торговли].[Организация],
+            SELF 
+        )' 
+
+    member [Measures].[На текущую дату] 
+    as ' 
+        (
+            [Measures].[Цена],
+            <%period_cur_date%>
+        )' 
+
+    member [Measures].[Среднее]
+    as 'AVG({[Территории]
+        * [Организации]},[Measures].[На текущую дату] )'
+        
+    member [Организации].[Реестр продукции сопоставимый].[Продукция ]  
+    as 'Filter( [Организации].[Реестр продукции сопоставимый].[Вся продукуция].Children,  [Организации].[Реестр продукции сопоставимый].CurrentMember.Properties("Краткое наименование") = "<%oil_shortName%>").Item(0)'
+        
+select
+    {
+        [Measures].[Среднее]
+    } on columns
+from [ОРГАНИЗАЦИИ_Цены и тарифы] 
+where 
+    (
+        [Организации].[Тип цены].[Все типы цен].[Розничная цена],
+        [Организации].[Реестр продукции сопоставимый].[Продукция ]  
+    )  
+  ]]>
+  </query>
+
+  <query id="oil_0006_0001_limit">
+    <![CDATA[
+    --Oil_0006_0001_limit
+with    
+    set [Территории]            
+    as 'Filter      
+        (
+            Generate       
+            (
+                Descendants            
+                (
+                    [Территории].[РФ].[<%fullRegionName%>],
+                    [Территории].[РФ].[Субъект РФ],
+                    SELF            
+                ),
+                {
+                    [Территории].[РФ].CurrentMember      
+                }  + Filter  
+                  (
+                      Descendants 
+                      (
+                          [Территории].[РФ].CurrentMember,
+                          [Территории].[РФ].[МР ГО],
+                          SELF 
+                      ),
+                      not ([Территории].[РФ].CurrentMember is [Территории].[РФ].CurrentMember.Parent.DataMember)
+                  )       
+            ) ,
+            IIF      
+            (
+                [Территории].[РФ].CurrentMember is [Территории].[РФ].CurrentMember.Parent.DataMember,
+                [Территории].[РФ].CurrentMember is [Территории].[РФ].[Все территории].[Российская Федерация].[Южный федеральный округ].[Краснодарский край].DATAMEMBER,
+                true      
+            )      
+        ) '   
+        
+    member [Measures].[Предел]    
+    as '    
+        (
+            [Measures].[Значение],
+            [Организации].[Реестр организаций сопоставимый].DefaultMember,
+            [Период].[День].DefaultMember,
+            [Организации].[Тип цены].DefaultMember   
+        )'    
+        
+    member [Организации].[Реестр продукции сопоставимый].[Продукция ]  
+    as 'Filter( [Организации].[Реестр продукции сопоставимый].[Вся продукуция].Children,  [Организации].[Реестр продукции сопоставимый].CurrentMember.Properties("Краткое наименование") = "<%oil_shortName%>").Item(0)'
+        
+select
+    {  [Measures].[Предел] } on columns,
+    non empty[Территории] on rows
+from [ОРГАНИЗАЦИИ_Цены и тарифы]    
+where    
+    (
+        [Организации].[Реестр продукции сопоставимый].[Продукция ]  
+    )    
+  ]]>
+  </query>
+  
+</root>

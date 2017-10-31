@@ -1,0 +1,31 @@
+CALCULATE;
+/*
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма выплат с начала года] AS
+IIF(IsEmpty(([Период__Период].[Период__Период].CurrentMember, [Measures].[Сумма выплат])), null,
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Месяц" and Sum([Период__Период].[Период__Период].CurrentMember.Children, [Measures].[Сумма выплат]) = 0,
+([Период__Период].[Период__Период].CurrentMember,[Measures].[Сумма выплат за период]) + ([Период__Период].[Период__Период].CurrentMember.PrevMember,[Measures].[Сумма выплат с начала года]),
+ ([Период__Период].[Период__Период].CurrentMember, [Measures].[Сумма выплат])
+)
+),
+FORMAT_STRING = "Currency";
+*/
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма выплат с начала года] AS
+IIF(IsLeaf([Период__Период].[Период__Период].CurrentMember) and [Период__Период].[Период__Период].CurrentMember.Name  = "Данные месяца", ([Период__Период].[Период__Период].CurrentMember, [Measures].[Сумма выплат]),
+/*([Период__Период].[Период__Период].CurrentMember,[Measures].[Сумма выплат за период]) + ([Период__Период].[Период__Период].CurrentMember.PrevMember,[Measures].[Сумма выплат с начала года]),*/
+IIF(IsLeaf([Период__Период].[Период__Период].CurrentMember) and [Период__Период].[Период__Период].CurrentMember.Name <>"Данные месяца" and (Sum([Период__Период].[Период__Период].CurrentMember.Parent.Children, [Measures].[Сумма выплат за период]) - ([Период__Период].[Период__Период].CurrentMember.Parent.FirstChild, [Measures].[Сумма выплат за период])) <> 0,
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, [Measures].[Сумма выплат за период]),
+
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "Месяц" ,
+([Период__Период].[Период__Период].CurrentMember.LastChild, [Measures].[Сумма выплат с начала года]) + ([Период__Период].[Период__Период].CurrentMember.FirstChild, [Measures].[Сумма выплат с начала года]) ,
+([Период__Период].[Период__Период].CurrentMember, [Measures].[Сумма выплат за период]))))
+,
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма выплат с начала месяца] AS CalculationPassValue(
+IIF([Период__Период].[Период__Период].CurrentMember.Level.Name = "(All)" or [Период__Период].[Период__Период].CurrentMember.Level.Name = "Год" or ([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+([Measures].[Сумма выплат за период], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Месяц])):
+[Период__Период].[Период__Период].CurrentMember}, [Measures].[Сумма выплат за период]))
+, 1), FORMAT_STRING = "Currency";

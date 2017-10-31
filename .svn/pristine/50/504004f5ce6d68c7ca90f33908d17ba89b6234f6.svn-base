@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  
+<query id="STAT_0001_0005_date">
+<![CDATA[
+-- STAT_0001_0005_date
+-- <#[СТАТ_Мониторинг ситуации на рынке труда]#>
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            NonEmptyCrossjoin({[Период].[Период].Members})
+        )
+    } on rows
+from [СТАТ_Мониторинг ситуации на рынке труда]
+]]>
+  </query>
+
+<query id="STAT_0001_0005_grid">
+<![CDATA[
+-- STAT_0001_0005_grid
+-- <#[СТАТ_Мониторинг ситуации на рынке труда]#>
+with       
+    SET [Периоды]     
+    AS 'Generate     
+        (
+            Descendants     
+            (
+                [Период].[Период].[Данные всех периодов] ,
+                [Период].[Период].[Год],
+                SELF     
+            ),
+            {
+                [Период].[Период].CurrentMember     
+            } + Generate     
+            (
+                Descendants     
+                (
+                    [Период].[Период].CurrentMember,
+                    [Период].[Период].[Месяц],
+                    SELF     
+                ),
+                {
+                    [Период].[Период].CurrentMember     
+                } + Descendants     
+                    (
+                        [Период].[Период].CurrentMember,
+                        [Период].[Период].[День],
+                        SELF     
+                    )   
+            )      
+        )'    
+    Member [Measures].[Фактическая численность безработных]  
+    as 'IIF  
+        (
+            [Период].[Период].CurrentMember.Level.Name = "Год",
+            null,
+            IIF  
+            (
+                [Период].[Период].CurrentMember.Level.Name = "Месяц" and 
+                (
+                  [Период].[Период].CurrentMember.Parent.Parent.Parent is [Период].[Период].[Данные всех периодов].[2009] or
+                  [Период].[Период].CurrentMember.Parent.Parent.Parent is [Период].[Период].[Данные всех периодов].[2010] or
+                  [Период].[Период].CurrentMember.Parent.Parent.Parent is [Период].[Период].[Данные всех периодов].[2011]
+                ),
+                (
+                    Tail  
+                    (
+                        Filter 
+                        (
+                            Descendants   
+                            (
+                                [Период].[Период].CurrentMember,
+                                [Период].[Период].[День],
+                                SELF   
+                            ),
+                            not IsEmpty([Measures].[Значение]) 
+                        ) 
+                    ).Item(0),
+                    [Measures].[Значение]  
+                ),
+                [Measures].[Значение] 
+            )  
+        )'  
+    Member [Measures].[Прогноз]   
+    as 'IIF
+        (
+          [Период].[Период].CurrentMember.Level.Name = "День",
+          null,
+          0
+        )'   
+select
+    {
+        [Measures].[Фактическая численность безработных],
+        [Measures].[Прогноз]   
+    } on columns,
+    FILTER        
+    (
+        [Периоды],
+        not IsEmpty([Measures].[Значение]) and
+        [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+        [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+        [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+        [Период].[Период].CurrentMember.Name <> "Данные месяца" and 
+        [Период].[Период].CurrentMember.Name <> "Данные года"     
+    ) on rows
+from [СТАТ_Мониторинг ситуации на рынке труда]        
+where        
+    (
+        [Показатели].[Рынок труда].[Все].[Общая численность зарегистрированных безработных граждан],
+        <%selected_subject%>  
+    )        
+  ]]>
+</query>
+
+  <query id="STAT_0001_0005_chart">
+    <![CDATA[
+-- STAT_0001_0005_chart
+-- <#[СТАТ_Мониторинг ситуации на рынке труда]#>
+with   
+    member [Measures].[Уровень безработицы]   
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы]
+        )  '   
+    member [Measures].[Число зарегистрированных безработных в расчёте на 1 вакансию]   
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию]
+        )  '    
+    member [Measures].[DateUniqName]
+    as '[Период].[Период].CurrentMember.UniqueName'         
+select
+    {
+        [Measures].[DateUniqName],
+        [Measures].[Уровень безработицы],
+        [Measures].[Число зарегистрированных безработных в расчёте на 1 вакансию] 
+    } on columns,
+    non empty   
+    (
+        Filter   
+        (
+            [Период].[Период].[День].AllMembers,
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+            [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+            [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+            [Период].[Период].CurrentMember.Name <> "Данные года" and  
+            [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+            not IsEmpty([Measures].CurrentMember)
+        )   
+    ) on rows   
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+where 
+    (
+        <%selected_subject%>
+    )  
+  ]]>
+</query>
+
+  <query id="STAT_0001_0005_polarChart">
+    <![CDATA[
+-- STAT_0001_0005_polarChart
+-- <#[СТАТ_Мониторинг ситуации на рынке труда]#>
+with  
+    SET [Даты]  
+    AS 'Filter
+        (
+            Descendants 
+            (
+                [Период].[Период].[Данные всех периодов].[<%current_year%>],
+                [Период].[Период].[День],
+                SELF  
+            ),
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+            [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+            [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+            [Период].[Период].CurrentMember.Name <> "Данные месяца" and [Период].[Период].CurrentMember.Name <> "Данные года" and
+            not IsEmpty([Measures].[Значение]) 
+        )' 
+select
+    { [Measures].[Значение] } on columns,
+    { [Даты] } on rows
+from [СТАТ_Мониторинг ситуации на рынке труда]
+where  
+    (
+         [Показатели].[Рынок труда].[Все].[Общая численность зарегистрированных безработных граждан],
+         <%selected_subject%>
+    )  
+  ]]>
+</query>
+
+</root>

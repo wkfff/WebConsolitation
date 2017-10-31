@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="Oil_0006_0003_lastDate">
+    <![CDATA[
+    --Oil_0006_0003_lastDate
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[День].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail
+    (
+        Filter
+        (
+            OpeningPeriod
+            (
+                [Период].[День].[День],
+                [Период].[День].[Данные всех периодов].[2008]
+            ) : ClosingPeriod
+            (
+                [Период].[День].[День],
+                [Период].[День].[Данные всех периодов].[2012]
+            ),
+            not IsEmpty([Measures].[Цена])
+        )
+    ) on rows
+from [ОРГАНИЗАЦИИ_Цены и тарифы]
+
+  ]]>
+  </query>
+
+  <query id="oil_0006_0003_grid">
+    <![CDATA[
+    --Oil_0006_0003_grid
+with
+    set [Виды топлива]
+    as '[Организации].[Товары и услуги].[Все товары и услуги].Children'
+    set [Организации]
+    as '[Организации].[Предприятия торговли].[Все организации].Children'
+    member [Measures].[Цена ]
+    as 'Str([Measures].[Цена]) + "_"'
+select
+    Filter( [Организации], not IsEmpty([Measures].[Цена]) ) on columns,
+    Filter( [Виды топлива], not IsEmpty([Measures].[Цена]) ) on rows
+from [ОРГАНИЗАЦИИ_Цены и тарифы]
+where
+    (
+        [Measures].[Цена ],
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>],
+        <%period_cur_date%>
+    )
+  ]]>
+  </query>
+
+  <query id="oil_0006_0003_chart">
+    <![CDATA[
+    --Oil_0006_0003_chart
+with 
+    set [Виды топлива]
+    as '[Организации].[Товары и услуги].[Все товары и услуги].Children'
+    set [Организации]
+    as '[Организации].[Предприятия торговли].[Все организации].Children'
+    
+    member [Measures].[На начало года]
+    as ' 
+        (
+            [Measures].[Цена],
+            <%period_last_date%>
+        )' 
+    member [Measures].[На текущую дату] 
+    as ' 
+        (
+            [Measures].[Цена],
+             <%period_cur_date%>
+        )' 
+    member [Measures].[Прирост] 
+    as 'IIF 
+        (
+            IsEmpty([Measures].[На начало года]),
+            null,
+            [Measures].[На текущую дату] - [Measures].[На начало года] 
+        )' 
+    member [Measures].[Снижение]
+    as 'IIF
+        (
+            IsEmpty([Measures].[На начало года]),
+            null,
+            [Measures].[На текущую дату] - [Measures].[На начало года]
+        )'
+select
+    {
+        [Measures].[На начало года],
+        [Measures].[Прирост]
+    } on columns,
+    Filter 
+    (
+        {[Организации]},
+        not IsEmpty([Measures].[На текущую дату]) and [Measures].[Прирост] > 0 
+    ) on rows 
+from [ОРГАНИЗАЦИИ_Цены и тарифы] 
+where 
+    (
+        [Организации].[Тип цены].[Все типы цен].[Розничная цена],
+        [Организации].[Товары и услуги].[Все товары и услуги].[<%oil_shortName%>],
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>]
+    )  
+  ]]>
+  </query>
+
+  <query id="oil_0006_0003_avg">
+    <![CDATA[
+    --OIL_0006_0003_avg
+with 
+    set [Виды топлива]
+    as '[Организации].[Товары и услуги].[Все товары и услуги].Children'
+    set [Организации]
+    as '[Организации].[Предприятия торговли].[Все организации].Children'
+
+    member [Measures].[На текущую дату] 
+    as ' 
+        (
+            [Measures].[Цена],
+            <%period_cur_date%>
+        )' 
+
+    member [Measures].[Среднее]
+    as 'AVG({[Организации]},[Measures].[На текущую дату] )'
+select
+    {
+        [Measures].[Среднее]
+    } on columns
+from [ОРГАНИЗАЦИИ_Цены и тарифы] 
+where 
+    (
+        [Организации].[Тип цены].[Все типы цен].[Розничная цена],
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[<%region%>].[<%state_area%>]
+    )  
+  ]]>
+  </query>
+
+</root>

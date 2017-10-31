@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FNS_0001_0001_Yamal_gridKD_split">
+    <![CDATA[
+-- FNS_0001_0001_Yamal_gridKD_split
+with
+    member Measures.[Недоимка на начало года прошлый год]   
+    as '   
+        (
+            [Measures].[С начала года],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_date%>
+        ) / 1000'   
+    member Measures.[Недоимка на начало года]   
+    as '   
+        (
+            [Measures].[С начала года],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>  
+        ) / 1000'   
+    member Measures.[Недоимка на текущий месяц]   
+    as '   
+        (
+            [Measures].[С начала года],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>  
+        ) / 1000'   
+    member Measures.[Прирост недоимки]   
+    as 'IIF   
+        (
+            IsEmpty   
+            (
+                Measures.[Недоимка на текущий месяц]   
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]   
+        )'   
+    member Measures.[Прирост недоимки %]   
+    as 'IIF   
+        (
+            IsEmpty   
+            (
+                Measures.[Недоимка на начало года]   
+            ),
+            null,
+            Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]   
+        )'   
+    member Measures.[Темп роста недоимки к прошлому году] 
+    as ' 
+        (
+            [Measures].[Темп роста к аналогичному периоду предыдущего года_С начала года],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )' 
+    member Measures.[Общий объем поступлений налоговых доходов] 
+    as '0'    
+    member Measures.[Удельный вес недоимки в общем объеме поступлений налоговых] 
+    as '0'  
+ 
+
+    member Measures.[Уровень] 
+    as 'IIF 
+        (
+           <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.[Всего доходов ],
+           "(All)",
+           <%incomes_kd_dimension%>.CurrentMember.Level.Name
+        )'  
+       
+    member  [Районы].[Сопоставимый].[Все уровни]
+    as ' [Районы].[Сопоставимый].[Все районы]'    
+    member  [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Бюджет субъекта]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Конс. бюджет МО]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Городские округа ]   
+    as ' Aggregate 
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF 
+                ),
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            ) 
+        )' 
+    member  [Районы].[Сопоставимый].[Конс. бюджет МР]
+    as ' Aggregate 
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF 
+                ),
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            ) 
+         )'   
+    
+    member <%incomes_kd_dimension%>.[Всего доходов ]
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>]   
+            }
+        )'        
+     member Measures.[Уникальное имя]   
+     as '<%incomes_kd_dimension%>.CurrentMember.UniqueName'
+select
+    {
+        Measures.[Недоимка на начало года прошлый год],
+        Measures.[Недоимка на текущий месяц],
+        Measures.[Недоимка на начало года],
+        Measures.[Прирост недоимки],
+        Measures.[Прирост недоимки %],
+        Measures.[Темп роста недоимки к прошлому году],
+        Measures.[Общий объем поступлений налоговых доходов],
+        Measures.[Удельный вес недоимки в общем объеме поступлений налоговых],
+        Measures.[Уровень],
+        Measures.[Уникальное имя]
+    } on columns,
+    non empty Filter
+    (
+        {<%incomes_kd_dimension%>.[Всего доходов ]} +
+        Generate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            },
+            {
+                <%incomes_kd_dimension%>.CurrentMember
+            } +  
+            {
+                Descendants  
+                (
+                   <%incomes_kd_dimension%>.CurrentMember,
+                   <%incomes_kd_dimension%>.[<%incomes_kd_section_level%>],
+                   SELF 
+                )  
+            }
+        ) + 
+        Generate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА]
+            },
+            {
+                <%incomes_kd_dimension%>.CurrentMember
+            } +  
+            {
+                Descendants  
+                (
+                   <%incomes_kd_dimension%>.CurrentMember,
+                   <%incomes_kd_dimension%>.[<%incomes_kd_section_level%>],
+                   SELF 
+                )  
+            }
+        ),
+        not 
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember 
+        )and
+        ( Measures.[Недоимка на текущий месяц]  <> 0
+        
+        or Measures.[Недоимка на начало года] <> 0)
+    ) on rows
+from [ФНС_28н_с расщеплением]
+where 
+(
+  <%selected_region%>, 
+  <%budget_level%>
+)
+  ]]>
+  </query>
+
+  <query id="FNS_0001_0001_Yamal_gridKD_monthReport">
+    <![CDATA[
+-- FNS_0001_0001_Yamal_gridKD_monthReport
+with
+    member Measures.[Общий объем поступлений налоговых доходов] 
+    as '[Measures].[Факт] / 1000 '    
+ 
+    member  [Районы].[Сопоставимый].[Все уровни]
+    as ' [Районы].[Сопоставимый].[Все районы]'    
+    member  [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]
+    as '([Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Ямало-Ненецкий автономный округ], [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов])'
+    member  [Районы].[Сопоставимый].[Бюджет субъекта]
+    as '([Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Ямало-Ненецкий автономный округ], [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов])'
+    member  [Районы].[Сопоставимый].[Конс. бюджет МО]
+    as '([Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[Ямало-Ненецкий автономный округ], [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов])'
+    member  [Районы].[Сопоставимый].[Городские округа ]   
+    as ' Aggregate 
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF 
+                ),
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            ) 
+        )' 
+    member  [Районы].[Сопоставимый].[Конс. бюджет МР]
+    as ' Aggregate 
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF 
+                ),
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            ) 
+         )'   
+    
+    member <%incomes_kd_dimension%>.[Всего доходов ]
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>]   
+            }
+        )'   
+    member [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Уровень бюджетов ]    
+    as 'IIF      
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта],
+            [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Конс.бюджет субъекта],
+            IIF      
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта],
+                [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет субъекта],
+                IIF      
+                (
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Конс. бюджет МО],
+                    [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Конс.бюджет МО],
+                    IIF
+                    (
+                        [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" and "<%use_consolidate_budget%>" = "false",
+                        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет района],
+                        Aggregate 
+                        (
+                            {
+                                [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет района],
+                                [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения],
+                                [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет гор.округа] 
+                            } 
+                        )      
+                    )   
+                )      
+            )      
+        )'    
+        
+    member [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Уровень бюджетов МО] 
+    as 'aggregate 
+        (
+            [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет района],
+            [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения]
+        )'
+             member [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Уровень бюджетов МО ] 
+    as 'aggregate 
+        (
+         {   [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет района],
+            [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения],
+            [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет гор.округа] }
+        )'
+     member Measures.[Уникальное имя]   
+     as '<%incomes_kd_dimension%>.CurrentMember.UniqueName'        
+select
+    {
+        Measures.[Уникальное имя],
+        Measures.[Общий объем поступлений налоговых доходов]
+    } on columns,
+    non empty Filter
+    (
+        {<%incomes_kd_dimension%>.[Всего доходов ]} +
+        Generate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            },
+            {
+                <%incomes_kd_dimension%>.CurrentMember
+            } +  
+            {
+                Descendants  
+                (
+                   <%incomes_kd_dimension%>.CurrentMember,
+                   <%incomes_kd_dimension%>.[<%incomes_kd_section_level%>],
+                   SELF 
+                )  
+            }
+        ) + 
+        Generate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА]
+            },
+            {
+                <%incomes_kd_dimension%>.CurrentMember
+            } +  
+            {
+                Descendants  
+                (
+                   <%incomes_kd_dimension%>.CurrentMember,
+                   <%incomes_kd_dimension%>.[<%incomes_kd_section_level%>],
+                   SELF 
+                )  
+            }
+        ),
+        not 
+        (
+            <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember 
+        )
+    ) on rows
+from  [ФО_МесОтч_Доходы]      
+where      
+    (
+        <%selected_region%>,
+        [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)],
+        [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Уровень бюджетов ],     
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>  
+    )     
+  ]]>
+  </query>
+
+  <query id="FNS_0001_0001_Yamal_chartKD1_split">
+    <![CDATA[
+-- FNS_0001_0001_Yamal_chartKD1_split
+with
+---- Группы КД  
+    member <%incomes_kd_dimension%>.[Налог на прибыль организаций ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на прибыль организаций]' 
+    member <%incomes_kd_dimension%>.[Налог на доходы физических лиц ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на доходы физических лиц]' 
+    member <%incomes_kd_dimension%>.[Налог на имущество физических лиц ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество физических лиц]' 
+    member <%incomes_kd_dimension%>.[Налог на имущество организаций ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество организаций]' 
+    member <%incomes_kd_dimension%>.[Транспортный налог ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Транспортный налог]' 
+    member <%incomes_kd_dimension%>.[Земельный налог ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Земельный налог]' 
+    member <%incomes_kd_dimension%>.[Акцизы ]
+    as 'Aggregate 
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), производимым на территории Российской Федерации],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), ввозимым на территорию Российской Федерации] 
+            } 
+        )' 
+    member <%incomes_kd_dimension%>.[Налог на добычу полезных ископаемых ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ].[Налог на добычу полезных ископаемых]' 
+    member <%incomes_kd_dimension%>.[Налог, взимаемый в связи с применением упрощенной системы налогообложения ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Налог, взимаемый в связи с применением упрощенной системы налогообложения]' 
+    member <%incomes_kd_dimension%>.[Единый налог на вмененный доход для отдельных видов деятельности ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый налог на вмененный доход для отдельных видов деятельности]' 
+    member <%incomes_kd_dimension%>.[Единый сельскохозяйственный налог ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый сельскохозяйственный налог]' 
+    member <%incomes_kd_dimension%>.[Государственная пошлина ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА]' 
+    member <%incomes_kd_dimension%>.[Задолженность и перерасчеты по отмененным налогам, сборам и иным обязательным платежам ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]'
+    ---- 
+
+    set [Группы КД] 
+    as '
+        {
+            <%incomes_kd_dimension%>.[Налог на прибыль организаций ],
+            <%incomes_kd_dimension%>.[Налог на доходы физических лиц ],
+            <%incomes_kd_dimension%>.[Налог на имущество физических лиц ],
+            <%incomes_kd_dimension%>.[Налог на имущество организаций ],
+            <%incomes_kd_dimension%>.[Транспортный налог ],
+            <%incomes_kd_dimension%>.[Земельный налог ],
+            <%incomes_kd_dimension%>.[Акцизы ],
+            <%incomes_kd_dimension%>.[Налог на добычу полезных ископаемых ],
+            <%incomes_kd_dimension%>.[Налог, взимаемый в связи с применением упрощенной системы налогообложения ],
+            <%incomes_kd_dimension%>.[Единый налог на вмененный доход для отдельных видов деятельности ],
+            <%incomes_kd_dimension%>.[Единый сельскохозяйственный налог ],
+            <%incomes_kd_dimension%>.[Государственная пошлина ],
+            <%incomes_kd_dimension%>.[Задолженность и перерасчеты по отмененным налогам, сборам и иным обязательным платежам ]
+        } '      
+
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[С начала года],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        ) / 1000'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[С начала года],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        ) / 1000'
+    member Measures.[Значение недоимки]   
+    as 'IIF  
+        (
+            IsEmpty  
+            (
+                Measures.[Недоимка на текущий месяц] 
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'  
+    member Measures.[Прирост недоимки]
+    as 'IIF
+       (
+         (Measures.[Значение недоимки]) > 0,
+          Measures.[Значение недоимки],
+          null
+       )'
+    member Measures.[Снижение недоимки]
+    as 'IIF
+       (
+         (Measures.[Значение недоимки]) < 0,
+          Measures.[Значение недоимки],
+          null
+       )'
+       
+    member  [Районы].[Сопоставимый].[Все уровни]
+    as ' [Районы].[Сопоставимый].[Все районы]'   
+    member  [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Бюджет субъекта]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Конс. бюджет МО]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Городские округа ]   
+    as ' Aggregate 
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF 
+                ),
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            ) 
+        )' 
+    member  [Районы].[Сопоставимый].[Конс. бюджет МР]
+    as ' Aggregate 
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF 
+                ),
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )          )' 
+select
+    {
+        Measures.[Недоимка на начало года],
+        Measures.[Прирост недоимки],
+        Measures.[Снижение недоимки]
+    } on columns,
+    non empty {[Группы КД]} on rows
+from [ФНС_28н_с расщеплением]
+where 
+(
+    <%selected_region%>, 
+    <%budget_level%>
+)
+  ]]>
+  </query>
+
+  <query id="FNS_0001_0001_Yamal_chartKD2_split">
+    <![CDATA[
+-- FNS_0001_0001_Yamal_chartKD2_split
+with
+---- Группы КД  
+    member <%incomes_kd_dimension%>.[Налог на прибыль организаций ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на прибыль организаций]' 
+    member <%incomes_kd_dimension%>.[Налог на доходы физических лиц ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ].[Налог на доходы физических лиц]' 
+    member <%incomes_kd_dimension%>.[Налог на имущество физических лиц ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество физических лиц]' 
+    member <%incomes_kd_dimension%>.[Налог на имущество организаций ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Налог на имущество организаций]' 
+    member <%incomes_kd_dimension%>.[Транспортный налог ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Транспортный налог]' 
+    member <%incomes_kd_dimension%>.[Земельный налог ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО].[Земельный налог]' 
+    member <%incomes_kd_dimension%>.[Акцизы ]
+    as 'Aggregate 
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), производимым на территории Российской Федерации],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ].[Акцизы по подакцизным товарам (продукции), ввозимым на территорию Российской Федерации] 
+            } 
+        )' 
+    member <%incomes_kd_dimension%>.[Налог на добычу полезных ископаемых ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ].[Налог на добычу полезных ископаемых]' 
+    member <%incomes_kd_dimension%>.[Налог, взимаемый в связи с применением упрощенной системы налогообложения ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Налог, взимаемый в связи с применением упрощенной системы налогообложения]' 
+    member <%incomes_kd_dimension%>.[Единый налог на вмененный доход для отдельных видов деятельности ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый налог на вмененный доход для отдельных видов деятельности]' 
+    member <%incomes_kd_dimension%>.[Единый сельскохозяйственный налог ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД].[Единый сельскохозяйственный налог]' 
+    member <%incomes_kd_dimension%>.[Государственная пошлина ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА]' 
+    member <%incomes_kd_dimension%>.[Задолженность и перерасчеты по отмененным налогам, сборам и иным обязательным платежам ]
+    as '<%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]'
+    ---- 
+
+    set [Группы КД] 
+    as '
+        {
+            <%incomes_kd_dimension%>.[Налог на прибыль организаций ],
+            <%incomes_kd_dimension%>.[Налог на доходы физических лиц ],
+            <%incomes_kd_dimension%>.[Налог на имущество физических лиц ],
+            <%incomes_kd_dimension%>.[Налог на имущество организаций ],
+            <%incomes_kd_dimension%>.[Транспортный налог ],
+            <%incomes_kd_dimension%>.[Земельный налог ],
+            <%incomes_kd_dimension%>.[Акцизы ],
+            <%incomes_kd_dimension%>.[Налог на добычу полезных ископаемых ],
+            <%incomes_kd_dimension%>.[Налог, взимаемый в связи с применением упрощенной системы налогообложения ],
+            <%incomes_kd_dimension%>.[Единый налог на вмененный доход для отдельных видов деятельности ],
+            <%incomes_kd_dimension%>.[Единый сельскохозяйственный налог ],
+            <%incomes_kd_dimension%>.[Государственная пошлина ],
+            <%incomes_kd_dimension%>.[Задолженность и перерасчеты по отмененным налогам, сборам и иным обязательным платежам ]
+        } '      
+    
+    member [Measures].[Прирост/снижение в тыс.руб.]    
+    as '([Measures].[С начала года] - [Measures].[С начала года прошлый год]) / 1000'    
+    member [Measures].[Прирост/снижение в %]    
+    as 'IIF 
+        (
+           IsEmpty([Measures].[Темп роста к аналогичному периоду предыдущего года_С начала года]), 
+           null, 
+           [Measures].[Темп роста к аналогичному периоду предыдущего года_С начала года] - 1
+        )' 
+
+    member  [Районы].[Сопоставимый].[Все уровни]
+    as ' [Районы].[Сопоставимый].[Все районы]'      
+    member  [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Бюджет субъекта]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Конс. бюджет МО]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Городские округа ]   
+    as ' Aggregate 
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF 
+                ),
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            ) 
+        )' 
+    member  [Районы].[Сопоставимый].[Конс. бюджет МР]
+    as ' Aggregate 
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%regions_level%>,
+                    SELF 
+                ),
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )          )' 
+  
+select
+    {
+        [Measures].[<%selected_measure%>]
+    } on columns,
+    non empty Order 
+    (
+        [Группы КД],
+        [Measures].[<%selected_measure%>],
+        BDESC
+    ) on rows 
+from [ФНС_28н_с расщеплением]    
+where     
+    (
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+        <%selected_region%>, 
+        <%budget_level%>
+    )   
+  ]]>
+  </query>
+
+</root>

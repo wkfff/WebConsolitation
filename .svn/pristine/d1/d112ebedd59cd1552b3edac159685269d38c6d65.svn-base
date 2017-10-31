@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4FF19E83-61D5-4AF5-AAF7-737623059773}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Krista.FM.Common</RootNamespace>
+    <AssemblyName>Krista.FM.Common</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>618</NoWarn>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FixedBin\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="NCalc">
+      <HintPath>..\..\..\FixedBin\NCalc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Config\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Arj32Helper.cs" />
+    <Compile Include="AttributesEnumerator.cs" />
+    <Compile Include="BooleanParser.cs" />
+    <Compile Include="Calculator\Implementation\CalculatorAbstract.cs" />
+    <Compile Include="Calculator\Implementation\ValueItem.cs" />
+    <Compile Include="Calculator\Implementation\ResultNode.cs" />
+    <Compile Include="Calculator\Implementation\Postprocessor.cs" />
+    <Compile Include="Calculator\IPostprocessor.cs" />
+    <Compile Include="Calculator\IValueItem.cs" />
+    <Compile Include="Calculator\IResultNode.cs" />
+    <Compile Include="Calculator\IValueResolver.cs" />
+    <Compile Include="Calculator\IValueResolverEnvironment.cs" />
+    <Compile Include="Calculator\Utils\ArgumentsParser.cs" />
+    <Compile Include="Calculator\Utils\CalculatorExtensions.cs" />
+    <Compile Include="Calculator\Exceptions\CalculatorException.cs" />
+    <Compile Include="Calculator\Exceptions\CircularReferenceException.cs" />
+    <Compile Include="Calculator\Exceptions\DuplicateIdentifierException.cs" />
+    <Compile Include="Calculator\Exceptions\InvalidConfigurationException.cs" />
+    <Compile Include="Calculator\Exceptions\UndefinedIdentifierException.cs" />
+    <Compile Include="Calculator\ICalculator.cs" />
+    <Compile Include="Calculator\IConstant.cs" />
+    <Compile Include="Calculator\IConstantRepository.cs" />
+    <Compile Include="Calculator\IFormula.cs" />
+    <Compile Include="Calculator\IFormulaRepository.cs" />
+    <Compile Include="Calculator\Implementation\Calculator.cs" />
+    <Compile Include="Calculator\Implementation\Formula.cs" />
+    <Compile Include="Calculator\Implementation\FormulaRepository.cs" />
+    <Compile Include="Calculator\Implementation\Preprocessor.cs" />
+    <Compile Include="Calculator\Implementation\Constant.cs" />
+    <Compile Include="Calculator\Implementation\ValueStoreRam.cs" />
+    <Compile Include="Calculator\IValueItemStore.cs" />
+    <Compile Include="CheckParameters\CheckDataSourceMD.cs" />
+    <Compile Include="CheckParameters\CheckParametrsCollection.cs" />
+    <Compile Include="CheckParameters\CheckPath.cs" />
+    <Compile Include="CheckParameters\CheckVersion.cs" />
+    <Compile Include="CheckParameters\ICheck.cs" />
+    <Compile Include="CheckParameters\CheckRegEx.cs" />
+    <Compile Include="CheckParameters\CheckRule.cs" />
+    <Compile Include="ClientSession.cs" />
+    <Compile Include="ComHelpers.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="ConnectionString.cs" />
+    <Compile Include="Constants\OKTMO.cs" />
+    <Compile Include="Constants\TerritoryType.cs" />
+    <Compile Include="DataAttributeHelper.cs" />
+    <Compile Include="DbParameter.cs" />
+    <Compile Include="DesignByContract.cs" />
+    <Compile Include="DimSync\DimSync.cs" />
+    <Compile Include="DocumentsHelper.cs" />
+    <Compile Include="EnumHelper.cs" />
+    <Compile Include="Exceptions\ClientException.cs" />
+    <Compile Include="Exceptions\DbExceptions\DbExceptions.cs" />
+    <Compile Include="Exceptions\DbExceptions\NullDbExceptionService.cs" />
+    <Compile Include="Exceptions\DbExceptions\OracleDbExceptionService.cs" />
+    <Compile Include="Exceptions\DbExceptions\SQLServerDbExceptionService.cs" />
+    <Compile Include="Exceptions\ForecastException.cs" />
+    <Compile Include="Exceptions\FriendlyExceptionService.cs" />
+    <Compile Include="Exceptions\HelpException.cs" />
+    <Compile Include="Exceptions\DbExceptions\IDbExceptionService.cs" />
+    <Compile Include="Exceptions\InitializeXmlException.cs" />
+    <Compile Include="Exceptions\InvalidateOlapObjectException.cs" />
+    <Compile Include="Exceptions\LinkClickedException.cs" />
+    <Compile Include="Exceptions\OlapProcessorException.cs" />
+    <Compile Include="Exceptions\ServerException.cs" />
+    <Compile Include="Exceptions\Templates\TemplateLokedException.cs" />
+    <Compile Include="Handling\DataPumpProgressHandling.cs" />
+    <Compile Include="DictionaryBase.cs" />
+    <Compile Include="DimSync\AuxDimUtils.cs" />
+    <Compile Include="Disposable.cs" />
+    <Compile Include="FileUtils.cs" />
+    <Compile Include="Handling\EventsProcessing.cs" />
+    <Compile Include="Handling\ModificationMessageHandling.cs" />
+    <Compile Include="Handling\ServerSideDataPumpProgressHandling.cs" />
+    <Compile Include="IoC\Interceptors\LogMatchingRule.cs" />
+    <Compile Include="IoC\Logging\LogAttributeSettings.cs" />
+    <Compile Include="IoC\Resolver.cs" />
+    <Compile Include="Calculator\IPreprocessor.cs" />
+    <Compile Include="LogicalCallContext.cs" />
+    <Compile Include="LogicalCallWithoutContext.cs" />
+    <Compile Include="IoC\Interceptors\LogInterceptor.cs" />
+    <Compile Include="IoC\Interceptors\LogAttribute.cs" />
+    <Compile Include="ObjectTree\ObjectNode.cs" />
+    <Compile Include="ObjectTree\ObjectTree.cs" />
+    <Compile Include="OlapConnectionString.cs" />
+    <Compile Include="PlatformDetect.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Handling\PumpSchedulerHandling.cs" />
+    <Compile Include="RegistryUtils.cs" />
+    <Compile Include="Remoting\ReplaceIPAddressClientChannelSink.cs" />
+    <Compile Include="Remoting\ReplaceIPAddressClientChannelSinkProvider.cs" />
+    <Compile Include="Remoting\ReplaceIPAddressServerChannelSink.cs" />
+    <Compile Include="Remoting\ReplaceIPAddressServerChannelSinkProvider.cs" />
+    <Compile Include="Remoting\ReplaceIPAddressTrackingHandler.cs" />
+    <Compile Include="Services\PropertyService\Properties.cs" />
+    <Compile Include="Services\PropertyService\PropertyChangedEvent.cs" />
+    <Compile Include="Services\PropertyService\PropertyService.cs" />
+    <Compile Include="Services\ResourceService\ResourceNotFoundException.cs" />
+    <Compile Include="Services\ResourceService\ResourceService.cs" />
+    <Compile Include="Singleton.cs" />
+    <Compile Include="SingletonException.cs" />
+    <Compile Include="SMO.cs" />
+    <Compile Include="StringElephanter.cs" />
+    <Compile Include="Services\StringParser\IStringTagProvider.cs" />
+    <Compile Include="Services\StringParser\StringParser.cs" />
+    <Compile Include="SystemInfo.cs" />
+    <Compile Include="ThreadSafeDictionary\BaseLock.cs" />
+    <Compile Include="ThreadSafeDictionary\IThreadSafeDictionary.cs" />
+    <Compile Include="ThreadSafeDictionary\Locks.cs" />
+    <Compile Include="ThreadSafeDictionary\ReadLock.cs" />
+    <Compile Include="ThreadSafeDictionary\ReadOnlyLock.cs" />
+    <Compile Include="ThreadSafeDictionary\ThreadSafeDictionary.cs" />
+    <Compile Include="ThreadSafeDictionary\WriteLock.cs" />
+    <Compile Include="Trace.cs" />
+    <Compile Include="UpdateFrameworkLibraryFactory.cs" />
+    <Compile Include="Validations\Messages\MasterDetailMessage.cs" />
+    <Compile Include="Validations\Messages\ValidationMessage.cs" />
+    <Compile Include="Validations\Messages\ValidationMessages.cs" />
+    <Compile Include="Win32ApiHelpers.cs" />
+    <Compile Include="XmlUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Krista.Diagnostics\Krista.Diagnostics.csproj">
+      <Project>{771564CF-3F02-4A9A-91CC-F710104EC4B3}</Project>
+      <Name>Krista.Diagnostics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Extentions\Krista.FM.Extensions.csproj">
+      <Project>{AF342789-6944-45D9-A774-65EF22F7D828}</Project>
+      <Name>Krista.FM.Extensions</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.ServerLibrary\Krista.FM.ServerLibrary.csproj">
+      <Project>{24C607A3-2BA3-4D29-A6DB-F7F866302E76}</Project>
+      <Name>Krista.FM.ServerLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExternalPrograms\ARJ32.EXE" />
+    <Content Include="ParametersChecks.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="KeywordOracleSQL.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Config\ServerConfiguration.xsd">
+      <Link>ServerConfiguration.xsd</Link>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(SolutionDir)\ProjectOptions.xml" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\ProjectTargets.xml" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if exist "$(OutDir)" copy /Y "$(ProjectDir)ExternalPrograms\*.*" "$(OutDir)*.*"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

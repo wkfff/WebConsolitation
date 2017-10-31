@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id = "ComboPeriod">
+      <![CDATA[ 
+      --ComboPeriod
+
+
+with   
+
+member [Mounth]
+as '[Период__День].[Период__День].currentmember.name'
+
+member [Year]
+as '[Период__День].[Период__День].currentmember.parent.parent.parent.name'
+
+
+member [Uname]
+as '[Период__День].[Период__День].currentmember.uniquename'
+
+
+
+    member [sum] 
+    as ' Aggregate
+        (
+            {
+                <%Period%>
+            },
+            [Measures].[Значение]
+        )'  
+select
+non empty    {
+
+[mounth],
+[Year],
+[Uname]
+
+     } on columns,
+non empty    {
+filter(
+[Период__День].[Период__День].[Месяц].members,
+[sum] > 0)
+    } on rows  
+FROM  [ОРГАНИЗАЦИИ_Цены и тарифы] 
+      
+      
+      ]]>
+  </query>
+
+  <query id = "GridHMAO">
+    <![CDATA[
+    with 
+    <%PeriodWith%>
+    
+    <%ChosenFieldWith%>
+select
+non empty    {
+
+<%Period%>
+     } on columns,
+    {
+<%ChosenField%>
+    } on rows  
+FROM  [ОРГАНИЗАЦИИ_Цены и тарифы]
+where
+(
+[Measures].[Значение],
+
+[Источники данных].[Источники данных].[Все источники данных].[СТАТ Отчетность - ДЭ Ежемесячная отч],
+[Организации__Тип цены].[Организации__Тип цены].[Все типы цен].[Значение не указано],
+[Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Ханты-Мансийский автономный округ].datamember
+
+)
+      
+      
+      ]]>
+  </query>
+
+  <query id = "GridRF">
+    <![CDATA[
+with
+<%PeriodRFWith%>
+
+
+<%ChosenFieldRFWith%>
+
+select
+{
+
+<%PeriodRF%>
+     } on columns,
+ {
+
+<%ChosenFieldRF%>
+    } on rows  
+FROM  [СТАТ_СЭП_Годовой сборник]
+      
+      where
+      (
+      [Measures].[За период],
+[Источники данных].[Источники данных].[Все источники данных].[СТАТ Отчетность - Без варианта],
+[Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].[Российская  Федерация].DATAMEMBER
+      
+      )
+      ]]>
+  </query>
+
+
+
+
+</root>

@@ -1,0 +1,107 @@
+CALCULATE;
+
+SCOPE(DESCENDANTS([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Данные всех периодов],4,BEFORE));
+
+SCOPE({[Measures].[Нарастающий итог]});
+this =  IIF (
+            not IsEmpty([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.DataMember),
+            ([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.DataMember, Measures.CurrentMember),
+            Tail(
+                 Filter(
+                        DESCENDANTS([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember,1),                   
+                        not IsEmpty(Measures.CurrentMember)),
+                 1).Item(0));
+NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+SCOPE ({([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Данные всех периодов],[Measures].[Нарастающий итог])});
+this = Tail(
+            Filter(                
+                    DESCENDANTS([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].[Данные всех периодов],1),
+                    not IsEmpty(Measures.CurrentMember)),
+            1).Item(0);
+END SCOPE;
+
+SCOPE({[Measures].[За период]});
+this =  IIF (
+            not IsEmpty([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.DataMember),
+            ([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.DataMember, Measures.CurrentMember),
+            ([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember, Measures.CurrentMember));
+NON_EMPTY_BEHAVIOR(this) = Measures.CURRENTMEMBER;
+END SCOPE;
+
+END SCOPE;
+
+CREATE MEMBER CURRENTCUBE.Measures.[Прирост цепной] AS IIF (not IsEmpty(([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)),
+  IIF ([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember is [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.FirstSibling,
+    IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Месяц",
+      ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) -
+      ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(4)),
+      IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Квартал" or [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие",
+        ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) -
+        ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(3)),
+        IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Год", 
+          ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) -
+          ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember),
+           null))),
+    IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember is [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.FirstSibling.NextMember,
+      ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) -
+      ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(2)),
+      ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) -
+      ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember))),
+null);
+CREATE MEMBER CURRENTCUBE.Measures.[Прирост базисный] AS IIF (not IsEmpty(([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)),
+  IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Месяц",
+    ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) - ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(16)),
+    IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Квартал",
+      ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) - ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(6)),
+      IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие",
+        ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) - ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(3)),
+        null
+))),
+null);
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста цепной] AS IIF (([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) >= 0,
+  IIF ([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember is [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.FirstSibling,
+    IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Месяц",
+      IIF(([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(4)) > 0,
+        ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(4)),
+        null),
+      IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Квартал" or [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие",
+        IIF(([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(3)) > 0,
+          ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(3)),
+          null),
+        null)),
+    IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember is [Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.FirstSibling.NextMember,
+      IIF(([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(2)) > 0,
+        ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(2)),
+        null),
+      IIF(([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember) > 0,
+        ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.PrevMember),
+        null)
+      )
+    ),
+null), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста базисный] AS IIF (([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) >= 0,
+  IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Месяц",
+    IIF (([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(16)) > 0,
+      ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(16)),
+      null),
+    IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Квартал",
+      IIF(([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(6)) > 0,
+        ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(6)),
+        null),
+      IIF([Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие",
+        IIF(([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(3)) > 0,
+          ([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)/([Measures].[За период],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember.Lag(3)),
+          null),
+        null
+        )
+      )
+    ),
+null), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста цепной] AS IIF(IsEmpty(([Measures].[Темп роста цепной],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)),
+  null,
+  ([Measures].[Темп роста цепной],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) - 1), FORMAT_STRING = "Percent";
+CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста базисный] AS IIF(IsEmpty(([Measures].[Темп роста базисный],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember)),
+  null,
+  ([Measures].[Темп роста базисный],[Период__Год Квартал Месяц].[Период__Год Квартал Месяц].CurrentMember) - 1), FORMAT_STRING = "Percent";

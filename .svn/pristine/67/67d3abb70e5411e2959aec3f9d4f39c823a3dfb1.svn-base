@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Вариант.АДМИН_Результат доходов" ClassType="7" SubClassType="0" Description="Классификатор вариантов проектов доходов, поступающих от администраторов доходов." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."D_VARIANT_ADMINCOMES", "DV"."FX_VARIANT_TYPE", "DV"."FX_VARIANT_TYPEINCOMES"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_VARIANT_ADMINCOMES"."TYPEVAR"="DV"."FX_VARIANT_TYPE"."ID") AND ("DV"."D_VARIANT_ADMINCOMES"."REFVARD"="DV"."FX_VARIANT_TYPEINCOMES"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Variant.ADMIncomes]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_VARIANT_ADMINCOMES}{DV.D_VARIANT_ADMINCOMES}{2400}{600}{2655}{2635}{1})({dv}{DV.FX_VARIANT_TYPE}{DV.FX_VARIANT_TYPE}{2355}{4635}{2550}{1465}{1})({dv}{DV.FX_VARIANT_TYPEINCOMES}{DV.FX_VARIANT_TYPEINCOMES}{4665}{5220}{2625}{1585}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[be668653-e27e-4e21-961c-0f299c089ec6]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[bf87534a-697f-41b0-9cea-84e934aaf429]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[7f1022cc-0537-42c6-81f3-10c0dccd2b36]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все варианты]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Вариант" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_VARIANT_ADMINCOMES"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_VARIANT_ADMINCOMES"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_ADMINCOMES"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Дата варианта" ClassType="31" SubClassType="0" Description="" Caption="Дата варианта" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_ADMINCOMES"."VARIANTDATE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Комментарий" ClassType="31" SubClassType="0" Description="" Caption="Комментарий" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_ADMINCOMES"."VARIANTCOMMENT"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_ADMINCOMES"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Год" ClassType="31" SubClassType="0" Description="" Caption="Год" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_VARIANT_ADMINCOMES"."REFYEAR"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип варианта" ClassType="31" SubClassType="0" Description="" Caption="Тип варианта" PropertyType="0" IsVisible="true" ColumnSize="25" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FX_VARIANT_TYPE"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип варианта по доходам" ClassType="31" SubClassType="0" Description="" Caption="Тип варианта по доходам" PropertyType="0" IsVisible="true" ColumnSize="25" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FX_VARIANT_TYPEINCOMES"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

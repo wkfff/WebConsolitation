@@ -1,0 +1,33 @@
+CALCULATE;
+/*
+//Период__Период
+SCOPE([Период__Период].[Период__Период].[Месяц].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+    
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+   
+END SCOPE;*/
+
+SCOPE({[Measures].[С начала года]});
+    this = IIF(not IsLeaf([Период__Период].[Период__Период].CurrentMember),
+IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов], 
+Sum([Период__Период].[Период__Период].[Данные всех периодов].Children),
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not 
+(IsEmpty([Measures].[С начала года]))), 1).Item(0)), [Период__Период].[Период__Период].CurrentMember);
+END SCOPE;
+
+[Measures].[За период] = ([Период__Период].[Период__Период].CurrentMember, [Measures].[За период]);
+[Measures].[Причина] = ([Период__Период].[Период__Период].CurrentMember,[Measures].[Причина]);

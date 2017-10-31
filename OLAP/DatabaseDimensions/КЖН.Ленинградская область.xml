@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="КЖН.Ленинградская область" ClassType="7" SubClassType="2" Description="Расчет объективной оценки качества жизни населения МО по методике, разработанной Ленинградской областью." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="0">
+  <property name="FromClause"><![CDATA["DV"."D_QLIFE_LENINGRAD", "DV"."DV_UNITS_OKEI"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_QLIFE_LENINGRAD"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.QLife.Leningrad]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_QLIFE_LENINGRAD}{DV.D_QLIFE_LENINGRAD}{2400}{600}{2385}{2470}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2460}{3945}{1950}{2410}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[4ad0f590-d9c7-4d85-ae0e-ceea1f74f332]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[836594ec-c1ab-4565-b4f1-908c3bca9e44]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[7d7000c6-034a-4a3e-b97d-96b56024de59]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Интегральный показатель]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатель" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Частный индикатор;Показатель" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_QLIFE_LENINGRAD"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_QLIFE_LENINGRAD"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."D_QLIFE_LENINGRAD"."PARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_QLIFE_LENINGRAD"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_QLIFE_LENINGRAD"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Весовой коэффициент" ClassType="31" SubClassType="0" Description="" Caption="Весовой коэффициент" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="5" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_QLIFE_LENINGRAD"."COEFF"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Флаг" ClassType="31" SubClassType="0" Description="" Caption="Флаг" PropertyType="0" IsVisible="false" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_QLIFE_LENINGRAD"."FLAGREV"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

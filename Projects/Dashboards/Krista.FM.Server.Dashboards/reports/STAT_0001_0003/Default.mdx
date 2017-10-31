@@ -1,0 +1,1353 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="STAT_0001_0003_date">
+    <![CDATA[
+-- STAT_0001_0003_date
+
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            NonEmptyCrossjoin({[Период].[Период].Members})
+        )
+    } on rows
+from [СТАТ_Мониторинг ситуации на рынке труда]
+]]>
+  </query>
+
+  <query id="STAT_0001_0002_date_prev_last">
+    <![CDATA[
+-- STAT_0001_0002_date
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[День],
+                    SELF
+                ),
+                (
+                    [Период].[Период].CurrentMember.Properties("PKID") <= <%period_prev_last_week_date%>.Properties("PKID")
+                ) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                not IsEmpty
+                (
+                    (
+                        [Measures].[Значение],
+                        [Показатели].[Рынок труда].[Все].[Общая численность зарегистрированных безработных граждан]
+                    )
+                )
+            ),
+            1
+        )
+    } on rows
+from [СТАТ_Мониторинг ситуации на рынке труда]
+
+]]>
+  </query>
+
+  <query id="STAT_0001_0003_debts_date">
+    <![CDATA[
+-- STAT_0001_0002_debts_date
+with                  
+    member [Measures].[Дата]        
+    as '[Период].[Период].CurrentMember.UniqueName'  
+select
+    {  [Measures].[Дата]  } on columns,
+    {
+        Tail 
+        (
+            Filter  
+            (
+                Descendants   
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[День],
+                    SELF   
+                ),
+                (
+                    [Период].[Период].CurrentMember.Properties("PKID") < <%period_last_week_date_debts%>.Properties("PKID")
+                ) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+                [Период].[Период].CurrentMember.Name <> "Данные года" and 
+                not IsEmpty   
+                (
+                    (
+                        [Measures].[Значение],
+                        [Показатели].[Рынок труда].[Все].[Количество граждан, имеющих задолженность по выплате заработной платы]  
+                    )   
+                ) 
+            ),
+            2 
+        )  +
+        Tail 
+        (
+            Filter  
+            (
+                Descendants   
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[День],
+                    SELF   
+                ),
+                (
+                    [Период].[Период].CurrentMember.Properties("PKID") <= <%period_current_date%>.Properties("PKID")
+                ) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+                [Период].[Период].CurrentMember.Name <> "Данные года" and 
+                not IsEmpty   
+                (
+                    (
+                        [Measures].[Значение],
+                        [Показатели].[Рынок труда].[Все].[Количество граждан, имеющих задолженность по выплате заработной платы]  
+                    )   
+                ) 
+            ),
+            1 
+        )
+    }  on rows   
+from [СТАТ_Мониторинг ситуации на рынке труда]           
+where           
+    (
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ]     
+    )
+]]>
+  </query>
+
+  <query id="STAT_0001_0002_date_prev_last_debts">
+    <![CDATA[
+-- STAT_0001_0002_date_prev_last_debts
+with                  
+    member [Measures].[Дата]        
+    as '[Период].[Период].CurrentMember.UniqueName'  
+select
+    {  [Measures].[Дата]  } on columns,
+    {
+        Tail 
+        (
+            Filter  
+            (
+                Descendants   
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[День],
+                    SELF   
+                ),
+                (
+                    [Период].[Период].CurrentMember.Properties("PKID") <= <%period_prev_last_week_date_debts%>.Properties("PKID")
+                ) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+                [Период].[Период].CurrentMember.Name <> "Данные года" and 
+                not IsEmpty   
+                (
+                    (
+                        [Measures].[Значение],
+                        [Показатели].[Рынок труда].[Все].[Количество граждан, имеющих задолженность по выплате заработной платы]  
+                    )   
+                ) 
+            ),
+            1 
+        ) 
+    }  on rows   
+from [СТАТ_Мониторинг ситуации на рынке труда]           
+where           
+    (
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ]     
+    )
+]]>
+  </query>
+  
+  <query id="STAT_0001_0002_redundantLevelRF_date">
+    <![CDATA[
+-- STAT_0001_0002_redundantLevelRF_date
+
+with                  
+    member [Measures].[Дата]        
+    as '[Период].[Период].CurrentMember.UniqueName'  
+select
+    {  [Measures].[Дата]  } on columns,
+    {
+        Tail 
+        (
+            Filter  
+            (
+                Descendants   
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[День],
+                    SELF   
+                ),
+                (
+                    [Период].[Период].CurrentMember.Properties("PKID") <= <%period_current_date%>.Properties("PKID")
+                ) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+                [Период].[Период].CurrentMember.Name <> "Данные года" and 
+                not IsEmpty
+                (
+                    (
+                        [Measures].[Значение],
+                        [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы]
+                    )
+                )
+            ),
+            1
+        )
+    }  on rows
+from [СТАТ_Мониторинг ситуации на рынке труда]
+where
+    (
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].DataMember
+    )
+]]>
+  </query>
+
+  <query id="STAT_0001_0003_grid">
+    <![CDATA[
+-- STAT_0001_0003_grid   
+with  
+    set [Список все субъектов УрФО]  
+    as 'Filter  
+        (
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+            not  
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember  
+            )  
+        ) '  
+    Member [Территории].[Сопоставимый].[В целом по УрФО]  
+    as '[Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ]'  
+    Member [Measures].[Есть пустые потомки в значении]  
+    as 'Count  
+        (
+            Filter  
+            (
+                [Список все субъектов УрФО],
+                IsEmpty  
+                (
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Период].[Период].CurrentMember,
+                        [Measures].[Значение]  
+                    )  
+                )  
+            )  
+        ) <> 0'  
+    Member [Measures].[Есть пустые потомки в темпе прироста]  
+    as 'Count  
+        (
+            Filter  
+            (
+                [Список все субъектов УрФО],
+                IsEmpty  
+                (
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Период].[Период].CurrentMember,
+                        [Measures].[Темп прироста]  
+                    )  
+                )  
+            )  
+        ) <> 0'  
+    Member [Measures].[Значение ]  
+    as 'IIF  
+        (
+            [Период].[Период].CurrentMember is [Период].[Период].[Доля в УрФО],
+            IIF  
+            (
+                (
+                    [Measures].[Значение],
+                    [Территории].[Сопоставимый].[В целом по УрФО],
+                    <%period_current_date%>,
+                    [Показатели].[Рынок труда].CurrentMember  
+                ) = 0 or [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы] or [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию],
+                null,
+                (
+                    [Measures].[Значение],
+                    [Территории].[Сопоставимый].CurrentMember,
+                    <%period_current_date%>,
+                    [Показатели].[Рынок труда].CurrentMember  
+                ) /  
+                (
+                    [Measures].[Значение],
+                    [Территории].[Сопоставимый].[В целом по УрФО],
+                    <%period_current_date%>,
+                    [Показатели].[Рынок труда].CurrentMember  
+                )  
+            ),
+            IIF  
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].[В целом по УрФО] and [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию] and [Measures].[Есть пустые потомки в значении],
+                null,
+                IIF  
+                (
+                    [Период].[Период].CurrentMember is [Период].[Период].[АППГ],
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Measures].[Значение],
+                        [Даты <%last_year%>].Item  
+                        (
+                            Rank  
+                            (
+                                <%period_current_date%>,
+                                [Даты <%current_year%>]  
+                            ) - 1  
+                        )  
+                    ),
+                    [Measures].[Значение]  
+                )  
+            )  
+        )'  
+    Member [Measures].[Темп прироста ]  
+    as 'IIF  
+        (
+            [Период].[Период].CurrentMember is [Период].[Период].[Доля в УрФО],
+            null,
+            IIF  
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].[АППГ],
+                IIF  
+                (
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Measures].[Темп прироста],
+                        [Даты <%last_year%>].Item  
+                        (
+                            Rank  
+                            (
+                                <%period_current_date%>,
+                                [Даты <%current_year%>]  
+                            ) - 1  
+                        )  
+                    ) = 0,
+                    null,
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Measures].[Значение],
+                        <%period_current_date%>  
+                    )/  
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Measures].[Значение],
+                        [Даты <%last_year%>].Item  
+                        (
+                            Rank  
+                            (
+                                <%period_current_date%>,
+                                [Даты <%current_year%>]  
+                            ) - 1  
+                        )  
+                    ) - 1  
+                ),
+                IIF  
+                (
+                    [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].[В целом по УрФО] and [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию] and [Measures].[Есть пустые потомки в темпе прироста],
+                    null,
+                    IIF  
+                    (
+                        [Период].[Период].CurrentMember is <%period_current_date%>,
+                        IIF
+                        (
+                              isEmpty(
+                                (
+                                  <%period_last_week_date%>,
+                                  [Measures].[Значение ]  
+                                )) or 
+                                (
+                                  <%period_last_week_date%>,
+                                  [Measures].[Значение ]  
+                                ) = 0
+                             ,null,
+                            (
+                                <%period_current_date%>,
+                                [Measures].[Значение ]  
+                            ) /  
+                            (
+                                <%period_last_week_date%>,
+                                [Measures].[Значение ]  
+                            ) - 1
+                        ),
+                        IIF
+                        (
+                              isEmpty(
+                                (
+                                  <%period_prev_last_week_date%>,
+                                  [Measures].[Значение ]  
+                                )) or 
+                                (
+                                  <%period_prev_last_week_date%>,
+                                  [Measures].[Значение ]  
+                                ) = 0
+                             ,null,
+                        (
+                            <%period_last_week_date%>,
+                            [Measures].[Значение ]  
+                        ) /  
+                        (
+                            <%period_prev_last_week_date%>,
+                            [Measures].[Значение ]  
+                        ) - 1 ) 
+                    )  
+                )  
+            )  
+        )'  
+    Member [Measures].[Прирост ]  
+    as 'IIF  
+        (
+            [Период].[Период].CurrentMember is [Период].[Период].[Доля в УрФО],
+            null,
+            IIF  
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].[АППГ] and not  
+                (
+                    [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы] or [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию]  
+                ),
+                null,
+                IIF  
+                (
+                    (
+                        [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы] or [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию]  
+                    ),
+                    IIF  
+                    (
+                        [Период].[Период].CurrentMember is [Период].[Период].[АППГ],
+                        IIF  
+                        (
+                            IsEmpty  
+                            (
+                                (
+                                    [Measures].[Значение],
+                                    [Показатели].[Рынок труда].CurrentMember,
+                                    [Даты <%last_year%>].Item  
+                                    (
+                                        Rank  
+                                        (
+                                            <%period_current_date%>,
+                                            [Даты <%current_year%>]  
+                                        ) - 1  
+                                    )  
+                                )  
+                            ) or  
+                            (
+                                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].[В целом по УрФО]  
+                            ),
+                            null,
+                            Rank  
+                            (
+                                [Территории].[Сопоставимый].CurrentMember,
+                                Order  
+                                (
+                                    Filter  
+                                    (
+                                        [Территории].[Сопоставимый].CurrentMember.Siblings,
+                                        not IsEmpty  
+                                        (
+                                            (
+                                                [Measures].[Значение],
+                                                [Показатели].[Рынок труда].CurrentMember,
+                                                [Даты <%last_year%>].Item  
+                                                (
+                                                    Rank  
+                                                    (
+                                                        <%period_current_date%>,
+                                                        [Даты <%current_year%>]  
+                                                    ) - 1  
+                                                )  
+                                            )  
+                                        )  
+                                    ),
+                                    (
+                                        [Measures].[Значение],
+                                        [Показатели].[Рынок труда].CurrentMember,
+                                        [Даты <%last_year%>].Item  
+                                        (
+                                            Rank  
+                                            (
+                                                <%period_current_date%>,
+                                                [Даты <%current_year%>]  
+                                            ) - 1  
+                                        )  
+                                    ) ,
+                                    DESC  
+                                ),
+                                (
+                                    [Measures].[Значение],
+                                    [Показатели].[Рынок труда].CurrentMember,
+                                    [Даты <%last_year%>].Item  
+                                    (
+                                        Rank  
+                                        (
+                                            <%period_current_date%>,
+                                            [Даты <%current_year%>]  
+                                        ) - 1  
+                                    )  
+                                )  
+                            )  
+                        ),
+                        IIF  
+                        (
+                            IsEmpty  
+                            (
+                                (
+                                    [Measures].[Значение],
+                                    [Показатели].[Рынок труда].CurrentMember  
+                                )  
+                            ) or  
+                            (
+                                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].[В целом по УрФО]  
+                            ),
+                            null,
+                            Rank  
+                            (
+                                [Территории].[Сопоставимый].CurrentMember,
+                                Order  
+                                (
+                                    Filter  
+                                    (
+                                        [Территории].[Сопоставимый].CurrentMember.Siblings,
+                                        not IsEmpty  
+                                        (
+                                            (
+                                                [Measures].[Значение],
+                                                [Показатели].[Рынок труда].CurrentMember  
+                                            )  
+                                        )  
+                                    ),
+                                    (
+                                        [Measures].[Значение],
+                                        [Показатели].[Рынок труда].CurrentMember  
+                                    ) ,
+                                    DESC  
+                                ),
+                                (
+                                    [Measures].[Значение],
+                                    [Показатели].[Рынок труда].CurrentMember  
+                                )  
+                            )  
+                        ) 
+                    ),
+                    IIF 
+                    (
+                        [Период].[Период].CurrentMember is <%period_current_date%>,
+                        (
+                            <%period_current_date%>,
+                            [Measures].[Значение ] 
+                        ) - 
+                        (
+                            <%period_last_week_date%>,
+                            [Measures].[Значение ] 
+                        ),
+                        (
+                            <%period_last_week_date%>,
+                            [Measures].[Значение ] 
+                        ) - 
+                        (
+                            <%period_prev_last_week_date%>,
+                            [Measures].[Значение ] 
+                        ) 
+                    ) 
+                )  
+            )  
+        )'  
+    set [Даты <%last_year%>]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [Период].[Период].[Данные всех периодов].[<%last_year%>],
+                [Период].[Период].[День],
+                SELF  
+            ),
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and [Период].[Период].CurrentMember.Name <> "Данные квартала" and [Период].[Период].CurrentMember.Name <> "Данные полугодия" and [Период].[Период].CurrentMember.Name <> "Данные года" and not IsEmpty 
+            (
+                [Показатели].[Рынок труда].[Все].[Общая численность зарегистрированных безработных граждан] 
+            )  
+        ) '  
+    set [Даты <%current_year%>]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [Период].[Период].[Данные всех периодов].[<%current_year%>],
+                [Период].[Период].[День],
+                SELF  
+            ),
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and [Период].[Период].CurrentMember.Name <> "Данные квартала" and [Период].[Период].CurrentMember.Name <> "Данные полугодия" and [Период].[Период].CurrentMember.Name <> "Данные года" and not IsEmpty 
+            (
+                [Показатели].[Рынок труда].[Все].[Общая численность зарегистрированных безработных граждан] 
+            )  
+        ) '  
+    set [Показатели рынка труда]  
+    as '  
+        {
+            [Показатели].[Рынок труда].[Все].[Общая численность зарегистрированных безработных граждан],
+            [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы],
+            [Показатели].[Рынок труда].[Целевое значение по уровню зарегистрированных безработных ],
+            [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию],
+            [Показатели].[Рынок труда].[Все].[Численность экономически активного населения],
+            [Показатели].[Рынок труда].[Все].[Численность уволенных работников в связи с ликвидацией организаций, сокращением численности или штата работников всего],
+            [Показатели].[Рынок труда].[Все].[Численность уволенных работников в связи с ликвидацией организаций, сокращением численности или штата работников на градообразующих предприятиях],
+            [Показатели].[Рынок труда].[Все].[из них обратившихся в службу занятости],
+            [Показатели].[Рынок труда].[Все].[Количество работников, предупрежденных о предстоящем увольнении в связи с ликвидацией организаций, сокращением численности или штата работников],
+            [Показатели].[Рынок труда].[Все].[Количество предприятий, на которых введены неполная рабочая неделя, неполный рабочий день],
+            [Показатели].[Рынок труда].[Все].[Кол-во работающих на этих предприятиях, всего, в т.ч.],
+            [Показатели].[Рынок труда].[Все].[численность работников с неполной занятостью]  
+        } '  
+    Member [Период].[Период].[Доля в УрФО]  
+    as '[Период].[Период].CurrentMember '  
+    Member [Период].[Период].[АППГ]  
+    as '  [Даты <%last_year%>].Item  
+        (
+            Rank  
+            (
+                <%period_current_date%>,
+                [Даты <%current_year%>]  
+            ) - 1  
+        ) '  
+    member [Показатели].[Рынок труда].[Целевое значение по уровню зарегистрированных безработных ]  
+    as ' IIF  
+        (
+             ([Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].[В целом по УрФО] ),
+             null,
+            (
+                [Measures].[Значение],
+                [Показатели].[Рынок труда].[Все].[Целевое значение по уровню зарегистрированных безработных],
+                [Территории].[Сопоставимый].CurrentMember,
+                [Источники данных].[Все источники данных].[СТАТ Отчетность - Субъект РФ],
+                [Период].[Период].CurrentMember.Parent.Parent.Parent.Parent 
+            ) 
+        ) ' 
+select
+    {
+        {
+            {
+                { <%selected_subject%> } +  
+                {
+                    [Территории].[Сопоставимый].[В целом по УрФО]  
+                }  
+            }  
+            *  
+            {
+                <%period_last_week_date%>,
+                <%period_current_date%>,
+                [Период].[Период].[Доля в УрФО],
+                [Период].[Период].[АППГ]  
+            }  
+        }  
+    } on columns,
+    Filter  
+    (
+        { [Показатели рынка труда] }  
+        *  
+        {
+            [Measures].[Значение ],
+            [Measures].[Темп прироста ],
+            [Measures].[Прирост ]  
+        },
+        not  
+        (
+            IsEmpty  
+            (
+                (
+                    [Measures].[Значение ],
+                    <%period_current_date%>,
+                    <%selected_subject%>  
+                )  
+            ) and IsEmpty  
+            (
+                (
+                    [Measures].[Значение ],
+                    <%period_last_week_date%>  
+                )  
+            )  
+        )  
+    )  on rows  
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+  ]]>
+  </query>
+
+  <query id="STAT_0001_0003_debts_grid">
+    <![CDATA[
+-- STAT_0001_0003_debts_grid   
+with  
+    set [Список все субъектов УрФО]  
+    as 'Filter  
+        (
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+            not  
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember  
+            )  
+        ) '  
+    Member [Территории].[Сопоставимый].[В целом по УрФО]  
+    as '[Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ]'  
+    Member [Measures].[Есть пустые потомки в значении]  
+    as 'Count  
+        (
+            Filter  
+            (
+                [Список все субъектов УрФО],
+                IsEmpty  
+                (
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Период].[Период].CurrentMember,
+                        [Measures].[Значение]  
+                    )  
+                )  
+            )  
+        ) <> 0'  
+    Member [Measures].[Есть пустые потомки в темпе прироста]  
+    as 'Count  
+        (
+            Filter  
+            (
+                [Список все субъектов УрФО],
+                IsEmpty  
+                (
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Период].[Период].CurrentMember,
+                        [Measures].[Темп прироста]  
+                    )  
+                )  
+            )  
+        ) <> 0'  
+    Member [Measures].[Значение ]  
+    as 'IIF  
+        (
+            [Период].[Период].CurrentMember is [Период].[Период].[Доля в УрФО],
+            IIF  
+            (
+                (
+                    [Measures].[Значение],
+                    [Территории].[Сопоставимый].[В целом по УрФО],
+                    <%period_current_date_debts%>,
+                    [Показатели].[Рынок труда].CurrentMember  
+                ) = 0,
+                null,
+                (
+                    [Measures].[Значение],
+                    [Территории].[Сопоставимый].CurrentMember,
+                    <%period_current_date_debts%>,
+                    [Показатели].[Рынок труда].CurrentMember  
+                ) /  
+                (
+                    [Measures].[Значение],
+                    [Территории].[Сопоставимый].[В целом по УрФО],
+                    <%period_current_date_debts%>,
+                    [Показатели].[Рынок труда].CurrentMember  
+                )  
+            ),
+            IIF  
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].[АППГ],
+                (
+                    [Показатели].[Рынок труда].CurrentMember,
+                    [Территории].[Сопоставимый].CurrentMember,
+                    [Measures].[Значение],
+                    [Период].[Период].[АППГ]  
+                ),
+                [Measures].[Значение]  
+            )   
+        )'  
+    Member [Measures].[Темп прироста ]  
+    as 'IIF  
+        (
+            [Период].[Период].CurrentMember is [Период].[Период].[Доля в УрФО],
+            null,
+            IIF  
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].[АППГ],
+                IIF  
+                (
+                    IsEmpty  
+                    (
+                        (
+                            [Показатели].[Рынок труда].CurrentMember,
+                            [Территории].[Сопоставимый].CurrentMember,
+                            [Measures].[Значение],
+                            [Период].[Период].[АППГ]  
+                        )  
+                    ) or  
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Measures].[Значение],
+                        [Период].[Период].[АППГ]  
+                    ) = 0,
+                    null,
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Measures].[Значение],
+                        <%period_current_date_debts%>  
+                    )/  
+                    (
+                        [Показатели].[Рынок труда].CurrentMember,
+                        [Территории].[Сопоставимый].CurrentMember,
+                        [Measures].[Значение],
+                        [Период].[Период].[АППГ]  
+                    ) - 1  
+                ),
+                IIF 
+                (
+                    [Период].[Период].CurrentMember is <%period_current_date_debts%>,
+                    IIF 
+                    (
+                        not 
+                        (
+                            (
+                                <%period_last_week_date_debts%>,
+                                [Measures].[Значение ] 
+                            ) = 0 
+                        ),
+                        (
+                            <%period_current_date_debts%>,
+                            [Measures].[Значение ] 
+                        ) / 
+                        (
+                            <%period_last_week_date_debts%>,
+                            [Measures].[Значение ] 
+                        ) - 1,
+                        null 
+                    ),
+                    IIF 
+                    (
+                        not 
+                        (
+                            (
+                                <%period_prev_last_week_date_debts%>,
+                                [Measures].[Значение ] 
+                            )  = 0 
+                        ),
+                        (
+                            <%period_last_week_date_debts%>,
+                            [Measures].[Значение ] 
+                        ) / 
+                        (
+                            <%period_prev_last_week_date_debts%>,
+                            [Measures].[Значение ] 
+                        ) - 1 ,
+                        null 
+                    ) 
+                ) 
+            )  
+        )'  
+    Member [Measures].[Прирост ]  
+    as 'IIF  
+        (
+            [Период].[Период].CurrentMember is [Период].[Период].[Доля в УрФО],
+            null,
+            IIF  
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].[АППГ],
+                null,
+                IIF  
+                (
+                    [Период].[Период].CurrentMember is <%period_current_date_debts%>,
+                    (
+                        <%period_current_date_debts%>,
+                        [Measures].[Значение ]  
+                    ) -  
+                    (
+                        <%period_last_week_date_debts%>,
+                        [Measures].[Значение ]  
+                    ),
+                    (
+                        <%period_last_week_date_debts%>,
+                        [Measures].[Значение ]  
+                    ) -  
+                    (
+                        <%period_prev_last_week_date_debts%>,
+                        [Measures].[Значение ]  
+                    )  
+                )  
+            )  
+        )'   
+    set [Показатели рынка труда]  
+    as '  
+        {
+            [Показатели].[Рынок труда].[Все].[Сумма задолженности по выплате заработной платы (млн.руб.)],
+            [Показатели].[Рынок труда].[Все].[Количество предприятий, имеющих задолженность по выплате заработной платы],
+            [Показатели].[Рынок труда].[Все].[Количество граждан, имеющих задолженность по выплате заработной платы]  
+        } '   
+    Member [Период].[Период].[Доля в УрФО]  
+    as '[Период].[Период].CurrentMember '   
+    Member [Период].[Период].[АППГ]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                ParallelPeriod  
+                (
+                    [Период].[Период].[Год],
+                    1,
+                    <%period_current_date_debts%>.Parent  
+                ),
+                [Период].[Период].[День],
+                SELF  
+            ),
+            not IsEmpty  
+            (
+                (
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].CurrentMember  
+                )  
+            )  
+        ).Item  
+        (
+            Rank  
+            (
+                <%period_current_date_debts%>,
+                Filter  
+                (
+                    Descendants  
+                    (
+                        <%period_current_date_debts%>.Parent,
+                        [Период].[Период].[День],
+                        SELF  
+                    ),
+                    not IsEmpty  
+                    (
+                        (
+                            [Measures].[Значение],
+                            [Показатели].[Рынок труда].CurrentMember  
+                        )  
+                    )  
+                )  
+            )  
+        )'   
+select
+    {
+        {
+            {
+                { <%selected_subject%> } +  
+                {
+                    [Территории].[Сопоставимый].[В целом по УрФО]  
+                }  
+            }  
+            *  
+            {
+                <%period_last_week_date_debts%>,
+                <%period_current_date_debts%>,
+                [Период].[Период].[Доля в УрФО],
+                [Период].[Период].[АППГ]  
+            }  
+        }  
+    } on columns,
+    Filter  
+    (
+        { [Показатели рынка труда] }  
+        *  
+        {
+            [Measures].[Значение ],
+            [Measures].[Темп прироста ],
+            [Measures].[Прирост ]  
+        },
+        not  
+        (
+            IsEmpty  
+            (
+                (
+                    [Measures].[Значение ],
+                    <%period_last_week_date_debts%>,
+                    <%selected_subject%>  
+                )  
+            ) and IsEmpty  
+            (
+                (
+                    [Measures].[Значение ],
+                    <%period_last_week_date_debts%>  
+                )  
+            )  
+        )  
+    )  on rows  
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+  ]]>
+  </query>
+
+  <query id="STAT_0001_0003_commentText">
+    <![CDATA[
+-- STAT_0001_0003_commentText
+
+with   
+
+    member [Measures].[Общая численность]
+    as '
+        (
+            [Measures].[Значение]
+        )'
+   
+    member [Measures].[Общий прирост]
+    as '
+        (
+            [Measures].[Прирост ]
+        )'        
+    member [Measures].[Число организаций]
+    as '
+        (
+            [Measures].[Значение],
+            [Показатели].[Рынок труда].[Все].[Количество предприятий, на которых введены неполная рабочая неделя, неполный рабочий день]
+        )'
+    member [Measures].[Численность работников с неполной занятостью]
+    as '
+        (
+            [Measures].[Значение],
+            [Показатели].[Рынок труда].[Все].[численность работников с неполной занятостью]
+        )'
+    member [Measures].[Cумма задолженности]
+    as '
+        (
+            [Measures].[Значение],
+            [Показатели].[Рынок труда].[Все].[Сумма задолженности по выплате заработной платы (млн.руб.)],
+            <%period_current_date_debts%>
+        )'
+    member [Measures].[Cумма задолженности прошлая неделя]
+    as '
+        (
+            [Measures].[Значение],
+            [Показатели].[Рынок труда].[Все].[Сумма задолженности по выплате заработной платы (млн.руб.)],
+            <%period_last_week_date_debts%>
+        )'           
+    member [Measures].[Количество граждан, имеющих задолженность]
+    as '
+        (
+            [Measures].[Значение],
+            [Показатели].[Рынок труда].[Все].[Количество граждан, имеющих задолженность по выплате заработной платы],
+            <%period_current_date_debts%>
+        )'
+    member [Measures].[Прирост задолженности]
+    as '
+        (           
+        [Measures].[Cумма задолженности] - [Measures].[Cумма задолженности прошлая неделя]
+        )'
+   member [Measures].[Численность работников, предполагаемых к увольнению]
+    as '
+        (
+            [Measures].[Значение],
+            [Показатели].[Рынок труда].[Все].[Количество работников, предупрежденных о предстоящем увольнении в связи с ликвидацией организаций, сокращением численности или штата работников]
+        )'
+   member [Measures].[Прирост числа работников, предполагаемых к увольнению]
+    as '
+        (
+            [Measures].[Прирост ],
+            [Показатели].[Рынок труда].[Все].[Количество работников, предупрежденных о предстоящем увольнении в связи с ликвидацией организаций, сокращением численности или штата работников]
+        )'
+   member [Measures].[Численность работников, уволенных с начала мониторинга]
+    as '
+        (
+            [Measures].[Значение],
+            [Показатели].[Рынок труда].[Все].[Численность уволенных работников в связи с ликвидацией организаций, сокращением численности или штата работников всего]
+        )'
+   member [Measures].[Прирост числа работников, уволенных за отчетный период]
+    as '
+        (
+            [Measures].[Прирост ],
+            [Показатели].[Рынок труда].[Все].[Численность уволенных работников в связи с ликвидацией организаций, сокращением численности или штата работников всего]
+        )'  
+    Member [Measures].[Уровень регистрируемой безработицы ]
+    as '   (
+                [Measures].[Значение],
+                [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы]
+           )
+        '
+    Member [Measures].[Прирост уровня регистрируемой безработицы]
+    as '(
+                [Measures].[Прирост ],
+                [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы]
+           )       
+        '     
+    Member [Measures].[Потребность в работниках]
+    as '(
+                [Measures].[Значение],
+                [Показатели].[Рынок труда].[Все].[Потребность предприятий в работниках, заявленная в службы занятости]
+        )       
+        '   
+    Member [Measures].[Прирост потребности в работниках]
+    as '(
+                [Measures].[Прирост ],
+                [Показатели].[Рынок труда].[Все].[Потребность предприятий в работниках, заявленная в службы занятости]
+        )
+        '    
+    Member [Measures].[Число зарегистрированных безработных в расчёте на 1 вакансию]
+    as '(
+                [Measures].[Значение],
+                [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию]
+           )       
+        '   
+    Member [Measures].[Прирост числа зарегистрированных безработных в расчёте на 1 вакансию]
+    as '(
+                [Measures].[Прирост ],
+                [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию]
+           )       
+        ' 
+    Member [Measures].[Уровень регистрируемой безработицы РФ]
+    as '
+        (
+            [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].DataMember,
+            [Measures].[Значение],
+            <%redundant_level_RF_date%>
+        )' 
+    Member [Measures].[Уровень регистрируемой безработицы УрФО]
+    as '
+        (
+            [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ],
+            [Measures].[Значение],
+            <%period_current_date%>
+        )'
+    Member [Measures].[Прирост ]       
+    as '    (
+                <%period_current_date%>,
+                [Measures].[Значение]     
+            ) -      
+            (
+                <%period_last_week_date%>,
+                [Measures].[Значение]     
+            )' 
+    member [Measures].[Целевое значение по уровню зарегистрированных безработных ]
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Целевое значение по уровню зарегистрированных безработных],
+                    <%selected_subject%>,
+                    [Источники данных].[Все источники данных].[СТАТ Отчетность - Субъект РФ],
+                    [Период].[Период].CurrentMember.Parent.Parent.Parent.Parent
+        )  '
+select
+    {
+        [Measures].[Общая численность],
+        [Measures].[Общий прирост],
+        [Measures].[Число организаций],
+        [Measures].[Численность работников с неполной занятостью],
+        [Measures].[Cумма задолженности],
+        [Measures].[Cумма задолженности прошлая неделя],
+        [Measures].[Количество граждан, имеющих задолженность],
+        [Measures].[Прирост задолженности],
+        [Measures].[Численность работников, предполагаемых к увольнению],
+        [Measures].[Прирост числа работников, предполагаемых к увольнению],
+        [Measures].[Численность работников, уволенных с начала мониторинга],
+        [Measures].[Прирост числа работников, уволенных за отчетный период],
+        [Measures].[Уровень регистрируемой безработицы ],
+        [Measures].[Прирост уровня регистрируемой безработицы],
+        [Measures].[Потребность в работниках],
+        [Measures].[Прирост потребности в работниках],
+        [Measures].[Число зарегистрированных безработных в расчёте на 1 вакансию],
+        [Measures].[Прирост числа зарегистрированных безработных в расчёте на 1 вакансию],
+        [Measures].[Уровень регистрируемой безработицы РФ],
+        [Measures].[Уровень регистрируемой безработицы УрФО],
+        [Measures].[Целевое значение по уровню зарегистрированных безработных ]
+    } on columns
+from [СТАТ_Мониторинг ситуации на рынке труда]    
+where    
+    (
+        <%period_current_date%>,
+        <%selected_subject%>,
+        [Показатели].[Рынок труда].[Все].[Общая численность зарегистрированных безработных граждан]
+    )         
+  ]]>
+  </query>
+
+  <query id="STAT_0001_0003_chart1">
+    <![CDATA[
+-- STAT_0001_0003_chart1
+
+with   
+    member [Measures].[Уровень безработицы]   
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы],
+                     <%selected_subject%>
+        )  '   
+    member [Measures].[В целом по УрФО] 
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы],
+                    [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ]
+        )  '    
+     member [Measures].[Целевое значение по уровню зарегистрированных безработных ]
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Целевое значение по уровню зарегистрированных безработных],
+                    <%selected_subject%>,
+                    [Источники данных].[Все источники данных].[СТАТ Отчетность - Субъект РФ],
+                    [Период].[Период].CurrentMember.Parent.Parent.Parent.Parent
+        )  '
+
+    member [Measures].[DateUniqName]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {
+        [Measures].[DateUniqName],
+        <%urfo_measure%>
+        [Measures].[Уровень безработицы],
+        [Measures].[Целевое значение по уровню зарегистрированных безработных ]
+    } on columns,
+    non empty   
+    (
+        Filter   
+        (
+            [Период].[Период].[День].AllMembers,
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+            [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+            [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+            [Период].[Период].CurrentMember.Name <> "Данные года" and  
+            [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+            not IsEmpty(([Measures].CurrentMember, [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы]))
+        )   
+    ) on rows   
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+  ]]>
+  </query>
+
+  <query id="STAT_0001_0003_chart2">
+    <![CDATA[
+-- STAT_0001_0003_chart2
+
+with   
+    member [Measures].[Уровень безработицы]   
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы]
+        )  '   
+    member [Measures].[Число зарегистрированных безработных в расчёте на 1 вакансию]   
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию]
+        )  '    
+    member [Measures].[DateUniqName]
+    as '[Период].[Период].CurrentMember.UniqueName'         
+select
+    {
+        [Measures].[DateUniqName],
+        [Measures].[Число зарегистрированных безработных в расчёте на 1 вакансию]  
+    } on columns,
+    non empty   
+    (
+        Filter   
+        (
+            [Период].[Период].[День].AllMembers,
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+            [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+            [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+            [Период].[Период].CurrentMember.Name <> "Данные года" and  
+            [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+            not IsEmpty(([Measures].CurrentMember, [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы]))
+        )   
+    ) on rows   
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+where 
+    (
+        <%selected_subject%>
+    )  
+  ]]>
+  </query>
+
+  <query id="STAT_0001_0003_chart3">
+    <![CDATA[
+-- STAT_0001_0003_chart3
+
+with   
+    member [Measures].[Потребность предприятий в работниках]   
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Потребность предприятий в работниках, заявленная в службы занятости]
+        )  '    
+    member [Measures].[DateUniqName]
+    as '[Период].[Период].CurrentMember.UniqueName'         
+select
+    {
+        [Measures].[DateUniqName],
+        [Measures].[Потребность предприятий в работниках] 
+    } on columns,
+    non empty   
+    (
+        Filter   
+        (
+            [Период].[Период].[День].AllMembers,
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+            [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+            [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+            [Период].[Период].CurrentMember.Name <> "Данные года" and  
+            [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+            not IsEmpty(([Measures].CurrentMember, [Показатели].[Рынок труда].[Все].[Потребность предприятий в работниках, заявленная в службы занятости]))
+        )   
+    ) on rows   
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+where 
+    (
+        <%selected_subject%>
+    )  
+  ]]>
+  </query>
+
+  <query id="STAT_0001_0003_chart4">
+    <![CDATA[
+-- STAT_0001_0003_chart4
+
+with   
+    member [Measures].[Сумма задолженности по выплате заработной платы]   
+    as '(
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].[Все].[Сумма задолженности по выплате заработной платы (млн.руб.)]
+        )  '    
+    member [Measures].[DateUniqName]
+    as '[Период].[Период].CurrentMember.UniqueName'         
+select
+    {
+        [Measures].[DateUniqName],
+        [Measures].[Сумма задолженности по выплате заработной платы]   
+    } on columns,
+    non empty   
+    (
+        Filter   
+        (
+            [Период].[Период].[День].AllMembers,
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and 
+            [Период].[Период].CurrentMember.Name <> "Данные квартала" and 
+            [Период].[Период].CurrentMember.Name <> "Данные полугодия" and 
+            [Период].[Период].CurrentMember.Name <> "Данные года" and  
+            [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+            not IsEmpty(([Measures].CurrentMember, [Показатели].[Рынок труда].[Все].[Сумма задолженности по выплате заработной платы (млн.руб.)]))
+        )   
+    ) on rows   
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+where 
+    (
+        <%selected_subject%>
+    )  
+  ]]>
+  </query>
+</root>

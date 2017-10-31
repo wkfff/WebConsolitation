@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="last_date">
+    <![CDATA[ -- name: last_date   
+      select
+          { [Measures].[Значение]  } on columns,
+          {
+              Tail 
+              (
+                  Filter 
+                  (
+                      [Период].[Год Квартал Месяц].[Год].Members,
+                      [Measures].[Значение] > 0 
+                  ) 
+              ).Item(0) 
+          } DIMENSION PROPERTIES MEMBER_UNIQUE_NAME on rows 
+      from  [МО_Паспорт МО] 
+      where  
+          (
+              <%current_region%>
+          )           
+	  ]]>
+  </query>
+  <query id="grid">
+    <![CDATA[ -- name: grid
+select
+    non empty Filter  
+    (
+        [Паспорт МО].[Показатели].[Культура  и искусство].children,
+        [Measures].[Значение] > 0 and not      
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember  
+        )  
+    ) Dimension properties [Паспорт МО].[Показатели].[Единица измерения] on rows,
+    { [Measures].[Значение]  } on columns  
+from [МО_Паспорт МО]      
+where      
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        <%period_last_date%>,
+        <%current_region%>
+    )
+    ]]>
+  </query>
+  <query id="chart_dinamic">
+    <![CDATA[ -- name: chart_dinamic
+select
+    { [Measures].[Значение] } on rows,
+    non empty 
+    {
+        <%last_year%>: <%last_year%>.Lag(9)
+    } on columns 
+from  [МО_Паспорт МО] 
+where 
+    (
+        <%current_region%>,
+        [Паспорт МО].[Показатели].[Культура  и искусство].[<%current_branch%>],
+        [Источники данных].[Все источники данных].[МО Паспорт МО] 
+    )       
+    ]]>
+  </query>
+
+  <query id="grid2">
+    <![CDATA[ -- name: grid2
+select
+    non empty
+    {
+        <%last_year%>: <%last_year%>.Lag(9)
+    } on columns,
+    {
+        [Паспорт МО].[Показатели].[Физическая культура и спорт].[Число лиц систематически занимающихся физической культурой и спортом]
+    } Dimension properties [Паспорт МО].[Показатели].[Единица измерения] on rows
+from  [МО_Паспорт МО]      
+where      
+    (
+        <%current_region%>,
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Measures].[Значение]
+    )        
+    ]]>
+  </query>  
+  
+  <query id="chart_pie1">
+    <![CDATA[ -- name: chart_pie1
+select
+    non empty Filter
+    (
+        [Паспорт МО].[Показатели].[Физическая культура и спорт].[Число спортивных сооружений].children,
+        [Measures].[Значение] > 0 and not
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember
+        )
+    ) on rows,
+    { [Measures].[Значение]  } on columns
+from [МО_Паспорт МО]
+where
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>],
+        <%current_region%>
+    )  
+  ]]>
+  </query>
+
+  <query id="chart_pie2">
+    <![CDATA[ -- name: chart_pie2
+select
+    non empty Filter
+    (
+        [Паспорт МО].[Показатели].[Физическая культура и спорт].[Пропускная мощность спортивных сооружений].children,
+        [Measures].[Значение] > 0 and not
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember
+        )
+    ) on rows,
+    { [Measures].[Значение]  } on columns
+from [МО_Паспорт МО]
+where
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_year%>],
+        <%current_region%>
+    ) 
+  ]]>
+  </query>
+  
+</root>

@@ -1,0 +1,35 @@
+CALCULATE;
+
+//ТипДокумента__СКИФ
+SCOPE([ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[20]);
+    this = 
+[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[10] + [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[7] + 
+[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[5];
+END SCOPE;
+
+SCOPE([ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[21]);
+    this = [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[8] + 
+[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[6] + 
+[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[7] +
+[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[5];
+END SCOPE;
+
+/*
+//Период__Год Квартал Месяц
+SCOPE(DESCENDANTS([Период__Период].[Период__Период].[Данные всех периодов]));
+    this = IIF(not IsLeaf([Период__Период].[Период__Период].CurrentMember), Tail(Filter([Период__Период].
+[Период__Период].CurrentMember.Children, not IsEmpty(Measures.CurrentMember)), 1).Item(0), ([Период__Период].
+[Период__Период].CurrentMember, [Measures].CurrentMember));
+END SCOPE;*/
+
+SCOPE([Период__Период].[Период__Период].[Квартал].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Полугодие].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;
+
+SCOPE([Период__Период].[Период__Период].[Год].members);
+    this = Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (Measures.CurrentMember = 0)), 1).Item(0);
+END SCOPE;

@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФО_Исполнение кассового плана" ClassType="9" SubClassType="0" Description="Ежедневная информация о кассовом исполнении по доходам, расходам, источникам финансирования и остаткам средств бюджета субъекта." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_F_EXCTCACHPL"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_F_EXCTCACHPL"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_F_EXCTCACHPL", "DV"."FX_DATE_YEARDAYUNV", "DV"."FX_MARKS_EXCTCACHPL", "DV"."DATASOURCES", "DV"."DV_REGIONS_EXCTCACHPL", "DV"."BV_REGIONS_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_F_EXCTCACHPL"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_F_EXCTCACHPL"."REFMARKS"="DV"."FX_MARKS_EXCTCACHPL"."ID") AND ("DV"."F_F_EXCTCACHPL"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_EXCTCACHPL"."REFREG"="DV"."DV_REGIONS_EXCTCACHPL"."ID") AND ("DV"."DV_REGIONS_EXCTCACHPL"."REFREGBRIDG"="DV"."BV_REGIONS_BRIDGE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_F_EXCTCACHPL"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.FX_MARKS_EXCTCACHPL}{DV.FX_MARKS_EXCTCACHPL}{4245}{2970}{2580}{970}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2477}{2929}{2520}{1225}{1})({dv}{DV.F_F_EXCTCACHPL}{DV.F_F_EXCTCACHPL}{2162}{214}{1920}{3230}{1})({dv}{DV.DATASOURCES}{DV.DATASOURCES}{150}{2760}{2040}{1045}{1})({dv}{DV.DV_REGIONS_EXCTCACHPL}{DV.DV_REGIONS_EXCTCACHPL}{5730}{3090}{2790}{910}{1})({dv}{DV.BV_REGIONS_BRIDGE}{DV.BV_REGIONS_BRIDGE}{7215}{3285}{2370}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[a6137a0a-1198-4b00-99e3-76c906b91f0b]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[04c11c4d-a633-4d6a-934d-4ed12a6fe4c8]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.F.ExctCachPl]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[6acf6529-b09d-42bf-86ca-6cdf9fce816a]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Показатели.ИспКасПлан" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_MARKS_EXCTCACHPL"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Период.Период" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Полугодие" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEHALFYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Квартал" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEQUARTERID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.ФО_ИспКасПлан" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_REGIONS_EXCTCACHPL"."SOURCEID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Районы" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_REGIONS_EXCTCACHPL"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Районы.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все районы]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Район" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."BV_REGIONS_BRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Факт" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_EXCTCACHPL"."FACT"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="План" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="2">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_EXCTCACHPL"."PLANE"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Факт_Нарастающий итог" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="3">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_EXCTCACHPL"."FACTREP"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="План_Нарастающий итог" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="4">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_EXCTCACHPL"."PLANREP"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="Факт_Период" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="5">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_EXCTCACHPL"."FACTPERIOD"]]></property>
+    </CubeMeasure>
+    <CubeMeasure method="Add" name="План_Период" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Currency" Num="6">
+      <property name="SourceColumn"><![CDATA["DV"."F_F_EXCTCACHPL"."PLANPERIOD"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="Исполнено за период" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Исполнено за период] AS 'IIF(IsEmpty(([Measures].[Факт_Нарастающий итог], [Период].[Период].CurrentMember)),
+null,
+IIF([Период].[Период].CurrentMember.Level.Name = "Год" or  [Период].[Период].CurrentMember.Level.Name = "All" or  
+[Период].[Период].CurrentMember is OpeningPeriod([Период].[Период].CurrentMember.Level,  Ancestor([Период].[Период].CurrentMember, [Период].[Период].[Год])), 
+([Период].[Период].CurrentMember, [Measures].[Факт_Нарастающий итог]),
+([Measures].[Факт_Нарастающий итог], [Период].[Период].CurrentMember) -  (Tail(Filter({[Период].[Период].CurrentMember.PrevMember.FirstSibling:[Период].[Период].CurrentMember.PrevMember}, 
+not IsEmpty([Measures].[Факт_Нарастающий итог]))).Item(0),[Measures].[Факт_Нарастающий итог])
+)
+)', FORMAT_STRING = 'Currency']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Факт за период" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Факт за период] AS '/*IIF(not IsEmpty(([Период].[Период].CurrentMember, [Measures].[Факт])), ([Период].[Период].CurrentMember, [Measures].[Факт]) - ([Период].[Период].CurrentMember.PrevMember, [Measures].[Факт]), null)*/
+
+/*
+IIF(IsEmpty(([Период].[Период].CurrentMember, [Measures].[Факт])), null, 
+IIF(not IsEmpty((Tail(Filter({([Период].[Период].CurrentMember.Parent.FirstChild, [Measures].[Факт]), ([Период].[Период].CurrentMember.PrevMember, [Measures].[Факт])}, not IsEmpty([Measures].[Факт])), 1).Item(0))), 
+([Период].[Период].CurrentMember, [Measures].[Факт]) - (Tail(Filter({([Период].[Период].CurrentMember.Parent.FirstChild, [Measures].[Факт]), ([Период].[Период].CurrentMember.PrevMember, [Measures].[Факт])}, not IsEmpty([Measures].[Факт])), 1).Item(0)),
+([Период].[Период].CurrentMember, [Measures].[Факт])
+)
+)
+*/
+/*(Tail(Filter({[Период].[Год Квартал Месяц].CurrentMember.FirstSibling:[Период].[Год Квартал Месяц].CurrentMember.PrevMember}, 
+not IsEmpty([Measures].[За период]))).Item(0),[Measures].[За период])
+*/
+IIF([Период].[Период].CurrentMember.Level.Name = "Год" or [Период].[Период].CurrentMember.Level.Name = "Полугодие" or [Период].[Период].CurrentMember.Level.Name = "Квартал", ([Период].[Период].CurrentMember, [Measures].[Факт]),
+IIF(IsEmpty(([Период].[Период].CurrentMember, [Measures].[Факт])), null,
+ 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.PrevMember, [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(1).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.PrevMember, [Measures].[Факт]), 
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(2), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(2).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(2), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(3), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(3).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(3), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(4), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(4).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(4), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(5), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(5).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(5), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(6), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(6).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(6), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(7), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(7).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(7), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(8), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(8).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(8), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(9), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(9).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(9), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(10), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(10).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(10), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(11), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(11).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(11), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(12), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(12).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(12), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(13), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(13).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(13), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(14), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(14).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(14), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(15), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(15).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(15), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(16), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(16).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(16), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(17), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(17).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(17), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(18), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(18).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(18), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(19), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(19).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(19), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(20), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(20).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(20), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(21), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(21).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(21), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(22), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(22).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(22), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(23), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(23).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(23), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(24), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(24).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(24), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(25), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(25).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(25), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(26), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(26).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(26), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(27), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(27).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(27), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(28), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(28).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(28), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(29), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(29).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(29), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(30), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(30).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(30), [Measures].[Факт]),
+IIF(not IsEmpty(([Период].[Период].CurrentMember.Lag(31), [Measures].[Факт])) and ([Период].[Период].CurrentMember.lag(31).Parent.Parent = [Период].[Период].CurrentMember.Parent.Parent), ([Период].[Период].CurrentMember, [Measures].[Факт]) - 
+([Период].[Период].CurrentMember.Lag(31), [Measures].[Факт]),([Период].[Период].CurrentMember, [Measures].[Факт])
+)))))))))))))))))))))))))))))))))', FORMAT_STRING = 'Currency']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Факт_Нараст итог" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Факт_Нараст итог] FOR '({[Measures].[Факт]})' AS 'IIF(([Период].[Период].CurrentMember.level.Name = "Полугодие"), Sum([Период].[Период].CurrentMember.Children, [Measures].[Факт]),
+IIF(([Период].[Период].CurrentMember.level.Name = "Год"), Sum([Период].[Период].CurrentMember.Children, [Measures].[Факт]),
+Tail(Filter([Период].[Период].CurrentMember.Children, not IsEmpty([Measures].[Факт])), 1).Item(0)))', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Процент исполнения" ClassType="13" SubClassType="0" Description="" CommandType="1">
+      <property name="Statement"><![CDATA[CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения] AS 'IIF(not IsEmpty(([Measures].[План]) or ([Measures].[План_Нарастающий итог])) and (([Measures].[План], [Период].[Период].CurrentMember) + ([Measures].[План_Нарастающий итог], [Период].[Период].CurrentMember)) <> 0, (([Measures].[Факт], [Период].[Период].CurrentMember) + ([Measures].[Факт_Нарастающий итог], [Период].[Период].CurrentMember)) / (([Measures].[План], [Период].[Период].CurrentMember) + ([Measures].[План_Нарастающий итог], [Период].[Период].CurrentMember)), null)', FORMAT_STRING = 'Percent']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="План_Нараст итог" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[План_Нараст итог] FOR '({[Measures].[План]})' AS 'IIF(([Период].[Период].CurrentMember.level.Name = "Полугодие"), Sum([Период].[Период].CurrentMember.Children, [Measures].[План]),
+IIF(([Период].[Период].CurrentMember.level.Name = "Год"), Sum([Период].[Период].CurrentMember.Children, [Measures].[План]),
+Tail(Filter([Период].[Период].CurrentMember.Children, not IsEmpty([Measures].[План])), 1).Item(0)))
+
+', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember)']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Период" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Период] FOR '({[Measures].[Факт за период]})' AS 'IIF(IsEmpty(([Период].[Период].CurrentMember, [Measures].[Факт])), null,
+IIF([Период].[Период].CurrentMember.Parent = [Период].[Период].CurrentMember.Lag(1).Parent and not IsEmpty(([Период].[Период].CurrentMember.Lag(1), [Measures].[Факт])), ([Период].[Период].CurrentMember, [Measures].[Факт]) - ([Период].[Период].CurrentMember.Lag(1), [Measures].[Факт]),
+IIF([Период].[Период].CurrentMember.Parent = [Период].[Период].CurrentMember.Lag(2).Parent and not IsEmpty(([Период].[Период].CurrentMember.Lag(2), [Measures].[Факт])), ([Период].[Период].CurrentMember, [Measures].[Факт]) - ([Период].[Период].CurrentMember.Lag(2), [Measures].[Факт]),
+IIF([Период].[Период].CurrentMember.Parent = [Период].[Период].CurrentMember.Lag(3).Parent and not IsEmpty(([Период].[Период].CurrentMember.Lag(3), [Measures].[Факт])), ([Период].[Период].CurrentMember, [Measures].[Факт]) - ([Период].[Период].CurrentMember.Lag(3), [Measures].[Факт]), ([Период].[Период].CurrentMember, [Measures].[Факт]))))
+)', CONDITION = '[Период].[Период].CurrentMember.Level.Name = "Месяц"']]></property>
+    </CubeCommand>
+    <CubeCommand method="Add" name="Факт_ПланНарастИтог" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[Факт_ПланНарастИтог] FOR '(DESCENDANTS([Период].[Период].[Данные всех периодов]))' AS 'IIF(([Период].[Период].CurrentMember.level.Name = "Данные всех периодов"), Sum([Период].[Период].CurrentMember.Children, [Measures].CurrentMember),
+Tail(Filter([Период].[Период].CurrentMember.Children, not IsEmpty([Measures].CurrentMember)), 1).Item(0))', CONDITION = 'not IsLeaf([Период].[Период].CurrentMember) and ([Measures].CurrentMember is [Measures].[Факт_Нарастающий итог] or [Measures].CurrentMember is [Measures].[План_Нарастающий итог])']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ФО_Исполнение кассового плана" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФО_Исполнениекассово_ФО_Исполнениекассовогоплана_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_F_EXCTCACHPL"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_F_EXCTCACHPL"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_F_EXCTCACHPL", "DV"."FX_DATE_YEARDAYUNV", "DV"."FX_MARKS_EXCTCACHPL", "DV"."DATASOURCES", "DV"."DV_REGIONS_EXCTCACHPL", "DV"."BV_REGIONS_BRIDGE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_F_EXCTCACHPL"."REFYEARDAYUNV"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_F_EXCTCACHPL"."REFMARKS"="DV"."FX_MARKS_EXCTCACHPL"."ID") AND ("DV"."F_F_EXCTCACHPL"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."F_F_EXCTCACHPL"."REFREG"="DV"."DV_REGIONS_EXCTCACHPL"."ID") AND ("DV"."DV_REGIONS_EXCTCACHPL"."REFREGBRIDG"="DV"."BV_REGIONS_BRIDGE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[33f534f8-c135-41af-b839-7ff7a07aa28a]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[6acf6529-b09d-42bf-86ca-6cdf9fce816a]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

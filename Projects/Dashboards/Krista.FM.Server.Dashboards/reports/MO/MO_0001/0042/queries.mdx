@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id ="years">
+    <![CDATA[ 
+with 
+    MEMBER [Measures].[Общий объем инвестиций] 
+    AS '
+        (
+            [Паспорт МО].[Показатели].[Все показатели].[Инвестиции].[Общий объем инвестиций],
+            [Measures].[Значение]
+        )' 
+select
+    {
+        [Measures].[Общий объем инвестиций] 
+    } on columns,
+    {
+       
+            Filter 
+            (
+                [Период].[Год Квартал Месяц].[Год].members,
+                [Measures].[Общий объем инвестиций]>0 
+            ) 
+        
+    } on rows 
+from [МО_Паспорт МО] 
+]]>
+  </query>
+<query id ="grid">
+  <![CDATA[ 
+with
+    MEMBER [Measures].[Общий объем инвестиций]
+    AS '(<%marks%>,[Measures].[Значение])'
+select
+    { [Measures].[Общий объем инвестиций]} on rows ,
+    {filter (
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%last_date%>]:[Период].[Год Квартал Месяц].[Данные всех периодов].[<%last_date%>].Lag(9), [Measures].[Общий объем инвестиций]>0)
+    } on columns
+from [МО_Паспорт МО]
+]]>
+  </query>
+
+  <query id ="last_date">
+    <![CDATA[ 
+with
+    MEMBER [Measures].[Общий объем инвестиций]
+    AS '(<%marks%>,[Measures].[Значение])'
+    select
+    { [Measures].[Общий объем инвестиций] } on columns,
+    {
+        Tail
+        (
+            Filter
+            (
+                [Период].[Год Квартал Месяц].[Год].members,
+                [Measures].[Общий объем инвестиций]>0
+            )
+        ).Item(0)
+    } on rows
+from [МО_Паспорт МО]
+]]>
+  </query>
+  <query id ="chart2">
+    <![CDATA[ 
+select
+    NON EMPTY {[Период].[Год Квартал Месяц].[Данные всех периодов].[<%last_date%>]:[Период].[Год Квартал Месяц].[Данные всех периодов].[<%last_date%>].Lag(9)
+    } on columns,
+    {<%chart2_mark%>}
+     DIMENSION PROPERTIES [Паспорт МО].[Показатели].[Единица измерения] on rows
+from [МО_Паспорт МО]
+where (--<%current_region%>,
+[Measures].[Значение])
+]]>
+  </query>
+  <query id ="chart1">
+    <![CDATA[ 
+with
+    MEMBER [Measures].[T]
+    AS '(<%chart1_mark%>,[Measures].[Значение])'
+select
+    {Filter (
+        <%chart1_mark%>.children,
+        [Measures].[T] > 0 and not
+        (
+            [Паспорт МО].[Показатели].CurrentMember is [Паспорт МО].[Показатели].CurrentMember.Parent.DataMember
+        )
+    )}  on rows,
+    { [Measures].[Значение] } on columns
+from [МО_Паспорт МО]
+where
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%selected_date%>]--,
+      --  <%current_region%>
+    )
+]]>
+  </query>
+  <query id ="chart3">
+    <![CDATA[ 
+    --chart3
+select
+    {
+        <%chart3_mark%>
+    } Dimension properties [Паспорт МО].[Показатели].[Единица измерения]on rows ,
+    non empty
+    {
+        [Период].[Год Квартал Месяц].[Данные всех периодов].[<%last_date%>]:[Период].[Год Квартал Месяц].[Данные всех периодов].[<%last_date%>].Lag(9)
+    }   on columns 
+from [МО_Паспорт МО] 
+where 
+    (
+        [Источники данных].[Все источники данных].[МО Паспорт МО],
+     --   <%current_region%>,
+        [Measures].[Значение]
+    )  
+]]>
+  </query>
+
+  <query id ="Regions">
+    <![CDATA[ 
+select
+    {
+        [Measures].[Значение]
+    } on columns,
+        {
+           Filter( [Территории].[РФ].[МР ГО].Members,[Measures].[Значение] >0)
+        }
+DIMENSION PROPERTIES MEMBER_UNIQUE_NAME
+     on rows
+from  [МО_Паспорт МО] 
+]]>
+  </query>
+
+</root>

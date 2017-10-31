@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProductVersion>3.5</ProductVersion>
+    <ProjectGuid>{10d7d19b-5703-4b98-8c70-8e010d40de75}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>Krista.FM.Bootstrapper.MDXExpert</OutputName>
+    <OutputType>Bundle</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Installer\BootstrapperMDXExpert\Bundle.wxs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Installer\BootstrapperMDXExpert\Package.wxs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixBalExtension">
+      <HintPath>$(WixExtDir)\WixBalExtension.dll</HintPath>
+      <Name>WixBalExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FMLocalAppStore\Krista.FM.MDXExpert.msi" />
+    <Content Include="FMLocalAppStore\Software\Providers\x32\SQLSERVER2008_ASADOMD10.msi" />
+    <Content Include="FMLocalAppStore\Software\Providers\x32\SQLSERVER2008_ASOLEDB10.msi" />
+    <Content Include="FMLocalAppStore\Software\Providers\x64\SQLSERVER2008_ASADOMD10.msi" />
+    <Content Include="FMLocalAppStore\Software\Providers\x64\SQLSERVER2008_ASOLEDB10.msi" />
+    <Content Include="Installer\BootstrapperMDXExpert\logo.png" />
+    <Content Include="Installer\BootstrapperMDXExpert\MyLicense.rtf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Installer\BootstrapperMDXExpert\MyTheme.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Installer\BootstrapperMDXExpert\Variables.wxi">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FMLocalAppStore" />
+    <Folder Include="FMLocalAppStore\Software" />
+    <Folder Include="FMLocalAppStore\Software\Providers" />
+    <Folder Include="FMLocalAppStore\Software\Providers\x64" />
+    <Folder Include="FMLocalAppStore\Software\Providers\x32" />
+    <Folder Include="Installer" />
+    <Folder Include="Installer\BootstrapperMDXExpert" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\ProjectOptions.xml" />
+  <Import Project="$(WixTargetsPath)" />
+  <Import Project="$(SolutionDir)\ProjectTargets.xml" />
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+</Project>

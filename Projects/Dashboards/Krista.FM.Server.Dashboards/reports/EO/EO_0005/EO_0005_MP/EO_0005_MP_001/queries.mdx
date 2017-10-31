@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="chart">
+    <![CDATA[
+select
+    {
+        [Measures].[Утверждено ассигнований],
+        [Measures].[Исполнено с начала года]
+    } on columns,
+    {
+         [Период].[Месяц].[Данные всех периодов].[<%year%>].[<%halfyear%>].[<%quarteryear%>].[<%month%>]:[Период].[Месяц].[Данные всех периодов].[<%year%>].[Полугодие 1].[Квартал 1].[Январь]
+    } on rows 
+from [ЭО_Программы_МЦП]    
+where (
+<%zakazchik%>,
+<%region%>,
+        <%kosgu%> ,
+        <%programm%>
+     --   [Программы].[Реестр МЦП].[Данные всех источников]<%programm%>--[ЭО\0005 Программы - 2010 вариант: МЦП месяц: 06 территория: Город Губкинский].[ДМЦП «Развитие телевидения и радиовещания в городе Губкинском на 2010-2012 годы»]
+    )    ]]>
+</query>
+
+  <query id="gauge">
+    <![CDATA[
+with
+   MEMBER [Measures].[TypeProg] AS
+   '([Measures].[Исполнено с начала года]/[Measures].[Утверждено ассигнований])*100'
+select
+       {<%programm%>
+        } on columns,
+{[Measures].[TypeProg]}
+on rows
+from [ЭО_Программы_МЦП]
+where ([Период].[Месяц].[Данные всех периодов].[<%year%>].[<%halfyear%>].[<%quarteryear%>].[<%month%>],
+<%zakazchik%>,
+<%region%>)
+
+]]>
+</query>
+<query id="years">
+    <![CDATA[
+    select {
+    [Measures].[Утверждено ассигнований]} on columns,
+    Filter(
+    {[Период].[Месяц].[Год].Members},
+    [Measures].[Утверждено ассигнований]>0
+    ) on rows
+    from [ЭО_Программы_МЦП]
+
+]]>
+  </query>
+
+
+  <query id="months">
+    <![CDATA[
+    select {[Measures].[Утверждено ассигнований]} on columns,
+    Filter(
+    {[Период].[Месяц].AllMembers},
+    [Measures].[Утверждено ассигнований]>0 )
+    on rows
+    from [ЭО_Программы_МЦП]
+
+ ]]>
+  </query>
+  
+  <query id="projects">
+    <![CDATA[
+    select {[Measures].[Утверждено ассигнований]} on columns,
+    {[Программы].[Заказчики].[Заказчик].Members} on rows
+    from [ЭО_Программы_МЦП] ]]>
+  </query>
+  
+
+
+  <query id="region">
+    <![CDATA[
+select
+    {
+        [Measures].[Утверждено ассигнований]  
+    } on columns,
+        {
+           Filter( [Территории].[РФ].[МР ГО].Members,[Measures].[Утверждено ассигнований] >0)
+        }
+DIMENSION PROPERTIES MEMBER_UNIQUE_NAME
+     on rows
+from [ЭО_Программы_МЦП]  ]]>
+  </query>
+  
+  <query id="G1">
+    <![CDATA[
+WITH
+   MEMBER [Measures].[TypeProg] AS
+   '[Программы].[Реестр МЦП].CurrentMember.Properties("Тип")'
+   MEMBER [Measures].[Reason] AS
+   '[Программы].[Реестр МЦП].CurrentMember.Properties("Причины неисполнения")'
+   MEMBER [Measures].[Процент выполнения]     AS '
+    IIF (
+    [Measures].[Утверждено ассигнований]<>0 and not isempty([Measures].[Утверждено ассигнований]),
+        (
+            [Measures].[Исполнено с начала года]/[Measures].[Утверждено ассигнований]
+        )
+        *100
+,0
+        )'
+select
+       {[Measures].[TypeProg],
+        [Measures].[Утверждено ассигнований],
+        [Measures].[Кассовый план],
+        [Measures].[Исполнено с начала года],
+        [Measures].[Исполнено за отчетный месяц],
+        [Measures].[Неосвоенно средств],
+        [Measures].[Процент выполнения],
+        [Measures].[Reason]
+
+        } on columns,
+filter (
+CROSSJOIN (
+
+except(
+
+filter ({[Программы].[Реестр МЦП].Members}, not IsEmpty([Measures].[Утверждено ассигнований])),
+{[Программы].[Реестр МЦП].[Данные всех источников].children}),
+filter({[ОК].[КОСГУ].Members},Right
+            (
+                [ОК].[КОСГУ].Currentmember.UniqueName,
+                10
+            ) <> "DATAMEMBER")
+)
+,not IsEmpty([Measures].[Утверждено ассигнований])
+)
+DIMENSION PROPERTIES MEMBER_UNIQUE_NAME
+on rows
+from [ЭО_Программы_МЦП]
+where ([Период].[Месяц].[Данные всех периодов].[<%year%>].[<%halfyear%>].[<%quarteryear%>].[<%month%>],
+<%zakazchik%>,
+<%region%>) ]]>
+  </query>
+  <query id="Grid">
+    <![CDATA[
+WITH
+   MEMBER [Measures].[TypeProg] AS
+   '[Программы].[Реестр МЦП].CurrentMember.Properties("Тип")'
+   MEMBER [Measures].[Reason] AS
+   '[Программы].[Реестр МЦП].CurrentMember.Properties("Причины неисполнения")'
+   MEMBER [Measures].[Процент выполнения] AS
+   '([Measures].[Исполнено с начала года]/[Measures].[Утверждено ассигнований])*100'
+select
+       {[Measures].[TypeProg],
+        [Measures].[Утверждено ассигнований],
+        [Measures].[Кассовый план],
+        [Measures].[Исполнено с начала года],
+        [Measures].[Исполнено за отчетный месяц],
+        [Measures].[Неосвоенно средств],
+        [Measures].[Процент выполнения],
+        [Measures].[Reason]
+
+        } on columns,
+filter (
+CROSSJOIN (
+
+except(
+
+filter ({[Программы].[Реестр МЦП].Members}, not IsEmpty([Measures].[Утверждено ассигнований])),
+{[Программы].[Реестр МЦП].[Данные всех источников].children}),
+filter({[ОК].[КОСГУ].Members},not IsEmpty([Measures].[Утверждено ассигнований]))
+)
+,not IsEmpty([Measures].[Утверждено ассигнований])
+)
+DIMENSION PROPERTIES MEMBER_UNIQUE_NAME
+on rows
+from [ЭО_Программы_МЦП]
+where ([Период].[Месяц].[Данные всех периодов].[<%year%>].[<%halfyear%>].[<%quarteryear%>].[<%month%>],
+<%zakazchik%>,
+<%region%>) ]]>
+  </query>
+</root>

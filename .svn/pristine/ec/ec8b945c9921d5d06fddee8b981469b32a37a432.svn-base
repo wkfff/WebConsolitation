@@ -1,0 +1,22 @@
+CALCULATE;
+
+SCOPE({[Measures].[Дата начала]});
+    this = IIF([Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Месяц],
+ [Период__Период].[Период__Период].CurrentMember, null)
+;
+END SCOPE;
+
+SCOPE({[Measures].[Дата окончания]});
+    this = IIF([Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Месяц],
+ [Период__Период].[Период__Период].CurrentMember, null)
+;
+END SCOPE;
+
+[Measures].[Значение] = ([Measures].[Значение], [Период__Период].[Период__Период].CurrentMember);
+/*
+CREATE CELL CALCULATION CURRENTCUBE.[Начало] FOR '({[Measures].[Дата начала]})' 
+AS null, CONDITION = 'not IsLeaf([Период__Период].[Период__Период].CurrentMember)';
+
+CREATE CELL CALCULATION CURRENTCUBE.[Окончание] FOR '({[Measures].[Дата окончания]})' 
+AS null, CONDITION = 'not IsLeaf([Период__Период].[Период__Период].CurrentMember)
+';*/

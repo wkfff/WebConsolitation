@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by borisov (EMBRACE) -->
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by mik-a-el (KRISTA) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="DataPumpParams">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element name="ControlsGroup" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:choice>
+							<xs:element name="Control" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence minOccurs="0">
+										<xs:element name="Item" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="Text" type="xs:string" use="required"/>
+												<xs:attribute name="FontBold" type="xs:boolean"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Name" type="xs:string" use="required"/>
+									<xs:attribute name="Type" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:enumeration value="Label"/>
+												<xs:enumeration value="Combo"/>
+												<xs:enumeration value="Edit"/>
+												<xs:enumeration value="MaskEdit"/>
+												<xs:enumeration value="Combo_Months"/>
+												<xs:enumeration value="Combo_Years"/>
+												<xs:enumeration value="EditClsSelect"/>
+												<xs:enumeration value="DateTimePicker"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="Text" type="xs:string" use="required"/>
+									<xs:attribute name="LocationX" type="xs:int" use="required"/>
+									<xs:attribute name="LocationY" type="xs:int" use="required"/>
+									<xs:attribute name="Width" type="xs:int" use="required"/>
+									<xs:attribute name="Height" type="xs:int" use="required"/>
+									<xs:attribute name="PropertyValue" type="xs:string" use="optional"/>
+									<xs:attribute name="Value" type="xs:string" use="required"/>
+									<xs:attribute name="FontBold" type="xs:boolean"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Radio" type="CheckType" maxOccurs="unbounded"/>
+							<xs:element name="Check" type="CheckType" maxOccurs="unbounded"/>
+						</xs:choice>
+						<xs:attribute name="Name" type="xs:string" use="optional"/>
+						<xs:attribute name="Text" type="xs:string" use="optional"/>
+						<xs:attribute name="LocationX" type="xs:int" use="optional"/>
+						<xs:attribute name="LocationY" type="xs:int" use="optional"/>
+						<xs:attribute name="Width" type="xs:int" use="optional"/>
+						<xs:attribute name="Height" type="xs:int" use="optional"/>
+						<xs:attribute name="Type" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Control"/>
+									<xs:enumeration value="GroupBox"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="ParamsKind" use="required">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="General"/>
+									<xs:enumeration value="Individual"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="FontBold" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="CheckType">
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="Text" type="xs:string" use="required"/>
+		<xs:attribute name="LocationX" type="xs:int" use="required"/>
+		<xs:attribute name="LocationY" type="xs:int" use="required"/>
+		<xs:attribute name="Width" type="xs:int" use="required"/>
+		<xs:attribute name="Height" type="xs:int" use="required"/>
+		<xs:attribute name="Value" type="xs:string" use="required"/>
+		<xs:attribute name="FontBold" type="xs:boolean"/>
+	</xs:complexType>
+</xs:schema>

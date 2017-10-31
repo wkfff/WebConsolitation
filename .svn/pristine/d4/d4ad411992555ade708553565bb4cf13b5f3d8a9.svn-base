@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.Оценка эффективности льгот" ClassType="7" SubClassType="0" Description="Классификатор показателей, необходимых для проведения оценки эффективности налоговых льгот." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_MARKS_PRIVILEGE", "DV"."DV_UNITS_OKEI", "DV"."FV_FX_TYPETAX"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_MARKS_PRIVILEGE"."REFOKEI"="DV"."DV_UNITS_OKEI"."ID") AND ("DV"."DV_MARKS_PRIVILEGE"."REFTYPETAX"="DV"."FV_FX_TYPETAX"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Marks.Privilege]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[8892dd12-f6e7-4012-bd62-d421cb00ae2e]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_MARKS_PRIVILEGE}{DV.DV_MARKS_PRIVILEGE}{1140}{645}{2445}{4335}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{0}{3500}{1800}{2200}{1})({dv}{DV.FV_FX_TYPETAX}{DV.FV_FX_TYPETAX}{4320}{4005}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[4cf47bb1-a361-421e-a4e3-70a1f45001a3]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[d9fdc570-9b9e-4b18-8e48-87eecbc18a51]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатели" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_MARKS_PRIVILEGE"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_MARKS_PRIVILEGE"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_PRIVILEGE"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обозначение" ClassType="31" SubClassType="0" Description="" Caption="Обозначение" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_PRIVILEGE"."SYMBOL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Формула" ClassType="31" SubClassType="0" Description="" Caption="Формула" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_PRIVILEGE"."FORMULA"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Номер строки" ClassType="31" SubClassType="0" Description="" Caption="Номер строки" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_PRIVILEGE"."NUMBERSTRING"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_PRIVILEGE"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."DESIGNATION"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Вид налога" ClassType="31" SubClassType="0" Description="" Caption="Вид налога" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FV_FX_TYPETAX"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

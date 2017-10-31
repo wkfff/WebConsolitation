@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>
+  <query id="regions">
+    <![CDATA[
+--regions 
+with 
+    set [Регионы] 
+    as ' 
+        {
+        [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра],
+            filter 
+            (
+                [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация].[Уральский федеральный округ].[Тюменская область с Ханты-Мансийским автономным округом, Ямало-Ненецким автономным округом].[Ханты-Мансийский автономный округ - Югра].Children,
+                [Measures].[Значение] > 0 
+            ) 
+        }' 
+    member [Measures].[Имя региона] 
+    as '[Территории__РФ].[Территории__РФ].CurrentMember.UniqueName' 
+select
+    [Measures].[Значение] on columns,
+    [Регионы] on rows 
+from [ЭО_КЖН_Ленинградская область МО]  ]]>
+  </query>
+  
+  <query id="Grid2_1">
+    <![CDATA[
+    --Grid2_1
+
+    select
+    non empty {   filter
+        (
+            { [Период].[Год].Members},
+            [Период].[Год].Currentmember.Name<>"Данные всех периодов"
+        )      } on columns,
+   non empty {
+        {
+            <%pokPrefix%>.[Интегральный показатель].<%Pokazatel%>
+        }
+        *{[Measures].[Оценка]},
+        {
+            <%pokPrefix%>.[Интегральный показатель].<%Pokazatel%>.children
+        } 
+        *{ [Measures].[Значение]}   
+    } on rows  
+from  <%dataBase%>
+where  
+    (
+        --    [Measures].[Значение],
+        <%baseRegion%>
+    )]]>
+  </query>
+  
+  <query id="Grid2_Prop">
+    <![CDATA[
+    --Grid2_Prop
+
+    with  
+    member [Measures].[Весовой коэффициент]  
+    as   '<%pokPrefix%>.CurrentMember.Properties("Весовой коэффициент")'
+    MEMBER [Measures].[Test] 
+    As '<%pokPrefix%>.CurrentMember.Properties("Флаг")' 
+        MEMBER [Measures].[Ед]
+    As '<%pokPrefix%>.CurrentMember.Properties("Единица измерения")'
+select
+    non empty     
+    {
+    [Measures].[Значение],
+    [Measures].[Test],
+        [Measures].[Весовой коэффициент],
+        [Measures].[Ед]
+    } on columns,
+    {
+    filter(
+        {<%pokPrefix%>.[Интегральный показатель].<%Pokazatel%>,
+        <%pokPrefix%>.[Интегральный показатель].<%Pokazatel%>.children  },
+        not isempty([Measures].[Значение]))
+    }  on rows 
+from  <%dataBase%>
+where  
+    (
+        <%baseRegion%>
+    ) ]]>
+  </query>
+
+
+  <query id="Areas">
+    <![CDATA[
+    --Areas
+select
+  {
+          [Период].[Год].[Данные всех периодов].[2008]
+    } on columns,
+    {
+        <%pokPrefix%>.[Интегральный показатель].children
+    } on rows
+from  <%dataBase%>
+where
+    (
+        [Measures].[Оценка],<%baseRegion%>
+         )   ]]>
+  </query>
+
+
+  <query id="UltraChart1">
+    <![CDATA[
+    --UltraChart1
+select
+
+
+ non empty {
+       [Период].[Год].[Данные всех периодов].[<%lastYear%>]:[Период].[Год].[Данные всех периодов].[<%lastYear%>].lag(5)
+        
+    } on columns
+from  <%dataBase%>
+where
+    (
+    <%chartDynMer%>,
+       <%pokPrefix%>.<%Pokazatel%><%currentWay%>  ,
+        <%baseRegion%>
+    )
+-----------------------------------   ]]>
+  </query>
+  <query id="UltraChart2">
+    <![CDATA[
+    --UltraChart2
+
+with
+    member [Measures].[Весовой коэффициент]
+    as   '<%pokPrefix%>.CurrentMember.Properties("Весовой коэффициент")'
+        MEMBER [Measures].[Test]
+    As '<%pokPrefix%>.CurrentMember.Properties("Флаг")'
+select
+    {
+        { [Measures].[Значение] }
+      *{[Период].[Год].[Данные всех периодов].[<%selectedYear%>]:[Период].[Год].[Данные всех периодов].[<%selectedYear%>].lag(1)},
+      {[Measures].[Весовой коэффициент],
+      [Measures].[Test]}
+      *{[Период].[Год].[Данные всех периодов].[<%selectedYear%>]}
+    } on columns,
+    {
+      filter
+        (
+            {
+                <%pokPrefix%>.[Интегральный показатель].<%Pokazatel%>.children
+            },
+            not isempty([Measures].[Значение])
+        ) 
+      
+    } on rows
+from <%dataBase%>
+where  (
+<%baseRegion%>)
+-----------------------------------]]>
+  </query>
+</root>

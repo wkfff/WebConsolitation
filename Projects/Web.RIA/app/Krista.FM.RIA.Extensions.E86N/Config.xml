@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="AccountsRole" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.E86N.Auth.Param.AccountsRoleProvider, Krista.FM.RIA.Extensions.E86N"></ValueProvider>
+    </Param>
+    <Param name="IsStaffAccounts" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.E86N.Auth.Param.IsStaffAccountsProvider, Krista.FM.RIA.Extensions.E86N"></ValueProvider>
+    </Param>
+    <Param name="AccountsOrgType" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.E86N.Auth.Param.AccountsOrgTypeProvider, Krista.FM.RIA.Extensions.E86N"></ValueProvider>
+    </Param>
+    <Param name="IsMainPPO" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.E86N.Auth.Param.IsMainPpoProvider, Krista.FM.RIA.Extensions.E86N"></ValueProvider>
+    </Param>
+    <Param name="IsMunicipality" type="string">
+      <ValueProvider type="Krista.FM.RIA.Extensions.E86N.Auth.Param.IsMunicipalityProvider, Krista.FM.RIA.Extensions.E86N"></ValueProvider>
+    </Param>
+  </Params>
+
+  <!-- Register types -->
+  <Types>
+    <Register from="Krista.FM.RIA.Extensions.E86N.Auth.Services.IAuthService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Auth.Services.AuthService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.ViewServices.UserPpoFilterViewService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.ViewServices.UserPpoFilterViewService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.ViewServices.HiddenColumnsViewService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.ViewServices.HiddenColumnsViewService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.IStateSystemService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.StateSystemService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.StateTaskService.IStateTaskService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.StateTaskService.StateTaskService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.StateTaskService.IStateTask2016Service, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.StateTaskService.StateTask2016Service, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.RestfulService.INewRestService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.RestfulService.NewRestService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.ResultsOfActivity.IResultsOfActivityService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.ResultsOfActivity.ResultsOfActivityService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.InfControlMeasures.IInfControlMeasuresService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.InfControlMeasures.InfControlMeasuresService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.IVersioningService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.VersioningService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.Reports.IReportService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.Reports.ReportsService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.AnnualBalance.IAnnualBalanceService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.AnnualBalance.AnnualBalanceService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.Documents.IDocuments, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.Documents.DocumentsService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.DiverseInfo.IDiverseInfoService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.DiverseInfo.DiverseInfoService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.ChangeLog.IChangeLogService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.ChangeLog.ChangeLogService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.SendMailServices.ISendMailService, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.SendMailServices.SendMailService, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+    <Register from="Krista.FM.RIA.Extensions.E86N.Services.PfhdService.IPfhd2017Service, Krista.FM.RIA.Extensions.E86N"
+              to="Krista.FM.RIA.Extensions.E86N.Services.PfhdService.Pfhd2017Service, Krista.FM.RIA.Extensions.E86N"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    
+  </Types>
+
+  <!-- Глобальные скрипты инициализации для главной страницы.
+    Секция выполняется в методе OnLoad главной страницы. -->
+  <ClientExtension>
+    <!-- Задавать класс, который формирует скрипт (если скрипт формируется динамически) -->
+    <!-- либо прописывать скрипт прямо здесь -->
+  </ClientExtension>
+
+  <!--***********************************Область навигации *********************************************** -->
+  <Navigation type="tree" ID="acE86NExtension" icon="PackageIn" title="Web-консолидация 86н" order="200" group="Сбор данных" dashboardIcon="/Krista.FM.RIA.Extensions.E86N/Presentation/Content/Images/task-72.png/extention.axd" defaultItemId="">
+    <Items>
+      <Item ID="nidbeAccounts" title="Управление учетными записями пользователей" icon="Book" condition="$(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/View/Accounts'</Param>
+        </Params>
+      </Item>
+      
+      <Item ID="nidbeInstitutions" title="Учреждения" icon="Book" condition="$(AccountsRole) == 'Администраторы'|| $(AccountsRole) == 'E86N_Spectator' || $(AccountsRole) == 'krista.ru'">
+        <Items>
+          <Item ID="nidbeRegisterInstitutions" title="Реестр учреждений" icon="Book" >
+                <Params>
+              <Param name="url">'/View/OGS'</Param>
+            </Params>
+          </Item>   
+          <Item ID="nidbeInstitutionsTypeHistory" title="История изменений типов учреждений" icon="Book">
+                <Params>
+              <Param name="url">'/View/OGSTypeHistory'</Param>
+            </Params>
+          </Item>
+        </Items>
+      </Item>
+      
+      <Item ID="nidbeStartDoc" title="Документы" icon="Book">
+        <Params>
+          <Param name="url">'/View/StartDocView'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeDocuments" title="Реестр документов" icon="Book" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'E86N_Spectator' || $(AccountsRole) == 'krista.ru' || $(AccountsRole) == 'E86N_Provider' || $(AccountsRole) == 'E86N_SuperProvider'">
+        <Params>
+          <Param name="url">'/View/Documents'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeDocumentsNews" title="Массовый экспорт" icon="Book" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/View/DocumentsNew'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeDepartmentRegServices" title="Ведомственные и муниципальные перечни услуг (работ)" icon="Book" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'krista.ru'">
+        <Items>
+          <Item ID="nidbeDepartmentCategoryOfConsumers" title="Справочник 'Категории потребителей'" icon="BookGo">
+            <Params>
+              <Param name="url">'/View/CategoryOfConsumers'</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbeDepartmentCategoryOfConsumersNew" title="Справочник 'Категории потребителей' (новый)" icon="BookGo">
+            <Params>
+              <Param name="url">'/View/CategoryOfConsumersNew'</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbeDepartmentRegisterOfServices" title="Реестр услуг" icon="Book">
+            <Params>
+              <Param name="url">'/View/Services'</Param>
+            </Params>
+          </Item>
+          
+          <Item ID="nidbeDepartmentService2016" title="Ведомственный перечень услуг из ГМУ" icon="Book">
+            <Params>
+              <Param name="url">'/View/Service2016?editable=false'</Param>
+            </Params>
+          </Item>
+          
+          <Item ID="nidbeDepartmentService2016_Editable" title="Ведомственный перечень услуг из иных источников" icon="Book">
+            <Params>
+              <Param name="url">'/View/Service2016?editable=true'</Param>
+            </Params>
+          </Item>
+            
+          <Item ID="nidbeSphereOfActivity" title="Сферы деятельности" icon="BookGo">
+            <Params>
+              <Param name="url">'/View/SphereOfActivity'</Param>
+            </Params>
+          </Item>
+        </Items>
+      </Item>
+      <Item ID="nidbeHandbooksClassifiers" title="Справочники и классификаторы" icon="BookRed" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'krista.ru'">
+        <Items>
+          <Item ID="nidbeSystem" title="Системные" icon="BookTabs">
+            <Items>
+              <Item ID="nidbeStateData" title="Состояние данных" icon="BookGo"><Params><Param name="url">'/View/StateData'</Param></Params></Item>
+            </Items>
+          </Item>
+          <Item ID="nidbeMF" title="Наполнения МФ" icon="BookTabs">
+            <Items>
+              <Item ID="nidbePPO" title="ППО" icon="BookGo"><Params><Param name="url">'/View/PPO'</Param></Params></Item>
+              <Item ID="nidbeOKEI" title="ОКЕИ" icon="BookGo"><Params><Param name="url">'/View/OKEI'</Param></Params></Item>
+              <Item ID="nidbeSignOKVED" title="Признак ОКВЭД" icon="BookGo"><Params><Param name="url">'/View/SignOKVED'</Param></Params></Item>
+              <Item ID="nidbeOKVED" title="ОКВЭД" icon="BookGo"><Params><Param name="url">'/View/OKVED'</Param></Params></Item>
+              <Item ID="nidbeOKATO" title="ОКАТО" icon="BookGo"><Params><Param name="url">'/View/OKATO'</Param></Params></Item>
+              <Item ID="nidbeOKTMO" title="ОКТМО" icon="BookGo"><Params><Param name="url">'/View/OKTMO'</Param></Params></Item>
+              <Item ID="nidbeOKFS" title="ОКФС" icon="BookGo"><Params><Param name="url">'/View/OKFS'</Param></Params></Item>
+              <Item ID="nidbeOKOPF" title="ОКОПФ" icon="BookGo"><Params><Param name="url">'/View/OKOPF'</Param></Params></Item>
+              <Item ID="nidbeFinBudget" title="Бюджет" icon="BookGo"><Params><Param name="url">'/View/FinBudget'</Param></Params></Item>
+              <Item ID="nidbeOGS" title="ОГС" icon="BookGo"><Params><Param name="url">'/View/OGSHB'</Param></Params></Item>
+            </Items>
+          </Item>
+          <Item ID="nidbeSupporting" title="Вспомогательные" icon="BookTabs">
+            <Items>
+              <Item ID="nidbeTypeNPA" title="Тип документа общей информации" icon="BookGo"><Params><Param name="url">'/View/TypeNPA'</Param></Params></Item>
+              <Item ID="nidbeTypeInstitution" title="Тип учреждения" icon="BookGo"><Params><Param name="url">'/View/TypeInstitution'</Param></Params></Item>
+              <Item ID="nidbeKindInstitution" title="Вид учреждения" icon="BookGo"><Params><Param name="url">'/View/KindInstitution'</Param></Params></Item>
+              <Item ID="nidbeCategoryInstitutions" title="Категория учреждения" icon="BookGo"><Params><Param name="url">'/View/CategoryInstitutions'</Param></Params></Item>
+              <Item ID="nidbeTypeBranch" title="Тип филиала" icon="BookGo"><Params><Param name="url">'/View/TypeBranch'</Param></Params></Item>
+              <Item ID="nidbeSubjectsConsolidation" title="Субъекты консолидации" icon="BookGo"><Params><Param name="url">'/View/SubjectsConsolidation'</Param></Params></Item>
+            </Items>
+          </Item>
+          <Item ID="nidbeUser" title="Пользовательские" icon="BookTabs">
+            <Items>
+              <Item ID="nidbeGRBS" title="ГРБС" icon="BookGo"><Params><Param name="url">'/View/GRBS'</Param></Params></Item>
+              <Item ID="nidbeFinVidRash" title="Вид расходов" icon="BookGo"><Params><Param name="url">'/View/FinVidRash'</Param></Params></Item>
+              <Item ID="nidbeFinRazdPodr" title="Раздел/Подраздел" icon="BookGo"><Params><Param name="url">'/View/FinRazdPodr'</Param></Params></Item>
+              <Item ID="nidbeOrgYchr" title="Учредитель" icon="BookGo"><Params><Param name="url">'/View/OrgYchr'</Param></Params></Item>
+              <Item ID="nidbeSubsidies" title="Субсидии" icon="BookGo"><Params><Param name="url">'/View/Subsidies'</Param></Params></Item>
+              <Item ID="nidbeKOSGU" title="КОСГУ" icon="BookGo"><Params><Param name="url">'/View/KOSGU'</Param></Params></Item>
+            </Items>
+          </Item>
+        </Items>
+      </Item>
+      <Item ID="nidbeDepartmentRegisterOfServicesPPO" title="Реестр услуг" icon="Book" condition="($(AccountsRole) == 'E86N_Provider' &amp;&amp; $(IsMainPPO) == 'True') || ($(AccountsRole) == 'E86N_SuperProvider' &amp;&amp; $(IsMunicipality) == 'True') || $(AccountsRole) == 'E86N_Spectator'">
+        <Params>
+          <Param name="url">'/View/Services'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeDepartmentService2016" title="Ведомственный перечень услуг из ГМУ" icon="Book" condition="$(AccountsRole) == 'E86N_Provider' || ($(AccountsRole) == 'E86N_SuperProvider' &amp;&amp; $(IsMunicipality) == 'True') || $(AccountsRole) == 'E86N_Spectator'">
+        <Params>
+          <Param name="url">'/View/Service2016?editable=false'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeDepartmentService2016_Editable" title="Ведомственный перечень услуг из иных источников" icon="Book" condition="$(AccountsRole) == 'E86N_Provider' || ($(AccountsRole) == 'E86N_SuperProvider' &amp;&amp; $(IsMunicipality) == 'True') || $(AccountsRole) == 'E86N_Spectator'">
+        <Params>
+          <Param name="url">'/View/Service2016?editable=true'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeIndicators" title="Справочник 'Показатели объема и качества'" icon="BookGo" condition="$(AccountsRole) == 'Администраторы'">
+            <Params>
+              <Param name="url">'/View/ServiceIndicators'</Param>
+            </Params>
+          </Item>
+      <Item ID="nidbeSubsidies" title="Субсидии" icon="BookGo" condition="($(AccountsRole) == 'E86N_Provider' &amp;&amp; $(IsMainPPO) == 'True') || ($(AccountsRole) == 'E86N_SuperProvider' &amp;&amp; $(IsMunicipality) == 'True') || $(AccountsRole) == 'E86N_Spectator'">
+        <Params>
+          <Param name="url">'/View/Subsidies'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeDocumentation" title="Информация для пользователей" icon="Book" condition="$(AccountsRole) != 'krista.ru'  &amp;&amp;  $(AccountsRole) != 'E86N_Spectator'">
+        <Items>
+          <Item ID="nidbeGRBSPassportDoc" title="Для ГРБС" icon="BookGo" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'E86N_Provider'">
+            <Params>
+              <Param name="url">'/Content/document/Руководство_ГРБС.doc'</Param>
+          </Params>
+          </Item>
+          <Item ID="nidbeFOPassportDoc" title="Для ФО" icon="BookGo" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'E86N_Provider' || $(AccountsRole) == 'E86N_SuperProvider'">
+            <Params>
+              <Param name="url">'/Content/document/Руководство_ФО.doc'</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbePassportDoc" title="Для АУ/БУ" icon="BookGo" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'E86N_Provider' 
+                || $(AccountsOrgType) == 'Автономное учреждение' || $(AccountsOrgType) == 'Бюджетное учреждение'">
+            <Params>
+              <Param name="url">'/Content/document/Руководство_АУ_БУ.doc'</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbePassportDocKU" title="Для казенных учреждений" icon="BookGo" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'E86N_Provider' || $(AccountsOrgType) == 'Казенное учреждение'">
+            <Params>
+              <Param name="url">'/Content/document/Руководство_КУ.doc'</Param>
+            </Params>
+          </Item>    
+          <Item ID="nidbePassportDocAdmin" title="Для Администраторов" icon="BookGo" condition="$(AccountsRole) == 'Администраторы'">
+            <Params>
+              <Param name="url">'/Content/document/Руководство_Админ.doc'</Param>
+            </Params>
+          </Item>       
+        </Items>
+      </Item>
+      <!--<Item ID="acE86NEntity" icon="FolderGo" title="Справочники и таблицы" condition="$(AccountsRole) == 'krista.ru'">
+        <Items>
+          <Item ID="" title="Фиксированные классификаторы" icon="Report" condition="$(AccountsRole) == 'krista.ru'">
+            <Params>
+              <Param name="url">'/EntityNav/Index?classType=2'</Param>
+            </Params>
+          </Item>
+          <Item ID="" title="Сопоставимые классификаторы" icon="Report" condition="$(AccountsRole) == 'krista.ru'">
+            <Params>
+              <Param name="url">'/EntityNav/Index?classType=0'</Param>
+            </Params>
+          </Item>
+          <Item ID="" title="Классификаторы данных" icon="Report" condition="$(AccountsRole) == 'krista.ru'">
+            <Params>
+              <Param name="url">'/EntityNav/Index?classType=1'</Param>
+            </Params>
+          </Item>
+          <Item ID="" title="Таблицы фактов" icon="Report" condition="$(AccountsRole) == 'krista.ru'">
+            <Params>
+              <Param name="url">'/EntityNav/Index?classType=3'</Param>
+            </Params>
+          </Item>
+        </Items>
+      </Item>-->
+      <Item ID="nidbeDeclareStateSystem" title="Описание систем состояний" icon="BookGo" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'krista.ru'">
+          <Params>
+            <Param name="url">'/View/StateSystemView'</Param>
+          </Params>
+      </Item>
+      <Item ID="nidbeAnnualBalanceItfSettings" title="Настройка интерфейсов бухгалтерской отчетности" icon="BookGo" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/View/AnnualBalanceItfSettingsView'</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeChangeLogView" title="Действия пользователей" icon="BookGo" condition="$(AccountsRole) == 'Администраторы' || $(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/View/ChangeLogView'</Param>
+        </Params>
+      </Item>
+    </Items>
+    <Action>MdiTab.addTab({ title: node.text, url: node.attributes.url, icon: node.attributes.iconCls, passParentSize: false});</Action>
+    <ButtomBar></ButtomBar>
+  </Navigation>
+
+  <!--
+  <Navigation type="tree" 
+              ID="acE86NEntity" 
+              icon="FolderGo" 
+              title="Справочники и таблицы" 
+              order="800" 
+              group="Прочее" 
+              dashboardIcon="/Content/images/icon.png" 
+              defaultItemId=""
+              condition="$(AccountsRole) == 'krista.ru'">
+    <Items>
+      <Item ID="" title="Фиксированные классификаторы" icon="Report" condition="$(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/EntityNav/Index?classType=2'</Param>
+        </Params>
+      </Item>
+      <Item ID="" title="Сопоставимые классификаторы" icon="Report" condition="$(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/EntityNav/Index?classType=0'</Param>
+        </Params>
+      </Item>
+      <Item ID="" title="Классификаторы данных" icon="Report" condition="$(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/EntityNav/Index?classType=1'</Param>
+        </Params>
+      </Item>
+      <Item ID="" title="Таблицы фактов" icon="Report" condition="$(AccountsRole) == 'krista.ru'">
+        <Params>
+          <Param name="url">'/EntityNav/Index?classType=3'</Param>
+        </Params>
+      </Item>
+    </Items>
+  </Navigation>
+  -->
+  <!--*********************************** Представления *********************************************** -->
+  <Views>
+    <View id="OKPO" title="ОКПО" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'264ab584-a5d3-4821-b01d-052a3876d4aa'"/>
+    </View>
+    
+    <View id="OKOPF" title="ОКОПФ" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'8e8cb401-7aca-4375-ac02-b30bef9a7630'"/>
+      <ImpExps>
+        <Import action="/Imports/ImportOkopf" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+      <Fields>
+        <Field name="Name" width="600"/>
+        <Field name="Code" hide="true"/>
+      </Fields>
+    </View>
+    
+    <View id="OKFS" title="ОКФС" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'3bf7a41a-c7f7-4b01-aa93-8a7e92e2fe5b'"/>
+      <ImpExps>
+        <Import action="/Imports/ImportOkfs" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="OKATO" title="ОКАТО" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'77373201-9a3a-471b-b0f1-2570a4bb1050'" useHierarchy="false"/>
+      <ImpExps>
+        <Import action="/Imports/ImportOkato" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+    </View>
+    
+    <View id="OKTMO" title="ОКТМО" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'a3ea4141-2b95-4658-aa51-7463798df397'" useHierarchy="false"/>
+      <ImpExps>
+        <Import action="/OGS/ImportOKTMO" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+    </View>
+    
+    <View id="OKVED" title="ОКВЭД" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'e70474e6-ffdd-44c4-b8af-4cb45a7fb6a5'"/>
+      <ImpExps>
+        <Import action="/OGS/ImportOKVED" caption="Импорт из XML" ico="PageCode"/>
+        <Import action="/Imports/ImportOKVEDFromExcel" caption="Импорт из Excel" ico="PageExcel"/>
+      </ImpExps>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="StateData" title="Состояние данных" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'243f0a9e-5946-41ff-8b75-8aa75f9e820c'" readonly="true"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="CategoryInstitutions" title="Категория учреждения" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'9e187428-bc74-48cf-b7db-468cb4b0c586'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="TypeBranch" title="Тип филиала" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'b3b43c0c-d8fc-4699-8563-9d57071443d9'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="KindInstitution" title="Вид учреждения" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'270b0ce3-8dcc-46c9-a08e-28678ca9ac92'"/>
+      <ImpExps>
+        <Import action="/OGS/ImportInstitutionType" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+      <Fields>
+        <Field name="BusinessStatus" hide="true"/>
+      </Fields>
+    </View>
+    
+    <View id="TypeInstitution" title="Тип учреждения" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'64301354-e69b-4d5b-a8d4-92c79310e39b'" readonly="true"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="TypeNPA" title="Тип документа общей информации" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'f1066db2-a354-48ae-b11d-b6e0fe2ef3d6'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+
+    <View id="PPO" title="ППО" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'568b3197-760f-4ab1-9b05-e3359db1fa86'"/>
+      <ImpExps>
+        <Import action="/OGS/ImportPPO" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="GRBS" title="ГРБС" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'9c6e7a8d-bbca-4f48-8c37-bbcd416d587c'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="OKEI" title="ОКЕИ" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'d37f90ea-b986-4bc6-9ac5-087afe0fbb0d'"/>
+      <ImpExps>
+        <Import action="/Imports/ImportsFromGmuXml" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="SignOKVED" title="Признак ОКВЭД" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'7d64bb9a-3a38-4823-b7db-41e31c4157a7'"/>
+    </View>
+    
+    <View id="TypeOfIndicatorGZ" title="Тип показателя" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'6d034ca3-226a-4024-bbfb-18ff37dcc7db'"/>
+    </View>
+    
+    <View id="RSCategoryOfConsumers" title="Категории потребителей" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'7e260d82-8087-4096-ac9d-01c25ae897b9'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="CategoryOfConsumersGZ" title="Тестовая вьюшка" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'20ce10b4-ca8c-40ce-ab21-0cad7ee69aa0'"/>
+      <Fields>
+        <Field name="BusinessStatus" hide="true"/>
+      </Fields>
+    </View>
+    
+    <View id="PayServicesGZ" title="Тестовая вьюшка" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'fa47caf7-1220-46dd-b0c3-8b1a1d66a1ef'"/>
+    </View>
+    
+    <View id="TypeOfServiceGZ" title="Тестовая вьюшка" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'0cb0dd1b-f7c8-4033-945f-e63aad874b1b'"/>
+    </View>
+    
+    <View id="PNRGZ" title="Тестовая вьюшка" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'01d4a94c-71e6-4225-9768-9e072602e88e'"/>
+    </View>
+    
+    <View id="FinBudget" title="Бюджет" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'7f368554-cac7-4d1a-9158-4c0a12f79a6c'"/>
+      <ImpExps>
+        <Import action="/OGS/ImportNsiBudget" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+    </View>
+    
+    <View id="KOSGU" title="КОСГУ" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'55bfa17d-ea3e-450b-838b-8e1e748f5a1b'"/>
+    </View>
+    
+    <View id="FinRazdPodr" title="Раздел/Подраздел" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'089115e3-b57d-4c8c-9eab-60e27c591b6d'"/>
+    </View>
+    
+    <View id="FinVidRash" title="Вид расходов" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'9a4cf14a-0219-4256-af4c-99fdb26316c5'"/>
+    </View>
+    
+    <View id="OrgSostD" title="Состояние" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'243f0a9e-5946-41ff-8b75-8aa75f9e820c'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+      </Fields>
+    </View>
+    
+    <View id="OrgStructure" title="Учреждение" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'70be332f-acb1-438b-8cb5-d070fcfe4d83'"/>
+    </View>
+    
+    <View id="SphereOfActivity" title="Сферы деятельности" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'f8e1b820-054b-47e4-9c7c-e044991ec9ad'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+        <Field name="Code" hide="true"/>
+      </Fields>
+    </View>
+    
+    <View id="CategoryOfConsumers" title="Категории потребителей" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'26d1818e-0b3c-4fc7-ace8-8ca0b5d38bc9'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+        <Field name="Code" hide="true"/>
+      </Fields>
+    </View>
+    
+    <View id="CategoryOfConsumersNew" title="Категории потребителей (новый)" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'e91ed003-d49f-4a62-837c-bbbc0b3f0831'"/>
+      <Fields>
+        <Field name="Name" width="600"/>
+        <Field name="Code" hide="true"/>
+      </Fields>
+    </View>
+    
+    <View id="OGSHB" title="ОГС" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'c92bd15a-3cb3-4024-8619-2ecb2078a58e'"/>
+      <ImpExps>
+        <Import action="/OGS/ImportNsiOGS" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+    </View>
+    
+    <View id="OrgYchr" title="Учредитель" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'019230a4-efda-4017-9144-aeb18c16a71a'"/>
+      <ImpExps>
+        <Import action="/Imports/ImportEgrulFounder" caption="Импорт из XML" ico="PageCode"/>
+      </ImpExps>
+    </View>
+    
+    <View id="StateService" title="Услуги" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'a6888c2a-6d97-481a-a282-5e6d4f0889f3'"/>
+    </View>
+    <View id="Subsidies" title="Субсидии" type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'7b961c20-3e7f-439d-957f-1cff0d2ddab7'"/>
+      <ImpExps>
+        <Import action="/Imports/ImportSubsidies" caption="Импорт из XML" ico="PageCode"/>
+        <Import action="/Imports/ImportSubsidiesFromExcel" caption="Импорт из Excel" ico="PageExcel"/>
+      </ImpExps>
+      <StoreService type="Krista.FM.RIA.Extensions.E86N.Services.ViewServices.UserPpoFilterViewService, Krista.FM.RIA.Extensions.E86N"></StoreService>
+      <Fields>
+        <Field name="RefOrgPPO" hide="true"/>
+      </Fields>
+      <StoreListeners>
+        <Listener name="BeforeSave">StoreBeforeSave(store, params);</Listener>
+      </StoreListeners>
+    </View>
+
+    <!--Реестр учреждений-->
+    <View id="OGS" title="Реестр учреджений"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.OGSView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--История изменений типов учреждений-->
+    <View id="OGSTypeHistory" title="История изменений типов учреждений"
+          type="Krista.FM.RIA.Extensions.E86N.Presentation.Views.XMaskFieldsView, Krista.FM.RIA.Extensions.E86N">
+      <Entity objectKey="'4b4c3156-6bb2-427f-8ecb-8811422ea162'" readonly="true"/>
+    </View>
+    
+    <!--Управление учетными записями пользователей-->
+    <View id="Accounts" title="Управление пользователями"
+      type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+      controlType="Krista.FM.RIA.Extensions.E86N.Auth.Presentation.Views.AccountsManagerView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Реестр документов-->
+    <View id="Documents" title="Реестр документов"
+      type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+      controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.DocumentsView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Массовый экспорт-->
+    <View id="DocumentsNew" title="Массовый экспорт"
+      type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+      controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.DocumentsNewView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Реестр услуг-->
+    <View id="Services" title="Ведомственые и мунципальные перечени услуг (работ)"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.RegisterOfServices, Krista.FM.RIA.Extensions.E86N">
+    <Import ImportAction="/Imports/ImportNsiSubjectService"/>
+    </View>
+    
+    <!--Реестр услуг 2016-->
+    <View id="Service2016" title="Ведомственые и мунципальные перечени услуг (работ)"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.Service2016View, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Государственное задание-->
+    <View id="StateTaskView" title="Государственное заданий"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.StateTaskCommonView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Планы финансово-хозяйственной деятельности учреждений-->
+    <View id="PfhdView" title="Планы финансово-хозяйственной деятельности учреждений"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.PfhdCommonView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Бюджетные обязательства учреждений (детализация)-->
+    <View id="SmetaView" title="Бюджетные обязательства учреждений"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.SmetaView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Стартовая страница для документов-->
+    <View id="StartDocView" title="Документы"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.StartDocView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Паспорт учреждения-->
+    <View id="PassportForm" title="Паспорт учреждения"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.PassportView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Системы состояний-->
+    <View id="StateSystemView" title="Системы состояний"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.StateSystemView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Информация о результатах деятельности и использование имущества-->
+    <View id="ResultsOfActivityView" title="Информация о результатах деятельности и использование имущества"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.ResultsOfActivityView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Контрольные мероприятия -->
+    <View id="InfControlMeasuresView" title="Сведения о проведенных контрольных мероприятиях и их результатах"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.InfControlMeasuresView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Баланс государственного (муниципального) учреждения (ф. 0503730)-->
+    <View id="AnnualBalanceF0503730TypeView" title="Баланс государственного (муниципального) учреждения (ф. 0503730)"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.AnnualBalanceF0503730TypeView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Отчет о финансовых результатах деятельности (ф. 0503121)-->
+    <View id="AnnualBalanceF0503121TypeView" title="Отчет о финансовых результатах деятельности (ф. 0503121)"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.AnnualBalanceF0503121TypeView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+  
+    <!--Отчет об исполнении бюджета (ф. 0503127)-->
+    <View id="AnnualBalanceF0503127TypeView" title="Отчет об исполнении бюджета (ф. 0503127)"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.AnnualBalanceF0503127TypeView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+  
+    <!--Баланс (ф. 0503130)-->
+    <View id="AnnualBalanceF0503130TypeView" title="Баланс (ф. 0503130)"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.AnnualBalanceF0503130TypeView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+  
+    <!--Отчет об исполнении смет доходов и расходов по приносящей доход деятельности (ф. 0503137)-->
+    <View id="AnnualBalanceF0503137TypeView" title="Отчет об исполнении смет доходов и расходов по приносящей доход деятельности (ф. 0503137)"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.AnnualBalanceF0503137TypeView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+  
+    <!--Отчет о финансовых результатах деятельности (ф. 0503721)-->
+    <View id="AnnualBalanceF0503721TypeView" title="Отчет о финансовых результатах деятельности (ф. 0503721)"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.AnnualBalanceF0503721TypeView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+  
+    <!--Отчет об исполнении учреждением плана ФХД (ф. 0503737)-->
+    <View id="AnnualBalanceF0503737TypeView" title="Отчет об исполнении учреждением плана ФХД (ф. 0503737)"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.AnnualBalanceF0503737TypeView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Настройка интерфейсов бухгалтерской отчетности-->
+    <View id="AnnualBalanceItfSettingsView" title="Настройка интерфейсов бухгалтерской отчетности"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.AnnualBalanceItfSettingsView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+  
+    <!--Иная информация об учреждении-->
+    <View id="DiverseInfoView" title="Иная информация об учреждении"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.DiverseInfoView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+    
+    <!--Лог действий с документами-->
+    <View id="ChangeLogView" title="Лог действий с документами." 
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.ChangeLogView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+    
+    <!-- Субъекты консолидации -->
+    <View id="SubjectsConsolidation" title="Субъекты консолидации"
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.SubjectsConsolidationView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+  
+    <!-- Показатели объема и качества услуг\работ -->
+    <View id="ServiceIndicators" title="Справочник 'Показатели объема и качества'"
+          type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.IndicatorsServiceView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Отправить письмо в техподдержку-->
+    <View id="FeedbackView" title="Отправить письмо в техподдержку."
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.FeedbackView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+
+    <!--Протокол операции-->
+    <View id="ProtocolView" title="Протокол операции."
+         type="Krista.FM.RIA.Core.Gui.XView, Krista.FM.RIA.Core"
+         controlType="Krista.FM.RIA.Extensions.E86N.Presentation.Views.ProtocolView, Krista.FM.RIA.Extensions.E86N">
+    </View>
+  </Views>
+</Extension>

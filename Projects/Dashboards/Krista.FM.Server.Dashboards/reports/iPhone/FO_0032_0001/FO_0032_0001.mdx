@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FO_0032_0001">
+    <![CDATA[with  
+    member Measures.[За период_Доходы сегодня]  
+    as 'LookupCube 
+        (
+            "[ФО_Доходы сегодня]",
+            " 
+            (
+                [Measures].[Сумма за период],
+                " + MemberToStr([Период].[День].CurrentMember) + " 
+            )" 
+        )'  
+    member Measures.[Доходы]  
+    as 'CoalesceEmpty 
+        (
+            [Measures].[За период],
+            Measures.[За период_Доходы сегодня] 
+        )'  
+    member Measures.[Факт день]  
+    as ' 
+        (
+            Measures.[Доходы],
+            <%period_day_fo%> 
+        )'  
+    member Measures.[Факт месяц]  
+    as ' 
+        (
+            Measures.[Доходы],
+            Ancestor 
+            (
+                <%period_day_fo%>,
+                [Период].[День].[Месяц] 
+            ) 
+        )'  
+    member Measures.[Факт год]  
+    as ' 
+        (
+            Measures.[Доходы],
+            Ancestor 
+            (
+                <%period_day_fo%>,
+                [Период].[День].[Год] 
+            ) 
+        )'  
+    member Measures.[План год]  
+    as 'LookupCube  
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "  
+            (
+                <%period_year%>,
+                Measures.[План]  
+            )"  
+        )'  
+    member Measures.[План месяц]  
+    as 'LookupCube  
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            "  
+            (
+                <%period_month%>,
+                Measures.[План]  
+            )"  
+        )'  
+    member Measures.[Исполнено месяц] 
+    as 'IIF
+        (
+            IsEmpty(Measures.[План месяц]),
+            null,
+            Measures.[Факт месяц]/Measures.[План месяц]
+        )' 
+    member Measures.[Исполнено год] 
+    as 'IIF
+        (
+            IsEmpty(Measures.[План год]),
+            null,
+            Measures.[Факт год]/Measures.[План год]
+        )' 
+select
+    {
+        Measures.[Факт день],
+        Measures.[Факт месяц],
+        Measures.[План месяц],
+        Measures.[Исполнено месяц],
+        Measures.[Факт год],
+        Measures.[План год],
+        Measures.[Исполнено год] 
+    } on columns 
+from [УФК_Реестр перечисленных поступлений]   
+	]]>
+  </query>
+
+  <query id="FO_0032_0001_V">
+    <![CDATA[
+with 
+    member Measures.[За период_Доходы сегодня] 
+    as 'LookupCube 
+        (
+            "[ФО_Доходы сегодня]",
+            " 
+            (
+                [Measures].[Сумма за период],
+                " + MemberToStr([Период].[День].CurrentMember) + ",
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + " 
+            )" 
+        )' 
+    member Measures.[Доходы] 
+    as 'CoalesceEmpty 
+        (
+            [Measures].[За период],
+            Measures.[За период_Доходы сегодня] 
+        )' 
+    member Measures.[Факт день] 
+    as ' 
+        (
+            Measures.[Доходы],
+            <%period_day_fo%> 
+        )' 
+    member Measures.[Факт месяц] 
+    as ' 
+        (
+            Measures.[Доходы],
+            Ancestor 
+            (
+                <%period_day_fo%> ,
+                [Период].[День].[Месяц] 
+            ) 
+        )' 
+    member Measures.[Факт год] 
+    as ' 
+        (
+            Measures.[Доходы],
+            Ancestor 
+            (
+                <%period_day_fo%> ,
+                [Период].[День].[Год] 
+            ) 
+        )' 
+    member Measures.[План год] 
+    as 'LookupCube 
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            " 
+            (
+                <%period_year%>,
+                Measures.[План],
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + " 
+            )" 
+        )' 
+    member Measures.[План месяц] 
+    as 'LookupCube 
+        (
+            "[ФО_АС Бюджет_План доходов]",
+            " 
+            (
+                <%period_month%>,
+                Measures.[План],
+                " + MemberToStr
+                (
+                    [Доходы].[Группы КД].CurrentMember
+                ) + " 
+            )" 
+        )' 
+    member Measures.[Исполнено месяц] 
+    as 'IIF 
+        (
+            IsEmpty(Measures.[План месяц]),
+            null,
+            Measures.[Факт месяц]/Measures.[План месяц] 
+        )' 
+    member Measures.[Исполнено год] 
+    as 'IIF 
+        (
+            IsEmpty(Measures.[План год]),
+            null,
+            Measures.[Факт год]/Measures.[План год] 
+        )' 
+    member Measures.[Уровень] as '[Доходы].[Группы КД].CurrentMember.Level.Name'
+    member [Доходы].[Группы КД].[Всего доходов] as '[Доходы].[Группы КД].[Все группы КД].[Итого доходов] + [Доходы].[Группы КД].[Все группы КД].[Безвозмездные поступления]'
+select
+    {
+        Measures.[Исполнено месяц],
+        Measures.[План месяц],
+        Measures.[Факт месяц],
+        Measures.[Факт день],
+        Measures.[Исполнено год],
+        Measures.[Уровень]
+    } on columns,
+    non empty  
+    {
+        Except([Доходы].[Группы КД].[Все группы КД].[Итого доходов].Children, {[Доходы].[Группы КД].[Все группы КД].[Итого доходов].DATAMEMBER}),
+        [Доходы].[Группы КД].[Все группы КД].[Итого доходов],
+        [Доходы].[Группы КД].[Все группы КД].[Безвозмездные поступления],
+        Except([Доходы].[Группы КД].[Все группы КД].[Безвозмездные поступления].Children, {[Доходы].[Группы КД].[Все группы КД].[Безвозмездные поступления].DATAMEMBER}),
+        [Доходы].[Группы КД].[Всего доходов]
+    } on rows
+from [УФК_Реестр перечисленных поступлений]    
+]]>
+  </query>
+
+  <query id="FO_0032_0001_date">
+    <![CDATA[with
+member Measures.[За период_Доходы сегодня] as 'LookupCube("[ФО_Доходы сегодня]", "([Measures].[Сумма за период], " + MemberToStr([Период].[День].CurrentMember) + ")")'
+member Measures.[Доходы] as 'CoalesceEmpty([Measures].[За период], Measures.[За период_Доходы сегодня])'
+member Measures.[ДанныеНа] as '[Период].[День].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail(Filter({[Период].[День].Members}, not IsEmpty(Measures.[За период])), 1) on rows
+from [УФК_Реестр перечисленных поступлений]    
+	]]>
+  </query>
+  
+  <query id="FO_0032_0001_chart">
+    <![CDATA[
+with
+    member [Доходы].[Группы КД].[Всего доходов] as '[Доходы].[Группы КД].[Все группы КД].[Итого доходов] + [Доходы].[Группы КД].[Все группы КД].[Безвозмездные поступления]'
+    member Measures.[Месяц] as '[Период].[День].CurrentMember.Parent.Name'
+    member Measures.[День] as '[Период].[День].CurrentMember.Name'
+select
+    {
+        Measures.[За период]
+    } on columns,
+    Tail(Filter([Период].[День].[День].Members, not IsEmpty([Measures].[За период])), 30) on rows
+from [УФК_Реестр перечисленных поступлений]
+where ([Доходы].[Группы КД].[Всего доходов])
+
+	]]>
+  </query>  
+</root>

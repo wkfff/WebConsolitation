@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="IS_0001_0002_square">
+    <![CDATA[ -- IS_0001_0002_square
+      select
+	      r.ID, r.RegNumber, t.Name as Territory
+      from
+	      d_InvArea_Reestr r, d_Territory_RF t
+      where
+	      r.RefTerritory = t.ID
+    ]]>
+  </query>
+
+  <query id="IS_0001_0002_grid">
+    <![CDATA[ -- IS_0001_0002_grid
+      select
+	      iar.RegNumber, trf.Name as Territory, iar.Location, iar.CadNumber, iar.Area, iar.Category, 'Группировочное',
+	      iar.Owner, iar.Head, iar.Contact, iar.Email, iar.Phone, PermittedUse, iar.ActualUse,
+	      iar.Documentation, iar.Limitation, iar.PermConstr, iar.Relief, 'Группировочное',
+	      iar.Road, iar.Station, iar.Pier, iar.Airport, 'Группировочное', iar.Plumbing,
+	      iar.Sewage, iar.Gas, iar.Electricity, iar.Heating, iar.Landfill, iar.Telephone, iar.Connectivity,
+	      iar.Fee, iar.DistanceZones, iar.Buildings, iar.Resources, iar.Settlement, iar.ObjectEducation,
+	      'Группировочное', iar.ObjectHealth, iar.ObjectSocSphere, iar.ObjectServices, iar.Hotels, iar.CoordinatesLat, iar.CoordinatesLng
+      from
+	      d_InvArea_Reestr iar, d_Territory_RF trf
+      where
+	      iar.RefTerritory = trf.ID and iar.ID = <%square_id%>
+    ]]>
+  </query>
+
+  <query id="IS_0001_0002_id">
+    <![CDATA[
+      select
+	      ID
+      from
+	      d_InvArea_Reestr
+      where
+	      RegNumber = '<%square_reg_number%>'
+    ]]>
+  </query>
+  
+</root>

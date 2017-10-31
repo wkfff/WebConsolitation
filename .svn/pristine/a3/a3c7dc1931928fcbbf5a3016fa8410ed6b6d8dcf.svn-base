@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="STAT_0001_0004_date">
+    <![CDATA[
+-- STAT_0001_0004_date
+with
+    member Measures.[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    {
+        Tail
+        (
+            NonEmptyCrossjoin({[Период].[Период].Members})
+        )
+    } on rows
+from [СТАТ_Мониторинг ситуации на рынке труда]
+where
+  <%labour_indicator_name%>
+]]>
+  </query>
+
+  <query id="STAT_0001_0004_chart1">
+    <![CDATA[
+-- STAT_0001_0004_chart1
+-- <#[СТАТ_Мониторинг ситуации на рынке труда]#>
+with  
+    set [Список все субъектов УФО]  
+    as 'Filter  
+        (
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+            not  
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember  
+            )  
+        ) '  
+    Member [Территории].[Сопоставимый].[Итого по УФО]  
+    as '[Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ]'     
+    SET [NonFilterRowSet] 
+    AS ' VisualTotals 
+        (
+            Intersect 
+            (
+                {
+                    {
+                        Descendants 
+                        (
+                            [Период].[Период].[Данные всех периодов] ,
+                            [Период].[Период].[Данные всех периодов].Level ,
+                            SELF_AND_AFTER 
+                        ) 
+                    } 
+                } ,
+                {
+                    [Период].[Период].[Месяц].ALLMEMBERS ,
+                    [Период].[Период].[День].ALLMEMBERS 
+                } 
+            ) 
+        )' 
+select
+    {
+        {
+            {
+                Filter  
+                (
+                    [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+                    not  
+                    (
+                        [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember  
+                    )  
+                )
+                <%ufo%>
+            }   
+        }  
+    } on columns,
+    NON EMPTY FILTER 
+    (
+        {[NonFilterRowSet]},
+        [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and [Период].[Период].CurrentMember.Name <> "Данные квартала" and [Период].[Период].CurrentMember.Name <> "Данные полугодия" and [Период].[Период].CurrentMember.Name <> "Данные года" 
+    ) on rows 
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+where  
+    (
+        <%labour_indicator_name%>,
+        [Measures].[Значение]  
+    ) 
+	]]>
+</query>
+
+<query id="STAT_0001_0004_grid">
+<![CDATA[
+-- STAT_0001_0004_grid
+-- <#[СТАТ_Мониторинг ситуации на рынке труда]#>
+with 
+    set [Список все субъектов УФО] 
+    as 'Filter 
+        (
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+            not 
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember 
+            ) 
+        ) ' 
+    Member [Территории].[Сопоставимый].[Итого по УФО] 
+    as '[Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ]' 
+    Member [Measures].[Темп прироста ]
+    as 'IIF
+        (
+            [Measures].[Значение] = 0 and [Measures].[Темп прироста] = -1,
+            null,
+           [Measures].[Темп прироста]
+        )'
+    Member [Measures].[Прирост ]
+    as 'IIF
+        (
+            (
+                [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Уровень регистрируемой безработицы] or
+                [Показатели].[Рынок труда].CurrentMember is [Показатели].[Рынок труда].[Все].[Число зарегистрированных безработных в расчёте на 1 вакансию]
+            ),
+            IIF (
+            IsEmpty
+                        (
+                            (
+                                [Measures].[Значение],
+                                [Показатели].[Рынок труда].CurrentMember
+                            )
+                        ) or
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].[Итого по УФО]
+            )
+                        , null,
+            Rank
+            (
+                [Территории].[Сопоставимый].CurrentMember,
+                Order
+                (
+                    Filter
+                    (
+                        [Территории].[Сопоставимый].CurrentMember.Siblings,
+                        not IsEmpty
+                        (
+                            (
+                                [Measures].[Значение],
+                                [Показатели].[Рынок труда].CurrentMember
+                            )
+                        )
+                    ),
+                    (
+                        [Measures].[Значение],
+                        [Показатели].[Рынок труда].CurrentMember
+                    ) ,
+                    DESC
+                ),
+                (
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].CurrentMember
+                )
+            )) ,
+            [Measures].[Прирост]
+        )'
+    SET [NonFilterRowSet] 
+    AS 'Generate 
+        (
+            filter 
+            (
+                Descendants 
+                (
+                    [Период].[Период].[Данные всех периодов] ,
+                    [Период].[Период].[Месяц],
+                    SELF 
+                ),[Период].[Период].CurrentMember.Parent.Parent.Parent is [Период].[Период].[Данные всех периодов].[2009] or [Период].[Период].CurrentMember.Parent.Parent.Parent is [Период].[Период].[Данные всех периодов].[2010]
+            ),
+            {
+                [Период].[Период].CurrentMember 
+            } + Descendants 
+            (
+                [Период].[Период].CurrentMember,
+                [Период].[Период].[День],
+                SELF 
+            ) 
+        )' 
+select
+    {
+        {
+            Filter 
+            (
+                [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+                not 
+                (
+                    [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember 
+                ) 
+            )  
+            <%ufo%>
+        } 
+        * 
+        {
+            [Measures].[Значение],
+            [Measures].[Темп прироста ],
+            [Measures].[Прирост ] 
+        } 
+    } on columns,
+    FILTER 
+    (
+        { {[NonFilterRowSet]} },
+        [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and [Период].[Период].CurrentMember.Name <> "Данные квартала" and [Период].[Период].CurrentMember.Name <> "Данные полугодия" and [Период].[Период].CurrentMember.Name <> "Данные месяца" and [Период].[Период].CurrentMember.Name <> "Данные года" and not IsEmpty([Measures].[Значение]) 
+    )    on rows 
+    from [СТАТ_Мониторинг ситуации на рынке труда]
+where  
+    (
+        <%labour_indicator_name%>
+    ) 
+	]]>
+</query>
+
+<query id="STAT_0001_0004_chart2">
+<![CDATA[
+-- STAT_0001_0004_chart2
+-- <#[СТАТ_Мониторинг ситуации на рынке труда]#>
+With
+    Member [Measures].[Минимум]
+    as 'Tail
+        (
+            Order
+            (
+                Filter
+                (
+                    Descendants
+                    (
+                        [Период].[Период].[Данные всех периодов],
+                        [Период].[Период].[День],
+                        SELF
+                    ),
+                    not IsEmpty
+                    (
+                        (
+                            [Measures].[Значение],
+                            [Показатели].[Рынок труда].CurrentMember,
+                            [Территории].[Сопоставимый].CurrentMember,
+                            [Период].[Период].CurrentMember
+                        )
+                    ) and [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and [Период].[Период].CurrentMember.Name <> "Данные квартала" and [Период].[Период].CurrentMember.Name <> "Данные полугодия" and [Период].[Период].CurrentMember.Name <> "Данные месяца" and [Период].[Период].CurrentMember.Name <> "Данные года" and not IsEmpty([Measures].[Значение])
+                ),
+                (
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].CurrentMember,
+                    [Территории].[Сопоставимый].CurrentMember,
+                    [Период].[Период].CurrentMember
+                ),
+                BDESC
+            )
+        ).Item(0).UniqueName'
+    Member [Measures].[Максимум]
+    as 'Head
+        (
+            Order
+            (
+                Filter
+                (
+                    Descendants
+                    (
+                        [Период].[Период].[Данные всех периодов],
+                        [Период].[Период].[День],
+                        SELF
+                    ),
+                    not IsEmpty
+                    (
+                        (
+                            [Measures].[Значение],
+                            [Показатели].[Рынок труда].CurrentMember,
+                            [Территории].[Сопоставимый].CurrentMember,
+                            [Период].[Период].CurrentMember
+                        )
+                    ) and [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and [Период].[Период].CurrentMember.Name <> "Данные квартала" and [Период].[Период].CurrentMember.Name <> "Данные полугодия" and [Период].[Период].CurrentMember.Name <> "Данные месяца" and [Период].[Период].CurrentMember.Name <> "Данные года" and not IsEmpty([Measures].[Значение])
+                ),
+                (
+                    [Measures].[Значение],
+                    [Показатели].[Рынок труда].CurrentMember,
+                    [Территории].[Сопоставимый].CurrentMember,
+                    [Период].[Период].CurrentMember
+                ),
+                BDESC
+            )
+        ).Item(0).UniqueName'
+    Member [Measures].[Открытие]
+    as '
+        (
+            [Measures].[Значение],
+            <%period_last_week_date%>
+        )'
+    Member [Measures].[Закрытие]
+    as '
+        (
+            [Measures].[Значение],
+            <%period_current_date%>
+        )'
+    Member [Measures].[Высокий]
+    as 'Max
+        (
+            [Период].[Период].[День].MEMBERS,
+            [Measures].[Значение]
+        )'
+    Member [Measures].[Низкий]
+    as 'Min
+        (
+            [Период].[Период].[День].MEMBERS,
+            [Measures].[Значение]
+        )'
+    Member [Measures].[Объем]
+    as '
+        (
+            <%period_current_date%>,
+            [Measures].[Значение]
+        )'
+    Member [Территории].[Сопоставимый].[Итого по УФО]
+    as '[Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ]'
+
+    Member measures.[Субъект]
+    as '[Территории].[Сопоставимый].CurrentMember.Name'
+SELECT
+    {
+        [Measures].[Открытие],
+        [Measures].[Закрытие],
+        [Measures].[Низкий],
+        [Measures].[Высокий],
+        [Measures].[Объем],
+        [Measures].[Минимум],
+        [Measures].[Максимум]
+    } ON COLUMNS ,
+    NON EMPTY
+    {
+        Filter
+        (
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+            not
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        )
+        <%ufo%>
+    } ON ROWS
+FROM [СТАТ_Мониторинг ситуации на рынке труда]
+WHERE
+    (
+        <%labour_indicator_name%>
+    )
+	]]>
+</query>
+
+<query id="STAT_0001_0004_regions">
+    <![CDATA[
+-- STAT_0001_0004_regions
+-- <#[СТАТ_Мониторинг ситуации на рынке труда]#>
+With
+    member [КД].[Сопоставимый].[FK]
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Name'
+SELECT
+    { [КД].[Сопоставимый].[FK] }
+     on columns,
+    Filter
+    (
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+        (
+            not
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        )
+    )  on rows
+FROM [ФК_МесОтч_Доходы]   
+  ]]>
+</query>
+</root>
+

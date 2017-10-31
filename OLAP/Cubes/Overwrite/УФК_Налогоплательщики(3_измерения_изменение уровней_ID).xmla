@@ -1,0 +1,1026 @@
+<Batch Transaction="false" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <Alter AllowCreate="true" ObjectExpansion="ExpandFull">
+    <Object>
+      <DatabaseID>/*#DatabaseName#*/</DatabaseID>
+      <DimensionID>b9644355-82c7-4c80-851e-cb18db85b50f</DimensionID>
+    </Object>
+    <ObjectDefinition>
+      <Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100">
+        <ID>b9644355-82c7-4c80-851e-cb18db85b50f</ID>
+        <Name>УФК__Платежные поручения</Name>
+        <Annotations>
+          <Annotation>
+            <Name>FullName</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <FullName xmlns="">f.D.UFK10Drafts</FullName>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>ObjectKey</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <ObjectKey xmlns="">b4105bc0-49cf-4f25-bcf9-1ae785d4a36d</ObjectKey>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>HierarchyID</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <HierarchyID xmlns="">9855712a-2100-4434-9df5-f016a8ab4385</HierarchyID>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>versions</Name>
+            <Value>
+              <versions xmlns="">
+                <detailedversioninfo author="OLAPAdmin" datetime="17.05.2011 10:54:58">
+                  <version major="1" minor="0" build="0" revision="0" />
+                  <comment>Конвертация из формата AS2000</comment>
+                </detailedversioninfo>
+              </versions>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>dsvNameAnnotation</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <dsvNameAnnotation xmlns="">F_D_UFK10DRAFTS</dsvNameAnnotation>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>controlblock</Name>
+            <Value>
+              <controlblock updatemode="CreateOrReplace" readfromfile="True" xmlns="" />
+            </Value>
+          </Annotation>
+        </Annotations>
+        <Source xsi:type="DataSourceViewBinding">
+          <DataSourceViewID>DV</DataSourceViewID>
+        </Source>
+        <Language>1049</Language>
+        <Collation>Cyrillic_General_CI_AS</Collation>
+        <UnknownMemberName>Unknown</UnknownMemberName>
+        <Attributes>
+          <Attribute>
+            <ID>ID</ID>
+            <Name>ID</Name>
+            <Description>Ключевой аттрибут измерения</Description>
+            <Usage>Key</Usage>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>ID</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>ID</ColumnID>
+              </Source>
+            </NameColumn>
+            <AttributeRelationships>
+              <AttributeRelationship>
+                <AttributeID>уровень_Платежные поручения</AttributeID>
+                <Name>уровень_Платежные поручения</Name>
+              </AttributeRelationship>
+            </AttributeRelationships>
+            <OrderBy>Key</OrderBy>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>уровень_Платежные поручения</ID>
+            <Name>уровень_Платежные поручения</Name>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>ID</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>ID</ColumnID>
+              </Source>
+            </NameColumn>
+            <AttributeRelationships>
+              <AttributeRelationship>
+                <AttributeID>PKID</AttributeID>
+                <Name>PKID</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Основание платежа</AttributeID>
+                <Name>Основание платежа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Налоговый период</AttributeID>
+                <Name>Налоговый период</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Сумма</AttributeID>
+                <Name>Сумма</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Номер документа</AttributeID>
+                <Name>Номер документа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Дата документа</AttributeID>
+                <Name>Дата документа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Назначение платежа</AttributeID>
+                <Name>Назначение платежа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>КБК</AttributeID>
+                <Name>КБК</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>ОКАТО первоначальный</AttributeID>
+                <Name>ОКАТО первоначальный</Name>
+              </AttributeRelationship>
+            </AttributeRelationships>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>PKID</ID>
+            <Name>PKID</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>ID</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>ID</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Основание платежа</ID>
+            <Name>Основание платежа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>20</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>CHARGEBASIS</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>20</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>CHARGEBASIS</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Налоговый период</ID>
+            <Name>Налоговый период</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>20</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>TAXPERIOD</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>20</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>TAXPERIOD</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Сумма</ID>
+            <Name>Сумма</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>FORPERIOD</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>FORPERIOD</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Номер документа</ID>
+            <Name>Номер документа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>30</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>DOCNUMBER</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>30</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>DOCNUMBER</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Дата документа</ID>
+            <Name>Дата документа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Date</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>DOCDATE</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>DOCDATE</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Назначение платежа</ID>
+            <Name>Назначение платежа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>255</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>PAYPURPOSE</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>255</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>PAYPURPOSE</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>КБК</ID>
+            <Name>КБК</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>20</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>KBK</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>20</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>KBK</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>ОКАТО первоначальный</ID>
+            <Name>ОКАТО первоначальный</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>20</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10DRAFTS</TableID>
+                  <ColumnID>OKATO</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>20</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10DRAFTS</TableID>
+                <ColumnID>OKATO</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+        </Attributes>
+        <AttributeAllMemberName>Все</AttributeAllMemberName>
+        <Hierarchies>
+          <Hierarchy>
+            <ID>9855712a-2100-4434-9df5-f016a8ab4385</ID>
+            <Name>УФК__Платежные поручения</Name>
+            <AllMemberName>Все</AllMemberName>
+            <Levels>
+              <Level>
+                <ID>Платежные поручения</ID>
+                <Name>Платежные поручения</Name>
+                <SourceAttributeID>уровень_Платежные поручения</SourceAttributeID>
+              </Level>
+            </Levels>
+          </Hierarchy>
+        </Hierarchies>
+        <ProactiveCaching>
+          <SilenceInterval>-PT1S</SilenceInterval>
+          <Latency>-PT1S</Latency>
+          <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+          <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+          <Source xsi:type="ProactiveCachingInheritedBinding" />
+        </ProactiveCaching>
+      </Dimension>
+    </ObjectDefinition>
+  </Alter>
+  <Alter AllowCreate="true" ObjectExpansion="ExpandFull">
+    <Object>
+      <DatabaseID>/*#DatabaseName#*/</DatabaseID>
+      <DimensionID>323fd132-c71c-4cd9-bd7e-1fccb7afc313</DimensionID>
+    </Object>
+    <ObjectDefinition>
+      <Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100">
+        <ID>323fd132-c71c-4cd9-bd7e-1fccb7afc313</ID>
+        <Name>УФК__Поступления в бюджет</Name>
+        <Annotations>
+          <Annotation>
+            <Name>FullName</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <FullName xmlns="">f.D.UFK10Taxpayers</FullName>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>ObjectKey</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <ObjectKey xmlns="">cf998c61-ca13-4080-b5dd-969a2fd76258</ObjectKey>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>HierarchyID</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <HierarchyID xmlns="">6baffe2f-9586-4141-bff3-2a7ff95ff0e8</HierarchyID>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>versions</Name>
+            <Value>
+              <versions xmlns="">
+                <detailedversioninfo author="OLAPAdmin" datetime="17.05.2011 10:54:58">
+                  <version major="1" minor="0" build="0" revision="0" />
+                  <comment>Конвертация из формата AS2000</comment>
+                </detailedversioninfo>
+              </versions>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>dsvNameAnnotation</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <dsvNameAnnotation xmlns="">F_D_UFK10TAXPAYERS</dsvNameAnnotation>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>controlblock</Name>
+            <Value>
+              <controlblock updatemode="CreateOrReplace" readfromfile="True" xmlns="" />
+            </Value>
+          </Annotation>
+        </Annotations>
+        <Source xsi:type="DataSourceViewBinding">
+          <DataSourceViewID>DV</DataSourceViewID>
+        </Source>
+        <Language>1049</Language>
+        <Collation>Cyrillic_General_CI_AS</Collation>
+        <UnknownMemberName>Unknown</UnknownMemberName>
+        <Attributes>
+          <Attribute>
+            <ID>ID</ID>
+            <Name>ID</Name>
+            <Description>Ключевой аттрибут измерения</Description>
+            <Usage>Key</Usage>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>ID</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>ID</ColumnID>
+              </Source>
+            </NameColumn>
+            <AttributeRelationships>
+              <AttributeRelationship>
+                <AttributeID>уровень_Поступления в бюджет</AttributeID>
+                <Name>уровень_Поступления в бюджет</Name>
+              </AttributeRelationship>
+            </AttributeRelationships>
+            <OrderBy>Key</OrderBy>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>уровень_Поступления в бюджет</ID>
+            <Name>уровень_Поступления в бюджет</Name>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>ID</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>ID</ColumnID>
+              </Source>
+            </NameColumn>
+            <AttributeRelationships>
+              <AttributeRelationship>
+                <AttributeID>PKID</AttributeID>
+                <Name>PKID</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Основание платежа</AttributeID>
+                <Name>Основание платежа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Налоговый период</AttributeID>
+                <Name>Налоговый период</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Сумма</AttributeID>
+                <Name>Сумма</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Номер документа</AttributeID>
+                <Name>Номер документа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Назначение платежа</AttributeID>
+                <Name>Назначение платежа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Дата документа</AttributeID>
+                <Name>Дата документа</Name>
+              </AttributeRelationship>
+            </AttributeRelationships>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>PKID</ID>
+            <Name>PKID</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>ID</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>ID</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Основание платежа</ID>
+            <Name>Основание платежа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>20</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>CHARGEBASIS</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>20</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>CHARGEBASIS</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Налоговый период</ID>
+            <Name>Налоговый период</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>20</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>TAXPERIOD</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>20</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>TAXPERIOD</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Сумма</ID>
+            <Name>Сумма</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>FORPERIOD</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>FORPERIOD</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Номер документа</ID>
+            <Name>Номер документа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>30</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>DOCNUMBER</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>30</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>DOCNUMBER</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Назначение платежа</ID>
+            <Name>Назначение платежа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>255</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>PAYPURPOSE</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>255</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>PAYPURPOSE</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Дата документа</ID>
+            <Name>Дата документа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Date</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10TAXPAYERS</TableID>
+                  <ColumnID>DOCDATE</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10TAXPAYERS</TableID>
+                <ColumnID>DOCDATE</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+        </Attributes>
+        <AttributeAllMemberName>Все</AttributeAllMemberName>
+        <Hierarchies>
+          <Hierarchy>
+            <ID>6baffe2f-9586-4141-bff3-2a7ff95ff0e8</ID>
+            <Name>УФК__Поступления в бюджет</Name>
+            <AllMemberName>Все</AllMemberName>
+            <AllowDuplicateNames>false</AllowDuplicateNames>
+            <Levels>
+              <Level>
+                <ID>Поступления в бюджет</ID>
+                <Name>Поступления в бюджет</Name>
+                <SourceAttributeID>уровень_Поступления в бюджет</SourceAttributeID>
+              </Level>
+            </Levels>
+          </Hierarchy>
+        </Hierarchies>
+        <ProactiveCaching>
+          <SilenceInterval>-PT1S</SilenceInterval>
+          <Latency>-PT1S</Latency>
+          <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+          <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+          <Source xsi:type="ProactiveCachingInheritedBinding" />
+        </ProactiveCaching>
+      </Dimension>
+    </ObjectDefinition>
+  </Alter>
+  <Alter AllowCreate="true" ObjectExpansion="ExpandFull">
+    <Object>
+      <DatabaseID>/*#DatabaseName#*/</DatabaseID>
+      <DimensionID>7dc08c46-f792-4c06-8beb-9044334a8338</DimensionID>
+    </Object>
+    <ObjectDefinition>
+      <Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100">
+        <ID>7dc08c46-f792-4c06-8beb-9044334a8338</ID>
+        <Name>УФК__Налогоплательщики Возвраты</Name>
+        <Annotations>
+          <Annotation>
+            <Name>HierarchyID</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <HierarchyID xmlns="">2cb777af-a037-4ce4-9fa5-7964732514a6</HierarchyID>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>FullName</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <FullName xmlns="">f.D.UFK10Repayment</FullName>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>ObjectKey</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <ObjectKey xmlns="">ab80f97f-4a1c-4113-8b1c-bd41b3dede65</ObjectKey>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>versions</Name>
+            <Value>
+              <versions xmlns="">
+                <detailedversioninfo author="OLAPAdmin" datetime="17.05.2011 10:54:58">
+                  <version major="1" minor="0" build="0" revision="0" />
+                  <comment>Конвертация из формата AS2000</comment>
+                </detailedversioninfo>
+              </versions>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>dsvNameAnnotation</Name>
+            <Visibility>SchemaRowset</Visibility>
+            <Value>
+              <dsvNameAnnotation xmlns="">F_D_UFK10REPAYMENT</dsvNameAnnotation>
+            </Value>
+          </Annotation>
+          <Annotation>
+            <Name>controlblock</Name>
+            <Value>
+              <controlblock updatemode="CreateOrReplace" readfromfile="True" xmlns="" />
+            </Value>
+          </Annotation>
+        </Annotations>
+        <Source xsi:type="DataSourceViewBinding">
+          <DataSourceViewID>DV</DataSourceViewID>
+        </Source>
+        <Language>1049</Language>
+        <Collation>Cyrillic_General_CI_AS</Collation>
+        <UnknownMemberName>Unknown</UnknownMemberName>
+        <Attributes>
+          <Attribute>
+            <ID>ID</ID>
+            <Name>ID</Name>
+            <Description>Ключевой аттрибут измерения</Description>
+            <Usage>Key</Usage>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10REPAYMENT</TableID>
+                  <ColumnID>ID</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10REPAYMENT</TableID>
+                <ColumnID>ID</ColumnID>
+              </Source>
+            </NameColumn>
+            <AttributeRelationships>
+              <AttributeRelationship>
+                <AttributeID>уровень_Возвраты и зачеты</AttributeID>
+                <Name>уровень_Возвраты и зачеты</Name>
+              </AttributeRelationship>
+            </AttributeRelationships>
+            <OrderBy>Key</OrderBy>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>уровень_Возвраты и зачеты</ID>
+            <Name>уровень_Возвраты и зачеты</Name>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10REPAYMENT</TableID>
+                  <ColumnID>ID</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10REPAYMENT</TableID>
+                <ColumnID>ID</ColumnID>
+              </Source>
+            </NameColumn>
+            <AttributeRelationships>
+              <AttributeRelationship>
+                <AttributeID>За период</AttributeID>
+                <Name>За период</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Номер документа</AttributeID>
+                <Name>Номер документа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Дата документа</AttributeID>
+                <Name>Дата документа</Name>
+              </AttributeRelationship>
+              <AttributeRelationship>
+                <AttributeID>Сумма предъявленная</AttributeID>
+                <Name>Сумма предъявленная</Name>
+              </AttributeRelationship>
+            </AttributeRelationships>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>За период</ID>
+            <Name>За период</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10REPAYMENT</TableID>
+                  <ColumnID>FORPERIOD</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10REPAYMENT</TableID>
+                <ColumnID>FORPERIOD</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Номер документа</ID>
+            <Name>Номер документа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>WChar</DataType>
+                <DataSize>30</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10REPAYMENT</TableID>
+                  <ColumnID>DOCNUMBER</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>30</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10REPAYMENT</TableID>
+                <ColumnID>DOCNUMBER</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Дата документа</ID>
+            <Name>Дата документа</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Date</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10REPAYMENT</TableID>
+                  <ColumnID>DOCDATE</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10REPAYMENT</TableID>
+                <ColumnID>DOCDATE</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+          <Attribute>
+            <ID>Сумма предъявленная</ID>
+            <Name>Сумма предъявленная</Name>
+            <Type>Person</Type>
+            <KeyColumns>
+              <KeyColumn>
+                <DataType>Double</DataType>
+                <DataSize>-1</DataSize>
+                <Source xsi:type="ColumnBinding">
+                  <TableID>F_D_UFK10REPAYMENT</TableID>
+                  <ColumnID>SUMMP</ColumnID>
+                </Source>
+              </KeyColumn>
+            </KeyColumns>
+            <NameColumn>
+              <DataType>WChar</DataType>
+              <DataSize>-1</DataSize>
+              <Source xsi:type="ColumnBinding">
+                <TableID>F_D_UFK10REPAYMENT</TableID>
+                <ColumnID>SUMMP</ColumnID>
+              </Source>
+            </NameColumn>
+            <MembersWithDataCaption>(* ДАННЫЕ)</MembersWithDataCaption>
+            <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+          </Attribute>
+        </Attributes>
+        <AttributeAllMemberName>Все</AttributeAllMemberName>
+        <Hierarchies>
+          <Hierarchy>
+            <ID>2cb777af-a037-4ce4-9fa5-7964732514a6</ID>
+            <Name>УФК__Налогоплательщики Возвраты</Name>
+            <AllMemberName>Все</AllMemberName>
+            <AllowDuplicateNames>false</AllowDuplicateNames>
+            <Levels>
+              <Level>
+                <ID>Возвраты и зачеты</ID>
+                <Name>Возвраты и зачеты</Name>
+                <SourceAttributeID>уровень_Возвраты и зачеты</SourceAttributeID>
+              </Level>
+            </Levels>
+          </Hierarchy>
+        </Hierarchies>
+        <ProactiveCaching>
+          <SilenceInterval>-PT1S</SilenceInterval>
+          <Latency>-PT1S</Latency>
+          <SilenceOverrideInterval>-PT1S</SilenceOverrideInterval>
+          <ForceRebuildInterval>-PT1S</ForceRebuildInterval>
+          <Source xsi:type="ProactiveCachingInheritedBinding" />
+        </ProactiveCaching>
+      </Dimension>
+    </ObjectDefinition>
+  </Alter>
+  
+</Batch>

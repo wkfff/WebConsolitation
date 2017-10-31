@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cube method="Add" name="ФСТ_ЖКХ по МО_Форма 22ЖКХ" ClassType="9" SubClassType="0" Description="Данные по оплате жилищно-коммунальных услуг населением." DataSource="dv" OlapMode="0" DefaultMeasure="" AggregationPrefix="" EstimatedRows="1" IsVisible="true" ProcessOptimizationMode="0" ProcessingKeyErrorLimit="0" AllowDrillThrough="false" FactTableSize="1">
+  <property name="SourceTable"><![CDATA["DV"."F_FTS_FORM22GKH"]]></property>
+  <property name="SourceTableAlias"><![CDATA["DV"."F_FTS_FORM22GKH"]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <property name="Where"><![CDATA[]]></property>
+  <property name="FromClause"><![CDATA["DV"."F_FTS_FORM22GKH", "DV"."DATASOURCES", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_FTS_SERVICES22GKH", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FTS_GKHORG", "DV"."D_FTS_FORM22INDEX", "DV"."DV_FTS_OLAPLOADDATE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."F_FTS_FORM22GKH"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFSERVICE22GKH"="DV"."D_FTS_SERVICES22GKH"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFDATE"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFGKHORG"="DV"."D_FTS_GKHORG"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFFORM22INDEX"="DV"."D_FTS_FORM22INDEX"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFPUMPDATE"="DV"."DV_FTS_OLAPLOADDATE"."ID")]]></property>
+  <property name="ProcessingKeyErrorLogFileName"><![CDATA[]]></property>
+  <property name="DrillThroughColumns"><![CDATA[]]></property>
+  <property name="DrillThroughFrom"><![CDATA[]]></property>
+  <property name="DrillThroughJoins"><![CDATA[]]></property>
+  <property name="DrillThroughFilter"><![CDATA[]]></property>
+  <property name="FactTable"><![CDATA["DV"."F_FTS_FORM22GKH"]]></property>
+  <CustomProperties>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DATASOURCES}{DV.DATASOURCES}{115}{3765}{2475}{940}{1})({dv}{DV.FX_DATE_YEARDAYUNV}{DV.FX_DATE_YEARDAYUNV}{2205}{4575}{2580}{940}{1})({dv}{DV.D_TERRITORY_RF}{DV.D_TERRITORY_RF}{3300}{4605}{2625}{940}{1})({dv}{DV.B_TERRITORY_RFBRIDGE}{DV.B_TERRITORY_RFBRIDGE}{3315}{8040}{2865}{910}{1})({dv}{DV.D_FTS_GKHORG}{DV.D_FTS_GKHORG}{4380}{4605}{2640}{910}{1})({dv}{DV.D_FTS_FORM22INDEX}{DV.D_FTS_FORM22INDEX}{5400}{4590}{2670}{940}{1})({dv}{DV.D_FTS_SERVICES22GKH}{DV.D_FTS_SERVICES22GKH}{1185}{4575}{2535}{925}{1})({dv}{DV.F_FTS_FORM22GKH}{DV.F_FTS_FORM22GKH}{1560}{465}{2790}{2915}{1})({dv}{DV.DV_FTS_OLAPLOADDATE}{DV.DV_FTS_OLAPLOADDATE}{6495}{3915}{2520}{925}{1})]]></Property>
+    <Property name="FullName" datatype="8"><![CDATA[f.FTS.Form22GKH]]></Property>
+    <Property name="SubClass" datatype="8"><![CDATA[ВВОД]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[52af4325-9a3c-4ba4-95d5-1405e7bcbd31]]></Property>
+    <Property name="MeasureGroupID" datatype="8"><![CDATA[2daafb78-a4bf-467c-ae2a-35ddfee590aa]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[a9b555ff-265b-4708-b0ec-1a0976d0673e]]></Property>
+  </CustomProperties>
+  <DataSources>
+    <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+      </CustomProperties>
+    </DataSource>
+  </DataSources>
+  <CubeDimensions>
+    <CubeDimension method="Add" name="Период.Год Квартал Месяц" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="1">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Период" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."FX_DATE_YEARDAYUNV"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.РФ" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="2">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_TERRITORY_RF"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Территории.Сопоставимый" ClassType="11" SubClassType="2" AggregationUsage="0" IsVisible="true" Num="3">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все территории]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Территория" ClassType="12" SubClassType="2" EnableAggregations="true" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."B_TERRITORY_RFBRIDGE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="Источники данных" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="4">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все источники данных]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Источник" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DATASOURCES"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ФСТ.Организации ЖКХ" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="5">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все организации]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Организация" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FTS_GKHORG"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ФСТ.Показатели Формы 22ЖКХ" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="6">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Показатель" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FTS_FORM22INDEX"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ФСТ.Услуги ЖКХ по форме 22" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="7">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Все услуги]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Услуга ЖКХ" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."D_FTS_SERVICES22GKH"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+    <CubeDimension method="Add" name="ФСТ.Дата загрузки информации" ClassType="11" SubClassType="0" AggregationUsage="0" IsVisible="true" Num="8">
+      <CubeLevels>
+        <CubeLevel method="Update" name="(All)" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA[Данные всех периодов]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Год" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_FTS_OLAPLOADDATE"."DATEYEARID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="Месяц" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_FTS_OLAPLOADDATE"."DATEMONTHID"]]></property>
+        </CubeLevel>
+        <CubeLevel method="Update" name="День" ClassType="12" SubClassType="0" EnableAggregations="true" IsDisabled="false" IsVisible="true">
+          <property name="CustomRollUpExpression"><![CDATA[]]></property>
+          <property name="MemberKeyColumn"><![CDATA["DV"."DV_FTS_OLAPLOADDATE"."ID"]]></property>
+        </CubeLevel>
+      </CubeLevels>
+    </CubeDimension>
+  </CubeDimensions>
+  <CubeMeasures>
+    <CubeMeasure method="Add" name="Значение" ClassType="10" SubClassType="0" Description="" IsVisible="true" SourceColumnType="5" AggregateFunction="0" FormatString="Standard" Num="1">
+      <property name="SourceColumn"><![CDATA["DV"."F_FTS_FORM22GKH"."VALUE"]]></property>
+    </CubeMeasure>
+  </CubeMeasures>
+  <CubeRoles />
+  <CubeCommands>
+    <CubeCommand method="Add" name="АгрПоПериоду" ClassType="13" SubClassType="0" Description="" CommandType="5">
+      <property name="Statement"><![CDATA[CREATE CELL CALCULATION CURRENTCUBE.[АгрПоПериоду] FOR '({[Measures].[Значение]})' AS 'IIF ([Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Полугодие" or [Период].[Год Квартал Месяц].CurrentMember.Level.Name = "Год",
+  IIF(IsEmpty(([Период].[Год Квартал Месяц].CurrentMember.DataMember)),
+    IIF(IsEmpty(([Период].[Год Квартал Месяц].CurrentMember.LastChild)),
+      ([Период].[Год Квартал Месяц].CurrentMember.LastChild.PrevMember),
+      ([Период].[Год Квартал Месяц].CurrentMember.LastChild)),
+    ([Период].[Год Квартал Месяц].CurrentMember.DataMember)) ,
+Sum([Период].[Год Квартал Месяц].CurrentMember.Children))', CONDITION = 'not IsLeaf([Период].[Год Квартал Месяц].CurrentMember)']]></property>
+    </CubeCommand>
+  </CubeCommands>
+  <Partitions>
+    <Partition method="Add" name="ФСТ_ЖКХ по МО_Форма 22ЖКХ" ClassType="19" SubClassType="0" Description="" OlapMode="0" AggregationPrefix="ФСТ_ЖКХпоМО_Форма22ЖКХ_ФСТ_ЖКХпоМО_Форма22ЖКХ_" EstimatedRows="1" IsReadWrite="false">
+      <property name="SourceTable"><![CDATA["DV"."F_FTS_FORM22GKH"]]></property>
+      <property name="SourceTableAlias"><![CDATA["DV"."F_FTS_FORM22GKH"]]></property>
+      <property name="SourceTableFilter"><![CDATA[]]></property>
+      <property name="FromClause"><![CDATA["DV"."F_FTS_FORM22GKH", "DV"."DATASOURCES", "DV"."D_TERRITORY_RF", "DV"."B_TERRITORY_RFBRIDGE", "DV"."D_FTS_SERVICES22GKH", "DV"."FX_DATE_YEARDAYUNV", "DV"."D_FTS_GKHORG", "DV"."D_FTS_FORM22INDEX", "DV"."DV_FTS_OLAPLOADDATE"]]></property>
+      <property name="JoinClause"><![CDATA[("DV"."F_FTS_FORM22GKH"."SOURCEID"="DV"."DATASOURCES"."ID") AND ("DV"."D_TERRITORY_RF"."REFBRIDGE"="DV"."B_TERRITORY_RFBRIDGE"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFSERVICE22GKH"="DV"."D_FTS_SERVICES22GKH"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFDATE"="DV"."FX_DATE_YEARDAYUNV"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFTERRITORY"="DV"."D_TERRITORY_RF"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFGKHORG"="DV"."D_FTS_GKHORG"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFFORM22INDEX"="DV"."D_FTS_FORM22INDEX"."ID") AND ("DV"."F_FTS_FORM22GKH"."REFPUMPDATE"="DV"."DV_FTS_OLAPLOADDATE"."ID")]]></property>
+      <property name="DrillThroughColumns"><![CDATA[]]></property>
+      <property name="DrillThroughFilter"><![CDATA[]]></property>
+      <property name="DrillThroughFrom"><![CDATA[]]></property>
+      <property name="DrillThroughJoins"><![CDATA[]]></property>
+      <CustomProperties>
+        <Property name="ID" datatype="8"><![CDATA[d1f6d80c-976e-48af-a493-6297cf18acbc]]></Property>
+        <Property name="ObjectKey" datatype="8"><![CDATA[a9b555ff-265b-4708-b0ec-1a0976d0673e]]></Property>
+      </CustomProperties>
+      <DataSources>
+        <DataSource method="Add" name="dv" ClassType="6" SubClassType="0">
+          <CustomProperties>
+            <Property name="ID" datatype="8"><![CDATA[af4c64e8-2b41-4fab-a1fa-acd52b27625e]]></Property>
+          </CustomProperties>
+        </DataSource>
+      </DataSources>
+      <Aggregations />
+    </Partition>
+  </Partitions>
+</Cube>

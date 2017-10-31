@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FNS_0001_0001_date">
+    <![CDATA[
+  with
+member Measures.[ДанныеНа] as '<%period_dimension%>.CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail      
+    (
+        NonEmptyCrossjoin
+        (
+            OpeningPeriod    
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2010]
+            ) : ClosingPeriod    
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2012]
+            )
+        )
+    ) on rows
+from [<%cube_name%>]
+  ]]>
+  </query>
+
+  <query id="FNS_0001_0001">
+    <![CDATA[
+-- FNS_0001_0001_iphone
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+select
+    {
+        Measures.[Недоимка на начало года],
+        Measures.[Недоимка на текущий месяц],
+        Measures.[Прирост недоимки],
+        Measures.[Прирост недоимки %]
+    } on columns
+from [ФНС_28н_без расщепления]
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_split">
+    <![CDATA[
+-- FNS_0001_0001_iphone_split
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+    member [Уровни бюджетов].[В консолидированный бюджет]
+    as '[Уровни бюджетов].[Все уровни].[Конс.бюджет субъекта]'
+    member [Уровни бюджетов].[В бюджет субъекта]
+    as '[Уровни бюджетов].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта]'
+    member [Уровни бюджетов].[В местные бюджеты]
+    as '[Уровни бюджетов].[Все уровни].[Конс.бюджет субъекта].[Конс.бюджет МО]'
+    member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+    as 'Aggregate   
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            }   
+        )'   
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ]
+    as 'Aggregate
+        (
+            {
+                Filter
+                (
+                    <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].Children,
+                    not
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember
+                    ) and
+                    (
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010700000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010800000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010900000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011000000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011200000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011700000000000000")
+                    )
+                )
+            }
+        )'
+        
+select
+    {
+        Measures.[Недоимка на начало года],
+        Measures.[Недоимка на текущий месяц],
+        Measures.[Прирост недоимки],
+        Measures.[Прирост недоимки %]
+    } on columns,
+    {
+        [Уровни бюджетов].[В консолидированный бюджет],
+        [Уровни бюджетов].[В бюджет субъекта],
+        [Уровни бюджетов].[В местные бюджеты]
+    } on rows
+from [ФНС_28н_с расщеплением]
+where 
+(
+   <%kd_group%>,
+   [Районы].[Сопоставимый].[Все районы]
+)
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5
+select
+    {[Measures].[С начала года] } on columns,
+    non empty TopCount 
+    (
+        Descendants 
+        (
+          [Районы].[Сопоставимый].[Все районы],
+          <%regions_level%>,
+          SELF
+        ),
+        <%top_regions_count%>,
+        [Measures].[С начала года]   
+    ) on rows
+from [ФНС_28н_без расщепления]    
+where    
+    (
+        [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>  
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_split">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_split
+with
+    member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+    as 'Aggregate   
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            }   
+        )'  
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ]
+    as 'Aggregate
+        (
+            {
+                Filter
+                (
+                    <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].Children,
+                    not
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember
+                    ) and
+                    (
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010700000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010800000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010900000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011000000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011200000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011700000000000000")
+                    )
+                )
+            }
+        )'     
+select
+    {[Measures].[С начала года] } on columns,
+    non empty TopCount 
+    (
+        Descendants 
+        (
+          [Районы].[Сопоставимый].[Все районы],
+          <%regions_level%>,
+          SELF
+        ),
+        <%top_regions_count%>,
+        [Measures].[С начала года]   
+    ) on rows
+from [ФНС_28н_с расщеплением]   
+where    
+    (
+        [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Конс.бюджет МО],
+        <%kd_group%>
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_V">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_V
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+select
+    {Measures.[Недоимка на текущий месяц],Measures.[Прирост недоимки %] } on columns,
+    non empty TopCount 
+    (
+        <%custom_filter%>,
+        <%top_regions_count%>,
+        Measures.[Недоимка на текущий месяц]
+    ) on rows
+from [ФНС_28н_без расщепления]    
+where    
+    (
+        [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>  
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_V_split">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_V_split
+  
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+    member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+    as 'Aggregate   
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            }   
+        )'     
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ]
+    as 'Aggregate
+        (
+            {
+                Filter
+                (
+                    <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].Children,
+                    not
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember
+                    ) and
+                    (
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010700000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010800000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010900000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011000000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011200000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011700000000000000")
+                    )
+                )
+            }
+        )'   
+select
+    {Measures.[Недоимка на текущий месяц],Measures.[Прирост недоимки %] } on columns,
+    non empty TopCount 
+    (
+        <%custom_filter%>,
+        <%top_regions_count%>,
+        Measures.[Недоимка на текущий месяц]
+    ) on rows
+from [ФНС_28н_с расщеплением]    
+where    
+    (
+        [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%filter%>
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_H">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_H
+     
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+    member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+    as 'Aggregate   
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            }   
+        )'       
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ]
+    as 'Aggregate
+        (
+            {
+                Filter
+                (
+                    <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].Children,
+                    not
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember
+                    ) and
+                    (
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010700000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010800000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010900000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011000000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011200000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011700000000000000")
+                    )
+                )
+            }
+        )'                 
+select
+    {
+      Measures.[Недоимка на начало года],
+      Measures.[Недоимка на текущий месяц],
+      Measures.[Прирост недоимки],
+      Measures.[Прирост недоимки %]
+    } on columns,
+    non empty TopCount 
+    (
+        <%custom_filter%>,
+        <%top_regions_count%>,
+        Measures.[Недоимка на текущий месяц]
+    ) on rows
+from [ФНС_28н_без расщепления]  
+where    
+    (
+        [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%filter%>
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_H_split">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_H_split
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+    member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+    as 'Aggregate   
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            }   
+        )'          
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ]
+    as 'Aggregate
+        (
+            {
+                Filter
+                (
+                    <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].Children,
+                    not
+                    (
+                        <%incomes_kd_dimension%>.CurrentMember is <%incomes_kd_dimension%>.CurrentMember.Parent.DataMember
+                    ) and
+                    (
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010700000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010800000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00010900000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011000000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011100000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011200000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011300000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011400000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011500000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011600000000000000") or
+                        (<%incomes_kd_dimension%>.CurrentMember.Properties("Код") = "00011700000000000000")
+                    )
+                )
+            }
+        )'         
+select
+    {
+      Measures.[Недоимка на начало года],
+      Measures.[Недоимка на текущий месяц],
+      Measures.[Прирост недоимки],
+      Measures.[Прирост недоимки %]
+    } on columns,
+    non empty TopCount 
+    (
+        <%custom_filter%>,
+        <%top_regions_count%>,
+        Measures.[Недоимка на текущий месяц]
+    ) on rows
+from [ФНС_28н_с расщеплением]   
+where    
+    (
+        [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%filter%>
+    )
+]]>
+  </query>
+
+</root>

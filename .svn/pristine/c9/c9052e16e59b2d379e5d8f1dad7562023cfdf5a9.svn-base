@@ -1,0 +1,39 @@
+﻿<RegionSettings>
+  <!--
+  // тип документа СКИФ для консолидированного бюджета субъекта
+  ConsolidateBudgetDocumentSKIFType,
+  // тип документа СКИФ для районов
+  RegionBudgetDocumentSKIFType,
+  // уровень бюджета СКИФ для уровня районов
+  RegionBudgetSKIFLevel,
+  // тип документа СКИФ для местных бюджетов
+  LocalBudgetDocumentSKIFType,
+  // уровень бюджета СКИФ для местных бюджетов
+  LocalBudgetSKIFLevel,  
+  // выводить ранги для темпа роста
+  GrowRateRanking,
+  // начальный год для выбора в параметре
+  BeginPeriodYear,  
+  // видимость ссылки на отчет с диаграммой из той же группы
+  ChartReportLinkVisible,    
+  -->
+  <Region id="HMAO">
+    <ConsolidateBudgetDocumentSKIFType>[ТипДокумента].[СКИФ].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов]</ConsolidateBudgetDocumentSKIFType>
+    <RegionBudgetDocumentSKIFType>[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов и районов (5+7+10)]</RegionBudgetDocumentSKIFType>
+    <RegionBudgetSKIFLevel>
+          Aggregate
+          (
+            {
+              [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет района],
+              [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения],
+              [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет гор.округа]
+            }
+          )
+    </RegionBudgetSKIFLevel>
+    <LocalBudgetDocumentSKIFType>[ТипДокумента].[СКИФ].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов]</LocalBudgetDocumentSKIFType>
+    <LocalBudgetSKIFLevel>[Уровни бюджета].[СКИФ].[Все].[Конс.бюджет МО]</LocalBudgetSKIFLevel>
+    <GrowRateRanking>false</GrowRateRanking>
+    <BeginPeriodYear>2008</BeginPeriodYear>
+    <ChartReportLinkVisible>False</ChartReportLinkVisible>
+  </Region>
+</RegionSettings>

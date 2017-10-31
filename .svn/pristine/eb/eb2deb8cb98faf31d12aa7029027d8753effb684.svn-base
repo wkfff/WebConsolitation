@@ -1,0 +1,51 @@
+CALCULATE;
+
+                              SCOPE([Расходы__Сопоставимый].[Расходы__Сопоставимый].members);
+                              this = CalculationPassValue(
+                              IIF(not isEmpty([Расходы__Сопоставимый].[Расходы__Сопоставимый].CurrentMember.DataMember),
+                              [Расходы__Сопоставимый].[Расходы__Сопоставимый].CurrentMember.DataMember,
+                              CalculationPassValue(Sum(descendants([Расходы__Сопоставимый].[Расходы__Сопоставимый].CurrentMember, 1), [Measures].CurrentMember), 2)
+                              )
+                              ,
+                              1);
+                              END SCOPE;
+
+
+
+                              /*
+                              SCOPE([Расходы__Сопоставимый].[Расходы__Сопоставимый].members);
+                              this =
+                              IIF(not isEmpty([Расходы__Сопоставимый].[Расходы__Сопоставимый].CurrentMember.DataMember),
+                              [Расходы__Сопоставимый].[Расходы__Сопоставимый].CurrentMember.DataMember,
+                              Sum(descendants([Расходы__Сопоставимый].[Расходы__Сопоставимый].CurrentMember, 1), [Measures].CurrentMember)
+                              )
+                              ;
+                              END SCOPE;
+*/
+                              SCOPE([Расходы__Сопоставимый].[Расходы__Сопоставимый].[Все]);
+                              this =
+
+                              Sum(descendants([Расходы__Сопоставимый].[Расходы__Сопоставимый].CurrentMember, 1), [Measures].CurrentMember);
+                              END SCOPE;
+                              
+
+                              /*
+
+                              SCOPE([Уровни бюджетов].[Уровни бюджетов].members);
+                              this =
+                              IIF(isLeaf([Уровни бюджетов].[Уровни бюджетов].CurrentMember),
+                              [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+                              Sum(descendants([Уровни бюджетов].[Уровни бюджетов].CurrentMember, 1), [Measures].CurrentMember)
+                              )
+                              ;
+                              END SCOPE;
+                              */
+
+                              SCOPE(descendants([Уровни бюджетов].[Уровни бюджетов].[Все]));
+                              this =
+                              IIF(isLeaf([Уровни бюджетов].[Уровни бюджетов].CurrentMember),
+                              [Уровни бюджетов].[Уровни бюджетов].CurrentMember,
+                              Sum([Уровни бюджетов].[Уровни бюджетов].CurrentMember.Children, [Measures].CurrentMember)
+                              )
+                              ;
+                              END SCOPE;

@@ -1,0 +1,13 @@
+CALCULATE;
+
+CREATE CELL CALCULATION CURRENTCUBE.[Задолженность_] FOR '({[Measures].[Задолженность]})' AS [Период__Период].[Период__Период].CurrentMember.LastChild, CONDITION = '[Период__Период].[Период__Период].CurrentMember.level.Name = "Год" or [Период__Период].[Период__Период].CurrentMember.level.Name = "Полугодие" or [Период__Период].[Период__Период].CurrentMember.level.Name = "Квартал"';
+
+CREATE CELL CALCULATION CURRENTCUBE.[Просроченная_] FOR '({[Measures].[Просроченная задолженность]})' AS [Период__Период].[Период__Период].CurrentMember.LastChild, CONDITION = '[Период__Период].[Период__Период].CurrentMember.level.Name = "Год" or [Период__Период].[Период__Период].CurrentMember.level.Name = "Полугодие" or [Период__Период].[Период__Период].CurrentMember.level.Name = "Квартал"';
+
+CREATE CELL CALCULATION CURRENTCUBE.[ТипДокументаСКИФ20] FOR '({[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Фиксированный].&[20]})' AS [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[10] + [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[7] + [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[5], CONDITION = '[Measures].currentMember is [Measures].[Задолженность] or [Measures].currentMember is [Measures].[Просроченная задолженность] or [Measures].currentMember is [Measures].[Год возникновения]';
+
+CREATE CELL CALCULATION CURRENTCUBE.[ТипДокументаСКИФ21] FOR '({[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Фиксированный].&[21]})' AS [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[5] + [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[7] + [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[6]+ [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[8], CONDITION = '[Measures].currentMember is [Measures].[Задолженность] or [Measures].currentMember is [Measures].[Просроченная задолженность] or [Measures].currentMember is [Measures].[Год возникновения]';
+
+CREATE CELL CALCULATION CURRENTCUBE.[ТипДокументаСКИФ10] FOR '({[ТипДокумента__СКИФ].[ТипДокумента__СКИФ].[Фиксированный].&[10]})' AS [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[8] + [ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[6], CONDITION = '(CalculationPassValue([ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[10], 0) = 0 and [Measures].currentMember is [Measures].[Задолженность]) or 
+(CalculationPassValue([ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[10], 0) = 0 and [Measures].currentMember is [Measures].[Просроченная задолженность]) or
+ (CalculationPassValue([ТипДокумента__СКИФ].[ТипДокумента__СКИФ].&[10], 0) = 0 and [Measures].currentMember is [Measures].[Год возникновения])';

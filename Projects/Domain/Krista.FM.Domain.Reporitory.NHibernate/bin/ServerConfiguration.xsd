@@ -1,0 +1,1712 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!-- edited with XMLSpy v2010 rel. 2 (http://www.altova.com) by Krista (Ru-Board) -->
+<xs:schema xmlns="xmluml" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="xmluml" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:simpleType name="DBName">
+		<xs:annotation>
+			<xs:documentation>Имя в БД</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NCName">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="26"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VersionType">
+		<xs:annotation>
+			<xs:documentation>Версия</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{1,9}(\.\d{1,9}){0,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DBMSVendorType">
+		<xs:annotation>
+			<xs:documentation>Тип СУБД</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NCName">
+			<xs:enumeration value="Oracle"/>
+			<xs:enumeration value="FireBird"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DataSourceParametersTypes">
+		<xs:restriction base="xs:NCName">
+			<xs:enumeration value="ГодФинорган"/>
+			<xs:enumeration value="ГодМесяц"/>
+			<xs:enumeration value="ГодМесяцВариант"/>
+			<xs:enumeration value="ГодВариант"/>
+			<xs:enumeration value="Год"/>
+			<xs:enumeration value="ГодКвартал"/>
+			<xs:enumeration value="ГодТерритория"/>
+			<xs:enumeration value="ГодКварталМесяц"/>
+			<xs:enumeration value="БезПараметров"/>
+			<xs:enumeration value="Вариант"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ClassEnumType">
+		<xs:restriction base="xs:NCName">
+			<xs:enumeration value="f"/>
+			<xs:enumeration value="d"/>
+			<xs:enumeration value="fx"/>
+			<xs:enumeration value="b"/>
+			<xs:enumeration value="t"/>
+			<xs:enumeration value="r"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DocumentEnumType">
+		<xs:restriction base="xs:NCName">
+			<xs:enumeration value="DocumentEntityDiagram"/>
+			<xs:enumeration value="Diagram"/>
+			<xs:enumeration value="URL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="AttributeAttributes">
+		<xs:annotation>
+			<xs:documentation>Атрибуты атрибутов</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="objectKey" type="xs:string" use="required"/>
+		<xs:attribute name="name" type="DBName" use="required"/>
+		<xs:attribute name="caption" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="DBFieldTypeEnum" use="required"/>
+		<xs:attribute name="size" type="xs:nonNegativeInteger" use="optional" default="0"/>
+		<xs:attribute name="scale" type="xs:nonNegativeInteger" use="optional" default="0"/>
+		<xs:attribute name="default" type="xs:string" use="optional"/>
+		<xs:attribute name="divide" type="xs:string" use="optional"/>
+		<xs:attribute name="mask" type="xs:string" use="optional"/>
+		<xs:attribute name="nullable" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="stringIdentifier" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="isDocumentAttribute" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+		<xs:attribute name="lookupObject" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="5"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="lookupAttribute" type="DBName" use="optional"/>
+		<xs:attribute name="visible" type="xs:boolean" use="optional" default="true"/>
+		<xs:attribute name="class" type="xs:string" use="optional"/>
+		<xs:attribute name="kind" type="xs:string" use="optional"/>
+		<xs:attribute name="lookupType" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:enumeration value="0"/>
+					<xs:enumeration value="1"/>
+					<xs:enumeration value="2"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="isReadOnly" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="position" type="xs:integer" use="optional"/>
+		<xs:attribute name="groupParentAttribute" type="xs:string" use="optional"/>
+		<xs:attribute name="positionCalc" type="xs:string" use="optional"/>
+		<xs:attribute name="groupTags" type="xs:string" use="optional"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="AssociationAttributes">
+		<xs:annotation>
+			<xs:documentation>Атрибуты ассоциаций</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="DBName" use="required">
+			<xs:annotation>
+				<xs:documentation>Наименование аттрибута-ссылки</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="shortName" type="DBName" use="optional">
+			<xs:annotation>
+				<xs:documentation>Укороченное наименование аттрибута-ссылки используется для сокращений в базе данных</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="caption" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Русское наименование ассоциации</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+		<xs:attribute name="mask" type="xs:string" use="optional"/>
+		<xs:attribute name="visible" type="xs:boolean" use="optional" default="true"/>
+		<xs:attribute name="lookupAttribute" type="DBName" use="optional"/>
+		<xs:attribute name="isReadOnly" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="position"/>
+		<xs:attribute name="groupTags"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="RoleAttributes">
+		<xs:annotation>
+			<xs:documentation>Атрибуты роли в ассоциации</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+		<xs:attribute name="package" type="xs:string" use="optional"/>
+		<xs:attribute name="class" type="ClassEnumType" use="required"/>
+		<xs:attribute name="semantic" type="DBName" use="required"/>
+		<xs:attribute name="name" type="DBName" use="required"/>
+		<xs:attribute name="multiplicity" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="0..1"/>
+					<xs:enumeration value="0..*"/>
+					<xs:enumeration value="1..1"/>
+					<xs:enumeration value="1..*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="default" type="xs:integer" use="optional"/>
+	</xs:attributeGroup>
+	<xs:simpleType name="DBFieldTypeEnum">
+		<xs:annotation>
+			<xs:documentation>Тип поля в БД</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NCName">
+			<xs:enumeration value="ftInteger"/>
+			<xs:enumeration value="ftDouble"/>
+			<xs:enumeration value="ftChar"/>
+			<xs:enumeration value="ftString"/>
+			<xs:enumeration value="ftBoolean"/>
+			<xs:enumeration value="ftDate"/>
+			<xs:enumeration value="ftDateTime"/>
+			<xs:enumeration value="ftBLOB"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="ClassAttribetes">
+		<xs:annotation>
+			<xs:documentation>Аттрибуты классов</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="semantic" type="DBName" use="required"/>
+		<xs:attribute name="name" type="DBName" use="required">
+			<xs:annotation>
+				<xs:documentation>Английское имя объекта. Используется для идентификации и в БД</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="shortName" type="DBName" use="optional"/>
+		<xs:attribute name="caption" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Русское наименорание объекта. Используется в кубах и в интерфейсе</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="shortCaption" type="xs:string" use="optional"/>
+		<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+		<xs:attribute name="fixed" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Признак определяющий где хданится объект в БД: в фиксированной части или в универсальной</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="VersionType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Версия объекта. В общем случае должна соответствовать версии системы</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="changed" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Признак определяющий был ли объект изменен пользователем</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="description" type="xs:string" use="optional"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="ClassAtributesDoc">
+		<xs:annotation>
+			<xs:documentation>Дополнительные атрибуты класса для документации</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="fullDBName" type="xs:string" use="required"/>
+		<xs:attribute name="semanticCaption" type="xs:string" use="required"/>
+		<xs:attribute name="tablePrefix" type="xs:string" use="required"/>
+	</xs:attributeGroup>
+	<xs:element name="ServerConfiguration">
+		<xs:annotation>
+			<xs:documentation>Корневой элемент</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Repository" type="RepositoryType">
+					<xs:annotation>
+						<xs:documentation>Конфигурация репозитория сервера</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Scheme">
+					<xs:annotation>
+						<xs:documentation>Описание схемы</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="SchemeType">
+								<xs:attribute name="version" type="VersionType" use="required"/>
+								<xs:attribute name="name" type="xs:string" use="required"/>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Package" type="PackageType">
+					<xs:annotation>
+						<xs:documentation>Описание пакета схемы</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FixedValues">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Data">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Values" type="ValuesType"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Semantics">
+					<xs:annotation>
+						<xs:documentation>Семантическая принадлежность классификаторов</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Semantic" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Семантический элемент</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="name" type="DBName" use="required"/>
+									<xs:attribute name="caption" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Parameters">
+					<xs:annotation>
+						<xs:documentation>Список параметров схемы</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Parameter" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Параметр</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="name" type="DBName" use="required">
+										<xs:annotation>
+											<xs:documentation>Имя параметра</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+									<xs:attribute name="value" type="xs:string" use="required">
+										<xs:annotation>
+											<xs:documentation>Значение параметра</xs:documentation>
+										</xs:annotation>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ParameterChecks">
+					<xs:annotation>
+						<xs:documentation>Описание корректности параметров</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Check" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Value" type="xs:string" minOccurs="0"/>
+										<xs:element name="ErrorMessage" type="xs:string"/>
+									</xs:sequence>
+									<xs:attribute name="parametr" type="xs:string" use="required"/>
+									<xs:attribute name="class" type="xs:string" use="required"/>
+									<xs:attribute name="invalid" type="xs:boolean"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Suppliers" type="Suppliers">
+					<xs:annotation>
+						<xs:documentation>Описание поступающей информации</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DatabaseConfiguration">
+		<xs:annotation>
+			<xs:documentation>Корневой элемент для метаданных хранимых в базе данных</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="FixedCls" type="FixedClsType"/>
+				<xs:element name="BridgeCls" type="BridgeClsType"/>
+				<xs:element name="DataCls" type="DataClsType"/>
+				<xs:element name="DataTable" type="DataTableType"/>
+				<xs:element name="Table" type="TableType"/>
+				<xs:element name="DocumentEntity" type="DocumentEntityType"/>
+				<xs:element name="Data2Bridge" type="Classifier2BridgeType"/>
+				<xs:element name="Reference" type="Data2ClassifierType"/>
+				<xs:element name="MasterDetail" type="Data2ClassifierType"/>
+				<xs:element name="Attribute">
+					<xs:complexType>
+						<xs:attributeGroup ref="AttributeAttributes"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Package" type="PackageType"/>
+				<xs:element name="Document">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="DocumentType">
+								<xs:choice>
+									<xs:element name="Diagram" type="DiagramType"/>
+								</xs:choice>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Presentation" type="PresentationType"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="RepositoryType">
+		<xs:sequence>
+			<xs:element name="Schemes">
+				<xs:annotation>
+					<xs:documentation>Набор схем репозитория</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Scheme" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Схема</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="privatePath" type="xs:string" use="required"/>
+								<xs:attribute name="startupType" default="Auto">
+									<xs:simpleType>
+										<xs:restriction base="xs:NCName">
+											<xs:enumeration value="Auto"/>
+											<xs:enumeration value="Manual"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="version" type="xs:string" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="SchemeType">
+		<xs:sequence>
+			<xs:element name="DWH" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Хранилище данных</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ConnectionString">
+							<xs:annotation>
+								<xs:documentation>UDL строка подключения к базе данных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="vendor" type="DBMSVendorType" use="required"/>
+					<xs:attribute name="provider" type="xs:Name" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MDStore" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Многомерная база данных</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ConnectionString">
+							<xs:annotation>
+								<xs:documentation>UDL строка подключения к базе данных</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="server" type="xs:string" use="required"/>
+					<xs:attribute name="catalog" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Archive" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Архивные папки</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="path" type="xs:string" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DataSources" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описание источников данных</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="path" type="xs:string" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Semantics" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Семантическая принадлежность классификаторов</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Semantic" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Семантический элемент</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="name" type="DBName" use="required"/>
+								<xs:attribute name="caption" type="xs:string" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Packages">
+				<xs:annotation>
+					<xs:documentation>Набор пакетов схемы</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Package" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Пакет</xs:documentation>
+								<xs:documentation>Пакет</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="privatePath" type="xs:string" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Tasks" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Task" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Actions">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="Action" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:attribute name="name" type="xs:NCName" use="required"/>
+														<xs:attribute name="type" use="required">
+															<xs:simpleType>
+																<xs:restriction base="xs:NCName">
+																	<xs:enumeration value="Create"/>
+																	<xs:enumeration value="Modify"/>
+																	<xs:enumeration value="Delete"/>
+																	<xs:enumeration value="ChangeState"/>
+																	<xs:enumeration value="Request"/>
+																	<xs:enumeration value="Accept"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="States">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="State" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:attribute name="name" type="xs:NCName" use="required"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="name" type="xs:NCName" use="required"/>
+								<xs:attribute name="parent" type="xs:NCName" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PackageType">
+		<xs:annotation>
+			<xs:documentation>Структура пакета</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="Packages" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Package" type="PackageType" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Classes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описания UML классов </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="FixedCls" type="FixedClsType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Фиксированный классификатор</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="FixedClsDoc" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="BridgeCls" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Сопоставимый классификатор</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="BridgeClsType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element ref="BridgeClsDoc" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="DataCls" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Классификатор данных</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="DataClsType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element ref="DataClsDoc" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="DataTable" type="DataTableType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Таблица данны (факты)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="DataTableDoc" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="Table" type="TableType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Сущность "Деталь"</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="TableDoc" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="DocumentEntity" type="DocumentEntityType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Сущность "Табличный документ"</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="DocumentEntityDoc" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Associations" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описания ассоциаций между классами</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="Reference" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Связи данных с классификатором данных</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="Data2ClassifierType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Data2Bridge" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Связь сопоставления классификатора данных</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="Classifier2BridgeType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="MasterDetail" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Связи данных с классификатором данных</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="Data2ClassifierType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Documents" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Коллекция диаграмм и документов</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="Document">
+							<xs:annotation>
+								<xs:documentation>Диаграммы, документы, ссылки и пр.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="DocumentType">
+										<xs:sequence minOccurs="0">
+											<xs:element name="DeveloperDescription" minOccurs="0"/>
+											<xs:choice>
+												<xs:element name="Diagram" type="DiagramType"/>
+												<xs:element name="DocumentURL" type="DocumentURLType"/>
+											</xs:choice>
+										</xs:sequence>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="privatePath" type="xs:string"/>
+		<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+		<xs:attribute name="description" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="BridgeClsType">
+		<xs:annotation>
+			<xs:documentation>Описание сопоставимого классификатора</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="Attributes">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Facts" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список таблиц фактов в которых косвенно(через классификатор данных) используется денный сопоставимый</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Fact" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attribute name="name" type="DBName" use="required">
+									<xs:annotation>
+										<xs:documentation>Полное наименование таблицы фактов</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Presentations" type="Presentations" minOccurs="0"/>
+			<xs:element name="Hierarchy" type="HierarchyType" minOccurs="0"/>
+			<xs:element name="MacroSet" minOccurs="0"/>
+			<xs:element name="UniqueKeyList" type="UniqueKeyList" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="ClassAttribetes"/>
+		<xs:attribute name="dataSourceKinds" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Список доступных видов поступающей информации </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="FixedClsType">
+		<xs:annotation>
+			<xs:documentation>Фиксированный классификатор</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="Attributes">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Hierarchy" type="HierarchyType" nillable="true" minOccurs="0"/>
+			<xs:element name="MacroSet" minOccurs="0"/>
+			<xs:element name="Data" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="File">
+							<xs:complexType>
+								<xs:attribute name="privatePath" type="xs:string" use="required"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Values" type="ValuesType"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="ClassAttribetes"/>
+	</xs:complexType>
+	<xs:complexType name="ValuesType">
+		<xs:annotation>
+			<xs:documentation>Значения фиксированного классификатора</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Row" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Column" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attribute name="name" type="DBName" use="required"/>
+								<xs:attribute name="value" type="xs:string" use="optional"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="id" type="xs:integer" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataClsType">
+		<xs:annotation>
+			<xs:documentation>Описание классификатора данных</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="Attributes">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Presentations" type="Presentations" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Коллекция представлений у классификатора данных</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Hierarchy" type="HierarchyType" nillable="true" minOccurs="0"/>
+			<xs:element name="MacroSet" minOccurs="0"/>
+			<xs:element name="Data" minOccurs="0">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="File">
+							<xs:complexType>
+								<xs:attribute name="privatePath" type="xs:string" use="required"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Values" type="ValuesType"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UniqueKeyList" type="UniqueKeyList" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="ClassAttribetes"/>
+		<xs:attribute name="takeMethod" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ИМПОРТ"/>
+					<xs:enumeration value="ИМПОРТ-ВВОД"/>
+					<xs:enumeration value="ВВОД"/>
+					<xs:enumeration value=""/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="dataSourceParameter" type="DataSourceParametersTypes" use="optional"/>
+		<xs:attribute name="dataSourceKinds" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Список доступных видов поступающей информации </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DataTableType">
+		<xs:annotation>
+			<xs:documentation>Описание таблицы данных</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="Attributes">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Presentations" type="Presentations" minOccurs="0"/>
+			<xs:element name="MacroSet" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="ClassAttribetes"/>
+		<xs:attribute name="takeMethod" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ИМПОРТ"/>
+					<xs:enumeration value="ИМПОРТ-ВВОД"/>
+					<xs:enumeration value="ВВОД"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="dataSourceParameter" type="DataSourceParametersTypes" use="optional"/>
+		<xs:attribute name="dataSourceKinds" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Список доступных видов поступающей информации </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="TableType">
+		<xs:annotation>
+			<xs:documentation>Онисание сущности "Таблица данных"</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="Attributes">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MacroSet" minOccurs="0"/>
+			<xs:element name="UniqueKeyList" type="UniqueKeyList" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="ClassAttribetes"/>
+	</xs:complexType>
+	<xs:complexType name="DocumentEntityType">
+		<xs:annotation>
+			<xs:documentation>Онисание сущности "Табличный документ"</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="Attributes">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="RefAttribute" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="AttributeType">
+										<xs:attribute name="sourceEntityKey" type="xs:string" use="required"/>
+										<xs:attribute name="sourceEntityAttributeKey" type="xs:string" use="required"/>
+									</xs:extension>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MacroSet" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="ClassAttribetes"/>
+	</xs:complexType>
+	<xs:complexType name="HierarchyType">
+		<xs:annotation>
+			<xs:documentation>Описание типа иерархии классификатора</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Regular">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Level" maxOccurs="20">
+							<xs:complexType>
+								<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+								<xs:attribute name="name" type="xs:string" use="optional"/>
+								<xs:attribute name="memberKey" type="DBName" use="optional"/>
+								<xs:attribute name="memberName" type="DBName" use="optional"/>
+								<xs:attribute name="all" type="xs:string" use="optional"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="allLevelName" type="xs:NCName" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ParentChild">
+				<xs:complexType>
+					<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+					<xs:attribute name="memberKey" type="DBName" use="required"/>
+					<xs:attribute name="memberName" type="DBName" use="required"/>
+					<xs:attribute name="parentKey" type="DBName" use="required"/>
+					<xs:attribute name="allLevelName" type="xs:string" use="optional"/>
+					<xs:attribute name="levelNamingTemplate" type="xs:string" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="AllHidden">
+			<xs:annotation>
+				<xs:documentation>ALL - фиктивный</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Classifier2BridgeType">
+		<xs:annotation>
+			<xs:documentation>Связь сопоставления классификатора данных с сопоставимым классификатором</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="RoleData">
+				<xs:annotation>
+					<xs:documentation>Классификатор данных</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="RoleAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RoleBridge">
+				<xs:annotation>
+					<xs:documentation>Сопоставимый классификатор</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="RoleAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Mappings" type="AttributesMappingsType" minOccurs="0"/>
+			<xs:element name="BridgeMappings" minOccurs="0">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="BridgeMappingsType">
+							<xs:attribute name="associateRuleDefault" type="xs:string" use="optional">
+								<xs:annotation>
+									<xs:documentation>Правило сопоставления, используемое по умолчанию.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="AssociationAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="Data2ClassifierType">
+		<xs:annotation>
+			<xs:documentation>Связь данных с классификатором данных</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+			<xs:element name="RoleData">
+				<xs:annotation>
+					<xs:documentation>Данные</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="RoleAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RoleBridge">
+				<xs:annotation>
+					<xs:documentation>Классификатор данных</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attributeGroup ref="RoleAttributes"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="AssociationAttributes"/>
+		<xs:attribute name="memberProperty" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>true - по ассоциации не строится измерение, ссылка отображается как MemberProperty со значением атрибута lookupAttribute</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="AttributesMappingsType">
+		<xs:sequence>
+			<xs:element name="Mapping" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="objectKey" type="xs:string"/>
+					<xs:attribute name="from" type="DBName" use="required"/>
+					<xs:attribute name="to" type="DBName" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OperatorType">
+		<xs:sequence>
+			<xs:element name="Param" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Operator" type="OperatorType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="name" type="DBName" use="required"/>
+					<xs:attribute name="bind" type="DBName"/>
+					<xs:attribute name="value" type="DBName"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="DBName" use="required"/>
+		<xs:attribute name="bind" type="DBName"/>
+	</xs:complexType>
+	<xs:complexType name="MapValueType">
+		<xs:sequence>
+			<xs:element name="Operator" type="OperatorType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+		<xs:attribute name="name" type="DBName" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="BridgeMappingsType">
+		<xs:sequence>
+			<xs:element name="BridgeMapping" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Mapping" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Data" type="MapValueType"/>
+									<xs:element name="Bridge" type="MapValueType"/>
+								</xs:sequence>
+								<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+								<xs:attribute name="relevant" use="optional" default="100">
+									<xs:simpleType>
+										<xs:restriction base="xs:integer">
+											<xs:minInclusive value="0"/>
+											<xs:maxInclusive value="100"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+					<xs:attribute name="name" type="xs:string" use="optional"/>
+					<xs:attribute name="conversionTable" type="xs:boolean" use="optional" default="false"/>
+					<xs:attribute name="fieldCoincidence" type="xs:boolean" use="optional" default="false"/>
+					<xs:attribute name="addNew" type="xs:boolean" use="optional" default="false"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DataSourcesConfiguration">
+		<xs:annotation>
+			<xs:documentation>Корневой элемент для настройки источников</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Suppliers">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Supplier" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DataKind" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="name" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Наименование поступающей информации</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="code" use="required">
+													<xs:annotation>
+														<xs:documentation>Регистрационный номер поступающей информации. 4 цифры</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="4"/>
+															<xs:maxLength value="4"/>
+															<xs:pattern value="\d\d\d\d"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="takeMethod" use="required">
+													<xs:simpleType>
+														<xs:restriction base="xs:NCName">
+															<xs:enumeration value="ИМПОРТ"/>
+															<xs:enumeration value="СБОР"/>
+															<xs:enumeration value="ВВОД"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="paramKind" type="xs:string" use="required"/>
+												<xs:attribute name="description" type="xs:string" use="optional"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="name" use="required">
+										<xs:annotation>
+											<xs:documentation>Код поставщика. Текстовый идентификатор</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:NCName">
+												<xs:maxLength value="11"/>
+												<xs:minLength value="2"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+									<xs:attribute name="description" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Requests">
+		<xs:annotation>
+			<xs:documentation>Запрос для обратной записи</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Request" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Часть запроса для записи отдельного показателя</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Schema">
+								<xs:annotation>
+									<xs:documentation>Описание запроса</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="AttributeType" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Описание атрибута</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="name" type="xs:string" use="required">
+													<xs:annotation>
+														<xs:documentation>Наименование алиаса в строке данных</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="type" use="required">
+													<xs:annotation>
+														<xs:documentation>Тип атрибута</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:NCName">
+															<xs:enumeration value="member"/>
+															<xs:enumeration value="total"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="fullname" use="required">
+													<xs:annotation>
+														<xs:documentation>Полное наименование объекта</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="totalName">
+													<xs:annotation>
+														<xs:documentation>Русское наименование показателя</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Data">
+								<xs:annotation>
+									<xs:documentation>Данные для записи</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Row" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Строка данных</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attribute name="c0" use="required"/>
+												<xs:attribute name="c1"/>
+												<xs:attribute name="c2"/>
+												<xs:attribute name="c3"/>
+												<xs:attribute name="c4"/>
+												<xs:attribute name="c5"/>
+												<xs:attribute name="c6"/>
+												<xs:attribute name="c7"/>
+												<xs:attribute name="c8"/>
+												<xs:attribute name="c9"/>
+												<xs:attribute name="c10"/>
+												<xs:attribute name="c11"/>
+												<xs:attribute name="c12"/>
+												<xs:attribute name="c13"/>
+												<xs:attribute name="c14"/>
+												<xs:attribute name="c15"/>
+												<xs:attribute name="c16"/>
+												<xs:attribute name="c17"/>
+												<xs:attribute name="c18"/>
+												<xs:attribute name="c19"/>
+												<xs:attribute name="c20"/>
+												<xs:attribute name="c21"/>
+												<xs:attribute name="c22"/>
+												<xs:attribute name="c23"/>
+												<xs:attribute name="c24"/>
+												<xs:attribute name="c25"/>
+												<xs:attribute name="c26"/>
+												<xs:attribute name="c27"/>
+												<xs:attribute name="c28"/>
+												<xs:attribute name="c29"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="id" type="xs:integer" use="required">
+							<xs:annotation>
+								<xs:documentation>Уникальный идентификатор подзапроса</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="taskID" type="xs:integer" use="required">
+				<xs:annotation>
+					<xs:documentation>Идентификатор задачи в контексте которой будет выполняться запрос</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ProcessCube" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Признак необходимости рассчета куба после обратной записи</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DocumentType">
+		<xs:annotation>
+			<xs:documentation>Контейнер для диаграмм, документов и ссылок</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="DocumentEnumType" use="required"/>
+		<xs:attribute name="objectKey" type="xs:string" use="optional"/>
+		<xs:attribute name="description"/>
+	</xs:complexType>
+	<xs:complexType name="DocumentURLType">
+		<xs:annotation>
+			<xs:documentation>Ссылка на внешний файл</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="DiagramType">
+		<xs:annotation>
+			<xs:documentation>Структура для хранения диаграмм классов</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DiagramOptions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="Zoom" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Symbols">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="EntitySymbol" type="EntitySymbolType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="LinkSymbol" type="LinkSymbolType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="TextSymbol" type="TextSymbolType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="AnchorSymbol" type="AnchorType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="RectangleSymbol" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="PolylineSymbol" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AnchorType">
+		<xs:sequence>
+			<xs:element name="ID"/>
+			<xs:element name="CreationDate" minOccurs="0"/>
+			<xs:element name="ModificationDate" minOccurs="0"/>
+			<xs:element name="Rect"/>
+			<xs:element name="LineColor"/>
+			<xs:element name="LineWidth"/>
+			<xs:element name="ListOfPoints"/>
+			<xs:element name="ParentID"/>
+			<xs:element name="ChildID"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LinkSymbolType">
+		<xs:sequence>
+			<xs:element name="ID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор элемента диграммы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CreationDate" minOccurs="0"/>
+			<xs:element name="ModificationDate" minOccurs="0"/>
+			<xs:element name="Rect"/>
+			<xs:element name="ArrowStyle" minOccurs="0"/>
+			<xs:element name="LineColor"/>
+			<xs:element name="LineWidth"/>
+			<xs:element name="ListOfPoints"/>
+			<xs:element name="ShadowColor" minOccurs="0"/>
+			<xs:element name="Object">
+				<xs:annotation>
+					<xs:documentation>Ключ серверного объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SourceSymbol" minOccurs="0"/>
+			<xs:element name="DestinationSymbol" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EntitySymbolType">
+		<xs:sequence>
+			<xs:element name="ID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор элемента диграммы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CreationDate" minOccurs="0"/>
+			<xs:element name="ModificationDate" minOccurs="0"/>
+			<xs:element name="Rect"/>
+			<xs:element name="TextStyle" minOccurs="0"/>
+			<xs:element name="LineColor"/>
+			<xs:element name="DashStyle" minOccurs="0"/>
+			<xs:element name="LineWidth" minOccurs="0"/>
+			<xs:element name="FillColor"/>
+			<xs:element name="IsShadow" minOccurs="0"/>
+			<xs:element name="IsStereotype" minOccurs="0"/>
+			<xs:element name="ShadowColor" minOccurs="0"/>
+			<xs:element name="FontName"/>
+			<xs:element name="SuppressAttributes" minOccurs="0"/>
+			<xs:element name="FontColor" minOccurs="0"/>
+			<xs:element name="Visible" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Видимость объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SQLExpression" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Видимость SQL-выражения у объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Object">
+				<xs:annotation>
+					<xs:documentation>Ключ серверного объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PresentationType">
+		<xs:annotation>
+			<xs:documentation>Структура для хранения представлений объекта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PresentationAttributes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Коллекция атрибутов представления</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PresentationAttribute" type="PresentationAttribute" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PresentationAttributesReference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Коллекция ссылок представления</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PresentationAttributeReference" type="PresentationAttributeReference" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PresentationHierarchy" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="levelNamingTemplate" type="xs:string"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="objectKey" use="required"/>
+		<xs:attribute name="name" use="required"/>
+		<xs:attribute name="isReadOnly">
+			<xs:annotation>
+				<xs:documentation>"Только для чтения"</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="PresentationAttribute">
+		<xs:annotation>
+			<xs:documentation>Структура для хранения атрибутов представления</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="objectKey" use="required"/>
+		<xs:attribute name="size"/>
+		<xs:attribute name="scale"/>
+		<xs:attribute name="mask"/>
+		<xs:attribute name="divide"/>
+		<xs:attribute name="visible"/>
+		<xs:attribute name="caption"/>
+		<xs:attribute name="position"/>
+		<xs:attribute name="lookupType">
+			<xs:annotation>
+				<xs:documentation>Определяет тип лукап атрибута.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="groupTags">
+			<xs:annotation>
+				<xs:documentation>Тэги для группировки атрибута</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="isReadOnly">
+			<xs:annotation>
+				<xs:documentation>"Только для чтения"</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="nullable"/>
+	</xs:complexType>
+	<xs:complexType name="PresentationAttributeReference">
+		<xs:annotation>
+			<xs:documentation>Структура для хранения атрибутов-ссылок представления</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="objectKey" use="required"/>
+		<xs:attribute name="visible"/>
+		<xs:attribute name="caption"/>
+		<xs:attribute name="position"/>
+		<xs:attribute name="lookupType"/>
+		<xs:attribute name="groupTags">
+			<xs:annotation>
+				<xs:documentation>Тэги для группировки атрибута</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="isReadOnly">
+			<xs:annotation>
+				<xs:documentation>Признак представления "Только для чтения"</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="nullable"/>
+	</xs:complexType>
+	<xs:complexType name="Presentations">
+		<xs:annotation>
+			<xs:documentation>Структура для хранения коллекции представлений</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Presentation" type="PresentationType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="default" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="AttributeType">
+		<xs:sequence>
+			<xs:element name="DeveloperDescription" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="AttributeAttributes"/>
+	</xs:complexType>
+	<xs:element name="TableDoc">
+		<xs:annotation>
+			<xs:documentation>Таблица  для документации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="TableType">
+					<xs:sequence>
+						<xs:element name="AssociationsCls" type="AssociationsClsType" nillable="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Ассоциации классификатора</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AssociatedCls" type="AssociatedClsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attributeGroup ref="ClassAtributesDoc"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataTableDoc">
+		<xs:annotation>
+			<xs:documentation>Таблица фактов для документации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="DataTableType">
+					<xs:sequence>
+						<xs:element name="AssociationsCls" type="AssociationsClsType" nillable="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Ассоциации классификатора</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AssociatedCls" type="AssociatedClsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attributeGroup ref="ClassAtributesDoc"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DocumentEntityDoc">
+		<xs:annotation>
+			<xs:documentation>Табличный документ для документации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="DocumentEntityType">
+					<xs:sequence>
+						<xs:element name="AssociationsCls" type="AssociationsClsType" minOccurs="0"/>
+						<xs:element name="AssociatedCls" type="AssociatedClsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attributeGroup ref="ClassAtributesDoc"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataClsDoc">
+		<xs:annotation>
+			<xs:documentation>Классификатор данных для документации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="DataClsType">
+					<xs:sequence>
+						<xs:element name="AssociationsCls" type="AssociationsClsType" nillable="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Ассоциации классификатора</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AssociatedCls" type="AssociatedClsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attributeGroup ref="ClassAtributesDoc"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BridgeClsDoc">
+		<xs:annotation>
+			<xs:documentation>Сопоставимый классификатор для документации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="BridgeClsType">
+					<xs:sequence>
+						<xs:element name="AssociationsCls" type="AssociationsClsType" nillable="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Ассоциации классификатора</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AssociatedCls" type="AssociatedClsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attributeGroup ref="ClassAtributesDoc"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FixedClsDoc">
+		<xs:annotation>
+			<xs:documentation>Фиксированный классификатор для документации</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="FixedClsType">
+					<xs:sequence>
+						<xs:element name="AssociationsCls" type="AssociationsClsType" nillable="true" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Ассоциации классификатора</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="AssociatedCls" type="AssociatedClsType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attributeGroup ref="ClassAtributesDoc"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="AssociationsClsType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="AssociationCls" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="RoleBCls" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="objectKey" type="xs:string"/>
+								<xs:attribute name="typeClsRoleB" type="xs:string"/>
+								<xs:attribute name="fullCaptionRoleB" type="xs:string"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+					<xs:attribute name="caption" type="xs:string" use="optional"/>
+					<xs:attribute name="associationType" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>Тип ассоциации</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="fullCaption" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Suppliers">
+		<xs:annotation>
+			<xs:documentation>Поставщики данных</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="Supplier" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="DataKind" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attribute name="code" use="required"/>
+								<xs:attribute name="name" use="required"/>
+								<xs:attribute name="takeMethod"/>
+								<xs:attribute name="paramKind"/>
+								<xs:attribute name="description"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="name" use="required"/>
+					<xs:attribute name="description"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AssociatedClsType">
+		<xs:sequence minOccurs="0">
+			<xs:element name="AssociateCls" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="RoleACls" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="objectKey" type="xs:string"/>
+								<xs:attribute name="typeClsRoleA" type="xs:int"/>
+								<xs:attribute name="fullCaptionRoleA" type="xs:string"/>
+								<xs:attribute name="fullNameRoleA" type="xs:string"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="name" type="xs:string" use="required"/>
+					<xs:attribute name="caption" type="xs:string"/>
+					<xs:attribute name="associationType" type="xs:integer" use="required"/>
+					<xs:attribute name="fullCaption" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TextSymbolType">
+		<xs:sequence>
+			<xs:element name="ID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор элемента диграммы</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CreationDate" minOccurs="0"/>
+			<xs:element name="ModificationDate" minOccurs="0"/>
+			<xs:element name="Rect"/>
+			<xs:element name="LineColor" minOccurs="0"/>
+			<xs:element name="FillColor" minOccurs="0"/>
+			<xs:element name="FontName"/>
+			<xs:element name="Text"/>
+			<xs:element name="FontColor" minOccurs="0"/>
+			<xs:element name="IsFormatted" minOccurs="0"/>
+			<xs:element name="AssociateKey" minOccurs="0"/>
+			<xs:element name="Visible" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Видимость объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Object" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ключ серверного объекта</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssociateID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ключ ассоциации на диаграмме</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UniqueKeyList">
+		<xs:annotation>
+			<xs:documentation>Уникальные ключи</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="UniqueKey">
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="Field">
+							<xs:complexType>
+								<xs:attribute name="name" type="DBName" use="required"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="objectKey" type="xs:string" use="required"/>
+					<xs:attribute name="caption" type="xs:string" use="optional"/>
+					<xs:attribute name="hashable" type="xs:boolean" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

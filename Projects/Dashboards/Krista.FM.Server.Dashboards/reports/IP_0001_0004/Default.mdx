@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="IP_0001_0004_project">
+    <![CDATA[ -- IP_0001_0004_project
+      select ipr.ID, ipr.Code, ipr.Name
+      from d_InvProject_Reestr ipr
+      where ipr.RefStatus = 2 and ipr.RefPart = 2
+    ]]>
+  </query>
+
+  <query id="IP_0001_0004_grid1">
+    <![CDATA[ -- IP_0001_0004_grid1
+      select
+      i_pr.Code, i_pr.Name, t_rf.Name as Terr, i_pr.InvestorName, i_pr.LegalAddress, i_pr.MailingAddress, i_pr.Email, i_pr.Phone, i_pr.Contact,
+      i_pr.Goal, ' ' as TEP, i_pr.ExpectedOutput, i_pr.Production, i_pr.PaybackPeriod,
+      i_pr.Study, i_pr.Effect, o_o.Name as OKVED
+      from
+      d_InvProject_Reestr i_pr, d_Territory_RF t_rf, d_OK_OKVED o_o
+      where
+      i_pr.RefTerritory = t_rf.ID and i_pr.RefOKVED = o_o.ID and i_pr.ID = <%project_id%>
+    ]]>
+  </query>
+</root>

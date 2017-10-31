@@ -1,0 +1,50 @@
+﻿<RegionSettings>
+  <!--
+  // тип документа СКИФ для консолидированного уровня
+  ConsolidateDocumentSKIFType,
+  // тип документа СКИФ для уровня районов
+  ConsolidateDocumentSKIFType
+  // загрузка карты из бинарика
+  MapLoadFromBin,
+  // уровень бюджета СКИФ для уровня районов
+  RegionBudgetSKIFLevel,
+  // имя папки с картами региона
+  MapFolderName,  
+  // пропорция карты
+  MapSizeProportion,
+  // масштаб карты
+  MapZoomValue,
+  // сдвиг по вертикали текста городов-выносок карты
+  MapCalloutOffsetY 
+  -->
+  <Region id="HMAO">
+    <ConsolidateDocumentSKIFType>[ТипДокумента].[СКИФ].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов]</ConsolidateDocumentSKIFType>
+    <RegionDocumentSKIFType>[ТипДокумента].[СКИФ].[Все].[Данные конс. отчета субъекта в разрезе городов и районов (5+7+10)]</RegionDocumentSKIFType>
+    <MapFolderName>ХМАО</MapFolderName>
+    <MapLoadFromBin>false</MapLoadFromBin>
+    <RegionBudgetSKIFLevel>
+          Aggregate
+          (
+            {
+              [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет района],
+              [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет поселения],
+              [Уровни бюджета__СКИФ].[Уровни бюджета__СКИФ].[Все].[Бюджет гор.округа]
+            }
+          )
+    </RegionBudgetSKIFLevel>
+    <MapSizeProportion>0,7</MapSizeProportion>
+    <MapZoomValue>100</MapZoomValue>
+    <MapCalloutOffsetY>0,55</MapCalloutOffsetY>
+  </Region>
+  <Region id="Yaroslavl">
+	  <ConsolidateDocumentSKIFType>[ТипДокумента].[СКИФ].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов]</ConsolidateDocumentSKIFType>
+	  <RegionDocumentSKIFType>[ТипДокумента].[СКИФ].[Данные конс. отчета субъекта в разрезе городов, районов и поселений (5+6+7+8)]</RegionDocumentSKIFType>
+	  <MapFolderName>Ярослобл</MapFolderName>
+	  <MapLoadFromBin>false</MapLoadFromBin>
+	  <RegionBudgetSKIFLevel> [Уровни бюджета].[СКИФ].[Бюджет гор.округа, мун.района и поселения] </RegionBudgetSKIFLevel>
+	  <MapSizeProportion>0,7</MapSizeProportion>
+	  <MapZoomValue>100</MapZoomValue>
+	  <MapCalloutOffsetY>0,5</MapCalloutOffsetY>
+	  <AVGIncomesCompareType>МО</AVGIncomesCompareType>
+	</Region>
+</RegionSettings>

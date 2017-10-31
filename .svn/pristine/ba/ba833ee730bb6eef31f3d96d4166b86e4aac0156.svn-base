@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="EO_0001_0002_Sakhalin_date">
+    <![CDATA[
+	-- EO_0001_0002_Sakhalin_date
+with
+    member [Measures].[ДанныеНа]
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                [Период__Период].[Период__Период].[Год],
+                not IsEmpty
+                (
+                   [Measures].[Факт]
+                )
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from    [ЭО_Сбор исполнения расходов_Финансирование ЦП]
+    ]]>
+  </query>
+
+
+  <query id="EO_0001_0002_Sakhalin_Customers">
+    <![CDATA[
+	-- EO_0001_0002_Sakhalin_Customers
+with            
+    set [Заказчики]
+    as 'Filter  
+        (
+            {
+                [Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].[Все заказчики],
+                [Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].[Все заказчики].children
+            } ,
+            StrToValue   
+            (
+                [Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].CurrentMember.Properties("MEMBER_KEY")   
+            ) >= 0 
+            and not IsEmpty([Measures].[Факт])
+        )'   
+    member [Measures].[Имя]            
+    as ' [Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].CurrentMember.Name'     
+    member [Measures].[Уникальное имя]            
+    as ' [Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].CurrentMember.UniqueName'    
+    member [Measures].[Уровень]            
+    as '0--[Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].CurrentMember.properties("Level_number")'
+select
+    {
+         [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень]            
+    } on columns,
+    [Заказчики]   on rows
+from  [ЭО_Сбор исполнения расходов_Финансирование ЦП]    
+where (<%Mo%> )
+    ]]>
+  </query>
+  <query id="EO_0001_0002_Sakhalin_Territory">
+    <![CDATA[
+	-- EO_0001_0002_Sakhalin_Territory
+  with
+    set [Территории]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Территории__РФ].[Территории__РФ].[Все территории].[Российская Федерация],
+                [Территории__РФ].[Территории__РФ].[МР ГО],
+                Self
+            ),
+            not [Территории__РФ].[Территории__РФ].CurrentMember is [Территории__РФ].[Территории__РФ].CurrentMember.parent.DataMember
+            and not IsEmpty([Measures].[Факт])
+        )'
+    member [Measures].[Имя]
+    as ' [Территории__РФ].[Территории__РФ].CurrentMember.Name'
+    member [Measures].[Уникальное имя]
+    as '  [Территории__РФ].[Территории__РФ].CurrentMember.UniqueName'
+    member [Measures].[Уровень]
+    as '0'
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень]
+    } on columns,
+    [Территории]   on rows
+from  [ЭО_Сбор исполнения расходов_Финансирование ЦП]
+    ]]>
+  </query>
+  <query id="EO_0001_0002_Sakhalin_Period">
+    <![CDATA[
+	-- EO_0001_0002_Sakhalin_Period
+with   
+    set [Периоды]   
+    as 'Filter   
+        (
+            Generate   
+            (
+                {
+                    [Период__Период].[Период__Период].[Данные всех периодов].[2008] : [Период__Период].[Период__Период].[Данные всех периодов].[2020]   
+                },
+                {
+                    [Период__Период].[Период__Период].CurrentMember   
+                } +  Descendants   
+                (
+                    [Период__Период].[Период__Период].CurrentMember,
+                    [Период__Период].[Период__Период].[Месяц],
+                    SELF   
+                )   
+            ),
+            not IsEmpty ( [Measures].[Факт] )and [Measures].[Факт] <> 0 and not   
+            (
+                [Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].CurrentMember.Parent.DataMember   
+            ) and StrToValue   
+            (
+                [Период__Период].[Период__Период].CurrentMember.Properties("MEMBER_KEY")   
+            ) > 0   
+        )'   
+    member [Measures].[Месяц]
+    as 'IIF
+        (
+            [Период__Период].[Период__Период].CurrentMember.Name <> "Январь",
+            "январь - " + LCase([Период__Период].[Период__Период].CurrentMember.Name)  ,
+            "январь"
+        )'    
+    member [Measures].[Имя]  
+    as 'IIF  
+        (
+             [Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Год],
+            [Период__Период].[Период__Период].CurrentMember.Name + " год",
+            [Measures].[Месяц] + " " +[Период__Период].[Период__Период].CurrentMember.Parent.Parent.Parent.Name + " года" 
+        )    '  
+    member [Measures].[Уникальное имя]   
+    as '[Период__Период].[Период__Период].CurrentMember.UniqueName'   
+    member [Measures].[Уровень]   
+    as 'IIF   
+        (
+            [Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Год],
+            0,
+            1   
+        )'   
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень]   
+    } on columns,
+    [Периоды]   on rows   
+from  [ЭО_Сбор исполнения расходов_Финансирование ЦП]      
+where (<%Mo%>)
+    ]]>
+  </query>
+  <query id="EO_0001_0002_Sakhalin_grid">
+    <![CDATA[
+		-- EO_0001_0002_Sakhalin_grid
+    	WITH     
+    SET  [NonFilterColumnSet]  
+    AS '    
+        {
+            Measures.[Имя заказчика],
+            Measures.[Имя программы],
+            Measures.[План не пустой],
+            Measures.[факт не пустой],
+            Measures.[% исполнения],
+            Measures.[ранг]
+        }'    
+    SET [NonFilterRowSet]     
+    AS ' Filter     
+        (
+            {
+               <%Customers%>    
+            }     
+            *     
+            {
+                Descendants     
+                (
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы],
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы].Level,
+                    AFTER     
+                )     
+            } ,
+            not IsEmpty([Measures].[План])     
+        )'     
+    member Measures.[План ]     
+    as '    
+        (
+            <%period_year%>,
+            [Measures].[План]    
+        )'     
+        member Measures.[Факт ]          
+        as 'sum
+        (
+            <%period_year%>.[Полугодие 1].[Квартал 1].[Январь] : <%period_quater%>,
+            [Measures].[Факт]          
+        )'    
+        member Measures.[факт не пустой]   
+    as 'IIF   
+        (
+            IsEmpty(Measures.[Факт ]),
+            0,
+            (
+                Measures.[Факт ],
+                [Источники данных].[Источники данных].[Slicer]   
+            )
+        )'   
+    member Measures.[План не пустой]  
+    as 'IIF  
+        (
+            IsEmpty(Measures.[План ]),
+            0,
+            Measures.[План ]  
+        )'  
+    member Measures.[% исполнения] 
+    as 'IIF  
+        (
+            isEmpty(Measures.[План ]) or isEmpty(Measures.[факт ]) or (Measures.[План ] = 0),
+            0,
+            Measures.[факт ] / Measures.[План ]  
+        )'  
+    member Measures.[ранг]   
+    as 'Rank     
+        (
+            [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].currentmember,
+            Filter     
+            (
+                {
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы].children     
+                } ,
+                not IsEmpty([Measures].[План])     
+            )     
+        )-1'     
+    member Measures.[Имя заказчика]     
+    as '[Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].currentmember.name'     
+    member Measures.[Имя программы]     
+    as '[Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].currentmember.name'     
+ member [Источники данных].[Источники данных].[Slicer] 
+              as 'aggregate([Источники данных].[Источники данных].[Все источники данных].[ЭО Сбор ЦП - Первоначальные данные],
+                    [Источники данных].[Источники данных].[Все источники данных].[ЭО Сбор ЦП - Фактические значения] )'
+SELECT
+    NON EMPTY   { [NonFilterColumnSet] } ON COLUMNS ,
+    NON EMPTY { {  [NonFilterRowSet]  } } ON ROWS     
+FROM [ЭО_Сбор исполнения расходов_Финансирование ЦП]     
+WHERE     
+    (
+       [Исполнение расходов__Типы программ].[Исполнение расходов__Типы программ].[Все типы программ].[Муниципальная целевая программа],
+       <%Mo%>
+      
+    )     
+    
+    
+    ]]>
+  </query>
+  <query id="EO_0001_0002_Sakhalin_Top5Min">
+    <![CDATA[ 
+    --EO_0001_0002_Sakhalin_Top5Min
+with                    
+    SET [NonFilterRowSet]                
+    AS ' Filter                
+        (
+            {
+               [Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].[Все заказчики].children                   
+            }                
+            *                
+            {
+                Descendants                
+                (
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы],
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы].Level,
+                    AFTER                
+                )                
+            } ,
+            not IsEmpty([% исполнения])            
+              )'
+              member Measures.[План ]
+                as '
+                (
+                <%period_year%>,
+                [Measures].[План]
+                )'
+              member Measures.[Факт ]          
+                as 'sum
+                (
+                    <%period_year%>.[Полугодие 1].[Квартал 1].[Январь] : <%period_quater%>,
+                    [Measures].[Факт]          
+                )'    
+              member Measures.[факт фильтрованный]
+              as ' (
+                    Measures.[факт ],
+                    [Источники данных].[Источники данных].[Slicer]
+                   )'
+    member [% исполнения]         
+    as 'IIF         
+        (
+            isEmpty(Measures.[План ]) and isEmpty(Measures.[факт фильтрованный]),
+            null,
+            IIF     
+            (
+                (
+                    isEmpty(Measures.[План ]) or isEmpty(Measures.[факт фильтрованный]) or Measures.[План ] = 0     
+                ),
+                0 ,
+               Measures.[факт фильтрованный] / Measures.[План ]    
+            )
+        )' 
+              set [Top min]
+              as 'Head
+              (
+              Order
+              (
+              [NonFilterRowSet],
+              [% исполнения]  ,
+              BASC
+              ),
+              5
+              )'
+              member Measures.[Имя заказчика]     
+              as '[Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].currentmember.name'     
+              member Measures.[Имя программы]     
+              as '[Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].currentmember.name'  
+              member [Источники данных].[Источники данных].[Slicer] 
+              as 'aggregate([Источники данных].[Источники данных].[Все источники данных].[ЭО Сбор ЦП - Первоначальные данные],
+                    [Источники данных].[Источники данных].[Все источники данных].[ЭО Сбор ЦП - Фактические значения] )'
+              select
+              { 
+              Measures.[Имя заказчика],
+              Measures.[Имя программы],
+              [% исполнения]} on columns ,
+              { [Top min] }  on rows
+              from    [ЭО_Сбор исполнения расходов_Финансирование ЦП]
+              where
+              (
+             
+              [Исполнение расходов__Типы программ].[Исполнение расходов__Типы программ].[Все типы программ].[Муниципальная целевая программа],
+              <%Mo%> 
+              )      
+              ]]>
+  </query>
+
+  <query id="EO_0001_0002_Sakhalin_Top5Max">
+    <![CDATA[ 
+    --EO_0001_0002_Sakhalin_Top5Max
+with                    
+    SET [NonFilterRowSet]                
+    AS ' Filter                
+        (
+            {
+               [Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].[Все заказчики].children                   
+            }                
+            *                
+            {
+                Descendants                
+                (
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы],
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы].Level,
+                    AFTER                
+                )                
+            } ,
+            not IsEmpty([% исполнения])            
+              )'
+            member Measures.[План ]
+              as '
+              (
+              <%period_year%>,
+              [Measures].[План]
+              )'
+              member Measures.[Факт ]          
+                as 'sum
+                (
+                    <%period_year%>.[Полугодие 1].[Квартал 1].[Январь] : <%period_quater%>,
+                    [Measures].[Факт]          
+                )'    
+              member Measures.[факт фильтрованный]
+              as ' ( Measures.[факт ],
+                     [Источники данных].[Источники данных].[Slicer])'
+    member [% исполнения]
+    as 'IIF
+        (
+            isEmpty(Measures.[План ]) and isEmpty(Measures.[факт фильтрованный]),
+            null,
+            IIF
+            (
+                (
+                    isEmpty(Measures.[План ]) or isEmpty(Measures.[факт фильтрованный]) or Measures.[План ] = 0
+                ),
+                0 ,
+               Measures.[факт фильтрованный] / Measures.[План ]
+            )
+        )'
+              set [Top max]
+              as 'Head
+              (
+              Order
+              (
+              [NonFilterRowSet],
+              [% исполнения]  ,
+              BDESC
+              ),
+              5
+              )'
+              member Measures.[Имя заказчика]     
+              as '[Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].currentmember.name'     
+              member Measures.[Имя программы]     
+              as '[Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].currentmember.name'  
+				member [Источники данных].[Источники данных].[Slicer] 
+              as 'aggregate([Источники данных].[Источники данных].[Все источники данных].[ЭО Сбор ЦП - Первоначальные данные],
+                    [Источники данных].[Источники данных].[Все источники данных].[ЭО Сбор ЦП - Фактические значения] )'             
+              select
+              { 
+              Measures.[Имя заказчика],
+              Measures.[Имя программы],
+              [% исполнения]} on columns ,
+              { [Top max] }  on rows
+              from    [ЭО_Сбор исполнения расходов_Финансирование ЦП]
+              where
+              (
+               [Исполнение расходов__Типы программ].[Исполнение расходов__Типы программ].[Все типы программ].[Муниципальная целевая программа],
+              <%Mo%> 
+              )      
+              ]]>
+  </query>
+
+  <query id="EO_0001_0002_Sakhalin_DynamicText">
+    <![CDATA[ 
+    --EO_0001_0002_Sakhalin_DynamicText
+    	WITH     
+    SET  [NonFilterColumnSet]  
+    AS '    
+        {
+            Measures.[План ],
+             Measures.[факт фильтрованный]
+        }'    
+    SET [NonFilterRowSet]     
+    AS ' Filter     
+        (
+            {
+               [Исполнение расходов__Заказчики].[Исполнение расходов__Заказчики].[Все заказчики].children   
+            }     
+            *     
+            {
+                Descendants     
+                (
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы],
+                    [Исполнение расходов__Реестр программ].[Исполнение расходов__Реестр программ].[Все программы].Level,
+                    AFTER     
+                )     
+            } ,
+            not IsEmpty([Measures].[План])     
+        )'     
+    member Measures.[План ]     
+    as '    
+        (
+            <%period_year%>,
+            [Measures].[План]    
+        )'     
+        member Measures.[Факт ]          
+        as 'sum
+        (
+            <%period_year%>.[Полугодие 1].[Квартал 1].[Январь] : <%period_quater%>,
+            [Measures].[Факт]          
+        )'    
+    member Measures.[факт фильтрованный]
+              as ' ( Measures.[факт ],
+              [Источники данных].[Источники данных].[Slicer])'
+member [Источники данных].[Источники данных].[Slicer] 
+              as 'aggregate([Источники данных].[Источники данных].[Все источники данных].[ЭО Сбор ЦП - Первоначальные данные],
+                    [Источники данных].[Источники данных].[Все источники данных].[ЭО Сбор ЦП - Фактические значения] )'               
+SELECT
+    NON EMPTY   { [NonFilterColumnSet] } ON COLUMNS ,
+    NON EMPTY { {  [NonFilterRowSet]  } } ON ROWS     
+FROM [ЭО_Сбор исполнения расходов_Финансирование ЦП]     
+WHERE     
+    (
+       [Исполнение расходов__Типы программ].[Исполнение расходов__Типы программ].[Все типы программ].[Муниципальная целевая программа],
+       <%Mo%>
+    )     
+              ]]>
+  </query>
+</root>

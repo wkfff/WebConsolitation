@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+    <query id="Sport_0001_0005_population">
+        <![CDATA[
+-- Sport_0001_0005_population
+with  
+    set [Строки]  
+    as 'tail 
+        (
+            filter  
+            (
+                descendants  
+                (
+                    [Период__Период].[Период__Период].[Данные всех периодов],
+                    [Период__Период].[Период__Период].[Год],
+                    SELF  
+                ),
+                NOT isEmpty( [Measures].[Факт] )    
+                AND [Период__Период].[Период__Период].currentMember.Name <= "<%param_year_last%>"
+            ),
+            10
+        )'  
+select
+    { [Measures].[Факт] } on columns,
+    { [Строки] } on rows  
+from   [ФСГС_Численность населения]  
+where  
+    (
+        [Территории__Сопоставимый].[Территории__Сопоставимый].[Все территории].<%param_territory%>,
+        [ФСГС__Численность населения].[ФСГС__Численность населения].[Все].[Все население],
+        [Вариант__ФСГС Население].[Вариант__ФСГС Население].[Все].[Численность населения на 1 января]  
+    )  
+    ]]>
+    </query>
+    
+    <query id="Sport_0001_0005_minsport">
+        <![CDATA[
+-- Sport_0001_0005_minsport
+with  
+    member [Measures].[Данные]  
+    as '  
+        (
+            filter  
+            (
+                [1ФК_Строки_сопоставимые].members,
+                [1ФК_Строки_сопоставимые].[Строки_сопоставимые].currentMember.properties("Код") = "<%param_row%>"  
+            ).item(0),
+            filter  
+            (
+                [1ФК_Столбцы_сопоставимые].members,
+                [1ФК_Столбцы_сопоставимые].[Столбцы_сопоставимые].currentMember.properties("Код") = "<%param_column%>"  
+            ).item(0),
+            [Measures].[Значение]  
+        )'  
+    set [Строки]  
+    as 'tail 
+        (
+            filter  
+            (
+                descendants  
+                (
+                    [Год].[Год].[Все],
+                    [Год].[Год].[Год],
+                    SELF  
+                ),
+                NOT isEmpty( [Measures].[Данные] ) 
+                AND [Год].[Год].currentMember.Name <= "<%param_year_last%>"
+            ),
+            10 
+        )'  
+select
+    { [Measures].[Данные] } on columns,
+    { [Строки] } on rows  
+from [1-ФК]  
+where 
+    (
+        [Территории_сопоставимый].[Территории_сопоставимый].[All].<%param_territory%> 
+    ) 
+    ]]>
+    </query>
+  
+</root>

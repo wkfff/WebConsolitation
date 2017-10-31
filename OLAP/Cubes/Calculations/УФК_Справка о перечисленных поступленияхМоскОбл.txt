@@ -1,0 +1,13 @@
+CALCULATE;
+
+
+
+
+CREATE MEMBER CURRENTCUBE.Measures.[Сумма с начала года] AS
+IIF(
+IsEmpty(([Measures].[Сумма за период], [Период__Период].[Период__Период].CurrentMember)) , null,
+
+
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, Measures.[Сумма за период])),
+FORMAT_STRING = "Currency", NON_EMPTY_BEHAVIOR = {Measures.[Сумма_с начала года]}, VISIBLE = 1;  

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xml:lang="ru-ru">
+
+  <Fragment>
+    <UI>
+            
+      <Dialog Id="IisSetupDlg" Width="370" Height="270" Title="Настойки IIS - [ProductName]" NoMinimize="yes">
+        <!-- Virtual Dir prompt -->
+        <Control Id="VirtualDirLabel" Type="Text" X="20" Y="60" Width="100" Height="15" TabSkip="no" Text="&amp;Порт:" />
+        <Control Id="PortEdit" Type="Edit" X="20" Y="80" Width="100" Height="18" Property="VIRTUAL_PORT_VAL" Text="{2}" />
+        <Control Id="VirtualDirLabel2" Type="Text" X="135" Y="85" Width="100" Height="15" TabSkip="no" Text="(80 - 84)" />
+        <Control Id="VirtualDirLabel3" Type="Text" X="20" Y="100" Width="320" Height="50" TabSkip="no" Text="Мастер инсталляции создаст веб-сайт, на котором будут размещены инсталляторы клиентских приложений. На данном шаге необходимо указать TCP-порт, на котором служба WWW ожидает подключений к данному сайту." />
+        <!-- Back button -->
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Назад">
+          <Publish Event="NewDialog" Value="UserSettingsDlg">1</Publish>
+        </Control>
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Далее">
+          <Publish Event="NewDialog" Value="LocalPatchStoreDlg">
+            <!--if settings are correct, allow next dialog-->
+            <![CDATA[VIRTUAL_PORT_VAL = "80" OR VIRTUAL_PORT_VAL = "81" OR VIRTUAL_PORT_VAL = "82" OR VIRTUAL_PORT_VAL = "83" OR VIRTUAL_PORT_VAL = "84"]]>
+          </Publish>
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Отмена">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>Укажите параметры Web-сервера</Text>
+        </Control>
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>{\WixUI_Font_Title}Настройки IIS</Text>
+        </Control>
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+      </Dialog>
+
+      <!-- User Settings -->
+
+      <Dialog Id="UserSettingsDlg" Width="370" Height="270" Title="[ProductName]" NoMinimize="yes">
+        <!-- feed path -->
+        <Control Id="FeedPathLabel" Type="Text" X="20" Y="60" Width="200" Height="15" TabSkip="no" Text="&amp;Веб-узел или общий каталог с обновлениями:" />
+        <Control Id="FeedEdit" Type="Edit" X="20" Y="80" Width="320" Height="18" Property="FEED_PATH" Text="{200}" />
+        <Control Id="FeedLabel" Type="Text" X="20" Y="100" Width="320" Height="30" TabSkip="no" Text="URL веб-узла, который расположен на сервере ООО ИС «Криста». Используя это подключение, служба автоматического обновления будет загружать обновления в локальную папку, указанную на следующем шаге мастера." />
+        <Control Id="FeedLabel1" Type="Text" X="20" Y="135" Width="320" Height="40" TabSkip="no" Text="Для получение обновлений необходим доступ в интернет. Если нет возможности загружать обновления через интернет, то укажите URL локального веб-узла или общего сетевого каталога, куда будут копироваться обновления вручную администратором системы." />
+         <!-- Back button -->
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Назад">
+          <Publish Event="NewDialog" Value="InstallDirDlg">1</Publish>
+        </Control>
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Далее">
+          <Publish Event="NewDialog" Value="IisSetupDlg">
+            <!--if settings are correct, allow next dialog-->
+            <![CDATA[FEED_PATH <> ""]]>
+          </Publish>
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Отмена">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>Пользовательские настройки</Text>
+        </Control>
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>{\WixUI_Font_Title}Внешний каталог с обновлениями</Text>
+        </Control>
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+      </Dialog>
+
+      <Dialog Id="LocalPatchStoreDlg" Width="370" Height="270" Title="Настройка локального хранилища обновлений" NoMinimize="yes">
+        <Control Id="LocalDirLabel" Type="Text" X="20" Y="60" Width="200" Height="15" TabSkip="no" Text="&amp;Локальный каталог с обновлениями:" />
+        <Control Id="Folder" Type="PathEdit" X="20" Y="80" Width="320" Height="18" Property="LocalPatchStoreFolder" Text="{200}" />
+        <Control Id="ChangeFolder" Type="PushButton" X="20" Y="100" Width="56" Height="17" Text="!(loc.CustomizeDlgBrowse)" />
+
+        <!-- Virtual Dir prompt -->
+        <Control Id="VirtualDirLabel" Type="Text" X="20" Y="130" Width="200" Height="15" TabSkip="no" Text="&amp;Веб-узел или общий каталог с обновлениями:" />
+        <Control Id="PortEdit" Type="Edit" X="20" Y="150" Width="320" Height="18" Property="SHARED_DIR" Text="{200}" />
+        <Control Id="ExampleLabel" Type="Text" X="20" Y="170" Width="320" Height="60" TabSkip="no" Text="Веб-узел или общий сетевой каталог необходимы для обновления клентских приложений, работающих в локальной сети. Домашний каталог веб-узла или каталог, на который настроена общая севевая папка, должен совпадать с локальным каталогом с обновлениями. Если компьютер находится в сети или подключен к Интернету напрямую, в качестве имени сервера для данного компьютера можно использовать IP-адрес." />
+        <!-- Back button -->
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Назад">
+          <Publish Event="NewDialog" Value="IisSetupDlg">1</Publish>
+        </Control>
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Далее">
+          <Publish Event="NewDialog" Value="MethodUpdate">
+            <!--if settings are correct, allow next dialog-->
+            <![CDATA[SHARED_DIR <> ""]]>
+          </Publish>
+        </Control>
+
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Отмена">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>Пользовательские настройки</Text>
+        </Control>
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>{\WixUI_Font_Title}Локальный каталог с обновлениями</Text>
+        </Control>
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+
+      </Dialog>
+      <Dialog Id="MethodUpdate" Width="370" Height="270" Title="[ProductName]">
+        <Control Id="clientBox" Type="CheckBox" Width="230" Height="17" X="25" Y="80" Property="AUTOUPDATECLIENT" CheckBoxValue="1" >
+          <Text>Автоматическое обновление приложения Workplace</Text>
+        </Control>
+        <Control Type="CheckBox" Id="mdxBox" Width="230" Height="17" X="25" Y="100" Property="AUTOUPDATEMDX" CheckBoxValue="1">
+          <Text>Автоматическое обновление приложения MDXExpert</Text>
+        </Control>
+        <Control Type="CheckBox" Id="officeBox" Width="230" Height="17" X="25" Y="120" Property="AUTOUPDATEOFFICE" CheckBoxValue="1">
+          <Text>Автоматическое обновление приложения Office Add-in</Text>
+        </Control>
+        <Control Type="GroupBox" Id="Methods" Width="266" Height="86" X="15" Y="64">
+          <Text>Принудительное обновление клиентских приложений</Text>
+        </Control>
+        <!-- Back button -->
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Назад">
+          <Publish Event="NewDialog" Value="LocalPatchStoreDlg">1</Publish>
+        </Control>
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Далее">
+          
+          <Publish Event="NewDialog" Value="VerifyReadyDlg"/>
+         </Control>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Отмена">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+        <Control Id="Description" Type="Text" X="25" Y="20" Width="270" Height="20" Transparent="yes" NoPrefix="yes">
+          <Text>Выберите клиентские приложения, которые должны обновляться принудительно без участия пользователя</Text>
+        </Control>
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+          <Text>{\WixUI_Font_Title}Параметры обновления</Text>
+        </Control>
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+      </Dialog>
+
+    </UI>
+  </Fragment>
+</Wix>

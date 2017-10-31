@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Организации.Реестр предприятий" ClassType="7" SubClassType="0" Description="Перечень предприятий и организаций." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."D_ORG_REGISTER", "DV"."FX_DATE_YEARDAY"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."D_ORG_REGISTER"."REFYEARDAY"="DV"."FX_DATE_YEARDAY"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Org.Register]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.D_ORG_REGISTER}{DV.D_ORG_REGISTER}{2400}{600}{2445}{2200}{1})({dv}{DV.FX_DATE_YEARDAY}{DV.FX_DATE_YEARDAY}{2430}{4575}{2250}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[5ca4a2f4-4031-4206-9430-b605858f9abf]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[1b6fa0eb-ef46-4e96-b027-031568f1d08a]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[d7f8e001-c041-495e-b0b8-d8d7df818cae]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все предприятия]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Предприятие" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="2" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."D_ORG_REGISTER"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."D_ORG_REGISTER"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTER"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTER"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Краткое наименование" ClassType="31" SubClassType="0" Description="" Caption="Краткое наименование" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTER"."SHORTNAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Руководитель" ClassType="31" SubClassType="0" Description="" Caption="Руководитель" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTER"."MANAGER"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_ORG_REGISTER"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Дата образования" ClassType="31" SubClassType="0" Description="" Caption="Дата образования" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."FX_DATE_YEARDAY"."DATEDAY"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

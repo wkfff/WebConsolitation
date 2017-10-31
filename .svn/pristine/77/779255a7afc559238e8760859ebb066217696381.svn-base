@@ -1,0 +1,17 @@
+CALCULATE;
+
+CREATE CELL CALCULATION CURRENTCUBE.[Период_Нараст итог] FOR 
+'(DESCENDANTS([Период__Период].[Период__Период].[Данные всех периодов]))' 
+AS IIF([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Данные всех периодов], 
+Sum([Период__Период].[Период__Период].[Данные всех периодов].Children), 
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not (IsEmpty(Measures.CurrentMember))), 1).Item(0)), 
+CONDITION = 'not IsLeaf([Период__Период].[Период__Период].CurrentMember)';
+
+CREATE CELL CALCULATION CURRENTCUBE.[Процент исполнения] FOR '({[Measures].[Процент исполнения]})' 
+AS [Measures].[Исполнено на дату]/[Measures].[Годовые назначения]*100, FORMAT_STRING = '0.00', 
+CONDITION = 'not IsLeaf([Показатели__ФО_Исполнение бюджета_Сопоставимый].[Показатели__ФО_Исполнение бюджета_Сопоставимый].CurrentMember)';
+
+CREATE CELL CALCULATION CURRENTCUBE.[Темп роста] FOR '({[Measures].[Темп роста]})' AS 
+IIF(IsEmpty(([Период__Период].[Период__Период].CurrentMember, [Measures].[Исполнено на дату_Прошлый год])) or 
+([Период__Период].[Период__Период].CurrentMember, [Measures].[Исполнено на дату_Прошлый год]) = 0, null, 
+([Measures].[Исполнено на дату] / [Measures].[Исполнено на дату_Прошлый год] * 100 - 100)), FORMAT_STRING = '0.00', CONDITION = 'not IsLeaf([Показатели__ФО_Исполнение бюджета_Сопоставимый].[Показатели__ФО_Исполнение бюджета_Сопоставимый].CurrentMember)', CALCULATION_PASS_NUMBER = '2', CALCULATION_PASS_DEPTH = '2';

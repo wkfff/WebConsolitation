@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="dynamicsChart">
+    <![CDATA[
+with
+    member measures.[Год]
+    as 'Ancestor
+        (
+            [Период].[Месяц].CurrentMember,
+            [Год]
+        ).Name'
+  SELECT
+      {
+          [Measures].[Значение Факт],
+          measures.[Год]
+      } on columns,
+      filter
+      (
+          [Период].[Месяц].[Квартал].Members ,
+          not IsEmpty([Measures].[Значение Факт])
+      ) on rows
+  FROM [МФ РФ_Индикаторы БК и КУ]
+  WHERE
+      (
+          [Вариант].[БККУ].[Все].[По данным месячной отчетности],
+          <%[МФ РФ].[Сопоставимый индикаторы БККУ]%>,
+          <%region%>
+      )
+	]]>
+  </query>
+
+  <query id="normativeValue">
+    <![CDATA[
+    SELECT
+    {
+        [Measures].[Нормативное значение] 
+    } on columns 
+FROM [МФ РФ_Индикаторы БК и КУ] 
+WHERE 
+    (
+        <%period_year_quater%>,
+         [Вариант].[БККУ].[Все].[По данным месячной отчетности],
+        <%[МФ РФ].[Сопоставимый индикаторы БККУ]%>,
+        <%region%>
+    ) 
+	]]>
+  </query>
+
+  <query id="subjectChart">
+    <![CDATA[
+		SELECT
+    {
+        [Measures].[Значение Факт]       
+    } on rows,
+    filter    
+    (
+        <%state_area%>.Children,
+        not IsEmpty([Measures].[Значение Факт])   
+    ) on columns    
+FROM [МФ РФ_Индикаторы БК и КУ]     
+WHERE     
+    (
+        [Вариант].[БККУ].[Все].[По данным месячной отчетности],
+        <%[МФ РФ].[Сопоставимый индикаторы БККУ]%>,
+        <%period_year_quater%> 
+    )
+    ]]>
+  </query>  
+  
+  <query id="indicatorsMaster">
+    <![CDATA[
+    SELECT
+    {[Measures].[Нормативное значение]} on columns,
+    Except
+    (
+        [Территории].[Сопоставимый].[Федеральный округ].Members,
+        {
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].DATAMEMBER
+        }
+    ) on rows
+    FROM [МФ РФ_Индикаторы БК и КУ]
+    WHERE
+    (
+        [Вариант].[БККУ].[Все].[По данным месячной отчетности],
+        <%period_year_quater%> 
+    )
+    
+    ]]>
+  </query>
+
+  <query id="indicatorsDetail">
+    <![CDATA[
+    With
+    member [Measures].[FK]
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Name'
+SELECT
+    {
+        [Measures].[Значение Факт], 
+        [Measures].[FK], [Measures].[Наличие нарушения Факт]
+    } on columns,
+    Filter
+    (
+        [Территории].[Сопоставимый].[Субъект РФ].AllMembers,
+        (
+            not
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+            )and
+            (
+                not IsEmpty([Measures].[Значение Факт])
+            )
+        )
+    ) on rows
+
+FROM [МФ РФ_Индикаторы БК и КУ]
+WHERE
+    (
+        [Вариант].[БККУ].[Все].[По данным месячной отчетности],
+        <%period_year_quater%>, 
+        <%[МФ РФ].[Сопоставимый индикаторы БККУ]%>
+    )
+    ]]>
+  </query>
+  <query id="note">
+    <![CDATA[
+     with 
+        member measures.[Код] 
+        as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Код")' 
+        member measures.[Пороговое значение] 
+        as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Пороговое значение")' 
+        member measures.[Условие соответствия] 
+        as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Условие соответствия")' 
+        member measures.[Единицы измерения] 
+        as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Единицы измерения")' 
+        member measures.[Условие]
+        as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Условие")'
+        member measures.[Формула расчета]
+        as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Формула расчета")'
+    SELECT
+        {
+            measures.[Код],
+            measures.[Условие],
+            measures.[Формула расчета],
+            measures.[Пороговое значение],
+            measures.[Условие соответствия],
+            measures.[Единицы измерения]
+        }  on columns,
+        {
+            <%[МФ РФ].[Сопоставимый индикаторы БККУ]%>
+        } on rows 
+    FROM [МФ РФ_Индикаторы БК и КУ] 
+    WHERE 
+        (
+            [Вариант].[БККУ].[Все].[По данным месячной отчетности],
+            <%period_year_quater%> 
+             
+        ) 
+  ]]>
+  </query>
+  
+ 
+</root>

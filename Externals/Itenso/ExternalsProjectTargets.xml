@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SourceChanged>false</SourceChanged>
+  </PropertyGroup>
+
+  <Target Name="Build" DependsOnTargets="CheckNeadCompile">
+    <Message Text="SourceChanged = $(SourceChanged)"/>
+    <CallTarget Targets="BuildDefault" Condition="'$(BuildMode)' != 'CopyOnly'"/>
+    <CallTarget Targets="BuildCopyOnly" Condition="'$(BuildMode)' == 'CopyOnly'"/>
+  </Target>
+
+
+  <Target Name="CheckNeadCompile"
+    Inputs="@(Compile)" Outputs="$(TargetPath)">
+    <CallTarget Targets="SetNeadCompile"/>
+  </Target>
+
+  <Target Name="SetNeadCompile">
+    <CreateProperty Value="true">
+      <Output PropertyName="SourceChanged" TaskParameter="Value"/>
+    </CreateProperty>
+  </Target>
+
+  <Target Name="AfterCompile">
+  </Target>
+
+  <Target
+    Name="BuildDefault"
+    Condition=" '$(_InvalidConfigurationWarning)' != 'true'"
+    DependsOnTargets="BeforeBuild;CoreBuild;AfterBuild">
+  </Target>
+
+  <Target
+    Name="BuildCopyOnly"
+    DependsOnTargets="CoreBuild;AfterBuild">
+  </Target>
+
+</Project>

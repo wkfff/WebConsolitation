@@ -1,0 +1,2719 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="shortRegionsNames">
+    <![CDATA[
+-- shared_shortRegionsNames    
+with
+    member Measures.[Сокращенное наименование]
+    as '[Территории].[Сопоставимый].CurrentMember.Properties("Сокращенное наименование")'
+select
+    {
+        Measures.[Сокращенное наименование]
+    } on columns,
+    {
+        [Территории].[Сопоставимый].[Субъект РФ].AllMembers
+    } on rows
+from [МФ РФ_Фонды]
+	]]>
+  </query>
+
+  <query id="regionsFoDictionary">
+    <![CDATA[
+-- shared_regionsFoDictionary  
+  With 
+    member [МФ РФ].[Сопост Показатели].[FK] 
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Name' 
+SELECT
+    {
+        {
+            [МФ РФ].[Сопост Показатели].[FK]             
+        }  
+    } on columns,
+    Filter 
+    (
+        [Территории].[Сопоставимый].[Субъект РФ].AllMembers - 
+        {
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Дальневосточный федеральный округ].[Камчатская область],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Дальневосточный федеральный округ].[Корякский автономный округ],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Приволжский федеральный округ].[Коми-Пермяцкий автономный округ],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Приволжский федеральный округ].[Пермская область],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Сибирский федеральный округ].[Агинский-Бурятский автономный округ],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Сибирский федеральный округ].[Таймырский автономный округ],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Сибирский федеральный округ].[Усть-Ордынский Бурятский автономный округ],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Сибирский федеральный округ].[Читинская область],
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Сибирский федеральный округ].[Эвенкийский автономный округ]
+        },
+        (
+            not 
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember 
+            )
+        ) 
+    ) on rows 
+FROM [МФ РФ_Фонды] 
+]]>
+  </query>
+
+  <query id="foList">
+    <![CDATA[
+-- shared_foList    
+ With
+    member [МФ РФ].[Сопост Показатели].[FK]
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Name'
+SELECT
+    {
+        {
+            [МФ РФ].[Сопост Показатели].[FK]
+        }
+    } on columns,
+    Filter
+    (
+        [Территории].[Сопоставимый].[Субъект РФ].AllMembers,
+        (
+
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember
+            )
+        )
+    ) on rows
+FROM [МФ РФ_Фонды]
+]]>
+  </query>
+
+  <query id="localBudgets">
+    <![CDATA[
+-- shared_localBudgets  
+WITH                     
+    member [Measures].[areaType]  
+    as 'IIF 
+        (
+            <%regionDimesion%>.CurrentMember is <%regionDimesion%>.[Консолидированный бюджет субъекта],
+            "КБС",
+            IIF 
+            (
+                <%regionDimesion%>.CurrentMember is <%regionDimesion%>.[<%ownSubjectBudgetName%>],
+                "СБС",
+                IIF
+                (
+                    <%regionDimesion%>.CurrentMember is <%regionDimesion%>.[Местные бюджеты],
+                    "МБ",
+                    <%regionDimesion%>.CurrentMember.Properties("Тип территории")
+                )
+            ) 
+        )'    
+    member [Measures].[areaCode]
+    as '[Районы].[Сопоставимый].CurrentMember.Properties("Код объекта карты")'    
+    member [Measures].[uniqName]                     
+    as '
+            IIF     
+            (
+                <%regionDimesion%>.CurrentMember is <%regionDimesion%>.[Уровень районов],
+                [Районы_].Item(0).Parent.UniqueName,
+                IIF   
+                (
+                    <%regionDimesion%>.CurrentMember is <%regionDimesion%>.[Уровень городов],
+                    [Города_].Item(0).Parent.UniqueName,
+                    <%regionDimesion%>.CurrentMember.UniqueName  
+                )   
+            )     
+        '               
+    member <%regionDimesion%>.[Уровень районов]
+    as '<%regionDimesion%>.CurrentMember.UniqueName'
+    member <%regionDimesion%>.[Уровень городов]
+    as '<%regionDimesion%>.CurrentMember.UniqueName'
+    set [Районы_]      
+    as 'Filter                    
+        (
+            Descendants                    
+            (
+                <%regionDimesion%>.[Все районы],
+                <%localLevelName%>,
+                SELF                    
+            ),
+            not
+            (
+                <%regionDimesion%>.CurrentMember is <%regionDimesion%>.CurrentMember.Parent.DataMember
+            ) and 
+            (
+                <%regionDimesion%>.CurrentMember.Properties("Тип территории") = "МР"
+            ) 
+        )'  
+    set [Города_]      
+    as 'Filter              
+        (
+            Descendants              
+            (
+                <%regionDimesion%>.[Все районы],
+                <%localLevelName%>,
+                SELF              
+            ),
+            not
+            (
+                <%regionDimesion%>.CurrentMember is <%regionDimesion%>.CurrentMember.Parent.DataMember
+            ) and 
+            (
+                <%regionDimesion%>.CurrentMember.Properties("Тип территории") = "ГО"
+            ) 
+        )'      
+    member <%regionDimesion%>.[Консолидированный бюджет субъекта]  
+    as '<%regionDimesion%>.[Все районы]' 
+    member <%regionDimesion%>.[<%ownSubjectBudgetName%>] 
+    as '<%regionDimesion%>.[Все районы]'  
+    member <%regionDimesion%>.[Местные бюджеты]  
+    as '<%regionDimesion%>.[Все районы]'          
+SELECT
+    {
+        [Measures].[areaType],
+        [Measures].[uniqName],
+        [Measures].[areaCode]
+    } on columns,
+    {
+        {
+            <%regionDimesion%>.[Уровень районов],
+            <%regionDimesion%>.[Уровень городов],
+            <%regionDimesion%>.[Консолидированный бюджет субъекта],
+            <%regionDimesion%>.[<%ownSubjectBudgetName%>],
+            <%regionDimesion%>.[Местные бюджеты]  
+        } + [Районы_] + [Города_]      
+    } on rows                     
+FROM [ФО_МесОтч_Доходы]
+where ([Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта], [ТипДокумента].[СКИФ].[Все].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов])
+]]>
+  </query>
+
+  <query id="localBudgetSettlement">
+    <![CDATA[
+-- shared_localBudgetSettlement
+WITH 
+    member [Measures].[areaType] 
+    as '<%regionDimesion%>.CurrentMember.Properties("Тип территории")' 
+    member [Measures].[parentAreaType]
+    as '<%regionDimesion%>.CurrentMember.Parent.Properties("Тип территории")'
+    member [Measures].[uniqName]
+    as '<%regionDimesion%>.CurrentMember.UniqueName ' 
+    set [Районы_]
+    as 'Filter 
+        (
+            Descendants 
+            (
+                <%consolidateLevelName%>,
+                <%localSettlementLevelName%>,
+                SELF_AND_BEFORE 
+            ),
+            not 
+            (
+               <%regionDimesion%>.CurrentMember is <%regionDimesion%>.CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                IIF
+                (
+                    <%regionDimesion%>.CurrentMember is <%regionDimesion%>.[Все районы],false,
+                (<%regionDimesion%>.CurrentMember.Properties("Тип территории") = "МР") or
+                (<%regionDimesion%>.CurrentMember.Properties("Тип территории") = "СП") or
+                (<%regionDimesion%>.CurrentMember.Properties("Тип территории") = "ГП") or
+                (<%regionDimesion%>.CurrentMember.Properties("Тип территории") = "РЦ"))
+            )
+        )' 
+    set [Города_]
+    as 'Filter
+        (
+            Descendants
+            (
+                <%consolidateLevelName%>,
+                <%localSettlementLevelName%>,
+                SELF_AND_BEFORE
+            ),
+            not
+            (
+                <%regionDimesion%>.CurrentMember is <%regionDimesion%>.CurrentMember.Parent.DataMember
+            ) and
+            (
+                IIF
+                (
+                    <%regionDimesion%>.CurrentMember is <%regionDimesion%>.[Все районы],false,                
+                (<%regionDimesion%>.CurrentMember.Properties("Тип территории") = "ГО"))
+            )
+        )'
+SELECT
+    {
+        [Measures].[areaType],
+        [Measures].[uniqName] 
+    } on columns,
+    { [Районы_] + [Города_] } on rows
+FROM [ФО_МесОтч_Доходы]
+]]>
+  </query>
+
+  <query id="localBudgetSettlementGroups">
+    <![CDATA[
+-- shared_localBudgetSettlementGroups
+WITH 
+    member [Measures].[areaType]
+    as 'IIF
+        (
+            <%regionDimesion%>.CurrentMember.Parent is <%regionDimesion%>.[Все районы],
+            " ",
+            IIF
+            (
+                (<%regionDimesion%>.CurrentMember.Properties("Тип территории") = "ГО" or<%regionDimesion%>.CurrentMember.Properties("Тип территории") = "РЦ") and
+                <%regionDimesion%>.CurrentMember.Level.Name = "Районы уровень 05",
+                "ГР",
+                <%regionDimesion%>.CurrentMember.Properties("Тип территории")
+            )
+        )' 
+    member [Measures].[parentAreaType]
+    as '<%regionDimesion%>.CurrentMember.Parent.Properties("Тип территории")'
+    member [Measures].[uniqName]
+    as ' <%regionDimesion%>.CurrentMember.UniqueName ' 
+    set [Районы_]    
+    as 'Generate
+        (
+            Filter   
+            (
+                Descendants   
+                (
+                    <%consolidateLevelName%>,
+                    <%localRegionLevelName%>,
+                    SELF    
+                ),
+                not  
+                (
+                    <%regionDimesion%>.CurrentMember is <%regionDimesion%>.CurrentMember.Parent.DataMember  
+                ) and  
+                (
+                    <%regionDimesion%>.CurrentMember.Properties("Тип территории") = "МР" 
+                )  
+            ),
+            {
+                <%regionDimesion%>.CurrentMember   
+            } + Filter  
+            (
+                Descendants   
+                (
+                    <%regionDimesion%>.CurrentMember,
+                    <%localSettlementLevelName%>,
+                    SELF   
+                ),
+                not 
+                (
+                    <%regionDimesion%>.CurrentMember is <%regionDimesion%>.CurrentMember.Parent.DataMember 
+                ) and 
+                (
+                    <%regionDimesion%>.CurrentMember.Properties("Тип территории") = "ГП" or <%regionDimesion%>.CurrentMember.Properties("Тип территории") = "СП" 
+                ) 
+            )
+        )'
+    set [Города_]
+    as 'Generate
+        (
+            Filter
+            (
+                Descendants
+                (
+                    <%consolidateLevelName%>,
+                    <%localRegionLevelName%>,
+                    SELF
+                ),
+                not
+                (
+                    <%regionDimesion%>.CurrentMember is <%regionDimesion%>.CurrentMember.Parent.DataMember
+                ) and
+                (
+                    <%regionDimesion%>.CurrentMember.Properties("Тип территории") = "ГО"
+                )
+            ),
+            {
+                <%regionDimesion%>.CurrentMember
+            } + Filter
+            (
+                Descendants
+                (
+                    <%regionDimesion%>.CurrentMember,
+                    <%localSettlementLevelName%>,
+                    SELF
+                ),
+                not
+                (
+                    <%regionDimesion%>.CurrentMember is <%regionDimesion%>.CurrentMember.Parent.DataMember
+                ) and
+                (
+                    <%regionDimesion%>.CurrentMember.Properties("Тип территории") = "ГП" or <%regionDimesion%>.CurrentMember.Properties("Тип территории") = "СП"
+                )
+            )
+        )'        
+SELECT
+    {
+        [Measures].[areaType],
+        [Measures].[uniqName] 
+    } on columns,
+    { [Районы_] + [Города_] } on rows
+FROM [ФО_МесОтч_Доходы]
+]]>
+  </query>
+  
+  <query id="budgetLevels">
+    <![CDATA[
+-- shared_budgetLevels
+with
+  member [Measures].[UniqName]
+  as '[Уровни бюджетов].CurrentMember.UniqueName'
+select
+    { [Measures].[UniqName] } on columns,
+    non empty Filter
+    (
+        {
+            {
+                [Уровни бюджетов].[Все].[Все уровни].[Фед.бюджет]
+            }+ Descendants
+            (
+                [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта],
+                [Уровни бюджетов].[Уровень бюджета 06],
+                SELF_AND_BEFORE
+            )
+        },
+        not
+        (
+            [Уровни бюджетов].CurrentMember is [Уровни бюджетов].CurrentMember.Parent.DataMember
+        )
+    ) on rows
+from  [ФНС_28н_с расщеплением]
+]]>
+  </query>
+
+  <query id="fullBudgetLevels">
+    <![CDATA[
+-- shared_fullBudgetLevels
+WITH
+    member [Measures].[areaType]
+    as '[Районы].[Сопоставимый].CurrentMember.Properties("Тип территории")'
+    member [Measures].[parentAreaType]
+    as '[Районы].[Сопоставимый].CurrentMember.Parent.Properties("Тип территории")'
+    member [Measures].[uniqName]
+    as '[Районы].[Сопоставимый].CurrentMember.UniqueName '
+    set [Районы с поселениями]
+    as 'Generate
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%localLevelName%>,
+                    SELF
+                ),
+                not
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+                ) and
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+                )
+            ),
+            {
+                [Районы].[Сопоставимый].CurrentMember
+            } + Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    <%localSettlementLevelName%>,
+                    SELF
+                ),
+                not
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+                ) and [Measures].[isSettle]
+            )
+        )'
+    set [Города с поселениями]
+    as 'Generate
+        (
+            Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].[Все районы],
+                    <%localLevelName%>,
+                    SELF
+                ),
+                not
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+                ) and
+                (
+                    [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+                )
+            ),
+            {
+                [Районы].[Сопоставимый].CurrentMember
+            } + Filter
+            (
+                Descendants
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    <%localSettlementLevelName%>,
+                    SELF
+                ),
+                not
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember
+                ) and [Measures].[isSettle]
+            )
+        )'
+    member [Районы].[Сопоставимый].[Все уровни] 
+    as ' [Районы].[Сопоставимый].[Все районы]'         
+    member  [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Бюджет субъекта]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Конс. бюджет МО]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Городские округа ]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member  [Районы].[Сопоставимый].[Конс. бюджет МР]
+    as ' [Районы].[Сопоставимый].[Все районы]'
+    member [Measures].[isSettle]
+    as 'IIF
+        (
+            [Районы].[Сопоставимый].CurrentMember is  [Районы].[Сопоставимый].[Все районы],
+            false,
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "СП" or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГП" or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "РЦ"
+        )'
+    member [Measures].[LevelNumber]
+    as 'IIF
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта] or
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Все уровни],
+            0,
+            IIF
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта] or [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Конс. бюджет МО],
+                1,
+                IIF
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ] or [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Конс. бюджет МР],
+                    2,
+                    IIF
+                    (
+                        not([Measures].[isSettle] ),
+                        3,
+                        4
+                    )
+                )
+            )
+        )'
+    member [Measures].[Уровень бюджета ]
+    as 'IIF
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Все уровни],
+            [Уровни бюджетов].[Все].[Все уровни].UniqueName,
+            IIF
+            (
+              [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+              [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].UniqueName,
+              IIF
+              (
+                  [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта],
+                  [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта].UniqueName,
+                  IIF
+                  (
+                      [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Конс. бюджет МО],
+                      [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Конс.бюджет МО].UniqueName,
+                      IIF
+                      (
+                          [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Конс. бюджет МР],
+                          [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Конс.бюджет МО].[Конс.бюджет МР].UniqueName,
+                          IIF
+                          (
+                              [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ] or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО",
+                              <%fns_district_budget_level%>.UniqueName,
+                              IIF
+                              (
+                                  [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР",
+                                  [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Конс.бюджет МО].[Конс.бюджет МР].[Бюджет района].UniqueName,
+                                  [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Конс.бюджет МО].[Конс.бюджет МР].[Бюджет поселения].UniqueName
+                              )
+                          )
+                      )
+                  )
+              )
+            )  
+        )'
+SELECT
+    {
+        [Measures].[LevelNumber],
+        [Measures].[Уровень бюджета ],
+        [Measures].[uniqName]
+    } on columns,
+    {
+        {
+            [Районы].[Сопоставимый].[Все уровни],
+            [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            [Районы].[Сопоставимый].[Бюджет субъекта],
+            [Районы].[Сопоставимый].[Конс. бюджет МО],
+            [Районы].[Сопоставимый].[Городские округа ]
+        } + [Города с поселениями] +
+        {
+            [Районы].[Сопоставимый].[Конс. бюджет МР]
+        } + [Районы с поселениями]
+    } on rows
+FROM [ФНС_28н_с расщеплением]
+where ([Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта])
+]]>
+  </query>
+
+  <query id="outcomesFKR">
+    <![CDATA[
+-- shared_outcomesFKR
+with 
+    member [Measures].[UniqName] 
+    as '[РзПр].[Сопоставимый].CurrentMember.UniqueName' 
+    member [Measures].[LevelName] 
+    as '[РзПр].[Сопоставимый].CurrentMember.Level.Name'
+select
+    {
+        [Measures].[UniqName],
+        [Measures].[LevelName] 
+    } on columns,
+    Filter 
+    (
+        [РзПр].[Сопоставимый].AllMembers - {[РзПр].[Сопоставимый].[Все коды ФКР], [РзПр].[Сопоставимый].[Все коды ФКР].[Несопоставленные данные]},
+        not
+        (
+            [РзПр].[Сопоставимый].CurrentMember is [РзПр].[Сопоставимый].CurrentMember.Parent.DataMember 
+        ) 
+    ) on rows 
+from  [ФК_МесОтч_Расходы] 
+]]>
+  </query>
+
+  <query id="outcomesFOFKR">
+    <![CDATA[
+-- shared_outcomesFOFKR
+with 
+    member [Measures].[UniqName] 
+    as '<%fkr_dimension%>.CurrentMember.UniqueName' 
+    member [Measures].[LevelName] 
+    as '<%fkr_dimension%>.CurrentMember.Level.Name'
+select
+    {
+        [Measures].[UniqName],
+        [Measures].[LevelName] 
+    } on columns,
+    Filter 
+    (
+        <%fkr_dimension%>.AllMembers - {<%fkr_all_level%>, <%fkr_dimension%>.Children.Item(0)},
+        not
+        (
+            <%fkr_dimension%>.CurrentMember is <%fkr_dimension%>.CurrentMember.Parent.DataMember 
+        ) and
+        not (<%fkr_dimension%>.CurrentMember.Name = "Несопоставленные данные") and
+        not (<%fkr_dimension%>.CurrentMember.Name = "Всего") and
+        not (<%fkr_dimension%>.CurrentMember.Name = "Всего расходов") and
+        IIF 
+        (
+            <%rzpr_internal_circulation_extruding%>,
+            not (<%fkr_dimension%>.CurrentMember.Properties("Код") = "9700") and
+            not (<%fkr_dimension%>.CurrentMember.Properties("Код") = "9701") and
+            not (<%fkr_dimension%>.CurrentMember.Properties("Код") = "9702") and
+            not (<%fkr_dimension%>.CurrentMember.Properties("Код") = "9703"),
+            true
+        )
+    ) on rows 
+from  [ФО_МесОтч_Расходы] 
+]]>
+  </query>
+
+  <query id="outcomesKOSGU">
+    <![CDATA[
+-- shared_outcomesKOSGU
+with 
+    member [Measures].[UniqName] 
+    as '[МФ РФ].[КОСГУ].CurrentMember.UniqueName'
+    member [Measures].[LevelName] 
+    as '[МФ РФ].[КОСГУ].CurrentMember.Level.Name'
+select
+    {
+        [Measures].[UniqName],
+        [Measures].[LevelName] 
+    } on columns,
+    {
+        [МФ РФ].[КОСГУ].[Все].Children -{[МФ РФ].[КОСГУ].[Все].['Значение не указано']} 
+    } on rows
+from [МФ РФ_Расходы ФБ] 
+]]>
+  </query>
+
+  <query id="shortGRBSNames">
+    <![CDATA[
+-- shared_shortGRBSNames
+WITH  
+    member [Measures].[Краткое наименование]  
+    as '[МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Properties("Краткое наименование ГРБС")'
+    member [Measures].[Код]  
+    as '[МФ РФ].[ГРБС ФБ Сопоставимый].CurrentMember.Properties("Код")'
+SELECT
+    {
+        [Measures].[Краткое наименование],
+        [Measures].[Код]
+    } on columns,
+    {
+        [МФ РФ].[ГРБС ФБ Сопоставимый].[Все].Children
+    } on rows 
+FROM  [МФ РФ_Расходы ФБ]
+]]>
+  </query>
+
+  <query id="cashPlanNonEmptyDays">
+    <![CDATA[
+-- shared_cashPlanNonEmptyDays
+select
+    {[Measures].[Факт_Нарастающий итог]} on columns,
+    non empty
+    (
+        [Период].[Период].[День].AllMembers 
+    )  on rows 
+from [ФО_Исполнение кассового плана]
+]]>
+  </query>
+
+  <query id="hotInfoNonEmptyDays">
+    <![CDATA[
+-- shared_hotInfoNonEmptyDays
+select
+    {[Measures].[Исполнено на дату]} on columns,
+    non empty
+    (
+        [Период].[Период].[День].AllMembers
+    )  on rows
+from [ФО_Исполнение бюджета_Доходы]
+]]>
+  </query>
+
+  <query id="hotInfoNonEmptyMonths">
+    <![CDATA[
+-- shared_hotInfoNonEmptyMonths
+select
+    {[Measures].[Исполнено на дату]} on columns,
+    non empty
+    (
+        [Период].[Период].[Месяц].AllMembers
+    )  on rows
+from [ФО_Исполнение бюджета]
+]]>
+  </query>
+
+  <query id="labourMarketNonEmptyDays">
+    <![CDATA[
+-- shared_labourMarketNonEmptyDays
+select
+    {[Measures].[Значение]} on columns,
+    non empty  
+    (
+        Filter 
+        (
+            [Период].[Период].[День].AllMembers,
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+            [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+            [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+            [Период].[Период].CurrentMember.Name <> "Данные года" and
+            [Период].[Период].CurrentMember.Name <> "Данные месяца" and
+            not IsEmpty
+            (
+                [Показатели].[Рынок труда].[Все].[Общая численность зарегистрированных безработных граждан]
+            )
+        )  
+    )  on rows  
+from [СТАТ_Мониторинг ситуации на рынке труда]  
+]]>
+  </query>
+
+  <query id="labourMarketIndicatorNumbers">
+    <![CDATA[
+-- shared_labourMarketIndicatorNumbers
+with 
+    member [Measures].[Номер] 
+    as '[Показатели].[Рынок труда].CurrentMember.Properties("Номер") ' 
+select
+    { [Measures].[Номер] } on columns,
+    {
+        [Показатели].[Рынок труда].[Все].Children
+    } on rows
+from [СТАТ_Мониторинг ситуации на рынке труда] 
+]]>
+  </query>
+
+  <query id="labourMarketIndicators">
+    <![CDATA[
+-- shared_labourMarketIndicators
+with member measures.[UniqName]
+as '[Показатели].[Рынок труда].CurrentMember.UniqueName'
+select
+Descendants
+(
+[Показатели].[Рынок труда].[Все],
+[Показатели].[Рынок труда].[Все].Level,
+SELF_AND_AFTER
+)  ON rows,
+{measures.[UniqName]} on columns
+
+FROM [СТАТ_Мониторинг ситуации на рынке труда]
+]]>
+  </query>
+
+  <query id="Indicators">
+    <![CDATA[
+with
+    member measures.[UniqName]
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].CurrentMember.UniqueName'
+    member Measures.[Код]
+    as '[МФ РФ].[Сопоставимый индикаторы БККУ].Properties("Код")'
+select
+    except
+    (
+        [МФ РФ].[Сопоставимый индикаторы БККУ].[Индикатор БК и КУ].members,
+        {
+            [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Несопоставленные данные],
+            [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Количество нарушений требований БК РФ],
+            [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Количество нарушений условий качества управления бюджетами],
+            [МФ РФ].[Сопоставимый индикаторы БККУ].[Все индикаторы].[Группа, присвоенная субъекту РФ по доле МБТ]
+        }
+    )   ON rows,
+    {Measures.[Код],measures.[UniqName]} on columns
+FROM  [МФ РФ_Индикаторы БК и КУ]
+]]>
+  </query>
+
+    <query id="Kinds">
+      <![CDATA[
+with member measures.[UniqName ]
+as '[ОК].[ОКВЭД].CurrentMember.UniqueName'
+select
+{[ОК].[ОКВЭД].[Раздел].members}
+  ON rows,
+{measures.[UniqName ]} on columns
+
+FROM [СТАТ_Труд_Заработная плата]
+]]>
+  </query>
+  <query id="FOSubjectList">
+    <![CDATA[
+-- shared_FOSubjectList
+With    
+member [МФ РФ].[Сопост Показатели].[FK]    
+as '[Территории].[Сопоставимый].CurrentMember.Parent.Name'    
+SELECT
+    {
+        {
+            [МФ РФ].[Сопост Показатели].[FK] 
+        } 
+    } on columns,
+    Filter    
+    (
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация].[Уральский федеральный округ].Children,
+        (
+            not    
+            (
+                [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember    
+            )    
+        )    
+    )  on rows 
+FROM [МФ РФ_Фонды]   
+]]>
+  </query>
+
+  <query id="MBTAdministratorDetailList">
+    <![CDATA[
+-- shared_MBTAdministratorDetailList
+with           
+    set [Расходы]           
+    as 'Generate  
+        (
+            Filter   
+            (
+                Descendants          
+                (
+                    [Расходы].[Сопоставимый].[Все],
+                    [Расходы].[Сопоставимый].[Расходы уровень 1],
+                    SELF          
+                ),
+                not          
+                (
+                    [Расходы].[Сопоставимый].CurrentMember.Name = "Неуказанная ведомственная статья" or 
+                    [Расходы].[Сопоставимый].CurrentMember.Name = "Несопоставленные данные"       
+                )  and [Measures].[МБТ] = "Межбюджетные трансферты" and not [Measures].[Содержит только МБТ государственных внебюджетных фондов]
+            ),
+            {
+                [Расходы].[Сопоставимый].CurrentMember
+            } + Filter  
+            (
+                Descendants  
+                (
+                    [Расходы].[Сопоставимый].CurrentMember,
+                    [Расходы].[Сопоставимый].[Расходы уровень 3],
+                    SELF  
+                ),
+                [Расходы].[Сопоставимый].CurrentMember.Parent.Name = "Межбюджетные трансферты" and
+                not  
+                (
+                    [Расходы].[Сопоставимый].CurrentMember is [Расходы].[Сопоставимый].CurrentMember.Parent.DataMember or 
+                    [Расходы].[Сопоставимый].CurrentMember.Name = "Межбюджетные трансферты бюджетам государственных внебюджетных фондов"  
+                )  
+            )  
+        )'   
+    Member [Measures].[МБТ]        
+    as 'IIF      
+        (
+            Count     
+            (
+                [Расходы].[Сопоставимый].CurrentMember.Children     
+            ) = 0,
+            null,
+            [Расходы].[Сопоставимый].CurrentMember.Children.Item     
+            (
+                Count      
+                (
+                    [Расходы].[Сопоставимый].CurrentMember.Children      
+                ) - 1      
+            ).Name     
+        )'  
+    Member [Measures].[Содержит только МБТ государственных внебюджетных фондов]  
+    as 'IIF    
+        (
+            [Measures].[МБТ] <> "Межбюджетные трансферты",
+            false,
+            IIF   
+            (
+                Count  
+                (
+                    [Расходы].[Сопоставимый].CurrentMember.Children.Item   
+                    (
+                        Count    
+                        (
+                            [Расходы].[Сопоставимый].CurrentMember.Children    
+                        ) - 1    
+                    ).Children  
+                ) = 0,
+                false,
+                Count  
+                (
+                    [Расходы].[Сопоставимый].CurrentMember.Children.Item  
+                    (
+                        Count  
+                        (
+                            [Расходы].[Сопоставимый].CurrentMember.Children  
+                        ) - 1  
+                    ).Children  
+                ) = 2 and [Расходы].[Сопоставимый].CurrentMember.Children.Item  
+                (
+                    Count  
+                    (
+                        [Расходы].[Сопоставимый].CurrentMember.Children  
+                    ) - 1  
+                ).Children.Item
+                (
+                    Count
+                    (
+                        [Расходы].[Сопоставимый].CurrentMember.Children.Item 
+                        (
+                            Count 
+                            (
+                                [Расходы].[Сопоставимый].CurrentMember.Children 
+                            ) - 1 
+                        ).Children
+                    ) - 1
+                ).Name = "Межбюджетные трансферты бюджетам государственных внебюджетных фондов"
+            )    
+        )'         
+    Member [Measures].[UniqName]           
+    as '[Расходы].[Сопоставимый].CurrentMember.UniqueName'           
+    Member [Measures].[Уровень]
+    as '[Расходы].[Сопоставимый].CurrentMember.Level.Name'
+SELECT
+    {
+        [Measures].[UniqName],
+        [Measures].[Уровень]
+    } on columns,
+    { [Расходы] } on rows           
+FROM [ФО_АС Бюджет_КазнИсп_Факт расхода]           
+]]>
+  </query>
+
+  <query id="MBTAdministratorList">
+    <![CDATA[
+-- shared_MBTAdministratorList
+with 
+    set [Расходы] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Расходы].[Сопоставимый].[Все],
+                [Расходы].[Сопоставимый].[Расходы уровень 1],
+                SELF 
+            ),
+            not 
+            (
+                [Расходы].[Сопоставимый].CurrentMember.Name = "Неуказанное наименование" or [Расходы].[Сопоставимый].CurrentMember.Name = "Несопоставленные данные" 
+            ) and 
+            (
+                [Measures].[МБТ],
+                [Расходы].[Сопоставимый].CurrentMember
+            ) 
+        ) ' 
+    Member [Measures].[МБТ] 
+    as '[Расходы].[Сопоставимый].CurrentMember.LastChild.Name = "Межбюджетные трансферты"' 
+    Member [Measures].[UniqName] 
+    as '[Расходы].[Сопоставимый].CurrentMember.UniqueName' 
+    Member [Measures].[Уровень] 
+    as '[Расходы].[Сопоставимый].CurrentMember.Level.Name' 
+SELECT
+    {
+        [Measures].[UniqName],
+        [Measures].[Уровень]  
+    } on columns,
+    { [Расходы] } on rows 
+FROM [ФО_АС Бюджет_КазнИсп_Факт расхода]        
+]]>
+</query>
+
+  <query id="MBTNonEmptyDays">
+    <![CDATA[
+-- shared_MBTNonEmptyDays
+select
+    {
+         [Расходы].[Сопоставимый].[Все].[Департамент финансов  Костромской области].[Межбюджетные трансферты]
+    } on columns,
+    non empty 
+    {
+        Filter 
+        (
+            Descendants 
+            (
+                [Период].[Период].[Данные всех периодов],
+                [Период].[Период].[День],
+                SELF  
+            ),
+            [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+            [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+            [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+            [Период].[Период].CurrentMember.Name <> "Данные года" and
+            [Период].[Период].CurrentMember.Name <> "Данные месяца"
+        ) 
+    } on rows   
+from [ФО_АС Бюджет_КазнИсп_Факт расхода]   
+where   
+    (
+        [Районы].[Сопоставимый].[Все районы],
+        [Measures].[Факт расходов] 
+    )         
+]]>
+</query>
+
+  <query id="FOFondVariantList">
+    <![CDATA[
+-- shared_FOFondVariantList
+With
+   member Measures.[UniqName]
+   as '[Вариант__Фонды].[Вариант__Фонды].CurrentMember.UniqueName'
+Select
+    {
+        Measures.[UniqName]
+    } on columns,
+    {  Filter([Вариант__Фонды].[Вариант__Фонды].[Все].Children, [Вариант__Фонды].[Вариант__Фонды].CurrentMember.Name <> "Тест") }  on rows
+From [ФО_Фонды_Бюджетные расходы]
+]]>
+</query>
+
+  <query id="OKVEDList">
+    <![CDATA[
+  with
+  member Measures.[UniqName]
+  as '[ОКВЭД__Сопоставимый].[ОКВЭД__Сопоставимый].currentmember.UniqueName'
+  select
+  { Measures.[UniqName] } on columns,
+  non empty
+  {
+  Except
+  (
+  {
+  [ОКВЭД__Сопоставимый].[ОКВЭД__Сопоставимый].[Раздел].ALLMEMBERS ,
+  [ОКВЭД__Сопоставимый].[ОКВЭД__Сопоставимый].[Все коды ОКВЭД]
+  },
+  {
+  Descendants
+  (
+  [ОКВЭД__Сопоставимый].[ОКВЭД__Сопоставимый].[Все коды ОКВЭД].[Несопоставленные данные] ,
+  [ОКВЭД__Сопоставимый].[ОКВЭД__Сопоставимый].[Все коды ОКВЭД].[Несопоставленные данные].Level ,
+  SELF_AND_AFTER
+  ) ,
+  Descendants
+  (
+  [ОКВЭД__Сопоставимый].[ОКВЭД__Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД] ,
+  [ОКВЭД__Сопоставимый].[ОКВЭД__Сопоставимый].[Все коды ОКВЭД].[Нет кода ОКВЭД].Level ,
+  SELF_AND_AFTER
+  )
+  }
+  )
+  } on rows
+  FROM  [ФНС_28н_с расщеплением]
+]]>
+</query>
+
+  <query id="MainActivityList">
+    <![CDATA[
+-- shared_mainActivityList
+with 
+    set [Мероприятия] 
+    as 'Filter 
+        (
+            Descendants
+            (
+                [Мероприятия].[ДопМероприятия_Сопоставимый].[Все].[Проведенная работа в рамках реализации программы Мероприятий по увеличению доходной базы бюджета],
+                [Мероприятия].[ДопМероприятия_Сопоставимый].[Мероприятия уровень 05],
+                SELF_AND_BEFORE 
+            ) - {[Мероприятия].[ДопМероприятия_Сопоставимый].[Все].[Проведенная работа в рамках реализации программы Мероприятий по увеличению доходной базы бюджета]},
+            not 
+            (
+                [Мероприятия].[ДопМероприятия_Сопоставимый].CurrentMember is [Мероприятия].[ДопМероприятия_Сопоставимый].CurrentMember.Parent.DataMember 
+            ) 
+        )' 
+    member Measures.[UniqName] 
+    as '[Мероприятия].[ДопМероприятия_Сопоставимый].CurrentMember.UniqueName' 
+    member Measures.[LevelName] 
+    as '[Мероприятия].[ДопМероприятия_Сопоставимый].CurrentMember.Level.Name' 
+select
+    {
+        Measures.[UniqName],
+        Measures.[LevelName] 
+    } on columns,
+    [Мероприятия] on rows 
+from [МОФО_Дополнительные мероприятия] 
+]]>
+</query>
+
+<query id="AdditionalActivityList">
+<![CDATA[
+-- shared_additionalActivityList
+with  
+    set [Показатели местного бюджета]  
+    as 'Filter  
+        (
+            {
+                [Показатели].[ДопМероприятия_Сопоставимый].[Все].[МОБИЛИЗАЦИЯ ДОХОДОВ]  
+            } + Generate  
+            (
+                Descendants  
+                (
+                    [Показатели].[ДопМероприятия_Сопоставимый].[Все],
+                    [Показатели].[ДопМероприятия_Сопоставимый].[Показатели уровень 2],
+                    SELF  
+                ),
+                {
+                    [Показатели].[ДопМероприятия_Сопоставимый].CurrentMember  
+                } + Generate  
+                (
+                    Descendants  
+                    (
+                        [Показатели].[ДопМероприятия_Сопоставимый].CurrentMember,
+                        [Показатели].[ДопМероприятия_Сопоставимый].[Показатели уровень 3],
+                        SELF  
+                    ),
+                    {
+                        [Показатели].[ДопМероприятия_Сопоставимый].CurrentMember  
+                    } + Descendants  
+                    (
+                        [Показатели].[ДопМероприятия_Сопоставимый].CurrentMember,
+                        [Показатели].[ДопМероприятия_Сопоставимый].[Показатели уровень 05],
+                        SELF  
+                    )  
+                )  
+            ),
+            not  
+            (
+                [Показатели].[ДопМероприятия_Сопоставимый].CurrentMember is [Показатели].[ДопМероприятия_Сопоставимый].CurrentMember.Parent.DataMember  
+            )  
+        )'  
+    member Measures.[UniqName]  
+    as '[Показатели].[ДопМероприятия_Сопоставимый].CurrentMember.UniqueName'  
+    member Measures.[LevelName] 
+    as '[Показатели].[ДопМероприятия_Сопоставимый].CurrentMember.Level.Name' 
+select
+    {
+        Measures.[UniqName],
+        Measures.[LevelName]
+    } on columns,
+    [Показатели местного бюджета] on rows 
+from [МОФО_Дополнительные мероприятия] 
+]]>
+  </query>
+
+  <query id="MOFORegionsList">
+    <![CDATA[
+-- shared_MOFORegionsList
+WITH  
+    set [Районы_] 
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%settlement_level%>,
+                SELF_AND_BEFORE  
+            ),
+            (
+                IIF  
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Все районы],
+                    false,
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" 
+                    ) or  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "СП" 
+                    ) or  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГП" 
+                    ) or  
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "РЦ" 
+                    ) 
+                )  
+            )  
+        )'  
+    set [Города_]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%settlement_level%>,
+                SELF_AND_BEFORE  
+            ),
+            (
+                IIF  
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Все районы],
+                    false,
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО" 
+                    ) 
+                )  
+            )  
+        )'  
+    member [Measures].[regionName] 
+    as 'IIF 
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember,
+            [Районы].[Сопоставимый].CurrentMember.Name + " (собственный бюджет)",
+            [Районы].[Сопоставимый].CurrentMember.Name 
+        )'  
+    member [Measures].[areaType] 
+    as 'IIF 
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember,
+            "СП",
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории")
+        )' 
+    member [Measures].[parentAreaType] 
+    as '[Районы].[Сопоставимый].CurrentMember.Parent.Properties("Тип территории")' 
+    member [Measures].[uniqName] 
+    as '[Районы].[Сопоставимый].CurrentMember.UniqueName ' 
+SELECT
+    {
+        [Measures].[regionName],
+        [Measures].[areaType],
+        [Measures].[uniqName]  
+    } on columns,
+    {
+        [Районы_] + [Города_] 
+    } on rows 
+FROM  [МОФО_Дополнительные мероприятия]  ]]>
+  </query>
+
+  <query id="FederalPopulationDate">
+    <![CDATA[
+-- shared_FederalPopulationDate
+with  
+    member Measures.[Численность постоянного населения_Prev]  
+    as '  
+        (
+            [Measures].[Факт],
+            [Период].[Период].[Данные всех периодов].[<%period_year%>].PrevMember
+        ) '  
+    member Measures.[Численность постоянного населения_This]  
+    as ' 
+        (
+            [Measures].[Факт],
+            [Период].[Период].[Данные всех периодов].[<%period_year%>]
+        ) '  
+    member Measures.[Численность постоянного населения]  
+    as 'IIF  
+        (
+            IsEmpty  
+            (
+                Measures.[Численность постоянного населения_This]  
+            ) or Measures.[Численность постоянного населения_This] = 0,
+            [Период].[Период].[Данные всех периодов].[<%period_year%>].PrevMember.Name,
+            [Период].[Период].[Данные всех периодов].[<%period_year%>].Name
+        ) '  
+select
+    {
+        Measures.[Численность постоянного населения]  
+    } on columns,
+    { [Территории].[Сопоставимый].[Все территории].[Российская  Федерация]  } on rows
+from [ФСГС_Численность населения]  
+where 
+    (
+        [ФСГС].[Численность населения].[Все].[Все население],
+        [Вариант].[ФСГС Население].[Все].[Численность населения на 1 января]
+    ) 
+]]>
+  </query>
+
+   
+  <query id="RegionPopulationDate">
+    <![CDATA[
+-- shared_RegionPopulationDate
+with   
+    member Measures.[Численность постоянного населения по МО]   
+    as ' 
+        (
+            <%population_filter%>
+        ) '   
+    member Measures.[Численность постоянного населения]   
+    as 'IIF   
+        (
+            not IsEmpty   
+            (
+                (
+                    Measures.[Численность постоянного населения по МО],
+                    <%population_period_dimension%>.[<%current_year%>]
+                )   
+            ),
+            <%population_period_dimension%>.[<%current_year%>].Properties("NAME"),
+            Tail   
+            (
+                Filter   
+                (
+                    {
+                        <%population_period_dimension%>.[2000] : <%population_period_dimension%>.[<%current_year%>].PrevMember
+                    },
+                    not IsEmpty   
+                    (
+                        Measures.[Численность постоянного населения по МО]   
+                    )   
+                )   
+            ).Item(0).Properties("NAME")
+        )'   
+select
+    {
+        Measures.[Численность постоянного населения] 
+    } on columns,
+    {
+        [Районы].[Сопоставимый].[Все районы]
+    } on rows   
+from <%population_cube%>
+]]>
+  </query>
+
+  <query id="OmskRegionPopulationDate">
+    <![CDATA[
+-- shared_OmskRegionPopulationDate
+with
+    member Measures.[Численность постоянного населения по МО]
+    as '[Measures].[Факт] '
+    member Measures.[Численность постоянного населения]
+    as 'IIF
+        (
+            not IsEmpty
+            (
+                (
+                    Measures.[Численность постоянного населения по МО],
+                    [Период].[Период].[Данные всех периодов].[<%current_year%>]
+                )
+            ),
+            [Период].[Период].[Данные всех периодов].[<%current_year%>].Properties("NAME"),
+            Tail
+            (
+                Filter
+                (
+                    {
+                        [Период].[Период].[Данные всех периодов].[2000] : [Период].[Период].[Данные всех периодов].[<%current_year%>].PrevMember
+                    },
+                    not IsEmpty
+                    (
+                        Measures.[Численность постоянного населения по МО]
+                    )
+                )
+            ).Item(0).Properties("NAME")
+        )'
+select
+    {
+        Measures.[Численность постоянного населения]
+    } on columns,
+    {
+        [Районы].[Сопоставимый].[Все районы].[Омская область]
+    } on rows
+from [ФСГС_Численность населения]
+where
+    (
+        [ФСГС].[Численность населения].[Все].[Все население],
+        [Вариант].[ФСГС Население].[Все].[Численность населения на 1 января]
+    )
+]]>
+  </query>
+  
+  <query id="QualityEvaluationIndicatorList">
+    <![CDATA[
+-- shared_QualityEvaluationIndicatorList
+with 
+    set [Список показателей] 
+    as ' 
+        {
+            Filter 
+            (
+                Descendants 
+                (
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели],
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Показатели],
+                    SELF 
+                ),
+                (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Name <> "Несопоставленные данные"
+                    ) and
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Name <> "Группа МО"
+                    ) and
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Name <> "Группа муниципального образования"
+                    ) and
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Name <> "Степень качества ОиОБП"
+                    ) and
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Name <> "Р15_Здравоохранение"
+                    ) and
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Name <> "Р15_Культура"
+                    ) and
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Name <> "Р15_Молодежная политика"
+                    ) and
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Name <> "Р15_Образование"
+                    ) and
+                    not
+                (
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Parent.DataMember 
+                ) 
+            ) 
+        }' 
+    member [Measures].[UniqName] 
+    as '[Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.UniqueName' 
+select
+    { [Measures].[UniqName] } on columns,
+    { [Список показателей] } on rows 
+from  [ФО_Оценка качества ОиОБП_Показатели] 
+]]>
+  </query>
+
+  <query id="QualityValueIndicatorList">
+    <![CDATA[
+-- shared_QualityValueIndicatorList
+with
+    set [Список показателей]
+    as '
+        {
+            Filter
+            (
+                Descendants
+                (
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели],
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Показатели],
+                    SELF
+                ) -
+                {
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Несопоставленные данные],
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Группа МО],
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Итоговая оценка уровня качества ОиОБП], 
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Рейтинг МО],
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Средняя оценка уровня качества ОиОБП],
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Степень качества ОиОБП],
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Р15]
+                },
+                not
+                (
+                    [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember is [Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.Parent.DataMember
+                )
+            )
+        }'
+    member [Measures].[UniqName]
+    as '[Показатели].[Оценка качества ОиОБП_Сопоставимый].CurrentMember.UniqueName'
+select
+    {
+        [Measures].[UniqName]
+    } on columns,
+    {
+        [Список показателей]
+    } on rows
+from  [ФО_Оценка качества ОиОБП_Показатели]
+where
+    (
+        [Период].[Период].[Данные всех периодов].[2010].[Полугодие 1].[Квартал 2]
+    )
+]]>
+  </query>
+
+  <query id="UrFORegionList">
+    <![CDATA[
+-- shared_UrFORegionList
+with      
+    set [Территории]      
+    as 'Generate    
+        (
+            {
+                [Районы].[Сопоставимый].[Все районы].[Курганская область],
+                [Районы].[Сопоставимый].[Все районы].[Свердловская область],
+                [Районы].[Сопоставимый].[Все районы].[Тюменская область],
+                [Районы].[Сопоставимый].[Все районы].[Челябинская область],
+                [Районы].[Сопоставимый].[Все районы].[Ханты-Мансийский автономный округ],
+                [Районы].[Сопоставимый].[Все районы].[Ямало-Ненецкий автономный округ]    
+            },
+            {
+                [Районы].[Сопоставимый].CurrentMember  
+            } + Filter    
+            (
+                Descendants      
+                (
+                    [Районы].[Сопоставимый].CurrentMember,
+                    [Районы].[Сопоставимый].[Уровень 04],
+                    SELF      
+                ),
+                (
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"      
+                    ) or      
+                    (
+                        [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"      
+                    )      
+                ) and not      
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember      
+                )      
+            )    
+        )'     
+    member [Районы].[Сопоставимый].[Уральский федеральный округ] 
+    as '[Районы].[Сопоставимый].[Все районы]' 
+    member [Measures].[UniqName]      
+    as '[Районы].[Сопоставимый].CurrentMember.UniqueName' 
+    member [Measures].[Уровень]
+    as '[Районы].[Сопоставимый].CurrentMember.Level.Name'
+select
+    { [Measures].[UniqName],[Measures].[Уровень] } on columns,
+    {
+        [Территории]
+    } on rows  
+from [ФНС_28н_без расщепления]       
+]]>
+  </query>
+
+  <query id="OmskGRBSList">
+    <![CDATA[
+-- shared_OmskGRBSList
+with    
+    member [Measures].[IsGRBS]    
+    as '    
+        (
+            [Районы].[Сопоставимый].CurrentMember.Name <> "Несопоставленные данные"    
+        ) and    
+        (
+            [Районы].[Сопоставимый].CurrentMember.Name <> "Консолидированный бюджет области"    
+        ) and    
+        (
+            [Районы].[Сопоставимый].CurrentMember.Name <> "Муниципальные образования - Омская область"    
+        ) and    
+        (
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") <> "СБ"    
+        )and    
+        (
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") <> "МР"    
+        )and    
+        (
+            [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") <> "ГО"    
+        ) '    
+    set [Списоок ГРБС]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            [Measures].[IsGRBS] = true    
+        )'    
+    set [Районы ]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"    
+            )    
+        )'    
+    set [Города ]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"    
+            )    
+        )'    
+    member [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]    
+    as '[Районы].[Сопоставимый].[Все районы]'    
+    member [Районы].[Сопоставимый].[Бюджет субъекта]    
+    as '[Районы].[Сопоставимый].[Все районы]'    
+    member [Районы].[Сопоставимый].[Местные бюджеты]    
+    as '[Районы].[Сопоставимый].[Все районы]'    
+    member [Районы].[Сопоставимый].[Городские округа ]    
+    as '[Районы].[Сопоставимый].[Все районы]'    
+    member [Районы].[Сопоставимый].[Муниципальные районы ]    
+    as '[Районы].[Сопоставимый].[Все районы]'    
+    member [Measures].[Тип]    
+    as 'IIF    
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            "КБС",
+            IIF    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта],
+                "СБС",
+                IIF    
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Местные бюджеты],
+                    "МБ",
+                    IIF    
+                    (
+                        [Measures].[IsGRBS],
+                        "ГРБС",
+                        [Районы].[Сопоставимый].CurrentMember.Name  
+                    )    
+                )    
+            )    
+        )'    
+    member [Measures].[Имя]    
+    as 'IIF   
+        (
+            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            "Консолидированный бюджет субъекта",
+            IIF   
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта],
+                "Бюджет субъекта",
+                IIF   
+                (
+                    [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Местные бюджеты],
+                    "Местные бюджеты",
+                    IIF 
+                    (
+                        [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы ],
+                        "Муниципальные районы ",
+                        IIF 
+                        (
+                            [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ] ,
+                            "Городские округа ",
+                            IIF   
+                            (
+                                [Measures].[IsGRBS],
+                                [Районы].[Сопоставимый].CurrentMember.Properties("Краткое наименование"),
+                                [Районы].[Сопоставимый].CurrentMember.Name
+                            ) 
+                        ) 
+                    )  
+                )   
+            )   
+        )'   
+    member [Measures].[Уникальное имя]    
+    as '[Районы].[Сопоставимый].CurrentMember.UniqueName'    
+    member [Measures].[LevelName]    
+    as '[Районы].[Сопоставимый].CurrentMember.Level.Name'    
+    member [Measures].[Уровень]    
+    as 'IIF    
+        (
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Консолидированный бюджет субъекта]    
+            ) or    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Бюджет субъекта]    
+            ) or    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Местные бюджеты]    
+            ) or    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Муниципальные районы ]    
+            ) or    
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].[Городские округа ]    
+            ),
+            0,
+            1    
+        ) '    
+    member [Measures].[Краткое имя]
+    as '[Районы].[Сопоставимый].CurrentMember.Properties("Краткое наименование")' 
+    member [Measures].[Полное имя]
+    as '[Районы].[Сопоставимый].CurrentMember.Name'      
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Тип],
+        [Measures].[Краткое имя],
+        [Measures].[Полное имя]
+    } on columns,
+    {
+        {
+            [Районы].[Сопоставимый].[Консолидированный бюджет субъекта],
+            [Районы].[Сопоставимый].[Бюджет субъекта]    
+        } + [Списоок ГРБС] +    
+        {
+            [Районы].[Сопоставимый].[Местные бюджеты]    
+        } +    
+        {
+            [Районы].[Сопоставимый].[Муниципальные районы ]    
+        } + [Районы ] +    
+        {
+            [Районы].[Сопоставимый].[Городские округа ]    
+        } + [Города ]    
+    } on rows    
+from [ФО_МесОтч_Расходы]               
+]]>
+</query>
+
+  <query id="LocalBudgetWithClimaticZonesDigest">
+    <![CDATA[
+-- shared_LocalBudgetWithClimaticZonesDigest
+with     
+    set [Субъекты северной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Климатическая зона") = "Северная зона"    
+            )    
+        )'    
+    set [Субъекты северной лесостепной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Климатическая зона") = "Северная лесостепная зона"    
+            )    
+        )'    
+    set [Субъекты южной лесостепной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Климатическая зона") = "Южная лесостепная зона"    
+            ) and
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Тип территории") = "МР"
+            )    
+        )'    
+    set [Субъекты степной зоны]    
+    as 'Filter    
+        (
+            Descendants    
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF    
+            ),
+            not    
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember    
+            ) and    
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Климатическая зона") = "Степная зона"    
+            )    
+        )'    
+    member <%regions_dimension%>.[Северная зона ]    
+    as 'Aggregate ( { [Субъекты северной зоны] } )'    
+    member <%regions_dimension%>.[Северная лесостепная зона ]    
+    as 'Aggregate    
+        (
+            {
+                [Субъекты северной лесостепной зоны]    
+            }    
+        )'    
+    member <%regions_dimension%>.[Южная лесостепная зона ]    
+    as 'Aggregate    
+        (
+            {
+                [Субъекты южной лесостепной зоны]    
+            }    
+        )'    
+    member <%regions_dimension%>.[Степная зона ]    
+    as 'Aggregate ( { [Субъекты степной зоны] } )'    
+    set [Климатические зоны]    
+    as '   
+        {
+            <%regions_dimension%>.[Северная зона ]    
+        } + [Субъекты северной зоны] +    
+        {
+            <%regions_dimension%>.[Северная лесостепная зона ]    
+        } + [Субъекты северной лесостепной зоны] +    
+        {
+            <%regions_dimension%>.[Южная лесостепная зона ]    
+        } + [Субъекты южной лесостепной зоны] +    
+        {
+            <%regions_dimension%>.[Степная зона ]    
+        } + [Субъекты степной зоны] '    
+    member [Measures].[IsClimaticZone]    
+    as ' <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Северная зона ] or  <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Северная лесостепная зона ] or  <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Южная лесостепная зона ] or  <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Степная зона ] '   
+    set [Районы ]     
+    as 'Filter     
+        (
+            Descendants     
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF     
+            ),
+            not     
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember     
+            ) and     
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Тип территории") = "МР"     
+            )     
+        )'     
+    set [Города ]     
+    as 'Filter     
+        (
+            Descendants     
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF     
+            ),
+            not     
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember     
+            ) and     
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Тип территории") = "ГО"     
+            )     
+        )'     
+    member <%regions_dimension%>.[Консолидированный бюджет субъекта]     
+    as '<%regions_dimension%>.[Все районы]'     
+    member <%regions_dimension%>.[<%own_subject_budget_name%>]     
+    as '<%regions_dimension%>.[Все районы]'     
+    member <%regions_dimension%>.[Местные бюджеты]     
+    as '<%regions_dimension%>.[Все районы]'     
+    member <%regions_dimension%>.[Городские округа ]     
+    as '<%regions_dimension%>.[Все районы]'     
+    member <%regions_dimension%>.[Муниципальные районы ]     
+    as '<%regions_dimension%>.[Все районы]'     
+    member [Measures].[Тип]     
+    as 'IIF     
+        (
+            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            "КБС",
+            IIF     
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>],
+                "СБС",
+                IIF     
+                (
+                    <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты],
+                    "МБ",
+                    IIF 
+                    (
+                        [Measures].[IsClimaticZone],
+                        "ПКЗ",
+                        IIF 
+                        (
+                            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ],
+                            "МР",
+                            IIF 
+                            (
+                                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ],
+                                "ГО",
+                                <%regions_dimension%>.CurrentMember.Properties("Тип территории") 
+                            ) 
+                        )
+                    ) 
+                )    
+            )     
+        )'     
+    member [Measures].[Имя]     
+    as 'IIF     
+        (
+            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            "Консолидированный бюджет субъекта",
+            IIF     
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>],
+                "Бюджет субъекта",
+                IIF     
+                (
+                    <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты],
+                    "Местные бюджеты",
+                    IIF     
+                    (
+                        <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ],
+                        "Муниципальные районы ",
+                        IIF     
+                        (
+                            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ] ,
+                            "Городские округа ",
+                            <%regions_dimension%>.CurrentMember.Name    
+                        )     
+                    )     
+                )     
+            )     
+        )'     
+    member [Measures].[Уникальное имя]     
+    as '<%regions_dimension%>.CurrentMember.UniqueName'     
+    member [Measures].[LevelName]     
+    as '<%regions_dimension%>.CurrentMember.Level.Name'     
+    member [Measures].[Уровень]     
+    as 'IIF     
+        (
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта]     
+            ) or     
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>]     
+            ) or     
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты]     
+            ) or     
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ]     
+            ) or     
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ]     
+            ),
+            0,
+            IIF  
+            (
+                [Measures].[IsClimaticZone] or
+                <%regions_dimension%>.CurrentMember.Properties("Тип территории") = "ГО",
+                1,
+                2    
+            )    
+        ) '  
+           
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Тип]    
+    } on columns,
+    {
+        {
+            <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            <%regions_dimension%>.[<%own_subject_budget_name%>],
+            <%regions_dimension%>.[Местные бюджеты]    
+        } +     
+        {
+            <%regions_dimension%>.[Муниципальные районы ]     
+        } + [Климатические зоны] +    
+        {
+            <%regions_dimension%>.[Городские округа ]
+        } + [Города ]     
+    } on rows     
+from [ФО_МесОтч_Расходы]     
+]]>
+  </query>
+
+  <query id="AuthorizedLocalBudgetDigest">
+    <![CDATA[
+-- shared_AuthorizedLocalBudgetDigest
+with  
+    member [Measures].[Выбран район]   
+    as 'Tail   
+        (
+            Filter   
+            (
+                Descendants  
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF  
+            ),
+                not   
+                (
+                    <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember   
+                ) and   
+                (
+                   <%regions_dimension%>.CurrentMember.Name = "<%authorizedMO%>"
+                )   
+            )   
+        ).Item(0).Properties("Тип территории") = "МР"'   
+        
+    set [МО ] 
+    as 'Filter  
+        (
+            Descendants  
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF  
+            ),
+            not  
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember  
+            ) and 
+            (
+                <%regions_dimension%>.CurrentMember.Name = "<%authorizedMO%>"
+            ) 
+        )'  
+    member <%regions_dimension%>.[Консолидированный бюджет субъекта] 
+    as '<%regions_dimension%>.[Все районы]'  
+    member <%regions_dimension%>.[<%own_subject_budget_name%>]  
+    as '<%regions_dimension%>.[Все районы]'  
+    member <%regions_dimension%>.[Местные бюджеты]  
+    as '<%regions_dimension%>.[Все районы]'  
+    member <%regions_dimension%>.[Городские округа ]  
+    as '<%regions_dimension%>.[Все районы]'  
+    member <%regions_dimension%>.[Муниципальные районы ]  
+    as '<%regions_dimension%>.[Все районы]'  
+    member [Measures].[Тип]  
+    as 'IIF  
+        (
+            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            "КБС",
+            IIF  
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>],
+                "СБС",
+                IIF  
+                (
+                    <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты],
+                    "МБ",
+                    IIF  
+                    (
+                        <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ],
+                        "МР",
+                        IIF  
+                        (
+                            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ],
+                            "ГО",
+                            <%regions_dimension%>.CurrentMember.Properties("Тип территории")
+                        )    
+                    )   
+                )              
+            )  
+        )'  
+    member [Measures].[Имя]  
+    as 'IIF  
+        (
+            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            "Консолидированный бюджет субъекта",
+            IIF  
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>],
+                "Бюджет субъекта",
+                IIF  
+                (
+                    <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты],
+                    "Местные бюджеты",
+                    IIF  
+                    (
+                        <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ],
+                        "Муниципальные районы ",
+                        IIF  
+                        (
+                            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ],
+                            "Городские округа ",
+                            <%regions_dimension%>.CurrentMember.Name
+                        )   
+                    )  
+                )  
+            )  
+        )'  
+    member [Measures].[Уникальное имя]  
+    as '<%regions_dimension%>.CurrentMember.UniqueName'  
+    member [Measures].[LevelName]  
+    as '<%regions_dimension%>.CurrentMember.Level.Name'  
+    member [Measures].[Уровень]  
+    as 'IIF  
+        (
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта]  
+            ) or  
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>]  
+            ) or  
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты]  
+            ) or  
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ]  
+            ) or  
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ]
+            ),
+            0,
+            1 
+        ) '   
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Тип]  
+    } on columns,
+    {
+        {
+            <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            <%regions_dimension%>.[<%own_subject_budget_name%>],
+            <%regions_dimension%>.[Местные бюджеты]  
+        } +   
+        Filter  
+        (
+            {
+                <%regions_dimension%>.[Муниципальные районы ]   
+            } +   
+            {
+                <%regions_dimension%>.[Городские округа ]   
+            },
+            IIF 
+            (
+                [Measures].[Выбран район],
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ],
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ] 
+            )  
+        ) + [МО ] 
+    } on rows  
+from [ФО_МесОтч_Расходы]       
+]]>
+  </query>
+
+  <query id="LocalBudgetDigest">
+    <![CDATA[
+-- shared_LocalBudgetDigest
+with 
+    set [Районы ] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF 
+            ),
+            not 
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Тип территории") = "МР" 
+            ) 
+        )' 
+    set [Города ] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                <%regions_dimension%>.[Все районы],
+                <%regions_level%>,
+                SELF 
+            ),
+            not 
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                <%regions_dimension%>.CurrentMember.Properties("Тип территории") = "ГО" 
+            ) 
+        )' 
+    member <%regions_dimension%>.[Консолидированный бюджет субъекта] 
+    as '<%regions_dimension%>.[Все районы]' 
+    member <%regions_dimension%>.[<%own_subject_budget_name%>] 
+    as '<%regions_dimension%>.[Все районы]' 
+    member <%regions_dimension%>.[Местные бюджеты] 
+    as '<%regions_dimension%>.[Все районы]' 
+    member <%regions_dimension%>.[Городские округа ] 
+    as '<%regions_dimension%>.[Все районы]' 
+    member <%regions_dimension%>.[Муниципальные районы ] 
+    as '<%regions_dimension%>.[Все районы]' 
+    member [Measures].[Тип] 
+    as 'IIF 
+        (
+            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            "КБС",
+            IIF 
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>],
+                "СБС",
+                IIF 
+                (
+                    <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты],
+                    "МБ",
+                    IIF 
+                    (
+                        <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ],
+                        "МР",
+                        IIF 
+                        (
+                            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ],
+                            "ГО",
+                            <%regions_dimension%>.CurrentMember.Properties("Тип территории") 
+                        ) 
+                    )  
+                )             
+            ) 
+        )' 
+    member [Measures].[Имя] 
+    as 'IIF 
+        (
+            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            "Консолидированный бюджет субъекта",
+            IIF 
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>],
+                "<%own_subject_budget_name%>",
+                IIF 
+                (
+                    <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты],
+                    "Местные бюджеты",
+                    IIF 
+                    (
+                        <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ],
+                        "Муниципальные районы ",
+                        IIF 
+                        (
+                            <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ] ,
+                            "Городские округа ",
+                            <%regions_dimension%>.CurrentMember.Name 
+                        ) 
+                    ) 
+                ) 
+            ) 
+        )' 
+    member [Measures].[Уникальное имя] 
+    as '<%regions_dimension%>.CurrentMember.UniqueName' 
+    member [Measures].[LevelName] 
+    as '<%regions_dimension%>.CurrentMember.Level.Name' 
+    member [Measures].[Уровень] 
+    as 'IIF 
+        (
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Консолидированный бюджет субъекта] 
+            ) or 
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[<%own_subject_budget_name%>] 
+            ) or 
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Местные бюджеты] 
+            ) or 
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Муниципальные районы ] 
+            ) or 
+            (
+                <%regions_dimension%>.CurrentMember is <%regions_dimension%>.[Городские округа ] 
+            ),
+            0,
+            1 
+        ) '  
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Тип] 
+    } on columns,
+    {
+        {
+            <%regions_dimension%>.[Консолидированный бюджет субъекта],
+            <%regions_dimension%>.[<%own_subject_budget_name%>],
+            <%regions_dimension%>.[Местные бюджеты] 
+        } + 
+        {
+            <%regions_dimension%>.[Муниципальные районы ] 
+        } + [Районы ] + 
+        {
+            <%regions_dimension%>.[Городские округа ] 
+        } + [Города ] 
+    } on rows 
+from [ФО_МесОтч_Расходы]    
+where ([Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта], [ТипДокумента].[СКИФ].[Все].[Консолидированная отчетность и отчетность внебюджетных территориальных фондов])
+]]>
+  </query>
+
+<query id="NovosibRZPRType">
+<![CDATA[
+-- FO_0005_0004_rzprType 
+with   
+    member [Measures].[Уровень] 
+    as '
+        (
+            [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember.Properties("LEVEL_NUMBER")  
+        )-1'
+    member [Measures].[Уникальное имя] 
+    as '   [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember.UniqueName ' 
+    member [Measures].[Имя] 
+    as '
+        (
+            [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember.Name
+        )'  
+    set [РзПр] 
+    as ' Filter   
+        (
+            Descendants   
+            (
+                [РзПр__АС Бюджет].[РзПр__АС Бюджет].[Данные всех источников].[ФО\0001 АС Бюджет - УФиНП <%year%>],
+                [РзПр__АС Бюджет].[РзПр__АС Бюджет].[Подраздел],
+                Self_and_before   
+            ),
+            not [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember is [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember.Parent.DataMember and [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember.Name <> "Неуказанная функциональная статья"
+			and [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember.Name <> "Неизвестные данные"
+			and [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember.Name <> "Условно утвержденные расходы"
+			and [РзПр__АС Бюджет].[РзПр__АС Бюджет].CurrentMember.Name <> "ФО\0001 АС Бюджет - УФиНП <%year%>" 
+        )'  
+SELECT
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень] 
+    }ON COLUMNS,
+    NON EMPTY ([РзПр]) ON ROWS 
+FROM  [ФО_АС Бюджет_План расходов]    
+ ]]>
+</query>
+
+<query id="OrenburgGRBSList">
+<![CDATA[
+--OrenburgGRBSList	
+		with
+    member [Measures].[IsGRBS]
+    as '
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Несопоставленные данные"
+        ) and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Федеральный бюджет"
+        ) and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Консолидированный бюджет Оренбургской области"
+        ) and
+        (
+          [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Бюджет области"
+        )
+        and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") <> "СБ"
+        )and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") <> "МР"
+        )and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") <> "ГО"
+        )and not
+        (
+           [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+        )
+        '
+    set [Списоок ГРБС]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[ГРБС],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы].[ГРБС].Level,
+                after
+            ),
+            [Measures].[IsGRBS] = true
+        )'
+    set [Районы ]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF
+            ),
+            not
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )
+        )'
+    set [Города ]
+    as 'Filter
+        (
+            Descendants
+            (
+               [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+               [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF
+            ),
+            not
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Местные бюджеты]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+    member [Measures].[Тип]
+    as 'IIF
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта],
+            "КБС",
+            IIF
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта],
+                "СБС",
+                IIF
+                (
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Местные бюджеты],
+                    "МБ",
+                    IIF
+                    (
+                        [Measures].[IsGRBS],
+                        "ГРБС",
+                        [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name
+                    )
+                )
+            )
+        )'
+    member [Measures].[Имя]
+    as 'IIF
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта],
+            "Консолидированный бюджет субъекта",
+            IIF
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта],
+                "Бюджет субъекта",
+                IIF
+                (
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Местные бюджеты],
+                    "Местные бюджеты",
+                    IIF
+                    (
+                        [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ],
+                        "Муниципальные районы ",
+                        IIF
+                        (
+                            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ] ,
+                            "Городские округа ",
+                            IIF
+                            (
+                                [Measures].[IsGRBS],
+                                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+                                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name
+                            )
+                        )
+                    )
+                )
+            )
+        )'
+    member [Measures].[Уникальное имя]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.UniqueName'
+    member [Measures].[LevelName]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Level.Name'
+    member [Measures].[Уровень]
+    as 'IIF
+        (
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта]
+            ) or
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта]
+            ) or
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Местные бюджеты]
+            ) or
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ]
+            ) or
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ]
+            ),
+            0,
+            1
+        ) '
+    member [Measures].[Краткое имя]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Краткое наименование")'
+    member [Measures].[Полное имя]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name'
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Тип],
+        [Measures].[Краткое имя],
+        [Measures].[Полное имя]
+    } on columns,
+    {
+        {
+            [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта],
+            [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта]
+        } + [Списоок ГРБС]+
+        {
+            [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ]
+        } + [Районы ] +
+        {
+            [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ]
+        } + [Города ]
+    } on rows
+from [ФО_МесОтч_Расходы]  
+
+ ]]>
+	</query>
+	
+<query id="KrasnodarList">
+<![CDATA[
+--KrasnodarList	
+		with
+    member [Measures].[IsGRBS]
+    as '
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Несопоставленные данные"
+        ) and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Федеральный бюджет"
+        ) and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Консолидированный бюджет Оренбургской области"
+        ) and
+        (
+          [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Бюджет области"
+        )
+        and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") <> "СБ"
+        )and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") <> "МР"
+        )and
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") <> "ГО"
+        )and not
+        (
+           [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+        )
+        '
+  
+    set [Районы ]
+    as 'Filter
+        (
+            Descendants
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF
+            ),
+            not
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "МР"
+            )
+        )'
+    set [Города ]
+    as 'Filter
+        (
+            Descendants
+            (
+               [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+               [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                SELF
+            ),
+            not
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember
+            ) and
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"
+            )
+        )'
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+	member [Районы].[Сопоставимый].[Бюджет субъекта]    
+    as '[Районы].[Сопоставимый].[Все районы]'    
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Местные бюджеты]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+    member [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы]'
+    member [Measures].[Тип]
+    as 'IIF
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта],
+            "КБС",
+            IIF
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта],
+                "СБС",
+                IIF
+                (
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Местные бюджеты],
+                    "МБ",
+                    IIF
+                    (
+                        [Measures].[IsGRBS],
+                        "ГРБС",
+                        [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name
+                    )
+                )
+            )
+        )'
+    member [Measures].[Имя]
+    as 'IIF
+        (
+            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта],
+            "Консолидированный бюджет субъекта",
+            IIF
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта],
+                "Бюджет субъекта",
+                IIF
+                (
+                    [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Местные бюджеты],
+                    "Местные бюджеты",
+                    IIF
+                    (
+                        [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ],
+                        "Муниципальные районы ",
+                        IIF
+                        (
+                            [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ] ,
+                            "Городские округа ",
+                            IIF
+                            (
+                                [Measures].[IsGRBS],
+                                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name,
+                                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name
+                            )
+                        )
+                    )
+                )
+            )
+        )'
+    member [Measures].[Уникальное имя]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.UniqueName'
+    member [Measures].[LevelName]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Level.Name'
+    member [Measures].[Уровень]
+    as 'IIF
+        (
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта]
+            ) or
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта]
+            ) or
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Местные бюджеты]
+            ) or
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ]
+            ) or
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ]
+            ),
+            0,
+            1
+        ) '
+    member [Measures].[Краткое имя]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Properties("Краткое наименование")'
+    member [Measures].[Полное имя]
+    as '[Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name'
+select
+    {
+        [Measures].[Имя],
+        [Measures].[Уникальное имя],
+        [Measures].[Уровень],
+        [Measures].[Тип],
+        [Measures].[Краткое имя],
+        [Measures].[Полное имя]
+    } on columns,
+    {
+        {
+            [Районы__Сопоставимый].[Районы__Сопоставимый].[Консолидированный бюджет субъекта],
+			[Районы__Сопоставимый].[Районы__Сопоставимый].[Бюджет субъекта] 
+        } +
+        {
+            [Районы__Сопоставимый].[Районы__Сопоставимый].[Муниципальные районы ]
+        } + [Районы ] +
+        {
+            [Районы__Сопоставимый].[Районы__Сопоставимый].[Городские округа ]
+        } + [Города ]
+    } on rows
+from [ФО_МесОтч_Расходы]  
+
+ ]]>
+</query>
+
+</root>
+

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="Показатели.МОФО_Оперативные данные" ClassType="7" SubClassType="2" Description="Показатели, по которым предоставляется оперативная информация от муниципальным образованиям." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DataMemberCaptionTemplate="(* ДАННЫЕ)" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsReadWrite="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" MembersWithData="1">
+  <property name="FromClause"><![CDATA["DV"."DV_MARKS_MOFOOPER", "DV"."DV_UNITS_OKEI_BRIDGE"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_MARKS_MOFOOPER"."REFUNITS"="DV"."DV_UNITS_OKEI_BRIDGE"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.Marks.MOFOOper]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_MARKS_MOFOOPER}{DV.DV_MARKS_MOFOOPER}{2400}{600}{2610}{3165}{1})({dv}{DV.DV_UNITS_OKEI_BRIDGE}{DV.DV_UNITS_OKEI_BRIDGE}{3090}{4380}{1800}{2200}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[42e42111-eac9-4e49-9ecf-af107b13437f]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[0736f6d8-0ed2-4b19-8117-fe50d9d609f5]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[188be77a-8ce0-4a40-8f42-6776c7608dd0]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Данные всех источников]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатели" ClassType="8" SubClassType="2" Description="" Num="2" Grouping="0" AreMemberNamesUnique="false" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" LevelNamingTemplate="Источник;Уровень 1;Уровень 2;Уровень 3;Уровень 4;Уровень 5;Уровень 6" Ordering="2" OrderingMemberProperty="Код" RootMemberIf="7" SkippedLevelsColumn="">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_MARKS_MOFOOPER"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_MARKS_MOFOOPER"."NAME"]]></property>
+      <property name="ParentKeyColumn"><![CDATA["DV"."DV_MARKS_MOFOOPER"."CUBEPARENTID"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_MOFOOPER"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_MARKS_MOFOOPER"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обозначение единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Обозначение единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="50" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI_BRIDGE"."SYMBOL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Наименование единицы измерения" ClassType="31" SubClassType="0" Description="" Caption="Наименование единицы измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI_BRIDGE"."NAME"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

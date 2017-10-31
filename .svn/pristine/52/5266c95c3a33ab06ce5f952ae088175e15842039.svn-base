@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <ProjectGuid>{5C07EBDF-D43F-4BE9-B560-D7A443C0EDCE}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Krista.FM.Update.Framework</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Krista.FM.Update.Debug'">
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <Optimize>false</Optimize>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\..\FixedBin\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <HintPath>..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\v3.5\System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Config\AutoUpdaterVersionInfo.cs">
+      <Link>Properties\AutoUpdaterVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Conditions\ConditionHelper.cs" />
+    <Compile Include="Conditions\FileChecksumCondition.cs" />
+    <Compile Include="Conditions\FileDateCondition.cs" />
+    <Compile Include="Conditions\FileSizeCondition.cs" />
+    <Compile Include="Conditions\OSCondition.cs" />
+    <Compile Include="Conditions\SchemeConditions\EntityExistsCondition.cs" />
+    <Compile Include="Conditions\SchemeConditions\OKTMOCondition.cs" />
+    <Compile Include="Conditions\SchemeConditions\PackageExistsCondition.cs" />
+    <Compile Include="Conditions\SchemeConditions\SchemeDependedCondition.cs" />
+    <Compile Include="Conditions\SchemeConditions\ServerModuleVersionCondition.cs" />
+    <Compile Include="Conditions\UpdateCondition.cs" />
+    <Compile Include="Controls\DataGridViewColumnFactory.cs" />
+    <Compile Include="Controls\ExportToExcel.cs" />
+    <Compile Include="Controls\PatchListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PatchListControl.Designer.cs">
+      <DependentUpon>PatchListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NotifyIconControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\NotifyIconControl.Designer.cs">
+      <DependentUpon>NotifyIconControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ReceivedPatchListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReceivedPatchListControl.Designer.cs">
+      <DependentUpon>ReceivedPatchListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="Conditions\BooleanCondition.cs" />
+    <Compile Include="Conditions\FileExistsCondition.cs" />
+    <Compile Include="Conditions\FileVersionCondition.cs" />
+    <Compile Include="ArchiveHelper.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Forms\ConfigEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfigEditorForm.Designer.cs">
+      <DependentUpon>ConfigEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PropertyControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RemoteClientWrapper.cs" />
+    <Compile Include="Sources\SourceFactory.cs" />
+    <Compile Include="Trace.cs" />
+    <Compile Include="UnitySingleton.cs" />
+    <Compile Include="UpdateManagerFactory.cs" />
+    <Compile Include="FeedReaders\XmlFeedReader.cs" />
+    <Compile Include="Forms\NotifyIconForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NotifyIconForm.Designer.cs">
+      <DependentUpon>NotifyIconForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PatchListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PatchListForm.Designer.cs">
+      <DependentUpon>PatchListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ServerLibrary.cs" />
+    <Compile Include="Sources\MemorySource.cs" />
+    <Compile Include="Sources\SimpleWebSource.cs" />
+    <Compile Include="UpdateObjects\Tasks\FileDeleteTask.cs" />
+    <Compile Include="UpdateObjects\Tasks\FileExecuteTask.cs" />
+    <Compile Include="UpdateObjects\Tasks\FileTask.cs" />
+    <Compile Include="UpdateObjects\Tasks\FileUpdateTask.cs" />
+    <Compile Include="UpdateObjects\UpdateFeed.cs" />
+    <Compile Include="UpdateObjects\UpdatePatch.cs" />
+    <Compile Include="UpdateObjects\Tasks\UpdateTask.cs" />
+    <Compile Include="UpdateObjects\Tasks\VersionUpdateTask.cs" />
+    <Compile Include="UpdateManager.cs" />
+    <Compile Include="UpdateManagerWrapper.cs" />
+    <Compile Include="Utils\FileChecksum.cs" />
+    <Compile Include="Utils\FileDownloader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpdateStarter.cs" />
+    <Compile Include="Utils\FileDownloaderAbstract.cs" />
+    <Compile Include="Utils\FtpDownloader.cs" />
+    <Compile Include="Utils\PermissionsCheck.cs" />
+    <Compile Include="Utils\SecureConfigStringProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\PatchListControl.resx">
+      <DependentUpon>PatchListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ConfigEditorForm.resx">
+      <DependentUpon>ConfigEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NotifyIconForm.resx">
+      <DependentUpon>NotifyIconForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PatchListForm.resx">
+      <DependentUpon>PatchListForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="scheme.xsd">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\schemeDesigner.ico" />
+    <None Include="Resources\updateicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\workplace.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Krista.Diagnostics\Krista.Diagnostics.csproj">
+      <Project>{771564CF-3F02-4A9A-91CC-F710104EC4B3}</Project>
+      <Name>Krista.Diagnostics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Krista.FM.Update.ColdUpdater\Krista.FM.Update.ColdUpdater.csproj">
+      <Project>{7D4D18D4-DBD2-4ADC-9D82-397D6C5E9F40}</Project>
+      <Name>Krista.FM.Update.ColdUpdater</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\50.ICO" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OfficeAddIn.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExternalApp\7za.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Updater\UpdaterFM.exe" />
+    <None Include="Resources\list-accept1.png" />
+    <None Include="Resources\list-accept.png" />
+    <None Include="Resources\system-software-update %282%29.png" />
+    <None Include="Resources\system-software-update %281%29.png" />
+    <None Include="Resources\install.png" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\ProjectOptions.xml" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\ProjectTargets.xml" />
+  <Import Project="$(SolutionDir)\..\..\Tools\StyleCop\Microsoft.StyleCop.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

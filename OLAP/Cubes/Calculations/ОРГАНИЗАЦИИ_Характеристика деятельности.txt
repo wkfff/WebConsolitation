@@ -1,0 +1,49 @@
+CALCULATE;
+/* Перекрытие итогов для мер, идущих нарастающим итогом */
+/* План */
+({[Measures].[План]}, [Период__Период].[Период__Период].[Квартал].MEMBERS) =
+(Tail( filter([Период__Период].[Период__Период].CurrentMember.children,not IsEmpty([Measures].[План])),1).Item(0),
+[Measures].[План]);
+
+({[Measures].[План]}, [Период__Период].[Период__Период].[Полугодие].MEMBERS) =
+(Tail( filter([Период__Период].[Период__Период].CurrentMember.children,not IsEmpty([Measures].[План])),1).Item(0),
+[Measures].[План]);
+
+({[Measures].[План]}, [Период__Период].[Период__Период].[Год].MEMBERS) =
+(Tail( filter([Период__Период].[Период__Период].CurrentMember.children,not IsEmpty([Measures].[План])),1).Item(0),
+[Measures].[План]);
+
+/* Факт */
+({[Measures].[Факт]}, [Период__Период].[Период__Период].[Квартал].MEMBERS) =
+(Tail( filter([Период__Период].[Период__Период].CurrentMember.children,not IsEmpty([Measures].[Факт])),1).Item(0),
+[Measures].[Факт]);
+
+({[Measures].[Факт]}, [Период__Период].[Период__Период].[Полугодие].MEMBERS) = 
+(Tail( filter([Период__Период].[Период__Период].CurrentMember.children,not IsEmpty([Measures].[Факт])),1).Item(0),
+[Measures].[Факт]);
+
+({[Measures].[Факт]}, [Период__Период].[Период__Период].[Год].MEMBERS) = 
+(Tail( filter([Период__Период].[Период__Период].CurrentMember.children,not IsEmpty([Measures].[Факт])),1).Item(0),
+[Measures].[Факт]);
+
+/* Вычислимые меры */
+CREATE MEMBER CURRENTCUBE.Measures.[Абс.откл. АППГ] AS IIF(IsEmpty(([Период__Период].[Период__Период].CurrentMember,[Measures].[Значение])),null,
+([Период__Период].[Период__Период].CurrentMember,[Measures].[Значение]) - (ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[Значение])
+);
+CREATE MEMBER CURRENTCUBE.Measures.[Абс.откл. от плана АППГ] AS IIF(IsEmpty(([Период__Период].[Период__Период].CurrentMember,[Measures].[План])), null,
+([Период__Период].[Период__Период].CurrentMember,[Measures].[План]) - (ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[План]));
+CREATE MEMBER CURRENTCUBE.Measures.[Абс.откл. от факта АППГ] AS IIF(IsEmpty(([Период__Период].[Период__Период].CurrentMember,[Measures].[Факт])), null,
+([Период__Период].[Период__Период].CurrentMember,[Measures].[Факт]) - (ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[Факт]));
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста АППГ] AS IIF((ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[Значение])<>0,
+([Период__Период].[Период__Период].CurrentMember,[Measures].[Значение]) / (ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[Значение]) * 100,
+null), FORMAT_STRING = '#.00';
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста плана АППГ] AS IIF((ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[План])<>0,
+([Период__Период].[Период__Период].CurrentMember,[Measures].[План]) / (ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[План]) * 100,
+null), FORMAT_STRING = '#.00';
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста факта АППГ] AS IIF((ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[Факт])<>0,
+([Период__Период].[Период__Период].CurrentMember,[Measures].[Факт]) / (ParallelPeriod([Период__Период].[Период__Период].[Год]),[Measures].[Факт]) * 100,
+null), FORMAT_STRING = '#.00';
+CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста АППГ] AS IIF (not IsEmpty([Measures].[Темп роста АППГ]),(([Measures].[Темп роста АППГ]) - 100),null), FORMAT_STRING = '#.00';
+CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста плана АППГ] AS IIF (not IsEmpty([Measures].[Темп роста плана АППГ]),(([Measures].[Темп роста плана АППГ]) - 100),null), FORMAT_STRING = '#.00';
+CREATE MEMBER CURRENTCUBE.Measures.[Темп прироста факта АППГ] AS IIF (not IsEmpty([Measures].[Темп роста факта АППГ]),(([Measures].[Темп роста факта АППГ]) - 100),null), FORMAT_STRING = '#.00';
+CREATE MEMBER CURRENTCUBE.Measures.[Процент выполнения плана] AS IIF(([Measures].[План])<>0 and ([Measures].[Факт])<>0,([Measures].[Факт])/([Measures].[План])*100,null), FORMAT_STRING = '#.00';

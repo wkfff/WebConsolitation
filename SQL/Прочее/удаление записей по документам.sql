@@ -1,0 +1,12 @@
+
+delete from [RIATest].[DV].[f_Doc_Docum]
+delete from [RIATest].[DV].[f_F_OKVEDY]
+delete from [RIATest].[DV].[f_Org_Passport]
+delete from [RIATest].[DV].[f_F_GZYslPotr]
+delete from [RIATest].[DV].[f_F_PNRZnach]
+delete from [RIATest].[DV].[f_F_GosZadanie]
+delete from [RIATest].[DV].[f_Fin_Smeta]
+delete from [RIATest].[DV].[f_Fin_finActPlan]
+delete from [RIATest].[DV].[f_F_ParameterDoc]
+delete from [RIATest].[DV].[d_Org_UserProfile]
+delete from [RIATest].[DV].[d_Org_Structure]

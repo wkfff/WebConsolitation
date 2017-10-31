@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DatabaseDimension method="Add" name="ОИВ.Показатели" ClassType="7" SubClassType="0" Description="Перечень показателей для оценки эффективности деятельности органов исполнительной власти субъектов РФ." DimensionType="0" DataSource="dv" DependsOnDimension="" AllowSiblingsWithSameName="false" AreMemberNamesUnique="false" DefaultMember="" EnableRealTimeUpdates="false" IsTime="false" IsChanging="false" IsShared="true" IsVirtual="false" Num="1" Huge="0" StorageMode="1">
+  <property name="FromClause"><![CDATA["DV"."DV_OIV_MARK", "DV"."DV_UNITS_OKEI", "DV"."D_OIV_GROUP", "DV"."D_OIV_ALLOCATION", "DV"."D_OIV_TYPEMARK"]]></property>
+  <property name="JoinClause"><![CDATA[("DV"."DV_OIV_MARK"."REFUNITS"="DV"."DV_UNITS_OKEI"."ID") AND ("DV"."DV_OIV_MARK"."REFOIV"="DV"."D_OIV_GROUP"."ID") AND ("DV"."DV_OIV_MARK"."REFOIVALLOCATION"="DV"."D_OIV_ALLOCATION"."ID") AND ("DV"."DV_OIV_MARK"."REFTYPEMARK"="DV"."D_OIV_TYPEMARK"."ID")]]></property>
+  <property name="SourceTableFilter"><![CDATA[]]></property>
+  <CustomProperties>
+    <Property name="FullName" datatype="8"><![CDATA[d.OIV.Mark]]></Property>
+    <Property name="SchemaLayout" datatype="0"><![CDATA[({dv}{DV.DV_OIV_MARK}{DV.DV_OIV_MARK}{2400}{600}{2910}{5920}{1})({dv}{DV.DV_UNITS_OKEI}{DV.DV_UNITS_OKEI}{2160}{4350}{2685}{910}{1})({dv}{DV.D_OIV_GROUP}{DV.D_OIV_GROUP}{3165}{4365}{2700}{925}{1})({dv}{DV.D_OIV_ALLOCATION}{DV.D_OIV_ALLOCATION}{4200}{4365}{2745}{940}{1})({dv}{DV.D_OIV_TYPEMARK}{DV.D_OIV_TYPEMARK}{5325}{4440}{2670}{910}{1})]]></Property>
+    <Property name="ID" datatype="8"><![CDATA[adc5346c-b7f2-442f-8a69-974ca26b9d76]]></Property>
+    <Property name="ObjectKey" datatype="8"><![CDATA[32ba3e90-e6b2-41a4-a45f-c643fb12bc1a]]></Property>
+    <Property name="HierarchyID" datatype="8"><![CDATA[d0483382-96ba-4a9d-9caa-341d34cbca88]]></Property>
+    <Property name="AllHidden" datatype="8"><![CDATA[false]]></Property>
+  </CustomProperties>
+  <DatabaseLevels>
+    <DatabaseLevel method="Add" name="(All)" ClassType="8" SubClassType="0" Description="" Num="1" LevelType="1" Grouping="0" HideMemberIf="0" ColumnType="3" CustomRollUpPropertiesColumn="" IsVisible="true" UniqueItems="false" IsUnique="false" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA[Все показатели]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys />
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Источник" ClassType="8" SubClassType="0" Description="" Num="2" LevelType="0" Grouping="0" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="131" ColumnSize="19" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="0">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_OIV_MARK"."SOURCEID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_OIV_MARK"."DATASOURCENAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="ID источника" ClassType="31" SubClassType="0" Description="" Caption="ID источника" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."SOURCEID"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+    <DatabaseLevel method="Add" name="Показатель" ClassType="8" SubClassType="0" Description="" Num="3" LevelType="0" Grouping="0" AreMemberKeysUnique="true" AreMemberNamesUnique="false" HideMemberIf="0" ColumnType="3" ColumnSize="0" CustomRollUpPropertiesColumn="" EstimatedSize="1" IsVisible="true" Ordering="2" OrderingMemberProperty="Код">
+      <property name="CustomRollUpColumn"><![CDATA[]]></property>
+      <property name="CustomRollUpExpression"><![CDATA[]]></property>
+      <property name="MemberKeyColumn"><![CDATA["DV"."DV_OIV_MARK"."ID"]]></property>
+      <property name="MemberNameColumn"><![CDATA["DV"."DV_OIV_MARK"."NAME"]]></property>
+      <property name="UnaryOperatorColumn"><![CDATA[]]></property>
+      <MemberPropertys>
+        <MemberProperty method="Add" name="PKID" ClassType="31" SubClassType="0" Description="" Caption="PKID" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."ID"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Код" ClassType="31" SubClassType="0" Description="" Caption="Код" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."CODE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Примечание" ClassType="31" SubClassType="0" Description="" Caption="Примечание" PropertyType="0" IsVisible="true" ColumnSize="10" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."NOTE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обозначение" ClassType="31" SubClassType="0" Description="" Caption="Обозначение" PropertyType="0" IsVisible="true" ColumnSize="20" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."SYMBOL"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обозначение_Норматив" ClassType="31" SubClassType="0" Description="" Caption="Обозначение_Норматив" PropertyType="0" IsVisible="true" ColumnSize="20" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."SYMBOL1"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обозначение_Среднее по РФ" ClassType="31" SubClassType="0" Description="" Caption="Обозначение_Среднее по РФ" PropertyType="0" IsVisible="true" ColumnSize="20" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."SYMBOL2"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Описание" ClassType="31" SubClassType="0" Description="" Caption="Описание" PropertyType="0" IsVisible="true" ColumnSize="1024" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."FULLNAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Включать в доклад" ClassType="31" SubClassType="0" Description="" Caption="Включать в доклад" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."INCREP"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Формула" ClassType="31" SubClassType="0" Description="" Caption="Формула" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."FORMULA"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Номер в структуре" ClassType="31" SubClassType="0" Description="" Caption="Номер в структуре" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."CODESTRUCTURE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Номер в докладе" ClassType="31" SubClassType="0" Description="" Caption="Номер в докладе" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."CODEREP"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Разрядность" ClassType="31" SubClassType="0" Description="" Caption="Разрядность" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."CAPACITY"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="МО" ClassType="31" SubClassType="0" Description="" Caption="МО" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."MO"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Относительный показатель" ClassType="31" SubClassType="0" Description="" Caption="Относительный показатель" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."RELATIVE"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Единица измерения" ClassType="31" SubClassType="0" Description="" Caption="Единица измерения" PropertyType="0" IsVisible="true" ColumnSize="765" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_UNITS_OKEI"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Группа показателя" ClassType="31" SubClassType="0" Description="" Caption="Группа показателя" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OIV_GROUP"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Вид показателя" ClassType="31" SubClassType="0" Description="" Caption="Вид показателя" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OIV_ALLOCATION"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Тип показателя" ClassType="31" SubClassType="0" Description="" Caption="Тип показателя" PropertyType="0" IsVisible="true" ColumnSize="255" ColumnType="129" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."D_OIV_TYPEMARK"."NAME"]]></property>
+        </MemberProperty>
+        <MemberProperty method="Add" name="Обратный показатель" ClassType="31" SubClassType="0" Description="" Caption="Обратный показатель" PropertyType="0" IsVisible="true" ColumnSize="19" ColumnType="131" Language="0">
+          <property name="SourceColumn"><![CDATA["DV"."DV_OIV_MARK"."FLAGREV"]]></property>
+        </MemberProperty>
+      </MemberPropertys>
+    </DatabaseLevel>
+  </DatabaseLevels>
+</DatabaseDimension>

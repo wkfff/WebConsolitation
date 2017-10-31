@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+
+  <query id="FO_0039_0007_date">
+    <![CDATA[
+-- FO_0039_0007_date
+with    
+    member [Measures].[ДанныеНа]    
+    as '[Период].[Период].CurrentMember.UniqueName'    
+    set [NonEmptySet]    
+    as 'Tail    
+        (
+            Filter    
+            (
+                Descendants   
+                (
+                    [Период].[Период].[Данные всех периодов],
+                    [Период].[Период].[Квартал],
+                    SELF   
+                ),
+                not IsEmpty    
+                (
+                    (
+                        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Р2]    
+                    )    
+                ) and   
+                (
+                    [Период].[Период].CurrentMember.Name <> "Квартал 1"  
+                ) and   
+                (
+                    [Период].[Период].CurrentMember.Name <> "Остатки на начало года"  
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные квартала" 
+                ) and  
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные полугодия" 
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Данные месяца"
+                ) and 
+                (
+                    [Период].[Период].CurrentMember.Name <> "Заключительные обороты"
+                ) 
+            ),
+            1    
+        )'    
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows    
+from [ФО_Оценка качества ОиОБП_Показатели]     
+]]>
+  </query>
+
+  <query id="FO_0039_0007_chart">
+    <![CDATA[
+-- FO_0039_0007_chart
+with       
+    set [Список МО]       
+    as 'Filter       
+        (
+            Descendants       
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF       
+            ),
+            not       
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember       
+            ) and       
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"       
+            )       
+        )'        
+    set [Кварталы] 
+    as 'Filter 
+        (
+            Descendants 
+            (
+                [Период].[Период].[Данные всех периодов].[<%period_year%>],
+                [Период].[Период].[Квартал],
+                SELF 
+            ),
+            not 
+            (
+                [Период].[Период].CurrentMember is [Период].[Период].CurrentMember.Parent.DataMember 
+            ) and 
+            (
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" 
+            ) and 
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" 
+            ) and 
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" 
+            ) and 
+            (
+                [Период].[Период].CurrentMember.Name <> "Данные года" 
+            ) and
+            (
+                [Период].[Период].CurrentMember.Properties("PKID") <= [Период].[Период].[Данные всех периодов].<%selected_period%>.Properties("PKID")
+            )
+        ) '
+    set [Годы] 
+    as '
+        {
+            [Период].[Период].[Данные всех периодов].<%selected_period%>.PrevMember,
+            [Период].[Период].[Данные всех периодов].<%selected_period%>
+        }'  
+    member Measures.[Выводим пустоту]    
+    as '[Период].[Период].[Данные всех периодов].<%selected_period%>.Level is [Период].[Период].[Год] and 
+        IsEmpty
+        (
+            (
+                [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Все показатели].[Р4],
+                [Период].[Период].[Данные всех периодов].<%selected_period%>.DataMember,
+                [Measures].[<%selected_measure%>]
+            )   
+        ) '         
+select
+    { Filter( [Список МО], not Measures.[Выводим пустоту]) } on columns,
+    { [<%period_set%>] } on rows       
+from  [ФО_Оценка качества ОиОБП_Показатели]       
+where
+    (
+        [Measures].[<%selected_measure%>],
+        <%selected_indicator%>
+    )          
+  ]]>
+</query>
+
+<query id="FO_0039_0007_indicator_detail">
+<![CDATA[
+-- FO_0039_0007_indicator_detail
+with  
+    set [Список МО]  
+    as 'Filter  
+        (
+            Descendants  
+            (
+                [Районы].[Сопоставимый].[Все районы],
+                <%regions_level%>,
+                SELF  
+            ),
+            not  
+            (
+                [Районы].[Сопоставимый].CurrentMember is [Районы].[Сопоставимый].CurrentMember.Parent.DataMember  
+            ) and  
+            (
+                [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "МР" or [Районы].[Сопоставимый].CurrentMember.Properties("Тип территории") = "ГО"  
+            )  
+        )'  
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Наименование] 
+    as '<%selected_indicator%>.Properties("Наименование")'
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Периодичность расчета показателя]
+    as '<%selected_indicator%>.Properties("Периодичность расчета показателя")'    
+    member [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Единицы измерения]
+    as '<%selected_indicator%>.Properties("Единицы измерения")'     
+select
+    {
+        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Наименование],
+        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Периодичность расчета показателя],
+        [Показатели].[Оценка качества ОиОБП_Сопоставимый].[Единицы измерения]
+    } on columns  
+from [ФО_Оценка качества ОиОБП_Показатели]  
+where  
+    (
+        [Measures].[<%selected_measure%>],
+        [Период].[Период].[Данные всех периодов].<%selected_period%>
+    )   
+  ]]>
+  </query>  
+
+</root>

@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<root>  
+<query id="FK_0001_0003_NAO_date">
+    <![CDATA[
+-- FK_0001_0003_NAO_compare_date
+with
+    member [Measures].[ДанныеНа]
+    as '[Период].[Период].CurrentMember.UniqueName'
+    set [NonEmptySet]
+    as 'Tail
+        (
+            Filter
+            (
+                [Период].[Период].Members,
+                not IsEmpty([Measures].[Исполнено]) and
+                [Период].[Период].CurrentMember.Name <> "Остатки на начало года" and
+                [Период].[Период].CurrentMember.Name <> "Данные квартала" and
+                [Период].[Период].CurrentMember.Name <> "Данные полугодия" and
+                [Период].[Период].CurrentMember.Name <> "Данные года" and
+                [Период].[Период].CurrentMember.Name <> "Данные месяца"
+            ),
+            1
+        )'
+select
+    { [Measures].[ДанныеНа] } on columns,
+    { [NonEmptySet] } on rows
+from [ФК_МесОтч_Расходы]
+  ]]>
+  </query>
+
+  <query id="FK_0001_0003_NAO_populationDate">
+    <![CDATA[
+-- FK_0001_0003_NAO_populationDate
+with 
+    member Measures.[Численность постоянного населения_Prev] 
+    as ' LookupCube 
+        (
+            "[ФСГС_Численность населения]",
+            " 
+            (
+                [Measures].[Факт],
+                [Период].[Период].[Данные всех периодов].[<%period_last_year%>],
+                [ФСГС].[Численность населения].[Все].[Все население],
+                [Вариант].[ФСГС Население].[Все].[Численность населения на 1 января],
+                " + MemberToStr 
+                (
+                    [Территории].[Сопоставимый].CurrentMember 
+                ) + " 
+            )" 
+        ) ' 
+    member Measures.[Численность постоянного населения_This] 
+    as ' LookupCube 
+        (
+            "[ФСГС_Численность населения]",
+            " 
+            (
+                [Measures].[Факт],
+                [Период].[Период].[Данные всех периодов].[<%period_year%>],
+                [ФСГС].[Численность населения].[Все].[Все население],
+                [Вариант].[ФСГС Население].[Все].[Численность населения на 1 января],
+                " + MemberToStr 
+                (
+                    [Территории].[Сопоставимый].CurrentMember 
+                ) + " 
+            )" 
+        ) ' 
+    member Measures.[Численность постоянного населения] 
+    as 'IIF 
+        (
+            IsEmpty 
+            (
+                Measures.[Численность постоянного населения_This] 
+            ) or Measures.[Численность постоянного населения_This] = 0,
+            <%period_last_year%>,
+            <%period_year%>
+        ) '  
+select
+    {
+        Measures.[Численность постоянного населения] 
+    } on columns,
+    {
+        [Территории].[Сопоставимый].[Все территории].[Российская  Федерация] 
+    } on rows 
+from [ФК_МесОтч_Расходы] 
+  ]]>
+  </query>  
+  
+  <query id="FK_0001_0003_NAO_compare_Grid">
+    <![CDATA[
+-- FK_0001_0003_NAO_compare_Grid 
+with   
+   member Measures.[Численность постоянного населения_Prev]
+    as 'LookupCube
+            (
+                "[ФСГС_Численность населения]",
+                "
+                (
+                    [Measures].[Факт],
+                    [Период].[Период].[Данные всех периодов].[<%period_last_year%>],
+                    [ФСГС].[Численность населения].[Все].[Все население],
+                    [Вариант].[ФСГС Население].[Все].[Численность населения на 1 января],
+                    " + MemberToStr
+                    (
+                        [Территории].[Сопоставимый].CurrentMember
+                    ) + "
+                )"
+            ) / 1000'
+    member Measures.[Численность постоянного населения_This]
+    as 'LookupCube
+            (
+                "[ФСГС_Численность населения]",
+                "
+                (
+                    [Measures].[Факт],
+                    [Период].[Период].[Данные всех периодов].[<%period_year%>],
+                    [ФСГС].[Численность населения].[Все].[Все население],
+                    [Вариант].[ФСГС Население].[Все].[Численность населения на 1 января],
+                    " + MemberToStr
+                    (
+                        [Территории].[Сопоставимый].CurrentMember
+                    ) + "
+                )"
+            ) / 1000'
+    member Measures.[Численность постоянного населения]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Численность постоянного населения_This]
+            ) or Measures.[Численность постоянного населения_This] = 0,
+            Measures.[Численность постоянного населения_Prev],
+            Measures.[Численность постоянного населения_This]
+        ) '
+    member Measures.[Исполнено_]   
+    as 'IIF   
+        (
+            (
+                (
+                    [Территории].[Сопоставимый].CurrentMember.Level.Name = "Субъект РФ"  
+                ) or   
+                (
+                    [Территории].[Сопоставимый].CurrentMember.Level.Name = "РФ"  
+                )  
+            ),
+            Measures.[Исполнено],
+            Sum   
+            (
+                Filter   
+                (
+                    [Территории].[Сопоставимый].Children,
+                    (
+                        Measures.[Численность постоянного населения] <> 0   
+                    )   
+                ),
+                Measures.[Исполнено_]   
+            )   
+        ) '   
+    member Measures.[Коэффициент бюджетной обеспеченности населения]  
+    as 'IIF   
+        (
+            IsEmpty   
+            (
+                Measures.[Численность постоянного населения]   
+            ) or Measures.[Численность постоянного населения] = 0,
+            null,
+            Measures.[Исполнено_]/   
+            (
+                Measures.[Численность постоянного населения]   
+                *1000   
+            )   
+        )'   
+    member Measures.[Ранг бюдж.обесп. ФО]
+    as 'IIF   
+        (
+            IsEmpty   
+            (
+                Measures.[Коэффициент бюджетной обеспеченности населения]  
+            ) or [Территории].[Сопоставимый].CurrentMember.Level.Name <> "Субъект РФ",
+            null,
+            Rank   
+            (
+                [Территории].[Сопоставимый].CurrentMember,
+                Order   
+                (
+                    Filter   
+                    (
+                        [Территории].[Сопоставимый].CurrentMember.Siblings,
+                        not IsEmpty   
+                        (
+                            Measures.[Коэффициент бюджетной обеспеченности населения]  
+                        )   
+                    ),
+                    Measures.[Коэффициент бюджетной обеспеченности населения],
+                    DESC   
+                ),
+                Measures.[Коэффициент бюджетной обеспеченности населения]  
+            )   
+        )'   
+    member Measures.[Худший ранг бюдж.обесп. ФО]
+    as 'max   
+        (
+            [Территории].[Сопоставимый].CurrentMember.Siblings,
+            Measures.[Ранг бюдж.обесп. ФО]
+        )'   
+    member Measures.[Ранг бюдж.обесп. РФ]
+    as 'IIF   
+        (
+            IsEmpty   
+            (
+                Measures.[Коэффициент бюджетной обеспеченности населения]  
+            ) or [Территории].[Сопоставимый].CurrentMember.Level.Name <> "Субъект РФ",
+            null,
+            Rank   
+            (
+                [Территории].[Сопоставимый].CurrentMember,
+                Order   
+                (
+                    Filter   
+                    (
+                        [Территории].[Сопоставимый].[Субъект РФ].Members,
+                        not IsEmpty   
+                        (
+                            Measures.[Коэффициент бюджетной обеспеченности населения]  
+                        )   
+                    ),
+                    Measures.[Коэффициент бюджетной обеспеченности населения],
+                    BDESC   
+                ),
+                Measures.[Коэффициент бюджетной обеспеченности населения]  
+            )   
+        )'   
+    member Measures.[Худший ранг бюдж.обесп. РФ]
+    as 'max   
+        (
+            [Территории].[Сопоставимый].[Субъект РФ].Members,
+            Measures.[Ранг бюдж.обесп. РФ]
+        )'   
+    member Measures.[Доля]  
+    as '   (
+                Measures.[Исполнено],
+                [РзПр].[Сопоставимый].CurrentMember
+            )/   
+            (
+                Measures.[Исполнено],
+                [РзПр].[Сопоставимый].[Все коды ФКР].[Расходы бюджета - ИТОГО]
+            )
+        '
+    member Measures.[Ранг ФО]    
+    as 'IIF    
+        (
+            IsEmpty ( [Measures].[Доля] ) or ([Территории].[Сопоставимый].CurrentMember.Level.Name <> "Субъект РФ"),
+            null,
+            Rank    
+            (
+                [Территории].[Сопоставимый].CurrentMember,
+                Order    
+                (
+                    Filter    
+                    (
+                        [Территории].[Сопоставимый].CurrentMember.Siblings,
+                        not IsEmpty ( [Measures].[Доля] )    
+                    ),
+                    [Measures].[Доля],
+                    DESC    
+                ),
+                [Measures].[Доля]    
+            )    
+        )'    
+    member Measures.[Худший ранг ФО]    
+    as 'IIF    
+        (
+            IsEmpty ( [Measures].[Доля] ),
+            null,
+            max    
+            (
+                [Территории].[Сопоставимый].CurrentMember.Siblings,
+                Measures.[Ранг ФО]    
+            )    
+        ) '    
+    member Measures.[Ранг РФ]    
+    as 'IIF    
+        (
+            IsEmpty ([Measures].[Доля]) or [Территории].[Сопоставимый].CurrentMember.Level.Name <> "Субъект РФ",
+            null,
+            Rank    
+            (
+                [Территории].[Сопоставимый].CurrentMember,
+                Order    
+                (
+                    Filter    
+                    (
+                        [Территории].[Сопоставимый].[Субъект РФ].Members,
+                        not IsEmpty ( [Measures].[Доля] )    
+                    ),
+                    [Measures].[Доля],
+                    BDESC    
+                ),
+                [Measures].[Доля]    
+            )    
+        )'    
+    member Measures.[Худший ранг РФ] 
+    as 'IIF    
+        (
+            IsEmpty ( [Measures].[Доля]),
+            null,
+            max    
+            (
+                [Территории].[Сопоставимый].[Субъект РФ].Members,
+                Measures.[Ранг РФ]    
+            )    
+        ) '        
+    member Measures.[ShortName]
+    as '[Территории].[Сопоставимый].CurrentMember.Properties("Сокращенное наименование")'   
+    member Measures.[ParentShortName]   
+    as '[Территории].[Сопоставимый].CurrentMember.Parent.Properties("Сокращенное наименование")'   
+    member Measures.[ФО]   
+    as 'IIF   
+        (
+            (
+                [Территории].[Сопоставимый].CurrentMember.Level.Name = "Субъект РФ" or [Территории].[Сопоставимый].CurrentMember.Level.Name = "Федеральный округ"   
+            ) and   
+            (
+                (
+                    Measures.[Исполнено] + Measures.[Назначено]   
+                ) <> 0   
+            ),
+            IIF   
+            (
+                [Территории].[Сопоставимый].CurrentMember.Level.Name = "Субъект РФ",
+                Measures.[ParentShortName],
+                Measures.[ShortName]   
+            ),
+            null   
+        )'   
+select
+    {
+        Measures.[ФО],
+        Measures.[Исполнено],
+        Measures.[Назначено],
+        Measures.[Процент выполнения назначений],
+        Measures.[Численность постоянного населения],
+        Measures.[Коэффициент бюджетной обеспеченности населения],
+        Measures.[Ранг бюдж.обесп. ФО],
+        Measures.[Худший ранг бюдж.обесп. ФО],
+        Measures.[Ранг бюдж.обесп. РФ],
+        Measures.[Худший ранг бюдж.обесп. РФ],
+        Measures.[Доля],
+        Measures.[Ранг ФО],
+        Measures.[Худший ранг ФО],
+        Measures.[Ранг РФ],
+        Measures.[Худший ранг РФ] 
+    } on columns,
+    Filter 
+    (
+        {
+            [Территории].[Сопоставимый].[Все территории].[Российская  Федерация]   
+        }+ Generate   
+        (
+            {
+                [Территории].[Сопоставимый].[Все территории].[Российская  Федерация]<%selected_fo%>   
+            },
+            {
+                [Территории].[Сопоставимый].CurrentMember   
+            } + Filter   
+            (
+                Descendants   
+                (
+                    [Территории].[Сопоставимый].CurrentMember,
+                    [Территории].[Сопоставимый].[Субъект РФ],
+                    SELF   
+                ),
+                not   
+                (
+                    [Территории].[Сопоставимый].CurrentMember is [Территории].[Сопоставимый].CurrentMember.Parent.DataMember   
+                )   
+            )   
+        ),
+        (
+            (
+                Measures.[Исполнено] + Measures.[Назначено]
+            ) <> 0 
+        )  
+    ) on rows   
+from  [ФК_МесОтч_Расходы]  
+where   
+    (
+        [Период].[Период].[Данные всех периодов].[<%period_year%>].[<%period_half_year%>].[<%period_quater%>].[<%period_month%>],
+        <%kd_group%>,
+        [Уровни бюджета].[СКИФ].[Все].[Конс.бюджет субъекта]
+    )
+  ]]>
+</query>
+</root>

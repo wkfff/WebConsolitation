@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Extension>
+  <Params>
+    <Param name="UserRegionType" type="string">
+      <ValueProvider type="Krista.FM.RIA.Core.Tests.Stub.ParameterValueProvider, Krista.FM.RIA.Core.Tests"></ValueProvider>
+    </Param>
+    <Param name="Duplicate" type="string">
+      <ValueProvider type="Krista.FM.RIA.Core.Tests.Stub.ParameterValueProvider, Krista.FM.RIA.Core.Tests"></ValueProvider>
+    </Param>
+  </Params>
+
+  <!-- Install routes -->
+  <Routes>
+    <IgnoreRoute url="{resource}.axd/{*pathInfo}"></IgnoreRoute>
+    <MapRoute name="Default1" url="{controller}/{action}/{id}">
+      <Defaults>
+        <Param name="controller">Home</Param>
+        <Param name="action">Index</Param>
+        <Param name="id"></Param>
+      </Defaults>
+    </MapRoute>
+  </Routes>
+
+  <!-- Register types -->
+  <Types>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.ReportsDataService"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.ReportsDataService"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+    <Register from="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.OrganizationCreditsVologdaReport"
+              to="Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.OrganizationCreditsVologdaReport"
+              lifetimeManager="Microsoft.Practices.Unity.PerResolveLifetimeManager, Microsoft.Practices.Unity"></Register>
+  </Types>
+
+  <!-- Глобальные скрипты инициализации для главной страницы.
+    Секция выполняется в методе OnLoad главной страницы. -->
+  <ClientExtension>
+    <!-- Задавать класс, который формирует скрипт (если скрипт формируется динамически) -->
+    <!-- либо прописывать скрипт прямо здесь -->
+  </ClientExtension>
+
+  <!-- Область навигации -->
+  <Navigation type="tree" ID="acDebtBookExtension" icon="Vector" title="Долговая книга" order="200" group="Test" dashboardIcon="/a.ico" defaultItemId="">
+    <Commands>
+      <Command id="cmddbeTransfert" title="Перенос данных из источников финансирования" icon="TableLightning" >
+        <Handler>
+function() { 
+  alert('Данная функция находится в стадии реализации...'); 
+}
+        </Handler>
+      </Command>
+      <Command id="cmddbeMinfinExport" title="Выгрузка данных в Минфин" icon="DiskDownload" >
+        <Handler>
+function() { 
+  DebtBookMinfinExportParamsWindow.show(); 
+}
+        </Handler>
+      </Command>
+      <Command id="DebtBookConsolidatedReport" title="Консолидированный отчет по долговой книге" icon="Report">
+        <Handler>
+function() { 
+    DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtBookConsolidatedReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+    DebtBookReportParamsWindow.show(); 
+}
+        </Handler>
+      </Command>
+      <Command id="SubjectConsolidatedReport" title="Отчет по долговой книге субъекта" icon="Report">
+        <Handler>
+function() { 
+    DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.SubjectConsolidatedVologdaReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+    DebtBookReportParamsWindow.show(); 
+}
+        </Handler>
+      </Command>
+      <Command id="DebtorBookYarReport" title="Долговая книга МО" icon="Report" condition="$(UserRegionType) == 'Region'">
+        <Handler>
+function() { 
+    DebtBookReportParamsWindow.autoLoad.url='/BebtBookReports/ShowParams?report=Krista.FM.Domain.Services.FinSourceDebtorBook.Reports.DebtorBookYarReport, Krista.FM.Domain.Services.FinSourceDebtorBook.Reports'
+    DebtBookReportParamsWindow.show(); 
+}
+        </Handler>
+      </Command>
+    </Commands>
+    <Items>
+      <Item ID="nidbeCapital" title="ДК Ценные бумаги" icon="MoneyDollar" >
+        <Params>
+          <Param name="url">/BebtBook/Show?objectKey=Capital</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeOrganizationCredit" title="ДК Кредиты от кредитных организаций" icon="MoneyDelete" >
+        <Params>
+          <Param name="url">/BebtBook/Show?objectKey=OrganizationCredit</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeBudgetCredit" title="ДК Кредиты от других бюджетов" icon="MoneyAdd" >
+        <Params>
+          <Param name="url">/BebtBook/Show?objectKey=BudgetCredit</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeGuarantee" title="ДК Гарантии" icon="MoneyEuro" >
+        <Params>
+          <Param name="url">/BebtBook/Show?objectKey=Guarantee</Param>
+        </Params>
+      </Item>
+      <Item ID="nidbeBooks" title="Справочники" icon="BookRed" condition="$(UserRegionType) == 'Subject'">
+        <Items>
+          <Item ID="nidbeBookVarDb" title="Вариант.Долговая книга" icon="BookGo" >
+            <Params>
+              <Param name="url">/Entity/Show?objectKey=f37827df-c22a-4569-9512-c0c48791d46c</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbeBookTrnsfProtocol" title="Протокол передачи данных" icon="BookGo" >
+            <Params>
+              <Param name="url">/Entity/Show?objectKey=f47fee26-165f-42cb-9d3c-4e8d58d58f97</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbeBookRegionMatch" title="Соответствие районов" icon="BookGo" >
+            <Params>
+              <Param name="url">/Entity/Show?objectKey=65e95012-39d2-4d96-90ed-ed91775205d4</Param>
+            </Params>
+          </Item>
+          <Item ID="nidbeBookTitleReport" title="Должности для отчетов" icon="BookGo" condition="$(UserRegionType) == 'Region'" >
+            <Params>
+              <Param name="url">/Entity/Show?objectKey=4d192956-aced-4718-a87c-b2e5519c022a</Param>
+            </Params>
+          </Item>
+        </Items>
+      </Item>
+    </Items>
+    <Action>MdiTab.addTab({ title: node.text, url: node.attributes.url, icon: node.attributes.iconCls, passParentSize: false});</Action>
+    <ButtomBar></ButtomBar>
+  </Navigation>
+
+  <!-- Глобальные окна -->
+  <Windows>
+    <Window type="SelectVariantWindow"></Window>
+    <Window condition="$(UserRegionType) == 'Subject'" type="ReportParamsWindow"></Window>
+    <Window condition="$(UserRegionType) == 'Subject'" type="MinfinExportParamsWindow"></Window>
+  </Windows>
+
+  <Views>
+    <View id="Capital" title="ДК Ценные бумаги" type="Krista.FM.RIA.Core.Gui.XTabbedView, Krista.FM.RIA.Core">
+      <Tab id="gridPanelRF" title="Данные по субъекту РФ" type="Krista.FM.RIA.Core.Gui.XGridView, Krista.FM.RIA.Core">
+        <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+        <Presentation objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <RegionType>Subject</RegionType>
+        <StoreService type="Krista.FM.RIA.Core.Tests.Stub.ViewServiceStub, Krista.FM.RIA.Core.Tests"></StoreService>
+        <RowEditorForm ref="CapitalRFForm"></RowEditorForm>
+      </Tab>
+      <Tab id="gridPanelRegion" title="Данные по районов, городским округам" type="Krista.FM.RIA.Core.Gui.XGridView, Krista.FM.RIA.Core">
+        <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+        <Presentation objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <RegionType>Subject</RegionType>
+        <StoreService type="Krista.FM.RIA.Core.Tests.Stub.ViewServiceStub, Krista.FM.RIA.Core.Tests"></StoreService>
+        <RowEditorForm ref="CapitalRFForm"></RowEditorForm>
+      </Tab>
+      <Tab id="gridPanelSetl" title="Данные по поселениям" type="Krista.FM.RIA.Core.Gui.XGridView, Krista.FM.RIA.Core">
+        <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"/>
+        <Presentation objectKey="'43c55c92-c819-4e0b-95a1-3b941bc2789f'"/>
+        <RegionType>Subject</RegionType>
+        <StoreService type="Krista.FM.RIA.Core.Tests.Stub.ViewServiceStub, Krista.FM.RIA.Core.Tests"></StoreService>
+        <RowEditorForm ref="CapitalRFForm"></RowEditorForm>
+      </Tab>
+    </View>
+
+    <View id="CapitalRFForm" title="Данные по субъекту РФ" type="Krista.FM.RIA.Extensions.DebtBook.Presentation.ViewBuilders.EntityWithDetailsFormView, Krista.FM.RIA.Extensions.DebtBook">
+      <Entity objectKey="'328a93cf-9769-4980-97e3-32570636b125'"></Entity>
+      <Presentation objectKey="fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b">
+        <Fields></Fields>
+      </Presentation>
+      <RegionType>Subject</RegionType>
+      <StoreService type="Krista.FM.RIA.Extensions.DebtBook.SubjectCapitalViewService"></StoreService>
+    </View>
+
+    <View id="D_Variant_Schuldbuch" title="Вариант.Долговая книга" type="Krista.FM.RIA.Core.Gui.XGridView, Krista.FM.RIA.Core">
+      <Entity objectKey="'f37827df-c22a-4569-9512-c0c48791d46c'"/>
+      <Params>
+        <Parameter name="UserRegionType" value="3"/>
+      </Params>
+      <RowEditorFormView viewId="VariantSchuldbuchForm"></RowEditorFormView>
+      <StoreListeners>
+        <Listener name="BeforeLoad">alert('Test');</Listener>
+      </StoreListeners>
+      <GridListeners>
+        <Listener name="Command">alert('Test');</Listener>
+      </GridListeners>
+    </View>
+
+    <View id="VariantSchuldbuchForm" title="Вариант.Долговая книга"
+          url="/View/VariantSchuldbuchForm"
+          type="Krista.FM.RIA.Core.Gui.XFormEntityView, Krista.FM.RIA.Core">
+      <Entity objectKey="'f37827df-c22a-4569-9512-c0c48791d46c'"/>
+      <GridListeners>
+        <Listener name="Command">alert('Test');</Listener>
+      </GridListeners>
+    </View>
+
+    <View id="EntityPresentationForm" title="Вариант.Долговая книга"
+          url="/View/VariantSchuldbuchForm"
+          type="Krista.FM.RIA.Core.Gui.XGridView, Krista.FM.RIA.Core">
+      <Entity objectKey="'f37827df-c22a-4569-9512-c0c48791d46c'"/>
+      <Presentation objectKey="'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b'"/>
+      <GridListeners>
+        <Listener name="Command">alert('Test');</Listener>
+      </GridListeners>
+    </View>
+
+    <View id="GridWithCustomEditorView" title="Вариант.Долговая книга"
+          type="Krista.FM.RIA.Core.Gui.XGridView, Krista.FM.RIA.Core">
+      <Entity objectKey="'f37827df-c22a-4569-9512-c0c48791d46c'"/>
+      <RowEditorFormView viewId="XFormEntityViewTest">
+        <CustomView url="/BebtBook/ShowDetails">
+          <Params>
+            <Param name="objectKey" value="grid.ModelObjectKey" mode="Raw"/>
+            <Param name="userRegionType" value="$(UserRegionType)"/>
+          </Params>
+        </CustomView>
+      </RowEditorFormView>
+    </View>
+
+    <View id="XFormEntityViewTest" title="Вариант.Долговая книга"
+          url="/View/VariantSchuldbuchForm"
+          type="Krista.FM.RIA.Core.Gui.XFormEntityView, Krista.FM.RIA.Core">
+      <Entity objectKey="'f37827df-c22a-4569-9512-c0c48791d46c'"/>
+      <Presentation objectKey="'fdacafc2-2fd9-42b1-bcb2-33cbf1c6218b'"/>
+      <Params>
+        <Parameter name="UserRegionType" value="3"/>
+      </Params>
+      <StoreListeners>
+        <Listener name="Load">alert('Test');</Listener>
+      </StoreListeners>
+    </View>
+
+    <View id="XControlCustomTypeTest" title="Вариант.Долговая книга"
+          url="/View/VariantSchuldbuchForm"
+          type="Krista.FM.RIA.Core.Gui.XGridView, Krista.FM.RIA.Core"
+          controlType="Krista.FM.RIA.Core.Tests.Stub.Gui.GridViewDescendant, Krista.FM.RIA.Core.Tests">
+      <Entity objectKey="'f37827df-c22a-4569-9512-c0c48791d46c'"/>
+    </View>
+
+  </Views>
+</Extension>

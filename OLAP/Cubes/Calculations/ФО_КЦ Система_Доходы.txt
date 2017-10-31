@@ -1,0 +1,34 @@
+CALCULATE;
+
+//Период
+SCOPE([Период__Период].[Период__Период].[Данные всех периодов]);
+    this = IIF(not IsLeaf([Период__Период].[Период__Период]) and [Measures].CurrentMember.name <> "План за период", 
+Tail(Filter([Период__Период].[Период__Период].CurrentMember.Children, not IsEmpty([Measures].CurrentMember)), 1).Item(0), ([Период__Период].[Период__Период].CurrentMember, [Measures].CurrentMember));
+END SCOPE;
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[План нарастающим итогом] AS
+CalculationPassValue(
+IIF(
+[Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[(All)] or
+[Период__Период].[Период__Период].CurrentMember.Level is [Период__Период].[Период__Период].[Год] or
+([Период__Период].[Период__Период].CurrentMember Is OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год]))),
+(Measures.[План за период], [Период__Период].[Период__Период].CurrentMember),
+Sum({OpeningPeriod([Период__Период].[Период__Период].CurrentMember.Level, Ancestor([Период__Период].[Период__Период].CurrentMember, [Период__Период].[Период__Период].[Год])):
+[Период__Период].[Период__Период].CurrentMember}, Measures.[План за период]))
+, 1),
+FORMAT_STRING = "Currency";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения к годовой росписи с учетом поправок] AS 
+IIF(not IsEmpty([Measures].[Исполнено на дату] and [Measures].[План на год с учетом поправок]) and [Measures].[План на год с учетом поправок] <> 0, [Measures].[Исполнено на дату]/[Measures].[План на год с учетом поправок], null),
+FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение исполнения от годовой росписи с учетом поправок] AS 
+[Measures].[Исполнено на дату] - [Measures].[План на год с учетом поправок];
+
+CREATE MEMBER CURRENTCUBE.Measures.[Процент исполнения к росписи на текущую дату с учетом поправок] AS 
+IIF(not IsEmpty([Measures].[Исполнено на дату] and [Measures].[План на дату c учетом поправок]) and [Measures].[План на дату c учетом поправок] <> 0, [Measures].[Исполнено на дату]/[Measures].[План на дату c учетом поправок], null),
+FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение исполнения от росписи на текущую дату с учетом поправок] AS 
+[Measures].[Исполнено на дату] - [Measures].[План на дату c учетом поправок];

@@ -1,0 +1,50 @@
+CALCULATE;
+
+/*SCOPE([Measures].[Прогноз_очередной год]);
+    this = IIF(not IsLeaf([МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember) and 
+(([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[19980001]) or ([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[19990001])  or ([Период__Период].[Период__Период].CurrentMember is [Период__Период].[Период__Период].[Год].&[20000001])),
+IIF(IsEmpty([МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember.LastChild), 0, [МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember.LastChild),
+ Tail(Filter([МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember.Children, not IsEmpty([Measures].[Прогноз_очередной год])), 1).Item(0));
+END SCOPE;*/
+
+SCOPE(DESCENDANTS([Вариант__МФРФ Фонды].[Вариант__МФРФ Фонды].[Все]));
+    this = IIF(not IsLeaf([Вариант__МФРФ Фонды].[Вариант__МФРФ Фонды].CurrentMember),  Tail(Filter([Вариант__МФРФ Фонды].[Вариант__МФРФ Фонды].CurrentMember.Children, not IsEmpty([Measures].CurrentMember)),1).Item(0), [Вариант__МФРФ Фонды].[Вариант__МФРФ Фонды].CurrentMember);
+END SCOPE;
+
+SCOPE([Measures].[Прогноз_очередной год]);
+    
+this = IIF(not IsLeaf([МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember),
+
+[МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember.LastChild,
+[МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember);
+
+END SCOPE;
+
+
+
+SCOPE([Measures].[Прогноз_второй год]);
+    
+this = IIF(not IsLeaf([МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember),
+
+[МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember.LastChild,
+[МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember);
+
+END SCOPE;
+
+
+
+SCOPE([Measures].[Прогноз_третий год]);
+    
+this = IIF(not IsLeaf([МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember),
+[МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember.LastChild,
+[МФ РФ__Сопост Показатели].[МФ РФ__Сопост Показатели].CurrentMember);
+
+END SCOPE;
+
+//Вычислимые меры
+CREATE MEMBER CURRENTCUBE.Measures.[Темп роста] AS 
+IIF(IsEmpty(([Measures].[Прогноз_очередной год], [Период__Период].[Период__Период].CurrentMember)) or ([Measures].[Прогноз_очередной год], [Период__Период].[Период__Период].PrevMember) = 0, null, ([Measures].[Прогноз_очередной год], [Период__Период].[Период__Период].CurrentMember) / ([Measures].[Прогноз_очередной год], [Период__Период].[Период__Период].PrevMember)),
+ FORMAT_STRING = "Percent";
+
+CREATE MEMBER CURRENTCUBE.Measures.[Отклонение] AS 
+IIF(IsEmpty(([Measures].[Прогноз_очередной год], [Период__Период].[Период__Период].CurrentMember) or ([Measures].[Прогноз_очередной год], [Период__Период].[Период__Период].PrevMember)), null, ([Measures].[Прогноз_очередной год], [Период__Период].[Период__Период].CurrentMember) - ([Measures].[Прогноз_очередной год], [Период__Период].[Период__Период].PrevMember));

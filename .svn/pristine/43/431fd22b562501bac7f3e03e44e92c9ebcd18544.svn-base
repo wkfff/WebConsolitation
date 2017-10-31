@@ -1,0 +1,897 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+<root>
+  <query id="FNS_0001_0001_date">
+    <![CDATA[
+  with
+member Measures.[ДанныеНа] as '<%period_dimension%>.CurrentMember.UniqueName'
+select
+    {Measures.[ДанныеНа]} on columns,
+    Tail      
+    (
+        NonEmptyCrossjoin
+        (
+            OpeningPeriod    
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2010]
+            ) : ClosingPeriod    
+            (
+                <%period_dimension%>.[Месяц],
+                <%period_dimension%>.[Данные всех периодов].[2013]
+            )
+        )
+    ) on rows
+from [<%cube_name%>]
+  ]]>
+  </query>
+
+  <query id="FNS_0001_0001">
+    <![CDATA[
+-- FNS_0001_0001_iphone
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+	member [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ]      
+    as 'Aggregate     
+        (
+            {
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по пени],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по налоговым санкциям]    
+            }     
+        )'
+select
+    {
+        Measures.[Недоимка на начало года],
+        Measures.[Недоимка на текущий месяц],
+        Measures.[Прирост недоимки],
+        Measures.[Прирост недоимки %]
+    } on columns
+from [ФНС_28н_без расщепления]
+Where  
+    (
+        [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ],
+        [ФНС_28н_Коды налогоплательщиков].[Все налогоплательщики]   
+    ) 
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_split">
+    <![CDATA[
+-- FNS_0001_0001_iphone_split
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            [ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+    member [Уровни бюджетов].[В консолидированный бюджет]
+    as '[Уровни бюджетов].[Все уровни].[Конс.бюджет субъекта]'
+    member [Уровни бюджетов].[В бюджет субъекта]
+    as '[Уровни бюджетов].[Все уровни].[Конс.бюджет субъекта].[Бюджет субъекта]'
+    member [Уровни бюджетов].[В местные бюджеты]
+    as '[Уровни бюджетов].[Все уровни].[Конс.бюджет субъекта].[Конс.бюджет МО]'
+    member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+    as 'Aggregate   
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            }   
+        )'  
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>]   
+
+            }
+        )'        
+select
+    {
+        Measures.[Недоимка на начало года],
+        Measures.[Недоимка на текущий месяц],
+        Measures.[Прирост недоимки],
+        Measures.[Прирост недоимки %]
+    } on columns,
+    {
+        [Уровни бюджетов].[В консолидированный бюджет],
+        [Уровни бюджетов].[В бюджет субъекта],
+        [Уровни бюджетов].[В местные бюджеты]
+    } on rows
+from [ФНС_28н_с расщеплением]
+where 
+(
+   <%kd_group%>,
+   [Районы].[Сопоставимый].[Все районы]
+)
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5
+with
+  	member [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ]      
+    as 'Aggregate     
+        (
+            {
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по пени],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по налоговым санкциям]    
+            }     
+        )'
+select
+    {[Measures].[С начала года] } on columns,
+    non empty TopCount 
+    (
+        Descendants 
+        (
+          [Районы].[Сопоставимый].[Все районы],
+          <%regions_level%>,
+          SELF
+        ),
+        <%top_regions_count%>,
+        [Measures].[С начала года]   
+    ) on rows
+from [ФНС_28н_без расщепления]    
+where    
+    (
+        [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ],
+		[ФНС_28н_Коды налогоплательщиков].[Все налогоплательщики],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>  
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_split">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_split
+with
+  member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+  as 'Aggregate   
+     (
+        {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+            }   
+     )' 
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>]   
+
+            }
+        )' 
+	member [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ]      
+    as 'Aggregate     
+        (
+            {
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по пени],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по налоговым санкциям]    
+            }     
+        )'
+select
+    {[Measures].[С начала года] } on columns,
+    non empty TopCount 
+    (
+        Descendants 
+        (
+          [Районы].[Сопоставимый].[Все районы],
+          <%regions_level%>,
+          SELF
+        ),
+        <%top_regions_count%>,
+        [Measures].[С начала года]   
+    ) on rows
+from [ФНС_28н_с расщеплением]   
+where    
+    (
+        [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ],
+		[ФНС_28н_Коды налогоплательщиков].[Все налогоплательщики],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        [Уровни бюджетов].[Все].[Все уровни].[Конс.бюджет субъекта].[Конс.бюджет МО],
+        <%kd_group%>
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_V">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_V
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+		member [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ]      
+    as 'Aggregate     
+        (
+            {
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по пени],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по налоговым санкциям]    
+            }     
+        )'
+		 member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+     as 'Aggregate   
+     (
+        {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+           }   
+     )'            
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>] 
+            }
+        )'   
+select
+    {Measures.[Недоимка на текущий месяц],Measures.[Прирост недоимки %] } on columns,
+    non empty TopCount 
+    (
+        <%custom_filter%>,
+        <%top_regions_count%>,
+        Measures.[Недоимка на текущий месяц]
+    ) on rows
+from [ФНС_28н_без расщепления]    
+where    
+    (
+        [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ],
+        [ФНС_28н_Коды налогоплательщиков].[Все налогоплательщики],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%filter%>
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_V_split">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_V_split
+  
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+  member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+  as 'Aggregate   
+     (
+        {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+           }   
+     )'     
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>]   
+            }
+        )'     
+	member [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ]      
+    as 'Aggregate     
+        (
+            {
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по пени],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по налоговым санкциям]    
+            }     
+        )'
+select
+    {Measures.[Недоимка на текущий месяц],Measures.[Прирост недоимки %] } on columns,
+    non empty TopCount 
+    (
+        <%custom_filter%>,
+        <%top_regions_count%>,
+        Measures.[Недоимка на текущий месяц]
+    ) on rows
+from [ФНС_28н_с расщеплением]    
+where    
+    (
+         [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ],
+        [ФНС_28н_Коды налогоплательщиков].[Все налогоплательщики],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%filter%>
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_H">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_H
+     
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+     member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+     as 'Aggregate   
+     (
+        {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+           }   
+     )'            
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>] 
+            }
+        )'       
+	member [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ]      
+    as 'Aggregate     
+        (
+            {
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по пени],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по налоговым санкциям]    
+            }     
+        )'
+select
+    {
+      Measures.[Недоимка на начало года],
+      Measures.[Недоимка на текущий месяц],
+      Measures.[Прирост недоимки],
+      Measures.[Прирост недоимки %]
+    } on columns,
+    non empty TopCount 
+    (
+        <%custom_filter%>,
+        <%top_regions_count%>,
+        Measures.[Недоимка на текущий месяц]
+    ) on rows
+from [ФНС_28н_без расщепления]  
+where    
+    (
+        [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ],
+        [ФНС_28н_Коды налогоплательщиков].[Все налогоплательщики],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%filter%>
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_H_split">
+    <![CDATA[
+-- FNS_0001_0001_iphone_top5_H_split
+with
+    member [Measures].[Недоимка c начала года, тыс.руб.]
+    as '
+        (
+            [Measures].[С начала года] / <%rub_multiplier%>
+        )'
+    member Measures.[Недоимка на начало года]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_last_year%>
+        )'
+    member Measures.[Недоимка на текущий месяц]
+    as '
+        (
+            [Measures].[Недоимка c начала года, тыс.руб.],
+            
+            <%period_dimension%>.[Данные всех периодов].<%period_year%>
+        )'
+    member Measures.[Прирост недоимки]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на текущий месяц]
+            ),
+            null,
+            Measures.[Недоимка на текущий месяц] - Measures.[Недоимка на начало года]
+        )'
+    member Measures.[Прирост недоимки %]
+    as 'IIF
+        (
+            IsEmpty
+            (
+                Measures.[Недоимка на начало года]
+            ),
+            null,
+            (
+                Measures.[Прирост недоимки]/Measures.[Недоимка на начало года]
+            )
+        )'
+     member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+     as 'Aggregate   
+     (
+        {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+           }   
+     )'            
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>] 
+            }
+        )'      
+	member [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ]
+    as 'Aggregate     
+        (
+            {
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по пени],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по налоговым санкциям]    
+            }     
+        )'
+		
+select
+    {
+      Measures.[Недоимка на начало года],
+      Measures.[Недоимка на текущий месяц],
+      Measures.[Прирост недоимки],
+      Measures.[Прирост недоимки %]
+    } on columns,
+    non empty TopCount 
+    (
+        <%custom_filter%>,
+        <%top_regions_count%>,
+        Measures.[Недоимка на текущий месяц]
+    ) on rows
+from [ФНС_28н_с расщеплением]   
+where    
+    (
+        [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ],
+        [ФНС_28н_Коды налогоплательщиков].[Все налогоплательщики],
+        <%period_dimension%>.[Данные всех периодов].<%period_year%>,
+        <%filter%>
+    )
+]]>
+  </query>
+
+  <query id="FNS_0001_0001_top5_V_weight">
+ <![CDATA[
+--FNS_0001_0001_top5_V_weight
+		with            
+    member Measures.[Недоимка на текущий месяц]           
+    as '           
+        (
+            [Measures].[С начала года]
+        ) / 1000'            
+    member Measures.[Общий объем поступлений налоговых доходов]           
+    as '           
+        (
+            [Measures].[С начала года],
+            [ФНС_65н_Показатели].[Все].[Поступило - итого]   
+        ) / 1000'           
+    member Measures.[Удельный вес недоимки* в общих поступлениях]           
+    as 'IIF           
+        (
+            Measures.[Общий объем поступлений налоговых доходов] = 0,
+            null,
+            Measures.[Недоимка на текущий месяц] / Measures.[Общий объем поступлений налоговых доходов]           
+        ) 
+         '  
+    set [районы]        
+    as 'Filter     
+        (
+            Descendants   
+            (
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Все районы],
+                [Районы__Сопоставимый].[Районы__Сопоставимый].[Уровень 02],
+                self     
+            ),
+            not [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember is [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Parent.DataMember and  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Несопоставленные данные" and  [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Консолидированный бюджет - Ханты-Мансийский автономный округ" and [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Неуказанный территориальный признак" and [Районы__Сопоставимый].[Районы__Сопоставимый].CurrentMember.Name <> "Бюджет Субъекта - Ханты-Мансийский автономный округ"   
+        )'      
+		member [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ]      
+    as 'Aggregate     
+        (
+            {
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Недоимка по налогу],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по пени],
+                [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Все].[Неурегулированная задолженность по налоговым санкциям]    
+            }     
+        )'
+		
+       member <%incomes_kd_dimension%>.[Налоговые доходы ]   
+     as 'Aggregate   
+     (
+        {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ]
+           }   
+     )'            
+    member <%incomes_kd_dimension%>.[Налоговые и неналоговые доходы ] 
+    as 'Aggregate
+        (
+            {
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ПРИБЫЛЬ, ДОХОДЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_social_needs_tax%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ (РАБОТЫ, УСЛУГИ), РЕАЛИЗУЕМЫЕ НА ТЕРРИТОРИИ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ТОВАРЫ, ВВОЗИМЫЕ НА ТЕРРИТОРИЮ РОССИЙСКОЙ ФЕДЕРАЦИИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА СОВОКУПНЫЙ ДОХОД],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ НА ИМУЩЕСТВО],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[НАЛОГИ, СБОРЫ И РЕГУЛЯРНЫЕ ПЛАТЕЖИ ЗА ПОЛЬЗОВАНИЕ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ГОСУДАРСТВЕННАЯ ПОШЛИНА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ЗАДОЛЖЕННОСТЬ И ПЕРЕРАСЧЕТЫ ПО ОТМЕНЕННЫМ НАЛОГАМ, СБОРАМ И ИНЫМ ОБЯЗАТЕЛЬНЫМ ПЛАТЕЖАМ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ВНЕШНЕЭКОНОМИЧЕСКОЙ ДЕЯТЕЛЬНОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ИСПОЛЬЗОВАНИЯ ИМУЩЕСТВА, НАХОДЯЩЕГОСЯ В ГОСУДАРСТВЕННОЙ И МУНИЦИПАЛЬНОЙ СОБСТВЕННОСТИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ПЛАТЕЖИ ПРИ ПОЛЬЗОВАНИИ ПРИРОДНЫМИ РЕСУРСАМИ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ОКАЗАНИЯ ПЛАТНЫХ УСЛУГ И КОМПЕНСАЦИИ ЗАТРАТ ГОСУДАРСТВА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ДОХОДЫ ОТ ПРОДАЖИ МАТЕРИАЛЬНЫХ И НЕМАТЕРИАЛЬНЫХ АКТИВОВ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[АДМИНИСТРАТИВНЫЕ ПЛАТЕЖИ И СБОРЫ],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[ШТРАФЫ, САНКЦИИ, ВОЗМЕЩЕНИЕ УЩЕРБА],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11700000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_11800000000000000%>],
+                <%incomes_kd_all_level%>.[<%incomes_kd_root_name%>].[<%incomes_kd_return_of_remains%>] 
+            }
+        )'      
+       
+Select
+    {
+        Measures.[Удельный вес недоимки* в общих поступлениях]  
+    } on columns,
+    non empty TopCount 
+    (
+        [районы],
+        5,
+         Measures.[Удельный вес недоимки* в общих поступлениях]
+        
+    ) on rows 
+from  [ФНС_28н_без расщепления]    
+Where   
+    (
+	     [ФНС_65н_Показатели].[ФНС_65н_Показатели].[Недоимка ],
+        [ФНС_28н_Коды налогоплательщиков].[Все налогоплательщики],
+        [Период__Период].[Период__Период].[Данные всех периодов].<%period_year%> 
+    ) 
+  ]]>
+</query>
+
+</root>
