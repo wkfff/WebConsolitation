@@ -55,7 +55,15 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
         /// Строки данных отчета
         /// </summary>
         private List<MonitoringPlacementInfoReportItem> reportItems;
-        
+        /// <summary>
+        /// Экспортированный документ с максимальным ID
+        /// </summary>
+        private F_F_ParameterDoc maxExported;
+
+        /// <summary>
+        /// Максимальный ID экспортированного документа
+        /// </summary>
+        private int maxIdDoc;
         /// <summary>
         /// Типы документов отсортированные по ID
         /// </summary>
@@ -74,6 +82,7 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
             
             profile = auth.Profile;
 
+            
             // Получаем перечень ID учреждений, у которых есть учредители
             var cachedFounder =
                 commonDataService.GetItems<D_Org_Structure>()
@@ -166,14 +175,13 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                                                                         &&(!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
                                                                                         && (d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID))
                                                                                         && (d.RefYearForm.ID < year)
-                                                                                        && (d.OpeningDate == null || d.OpeningDate < dateForCompare)
-                                                                                        && (d.CloseDate == null || d.CloseDate > reportDate))
+                                                                                        )
                                                                                         || 
                                                                                         (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
                                                                                         && !(d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID))
-                                                                                        && (d.OpeningDate == null || d.OpeningDate < dateForCompare)
+                                                                                        
                                                                                         //&& d.RefYearForm.ID.Equals(year)
-                                                                                        && (d.CloseDate == null || d.CloseDate > reportDate)
+                                                                                        
                                                                                          )).ToList();
 
                     // все паспорта беруться без ограничения на год формирования
@@ -196,6 +204,11 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                 {
                                     // проверяем документы в состоянии экспортирован
                                     var exported = docsTyped.Where(e => e.RefSost.ID.Equals(FX_Org_SostD.ExportedStateID)).ToList();
+//                                    if (exported.Any())
+//                                    {
+//                                        maxIdDoc = exported.Max(e => e.ID);
+//                                        maxExported = exported.First(e => e.ID == maxIdDoc);
+//                                    }
                                     if (exported.Any())
                                     {
                                         // експортированных документов может быть несколько, берм последний
@@ -207,7 +220,6 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                             .OrderBy(l => l.ID).ToList();
 
                                         var state = GetStateByDocState(FX_Org_SostD.ExportedStateID);
-
                                         x.Docs.Add(new MonitoringPlacementInfoReportDocItem
                                         {
                                             TypeDoc = p.ID,
