@@ -173,22 +173,27 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                     // все документы учреждения за год формирования
                     var docs = commonDataService.GetItems<F_F_ParameterDoc>().Where(d => d.RefUchr.ID.Equals(x.Id) 
                                                                                         &&(!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
-                                                                                        && (d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID))
+                                                                                        && (d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503730Type) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503737Type))
                                                                                         && (d.RefYearForm.ID < year)
+                                                                                        && (d.OpeningDate.Value < dateForCompare)
+                                                                                        
+                 
+                                                                                        //&& (d.CloseDate > reportDate)
                                                                                         )
-                                                                                        || 
-                                                                                        (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
-                                                                                        && !(d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID))
-                                                                                        
-                                                                                        //&& d.RefYearForm.ID.Equals(year)
-                                                                                        
-                                                                                         )).ToList();
+//                                                                                        || 
+//                                                                                        (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
+//                                                                                        && !(d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID))
+//                                                                                        //&&(d.CloseDate > reportDate)
+//                                                                                        //&& d.RefYearForm.ID.Equals(year)
+//                                                                                         && (d.OpeningDate < dateForCompare))
+                                                                                          ).ToList();
 
                     // все паспорта беруться без ограничения на год формирования
                     var passports = commonDataService.GetItems<F_F_ParameterDoc>().Where(d => d.RefUchr.ID.Equals(x.Id)
                                                                                         && d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
-                                                                                        && (d.OpeningDate == null || d.OpeningDate <= reportDate)
-                                                                                        && (d.CloseDate == null || d.CloseDate > reportDate)).OrderBy(p => p.ID).ToList();
+                                                                                       
+                                                                                        && (d.RefYearForm.ID < year)
+                                                                                        /*&& (d.CloseDate == null || d.CloseDate > reportDate)*/).OrderBy(p => p.ID).ToList();
 
                     partDocs.Each(
                         p =>
@@ -209,30 +214,83 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
 //                                        maxIdDoc = exported.Max(e => e.ID);
 //                                        maxExported = exported.First(e => e.ID == maxIdDoc);
 //                                    }
-                                    if (exported.Any())
+                                    if (exported.Count != 0)
                                     {
                                         // експортированных документов может быть несколько, берм последний
                                         var maxIdDoc = exported.Max(e => e.ID);
 
                                         // берем записи из журнала по последнему экспортированному документу
                                         var logRec = commonDataService.GetItems<F_F_ChangeLog>()
-                                            .Where(c => c.DocId.Equals(maxIdDoc) && c.RefChangeType.ID.Equals(FX_FX_ChangeLogActionType.OnExportedState))
+                                            .Where(c => c.DocId.Equals(maxIdDoc) &&
+                                                        c.RefChangeType.ID.Equals(FX_FX_ChangeLogActionType
+                                                            .OnExportedState)
+                                                            //&& (c.Data==null || c.Data<dateForCompare)
+                                                            )
                                             .OrderBy(l => l.ID).ToList();
 
                                         var state = GetStateByDocState(FX_Org_SostD.ExportedStateID);
                                         x.Docs.Add(new MonitoringPlacementInfoReportDocItem
                                         {
                                             TypeDoc = p.ID,
-                                            Date = logRec.Any() ? logRec.Last().Data : (DateTime?)null,
+                                            Date = logRec.Any() ? logRec.Last().Data : (DateTime?) null,
                                             State = state.Name
                                         });
                                     }
                                     else
                                     {
-                                        // документ
-                                        var doc = docsTyped.Last();
+                                    }
+                                    var noExported=docsTyped.Where(e => !e.RefSost.ID.Equals(FX_Org_SostD.ExportedStateID)).ToList();
+                                    // документ
+                                        //var doc = docsTyped.Last();
+                                    if(noExported.Count!=0)
+                                    {
+                    
+                                            var doc = noExported.Last();
+                                            if (CheckDoc(doc))
+                                            {
+                                                x.Docs.Add(new MonitoringPlacementInfoReportDocItem
+                                                {
+                                                    TypeDoc = p.ID,
+                                                    Date = null,
+                                                    State = "Не формируется"
+                                                });
+                                            }
+                                            else
+                                            {
+                                                var state = GetStateByDocState(doc.RefSost.ID);
 
-                                        if (CheckDoc(doc))
+                                                // берем записи из журнала по последнему документу
+                                                var logRec = commonDataService.GetItems<F_F_ChangeLog>()
+                                                    .Where(c => c.DocId.Equals(doc.ID) &&
+                                                                c.RefChangeType.ID.Equals(state.ID)
+                                                                //&& (c.Data == null || c.Data < dateForCompare)
+                                                                )
+                                                    .OrderBy(l => l.ID).ToList();
+
+                                                x.Docs.Add(new MonitoringPlacementInfoReportDocItem
+                                                {
+                                                    TypeDoc = p.ID,
+                                                    Date = logRec.Any() ? logRec.Last().Data : (DateTime?) null,
+                                                    State = state.Name
+                                                });
+                                        }
+                                        /*var maxIdDoc = noExported.Max(e => e.ID);
+                                        var logRec = commonDataService.GetItems<F_F_ChangeLog>()
+                                            .Where(c => c.DocId.Equals(maxIdDoc) &&
+                                                        !c.RefChangeType.ID.Equals(FX_FX_ChangeLogActionType
+                                                            .OnExportedState))
+                                            .OrderBy(l => l.ID).ToList();
+                                        var state = GetStateByDocState(noExported.Last().RefSost.ID);
+                                        x.Docs.Add(new MonitoringPlacementInfoReportDocItem
+                                        {
+                                            TypeDoc = p.ID,
+                                            Date = logRec.Any() ? logRec.Last().Data : (DateTime?)null,
+                                            State = state.Name
+                                        });*/
+
+                                    }
+                                    
+                                    /*if (CheckDoc(doc))
                                         {
                                             x.Docs.Add(new MonitoringPlacementInfoReportDocItem
                                             {
@@ -256,8 +314,8 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                                 Date = logRec.Any() ? logRec.Last().Data : (DateTime?)null,
                                                 State = state.Name
                                             });
-                                        }
-                                    }
+                                        }*/
+                                    
                                 }
                                 else
                                 {
