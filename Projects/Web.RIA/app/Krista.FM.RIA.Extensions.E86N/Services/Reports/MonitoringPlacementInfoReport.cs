@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
+using C5;
 using Krista.FM.Domain;
 using Krista.FM.Extensions;
 using Krista.FM.RIA.Core;
@@ -68,6 +69,15 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
         /// Типы документов отсортированные по ID
         /// </summary>
         private List<FX_FX_PartDoc> partDocs;
+
+        /// <summary>
+        /// Документы сформированные зля БУ и АУ
+        /// </summary>
+        private List<int> _docsBuau = new List<int>();
+        /// <summary>
+        /// Документы сформированные для КУ
+        /// </summary>
+        private List<int> _docsKu = new List<int>();
 
         private MonitoringPlacementInfoReport(DateTime reportDate, string docYear)
         {
@@ -167,26 +177,41 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
         private void GetDocData(string docYear)
         {
             DateTime dateForCompare = DateTime.Parse("01.01." + year);
+            var i = 0;
             reportItems.Each(
                 x =>
                 {
+                    _docsBuau.Add(0);
+                    _docsKu.Add(0);
                     // все документы учреждения за год формирования
                     var docs = commonDataService.GetItems<F_F_ParameterDoc>().Where(d => d.RefUchr.ID.Equals(x.Id) 
-                                                                                        &&(!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
-                                                                                        && (d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503730Type) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503737Type))
-                                                                                        && (d.RefYearForm.ID < year)
-                                                                                        && (d.OpeningDate.Value < dateForCompare)
-                                                                                        
-                 
-                                                                                        //&& (d.CloseDate > reportDate)
+                                                                                        &&((!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
+                                                                                        && (d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) ||
+                                                                                        d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID) ||
+                                                                                        d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503730Type) ||
+                                                                                        d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type) ||
+                                                                                        d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type) ||
+                                                                                        d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503721Type) ||
+                                                                                        d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type) ||
+                                                                                        d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503737Type))
+                                                                                        && (d.RefYearForm.ID == year-1)
+                                                                                        //&& (d.CloseDate < dateForCompare)
                                                                                         )
-//                                                                                        || 
-//                                                                                        (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
-//                                                                                        && !(d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID) || d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID))
+                                                                                        ||(
+                                                                                           (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PassportDocTypeID)
+                                                                                         && (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.ResultsOfActivityDocTypeID)) &&
+                                                                                         (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.InfAboutControlActionsDocTypeID)) &&
+                                                                                         (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503730Type)) &&
+                                                                                         (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503721Type)) &&
+                                                                                         (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type)) &&
+                                                                                         (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type)) &&
+                                                                                         (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type)) &&
+                                                                                         (!d.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503737Type)))
+//                                                                                         &&(d.RefPartDoc.ID.Equals(FX_FX_PartDoc.PfhdDocTypeID)))
 //                                                                                        //&&(d.CloseDate > reportDate)
-//                                                                                        //&& d.RefYearForm.ID.Equals(year)
+                                                                                           && d.RefYearForm.ID.Equals(year)
 //                                                                                         && (d.OpeningDate < dateForCompare))
-                                                                                          ).ToList();
+                                                                                          ))).ToList();
 
                     // все паспорта беруться без ограничения на год формирования
                     var passports = commonDataService.GetItems<F_F_ParameterDoc>().Where(d => d.RefUchr.ID.Equals(x.Id)
@@ -195,6 +220,18 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                                                                         && (d.RefYearForm.ID < year)
                                                                                         /*&& (d.CloseDate == null || d.CloseDate > reportDate)*/).OrderBy(p => p.ID).ToList();
 
+                    /*_docsBuau.Add( docs.Count(m =>
+                        (m.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.AutonomousID) ||
+                        m.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.BudgetaryID)) && (!m.RefPartDoc.ID.Equals(FX_FX_PartDoc.SmetaDocTypeID) 
+                        && !m.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type) 
+                        && !m.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type)
+                        && !m.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type))));
+                    
+                    _docsKu.Add( docs.Count(m =>
+                        m.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.GovernmentID) && (m.RefPartDoc.ID.Equals(FX_FX_PartDoc.SmetaDocTypeID)
+                                                                                     && m.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type)
+                                                                                     && m.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type)
+                                                                                     && m.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type))));*/
                     partDocs.Each(
                         p =>
                         {
@@ -218,7 +255,24 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                     {
                                         // експортированных документов может быть несколько, берм последний
                                         var maxIdDoc = exported.Max(e => e.ID);
+                                        var docE = exported.Where(m => m.ID.Equals(maxIdDoc)).ToList().First();
+                                        if ((docE.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.AutonomousID) ||
+                                             docE.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.BudgetaryID)) &&
+                                            (!docE.RefPartDoc.ID.Equals(FX_FX_PartDoc.SmetaDocTypeID)
+                                             && !docE.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type)
+                                             && !docE.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type)
+                                             && !docE.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type)))
+                                        {
+                                            _docsBuau[i]++;
+                                        }
 
+                                        if (docE.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.GovernmentID) && (docE.RefPartDoc.ID.Equals(FX_FX_PartDoc.SmetaDocTypeID)
+                                                                                                           && docE.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type)
+                                                                                                           && docE.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type)
+                                                                                                           && docE.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type)))
+                                        {
+                                            _docsKu[i]++;
+                                        }
                                         // берем записи из журнала по последнему экспортированному документу
                                         var logRec = commonDataService.GetItems<F_F_ChangeLog>()
                                             .Where(c => c.DocId.Equals(maxIdDoc) &&
@@ -244,9 +298,32 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                         //var doc = docsTyped.Last();
                                     if(noExported.Count!=0)
                                     {
-                    
+                                        
                                             var doc = noExported.Last();
-                                            if (CheckDoc(doc))
+                                        if (doc.RefSost.ID.Equals(FX_Org_SostD.CreatedStateID))
+                                        {
+                                            return;
+                                        }
+                                        if ((doc.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.AutonomousID) ||
+                                             doc.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.BudgetaryID)) &&
+                                            (!doc.RefPartDoc.ID.Equals(FX_FX_PartDoc.SmetaDocTypeID)
+                                             && !doc.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type)
+                                             && !doc.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type)
+                                             && !doc.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type)))
+                                        {
+                                            _docsBuau[i]++;
+                                        }
+
+                                        if (doc.RefUchr.RefTipYc.ID.Equals(FX_Org_TipYch.GovernmentID) && (doc.RefPartDoc.ID.Equals(FX_FX_PartDoc.SmetaDocTypeID)
+                                                                                                         && doc.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503121Type)
+                                                                                                         && doc.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503130Type)
+                                                                                                         && doc.RefPartDoc.ID.Equals(FX_FX_PartDoc.AnnualBalanceF0503127Type)))
+                                        {
+                                            _docsKu[i]++;
+                                        }
+
+
+                                        if (CheckDoc(doc))
                                             {
                                                 x.Docs.Add(new MonitoringPlacementInfoReportDocItem
                                                 {
@@ -263,17 +340,20 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                                 var logRec = commonDataService.GetItems<F_F_ChangeLog>()
                                                     .Where(c => c.DocId.Equals(doc.ID) &&
                                                                 c.RefChangeType.ID.Equals(state.ID)
-                                                                //&& (c.Data == null || c.Data < dateForCompare)
-                                                                )
+                                                        //&& (c.Data == null || c.Data < dateForCompare)
+                                                    )
                                                     .OrderBy(l => l.ID).ToList();
 
                                                 x.Docs.Add(new MonitoringPlacementInfoReportDocItem
                                                 {
                                                     TypeDoc = p.ID,
-                                                    Date = logRec.Any() ? logRec.Last().Data : (DateTime?) null,
+                                                    Date = logRec.Any() ? logRec.Last().Data : (DateTime?)null,
                                                     State = state.Name
                                                 });
-                                        }
+                                            }
+                                        
+
+
                                         /*var maxIdDoc = noExported.Max(e => e.ID);
                                         var logRec = commonDataService.GetItems<F_F_ChangeLog>()
                                             .Where(c => c.DocId.Equals(maxIdDoc) &&
@@ -336,7 +416,10 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                     State = "Не формируется"
                                 });
                             }
+
+
                         });
+                    i++;
                 });
         }
 
@@ -401,15 +484,14 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                 }
 
                 reportItems =
-                    commonDataService.GetItems<D_Org_Structure>()
-                    .Where(
-                       x =>
-                       orgFilter.Contains(x.RefOrgPPO.ID)
-                       && (!x.OpenDate.HasValue || x.OpenDate.Value.Year <= year)
-                       && (!x.CloseDate.HasValue || x.CloseDate > reportDate)
-                       && !institutionsFounders.Contains(x.ID))
-                    .ToList()
-                    .Where(x => typesInstitutionList.Contains(GetTypeOfStructureByYear(x)))
+                    commonDataService.GetItems<D_Org_Structure>().
+                    Where(x =>
+                    x.RefOrgPPO.Code.StartsWith(regionCode)
+                    && (!x.OpenDate.HasValue /*|| x.OpenDate.Value.Year <= year*/)
+                    && (!x.CloseDate.HasValue /*|| x.CloseDate > reportDate*/)
+                    && !institutionsFounders.Contains(x.ID))
+                  .ToList()
+                   .Where(x => typesInstitutionList.Contains(GetTypeOfStructureByYear(x)))
                     .Select(x => new MonitoringPlacementInfoReportItem
                                     {
                                         NamePpo = x.RefOrgPPO.Name,
@@ -426,13 +508,12 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                 // если отчет строит или админ или Депфин области
                 reportItems =
                 commonDataService.GetItems<D_Org_Structure>()
-                   .Where(
-                       x =>
+                   .Where(x=>
                        x.RefOrgPPO.Code.StartsWith(regionCode)
-                       && (!x.OpenDate.HasValue || x.OpenDate.Value.Year <= year)
-                       && (!x.CloseDate.HasValue || x.CloseDate > reportDate)
+                       && (!x.OpenDate.HasValue /*|| x.OpenDate.Value.Year <= year*/)
+                       && (!x.CloseDate.HasValue/*|| x.CloseDate > reportDate*/)
                        && !institutionsFounders.Contains(x.ID))
-                   .ToList()
+                  .ToList()
                    .Where(x => typesInstitutionList.Contains(GetTypeOfStructureByYear(x)))
                    .Select(x => new MonitoringPlacementInfoReportItem
                    {
@@ -531,7 +612,26 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                         
                         col += 2;
                     });
+            NpoiHelper.SetCellValue(sheet, 6, col, "Экспортированные").CellStyle = styleHeader;
+            NpoiHelper.SetMergedRegion(sheet, 6, col + 3, 6, col + 4);
+            NpoiHelper.SetBorderBoth(workBook, sheet, 6, col + 3, 6, col + 4);
+            NpoiHelper.SetCellValue(sheet, 6, col+1, "Количество АУ и БУ документов").CellStyle = styleHeader;
+            NpoiHelper.SetMergedRegion(sheet, 6, col+1, 6, col + 2);
+            NpoiHelper.SetBorderBoth(workBook, sheet, 6, col+1, 6, col + 2);
+            NpoiHelper.SetCellValue(sheet, 6, col + 3, "Количество КУ документов").CellStyle = styleHeader;
+            NpoiHelper.SetMergedRegion(sheet, 6, col + 3, 6, col + 4);
+            NpoiHelper.SetBorderBoth(workBook, sheet, 6, col + 3, 6, col + 4);
+            NpoiHelper.SetCellValue(sheet, 6, col + 5, "План по размещению").CellStyle = styleHeader;
+            NpoiHelper.SetMergedRegion(sheet, 6, col + 5, 6, col + 6);
+            NpoiHelper.SetBorderBoth(workBook, sheet, 6, col + 5, 6, col + 6);
+            NpoiHelper.SetCellValue(sheet, 6, col + 7, "Процент экспортированных").CellStyle = styleHeader;
+            NpoiHelper.SetMergedRegion(sheet, 6, col + 7, 6, col + 7);
+            NpoiHelper.SetBorderBoth(workBook, sheet, 6, col + 7, 6, col + 7);
+            NpoiHelper.SetCellValue(sheet, 6, col + 9, "Всего Доков").CellStyle = styleHeader;
+            NpoiHelper.SetMergedRegion(sheet, 6, col + 9, 6, col + 9);
+            NpoiHelper.SetBorderBoth(workBook, sheet, 6, col + 7, 6, col + 9);
 
+            //NpoiHelper.SetCellValue(sheet, 6, col+1, "План по размещению").CellStyle = styleHeader;
             sheet.GetRow(6).Height = 500;
 
             var lastCol = col - 1;
@@ -547,14 +647,16 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
         /// <summary>
         /// Формирование страницы
         /// </summary>
-        private void FillingSheet(HSSFWorkbook workBook, IList<MonitoringPlacementInfoReportItem> reportData)
+        private void FillingSheet(HSSFWorkbook workBook, System.Collections.Generic.IList<MonitoringPlacementInfoReportItem> reportData)
         {
             FillHeaderSheet(workBook);
             
             var sheet = workBook.GetSheetAt(0);
+            var numberOfDocs = 0;
+            var numberOfExportedDocs = 0;
 
             var styleCell = new ReportsHelper.HSSFCellStyleForData(workBook).CellStyle;
-
+            
             var curRow = 9;
             reportData.Each(
                 x =>
@@ -566,6 +668,14 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
 
                         var curCol = 4;
                         var row = curRow;
+
+                        numberOfDocs += x.Docs.Count(k => k.State == "Создан" ||
+                                                          k.State == "Документ Экспортирован"
+                                                          || k.State == "Переведен на рассмотрение"
+                                                          || k.State == "Отправлен на доработку"
+                                                          || k.State == "Документ Завершен"
+                                                          || k.State == "Не формируется");
+                        numberOfExportedDocs += x.Docs.Count(k => k.State == "Документ Экспортирован");
                         partDocs.Each(
                             p =>
                                 {
@@ -573,10 +683,34 @@ namespace Krista.FM.RIA.Extensions.E86N.Services.Reports
                                     NpoiHelper.SetCellValue(sheet, row, curCol, doc.State).CellStyle = styleCell;
                                     NpoiHelper.SetCellValue(sheet, row, curCol + 1, doc.Date.HasValue ? doc.Date.Value.ToString("dd.MM.yy") : null).CellStyle = styleCell;
                                     curCol += 2;
+                                    NpoiHelper.SetCellValue(sheet, row, curCol + 9, x.Docs.Count(k => k.State == "Создан" ||
+                                        k.State == "Документ Экспортирован"
+                                        || k.State == "Переведен на рассмотрение"
+                                        || k.State == "Отправлен на доработку"
+                                        || k.State == "Документ Завершен"
+                                        || k.State == "Не формируется")).CellStyle = styleCell;
                                 });
-
+                        NpoiHelper.SetCellValue(sheet, row, curCol, x.Docs.Count(k => k.State == "Документ Экспортирован") ).CellStyle = styleCell;
+                        NpoiHelper.SetCellValue(sheet, row, curCol+1, _docsBuau[curRow-9] ).CellStyle = styleCell;
+                        NpoiHelper.SetCellValue(sheet, row, curCol + 3, _docsKu[curRow - 9]).CellStyle = styleCell;
+                        NpoiHelper.SetCellValue(sheet, row, curCol +5, _docsKu[curRow-9] + _docsBuau[curRow - 9]).CellStyle = styleCell;
+                        NpoiHelper.SetCellValue(sheet, row, curCol + 7, ((double)x.Docs.Count(k => k.State == "Документ Экспортирован") /
+                            (_docsBuau[curRow - 9] + _docsKu[curRow - 9])) * 100).CellStyle = styleCell;
+                        
+                        
                         curRow++;
                     });
+//            NpoiHelper.SetCellValue(sheet, curRow, 4, "План по размещению").CellStyle = styleCell;
+//            NpoiHelper.SetCellValue(sheet, curRow + 1, 4,_docsKu + _docsBuau ).CellStyle = styleCell;
+
+            NpoiHelper.SetCellValue(sheet, curRow, 5, "Количество размещенных документов (всего)").CellStyle = styleCell;
+           NpoiHelper.SetCellValue(sheet, curRow + 1, 5, numberOfDocs).CellStyle = styleCell;
+
+            NpoiHelper.SetCellValue(sheet, curRow, 6, "Количество экспортированных документов").CellStyle = styleCell;
+            NpoiHelper.SetCellValue(sheet, curRow + 1, 6, numberOfExportedDocs).CellStyle = styleCell;
+
+//            NpoiHelper.SetCellValue(sheet, curRow, 7, "Процент экспортированных документов").CellStyle = styleCell;
+//            NpoiHelper.SetCellValue(sheet, curRow + 1, 7, ((double)numberOfExportedDocs/(_docsBuau+_docsKu))*100).CellStyle = styleCell;
         }
     }
 }
